@@ -23,20 +23,12 @@
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>fb852942252107346</string>
-					<string>kakao4ed43ce9b4e038314160d9daeb322c2b</string>
-				</array>
-			</dict>
-			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Editor</string>
-				<key>CFBundleURLName</key>
-				<string>reactgraphql</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>reactgraphql</string>
+					<string>kakao24325d448d7d7d1ebbac3bd1da04b79a</string>
 				</array>
 			</dict>
 		</array>
@@ -49,14 +41,14 @@
 		<key>FacebookDisplayName</key>
 		<string>쇼핑냥이</string>
 		<key>KAKAO_APP_KEY</key>
-		<string>4ed43ce9b4e038314160d9daeb322c2b</string>
+		<string>24325d448d7d7d1ebbac3bd1da04b79a</string>
 		<key>LSApplicationQueriesSchemes</key>
 		<array>
 			<string>fbapi</string>
 			<string>fb-messenger-api</string>
 			<string>fbauth2</string>
 			<string>fbshareextension</string>
-			<string>kakao4ed43ce9b4e038314160d9daeb322c2b</string>
+			<string>kakao24325d448d7d7d1ebbac3bd1da04b79a</string>
 			<string>kakaokompassauth</string>
 			<string>storykompassauth</string>
 			<string>kakaolink</string>

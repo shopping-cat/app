@@ -29,7 +29,9 @@ const useAuth = () => {
 
     const kakaoLogin = useCallback(async () => {
         try {
-            const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
+            console.log('kakao login start')
+            const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk, KAKAO_AUTH_TYPES.Account])
+            console.log('kakao login got tokend')
             const { errors } = await kakaoLoginRequest({ variables: { token: token.accessToken } })
             if (errors) throw new Error('Login Error')
             if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
