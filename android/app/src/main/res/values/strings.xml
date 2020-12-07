@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">쇼핑냥이</string>
+    <string name="facebook_app_id">852942252107346</string>
+    <string name="fb_login_protocol_scheme">fb852942252107346</string>
+    <string name="kakao_app_key">4ed43ce9b4e038314160d9daeb322c2b</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">03TUuBXcgckaKCd4KbUocxk8ZkLQodfsxqXV_</string>
+</resources>
