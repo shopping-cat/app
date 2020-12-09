@@ -5,14 +5,12 @@ import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 export const I_USER = gql`
   query IUser {
     iUser {
-      email
       id
     }
   }
 `
 interface IUserData {
   iUser: {
-    email: string
     id: number
   }
 }

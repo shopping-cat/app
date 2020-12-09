@@ -56,12 +56,20 @@ const Navigation = () => {
     const onAuthStateChanged = (user: any) => {
         if (user) {
             console.log('logged in')
+            // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
             setTimeout(() => {
+                // 중복 네비게이트 방지
+                const route = navigationRef?.current?.getCurrentRoute()
+                if (route?.name === 'Home') return
                 navigationRef?.current?.dispatch(StackActions.replace('Tab'))
             }, 200)
         } else {
             console.log('logged out')
+            // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
             setTimeout(() => {
+                // 중복 네비게이트 방지
+                const route = navigationRef?.current?.getCurrentRoute()
+                if (route?.name === 'Login') return
                 navigationRef?.current?.dispatch(StackActions.replace('Login'))
             }, 200)
         }
