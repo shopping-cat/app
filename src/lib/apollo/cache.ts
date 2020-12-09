@@ -1,4 +1,4 @@
-import { InMemoryCache, makeVar } from "@apollo/client";
+import { InMemoryCache } from "@apollo/client";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 
 

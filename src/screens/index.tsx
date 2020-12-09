@@ -1,20 +1,21 @@
-import React, { useEffect, useRef } from 'react';
-import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions, Theme } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions, Theme, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-//@ts-ignore
-import DeepLinking from 'react-native-deep-linking';
+import auth from '@react-native-firebase/auth';
+
 
 import HomeScreen from './HomeScreen'
 import ChatScreen from './ChatScreen';
 import ItemDetailScreen from './ItemDetail';
 import LoginScreen from './LoginScreen';
-import { Linking } from 'react-native';
 import SearchScreen from './SearchScreen';
 import SearchDetailScreen from './SearchDetailScreen';
 
+
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
+
 
 const TabNavigation = () => {
     return (
@@ -49,8 +50,32 @@ const theme: Theme = {
 
 const Navigation = () => {
 
+    const navigationRef = useRef<NavigationContainerRef>(null)
+
+    // 로그인 상태 변경
+    const onAuthStateChanged = (user: any) => {
+        if (user) {
+            console.log('logged in')
+            setTimeout(() => {
+                navigationRef?.current?.dispatch(StackActions.replace('Tab'))
+            }, 200)
+        } else {
+            console.log('logged out')
+            setTimeout(() => {
+                navigationRef?.current?.dispatch(StackActions.replace('Login'))
+            }, 200)
+        }
+    }
+
+    // 로그인 리스너 등록
+    useEffect(() => {
+        const listner = auth().onAuthStateChanged(onAuthStateChanged)
+        return listner
+    }, [])
+
     return (
         <NavigationContainer
+            ref={navigationRef}
             linking={linking}
             theme={theme}
         >

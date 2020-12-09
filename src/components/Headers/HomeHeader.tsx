@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1 } from '../../constants/styles'
 import BaseButton from '../BaseButton'
+import BaseText from '../BaseText'
 const HomeHeader = () => {
 
     const { navigate } = useNavigation()
@@ -20,13 +21,13 @@ const HomeHeader = () => {
 
     return (
         <View style={styles.container} >
-            <Text style={styles.title} >DEMO</Text>
+            <BaseText style={styles.title} >쇼핑냥이</BaseText>
             <Pressable
                 onPress={onSearch}
                 style={styles.inputContainer}
             >
                 <Icon2 name='search' size={16} style={{ marginRight: 8 }} />
-                <Text>Search for keyword</Text>
+                <BaseText>Search for keyword</BaseText>
             </Pressable>
             <BaseButton
                 onPress={onCart}

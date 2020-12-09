@@ -3,15 +3,14 @@ import { StackActions, useNavigation } from "@react-navigation/native"
 import { useCallback, useState } from "react"
 import KakaoLogins, { KAKAO_AUTH_TYPES } from '@react-native-seoul/kakao-login';
 import { LoginManager, AccessToken } from "react-native-fbsdk";
-import { I_USER, useLogout, useKakaoLogin, useFacebookLogin } from "../graphql/auth"
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+import auth from '@react-native-firebase/auth';
+import { I_USER } from "../graphql/auth"
 
 const useAuth = () => {
 
     const client = useApolloClient()
     const { dispatch, reset } = useNavigation()
-    const [kakaoLoginRequest] = useKakaoLogin()
-    const [facebookLoginRequest] = useFacebookLogin()
-    const [logoutRequest] = useLogout()
     const [itemId, setItemId] = useState<string | undefined>()
 
     const checkIsLoggedIn = useCallback(async (itemId?: string) => {
@@ -29,11 +28,11 @@ const useAuth = () => {
 
     const kakaoLogin = useCallback(async () => {
         try {
-            const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
-            const { errors } = await kakaoLoginRequest({ variables: { token: token.accessToken } })
-            if (errors) throw new Error('Login Error')
-            if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
-            else dispatch(StackActions.replace('Tab'))
+            console.log('kakao login start')
+            const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk, KAKAO_AUTH_TYPES.Account])
+            console.log('kakao login got tokend')
+            KakaoLogins.getTokens()
+            // const { errors } = await kakaoLoginRequest({ variables: { token: token.accessToken } })
         } catch (error) {
             console.log(error)
         }
@@ -42,17 +41,25 @@ const useAuth = () => {
     const facebookLogin = useCallback(async () => {
         try {
             console.log('facebook login start')
-            const { grantedPermissions } = await LoginManager.logInWithPermissions(["public_profile"])
-            console.log(grantedPermissions)
-            if (!grantedPermissions) throw new Error('No Permissions')
-            console.log('facebook login get permission')
+            const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
+            if (result.isCancelled) throw new Error('Facebook Login Cancelled')
+
+            console.log('facebook login get token')
             const token = await AccessToken.getCurrentAccessToken()
             if (!token) throw new Error('No Token')
-            console.log('facebook login get token')
-            const { errors } = await facebookLoginRequest({ variables: { token: token.accessToken } })
-            if (errors) throw new Error('Login Error')
-            if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
-            else dispatch(StackActions.replace('Tab'))
+
+            console.log('firebase auth')
+            const facebookCredential = auth.FacebookAuthProvider.credential(token.accessToken)
+            auth().signInWithCredential(facebookCredential)
+        } catch (error) {
+            console.log(error)
+        }
+    }, [itemId])
+
+    const appleLogin = useCallback(async () => {
+        try {
+            const { identityToken } = await appleAuth.performRequest()
+            console.log(identityToken)
         } catch (error) {
             console.log(error)
         }
@@ -61,14 +68,10 @@ const useAuth = () => {
 
     const logout = useCallback(async () => {
         try {
-            await logoutRequest()
-            await client.resetStore()
-            LoginManager.logOut()
-            await KakaoLogins.logout() // if no refresh token throw error!
+            console.log('logout start')
+            await auth().signOut()
         } catch (error) {
             console.log(error)
-        } finally {
-            dispatch(StackActions.replace('Login'))
         }
     }, [])
 
@@ -77,6 +80,7 @@ const useAuth = () => {
         checkIsLoggedIn,
         kakaoLogin,
         facebookLogin,
+        appleLogin,
         logout
     }
 }

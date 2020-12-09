@@ -1,21 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import BaseButton from '../components/BaseButton'
 import useAuth from '../hooks/useAuth'
 import BaseText from '../components/BaseText'
-import { useRoute } from '@react-navigation/native'
-import { FACEBOOK_COLOR, KAKAO_COLOR } from '../constants/styles'
+import { APPLE_COLOR, FACEBOOK_COLOR, KAKAO_COLOR } from '../constants/styles'
+import { IS_IOS } from '../constants/values'
+import appleAuth from '@invertase/react-native-apple-authentication'
 
 
 const LoginScreen = () => {
 
-    const { params }: any = useRoute()
-
-    const { kakaoLogin, facebookLogin, checkIsLoggedIn } = useAuth()
-
-    useEffect(() => {
-        checkIsLoggedIn(params?.id)
-    }, [])
+    const { kakaoLogin, facebookLogin, appleLogin } = useAuth()
 
     return (
         <View style={styles.container} >
@@ -45,6 +40,17 @@ const LoginScreen = () => {
                     />
                     <BaseText style={{ color: '#fff' }} >페이스북으로 로그인</BaseText>
                 </BaseButton>
+                {IS_IOS && appleAuth.isSupported && <BaseButton
+                    onPress={appleLogin}
+                    style={[styles.snsBtn, { backgroundColor: APPLE_COLOR }]}
+                >
+                    <Image
+                        style={styles.snsIcon}
+                        source={require('../assets/apple.png')}
+                        resizeMode='contain'
+                    />
+                    <BaseText style={{ color: '#fff' }} >애플로 로그인</BaseText>
+                </BaseButton>}
             </View>
         </View>
     )
