@@ -20,3 +20,23 @@ interface IUserVars {
 export const useIUser = (options?: QueryHookOptions) => createQueryHook<IUserData, IUserVars>(I_USER, {
   ...options
 })
+
+// QUERY/LOGIN
+export const LOGIN = gql`
+  query Login {
+    iUser {
+      id
+    }
+  }
+`
+interface LoginData {
+  iUser: {
+    id: number
+  }
+}
+interface LoginVars {
+
+}
+export const useLogin = (options?: QueryHookOptions) => createQueryHook<IUserData, IUserVars>(I_USER, {
+  ...options
+})

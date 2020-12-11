@@ -29,7 +29,7 @@ const TabNavigation = () => {
 }
 
 const linking: LinkingOptions = {
-    prefixes: ['reactgraphql://'],
+    prefixes: ['쇼핑냥이://'],
     config: {
         screens: {
             Login: {

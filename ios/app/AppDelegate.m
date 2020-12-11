@@ -9,6 +9,7 @@
 #import <AppCenterReactNativeAnalytics.h>
 #import <AppCenterReactNativeCrashes.h>
 #import <CodePush/CodePush.h>
+#import <Firebase.h>
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
@@ -38,6 +39,10 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
   
   [AppCenterReactNative register];
   [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
