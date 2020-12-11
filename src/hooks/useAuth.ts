@@ -3,8 +3,15 @@ import KakaoLogins, { KAKAO_AUTH_TYPES } from '@react-native-seoul/kakao-login';
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import auth from '@react-native-firebase/auth';
+import { useApolloClient } from "@apollo/client";
+import { KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../graphql/auth'
+
+
 
 const useAuth = () => {
+
+    const client = useApolloClient()
+
     const [loginLoading, setLoginLoading] = useState(false)
     const [logoutLoading, setLogoutLoading] = useState(false)
 
@@ -12,10 +19,21 @@ const useAuth = () => {
         try {
             if (loginLoading) return
             setLoginLoading(true)
-            console.log('kakao login start')
-            const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk, KAKAO_AUTH_TYPES.Account])
-            console.log('kakao login got tokend')
-            KakaoLogins.getTokens()
+            console.log('get kakao access token')
+            const { accessToken } = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk, KAKAO_AUTH_TYPES.Account])
+            console.log(accessToken)
+
+            console.log('kakao token to firebase token')
+            const { data } = await client.query<KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars>({
+                query: KAKAO_TOKEN_TO_FIREBASE_TOKEN,
+                variables: { kakaoAccessToken: accessToken },
+                fetchPolicy: 'network-only'
+            })
+            const firebaseToken = data.kakaoTokenToFirebaseToken
+            console.log(firebaseToken)
+
+            console.log('firebase login')
+            await auth().signInWithCustomToken(firebaseToken)
         } catch (error) {
             console.log(error)
         } finally {
@@ -38,7 +56,7 @@ const useAuth = () => {
 
             console.log('firebase auth')
             const facebookCredential = auth.FacebookAuthProvider.credential(token.accessToken)
-            auth().signInWithCredential(facebookCredential)
+            await auth().signInWithCredential(facebookCredential)
         } catch (error) {
             console.log(error)
         } finally {

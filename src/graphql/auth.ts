@@ -21,22 +21,15 @@ export const useIUser = (options?: QueryHookOptions) => createQueryHook<IUserDat
   ...options
 })
 
-// QUERY/LOGIN
-export const LOGIN = gql`
-  query Login {
-    iUser {
-      id
+// QUERY/KAKAO_TOKEN_TO_FIREBASE_TOKEN
+export const KAKAO_TOKEN_TO_FIREBASE_TOKEN = gql`
+    query KakaoTokenToFirebaseToken ($kakaoAccessToken: String!){
+      kakaoTokenToFirebaseToken(kakaoAccessToken: $kakaoAccessToken) 
     }
-  }
 `
-interface LoginData {
-  iUser: {
-    id: number
-  }
+export interface KakaoTokenToFirebaseTokenData {
+  kakaoTokenToFirebaseToken: string
 }
-interface LoginVars {
-
+export interface KakaoTokenToFirebaseTokenDataVars {
+  kakaoAccessToken: string
 }
-export const useLogin = (options?: QueryHookOptions) => createQueryHook<IUserData, IUserVars>(I_USER, {
-  ...options
-})
