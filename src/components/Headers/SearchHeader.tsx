@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import BaseButton from '../BaseButton'
+import BaseButton from '../Buttons/BaseButton'
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, GRAY } from '../../constants/styles'

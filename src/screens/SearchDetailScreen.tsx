@@ -1,7 +1,7 @@
 import { Route, useRoute } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import BaseButton from '../components/BaseButton'
+import BaseButton from '../components/Buttons/BaseButton'
 import ItemCard from '../components/Cards/ItemCard'
 import SearchHeader from '../components/Headers/SearchHeader'
 import { GRAY } from '../constants/styles'

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
-import BaseButton from '../components/BaseButton'
+import BaseButton from '../components/Buttons/BaseButton'
 import ItemCard from '../components/Cards/ItemCard'
 import HomeHeader from '../components/Headers/HomeHeader'
 import { I_USER } from '../graphql/auth'

@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { GRAY } from '../constants/styles'
 import useSearchKeyword from '../hooks/useSearchKeyword'
-import BaseButton from './BaseButton'
+import BaseButton from './Buttons/BaseButton'
 
 interface KeywordListProps {
     data: string[]

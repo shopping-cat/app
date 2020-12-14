@@ -1,11 +1,12 @@
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import BaseButton from '../components/BaseButton'
+import BaseButton from '../components/Buttons/BaseButton'
 import useAuth from '../hooks/useAuth'
 import BaseText from '../components/BaseText'
 import { APPLE_COLOR, FACEBOOK_COLOR, KAKAO_COLOR } from '../constants/styles'
 import { IS_IOS } from '../constants/values'
 import appleAuth from '@invertase/react-native-apple-authentication'
+import TouchableScale from '../components/Buttons/TouchableScale'
 
 
 const LoginScreen = () => {
@@ -18,7 +19,7 @@ const LoginScreen = () => {
 
             </View>
             <View style={styles.snsContainer}  >
-                <BaseButton
+                <TouchableScale
                     onPress={kakaoLogin}
                     style={[styles.snsBtn, { backgroundColor: KAKAO_COLOR }]}
                 >
@@ -28,8 +29,8 @@ const LoginScreen = () => {
                         resizeMode='contain'
                     />
                     <BaseText style={{ color: '#000' }} >카카오톡으로 로그인</BaseText>
-                </BaseButton>
-                <BaseButton
+                </TouchableScale>
+                <TouchableScale
                     onPress={facebookLogin}
                     style={[styles.snsBtn, { backgroundColor: FACEBOOK_COLOR }]}
                 >
@@ -39,7 +40,7 @@ const LoginScreen = () => {
                         resizeMode='contain'
                     />
                     <BaseText style={{ color: '#fff' }} >페이스북으로 로그인</BaseText>
-                </BaseButton>
+                </TouchableScale>
                 {IS_IOS && appleAuth.isSupported && <BaseButton
                     onPress={appleLogin}
                     style={[styles.snsBtn, { backgroundColor: APPLE_COLOR }]}

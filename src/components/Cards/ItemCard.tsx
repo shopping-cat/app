@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { WIDTH } from '../../constants/styles'
 import { ItemsItem } from '../../graphql/item'
-import BaseButton from '../BaseButton'
+import BaseButton from '../Buttons/BaseButton'
 
 const CARD_WIDTH = (WIDTH - 48) / 2
 
