@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
 import BaseButton from '../components/Buttons/BaseButton'
@@ -10,6 +11,7 @@ import { client } from '../lib/apollo'
 
 const HomeScreen = () => {
 
+    const { navigate } = useNavigation()
     // const { data, refetch, fetchMore } = useItems({ fetchPolicy: 'network-only' })
     // const [refreshing, setRefresing] = useState(false)
     const { logout } = useAuth()
@@ -39,6 +41,9 @@ const HomeScreen = () => {
             <HomeHeader />
             <BaseButton style={{ width: 100, height: 100 }} onPress={logout} >
                 <Text>logout</Text>
+            </BaseButton>
+            <BaseButton style={{ width: 100, height: 100 }} onPress={() => navigate('ItemDetail')} >
+                <Text>ItemDetail</Text>
             </BaseButton>
             {/* <FlatList
                 onRefresh={onRefresh}
