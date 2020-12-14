@@ -1,12 +1,18 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View, Animated } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Icon2 from 'react-native-vector-icons/SimpleLineIcons'
-import BaseText from '../BaseText'
 import BaseButton from '../Buttons/BaseButton'
+import { COLOR1, COLOR1_RGB, GRAY, GRAY_RGB, WIDTH, WITHE_RGB } from '../../constants/styles'
+import BackArrowIcon from '../../components/Svgs/BackArrowIcon'
+import LinearGradient from 'react-native-linear-gradient'
+import CartIcon from '../Svgs/CartIcon'
 
-const ItemDetailHeader = () => {
+interface ItemDetailHeaderProps {
+    scrollY: Animated.Value
+}
+
+const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY }) => {
 
     const { goBack, navigate } = useNavigation()
 
@@ -14,22 +20,56 @@ const ItemDetailHeader = () => {
         navigate('Cart')
     }, [])
 
+    const titleInterpolate = scrollY.interpolate({
+        inputRange: [0, WIDTH - 56],
+        outputRange: [0, 1]
+    })
+
+    const backArrowInterpolate = scrollY.interpolate({
+        inputRange: [0, (WIDTH - 56) / 2],
+        outputRange: [WITHE_RGB, GRAY_RGB],
+        extrapolateRight: 'clamp'
+    })
+
+    const cartInterpolate = scrollY.interpolate({
+        inputRange: [0, (WIDTH - 56) / 2],
+        outputRange: [WITHE_RGB, COLOR1_RGB],
+        extrapolateRight: 'clamp'
+    })
+
+    const backgroundInterpolate = scrollY.interpolate({
+        inputRange: [0, WIDTH - 56],
+        outputRange: [0, 1]
+    })
+
+
     return (
         <View style={styles.container} >
+            <LinearGradient
+                style={styles.backgroundGradient}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 0.5, y: 1 }}
+                colors={['rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0)']}
+            />
+            <Animated.View style={[styles.background, { opacity: backgroundInterpolate }]} />
             <BaseButton
                 onPress={goBack}
                 style={styles.backContainer}
             >
-                <Icon2 name='arrow-left' size={24} color='#fff' />
+                <BackArrowIcon fill={backArrowInterpolate} />
             </BaseButton>
             <View style={styles.titleContainer} >
-                <BaseText style={styles.title} >상품정보</BaseText>
+                <Animated.Text
+                    style={[styles.title, { opacity: titleInterpolate }]}
+                >
+                    {'상품정보'}
+                </Animated.Text>
             </View>
             <BaseButton
                 onPress={onCart}
                 style={styles.cartContainer}
             >
-                <Icon name='cart-outline' color='#000' size={24} />
+                <CartIcon fill={cartInterpolate} />
             </BaseButton>
         </View>
     )
@@ -44,6 +84,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    backgroundGradient: {
+        width: '100%',
+        height: 56,
+        position: 'absolute',
+    },
+    background: {
+        width: '100%',
+        height: 56,
+        position: 'absolute',
+        backgroundColor: '#fff'
+    },
     backContainer: {
         width: 56,
         height: 56,
@@ -55,7 +106,8 @@ const styles = StyleSheet.create({
     },
     title: {
         marginLeft: 16,
-        fontSize: 20
+        fontSize: 20,
+        fontFamily: 'BMJUA'
     },
     cartContainer: {
         width: 56,

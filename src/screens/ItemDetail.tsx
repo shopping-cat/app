@@ -12,10 +12,6 @@ const ItemDetail = () => {
 
     const [scrollY] = useState(new Animated.Value(0))
 
-    const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        scrollY.setValue(event.nativeEvent.contentOffset.y)
-    }, [])
-
     return (
         <View>
             <Animated.ScrollView
@@ -27,9 +23,11 @@ const ItemDetail = () => {
                 )}
                 stickyHeaderIndices={[0, 2]}
             >
-                <ItemDetailHeader />
-                <ImageCarousel images={dummyImages} />
-                <ItemDetailHeader />
+                <ItemDetailHeader scrollY={scrollY} />
+                <View style={{ marginTop: -56 }} >
+                    <ImageCarousel images={dummyImages} />
+                </View>
+                <View style={{ height: 56, width: '100%', backgroundColor: 'red' }} />
                 <View style={{ height: 10000 }} />
             </Animated.ScrollView>
         </View>
