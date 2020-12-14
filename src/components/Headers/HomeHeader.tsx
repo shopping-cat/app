@@ -27,7 +27,7 @@ const HomeHeader = () => {
                 style={styles.inputContainer}
             >
                 <Icon2 name='search' size={16} style={{ marginRight: 8 }} />
-                <BaseText>Search for keyword</BaseText>
+                <BaseText>검색어를 입력해주세요!</BaseText>
             </Pressable>
             <BaseButton
                 onPress={onCart}
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         marginHorizontal: 16,
-        fontWeight: 'bold'
     },
     cart: {
         width: 56,

@@ -37,7 +37,7 @@ const HomeScreen = () => {
     return (
         <View style={{ flex: 1 }} >
             <HomeHeader />
-            <BaseButton style={{ width: 100, height: 100, backgroundColor: 'red' }} onPress={logout} >
+            <BaseButton style={{ width: 100, height: 100 }} onPress={logout} >
                 <Text>logout</Text>
             </BaseButton>
             {/* <FlatList
