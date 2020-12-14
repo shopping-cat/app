@@ -16,7 +16,8 @@ const ItemDetail = () => {
     const [isLight, setIsLight] = useState(true) // status bar color
 
     useEffect(() => {
-        scrollY.addListener(({ value }) => setIsLight(value < WIDTH - 112 - getStatusBarHeight()))
+        // 언제 status bar 색깔 바뀔지
+        scrollY.addListener(({ value }) => setIsLight(value < WIDTH - 56 - getStatusBarHeight()))
     }, [])
 
     return (
@@ -37,7 +38,7 @@ const ItemDetail = () => {
                 <View>
 
                 </View>
-                <View style={{ height: 112, width: '100%', backgroundColor: 'red', marginTop: -56 }} />
+                <View style={{ height: 112, width: '100%', backgroundColor: 'red', }} />
                 <View style={{ height: 10000 }} />
             </Animated.ScrollView>
         </View>

@@ -12,7 +12,7 @@ interface ItemDetailHeaderProps {
 }
 
 const HeaderHeight = 56 + getStatusBarHeight()
-const inputRange = [0, WIDTH - HeaderHeight - 56, WIDTH - HeaderHeight - 56 + 50]
+const inputRange = [0, WIDTH - HeaderHeight, WIDTH - HeaderHeight + 50]
 
 const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY }) => {
 
@@ -49,12 +49,6 @@ const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY }) => {
 
     return (
         <View style={styles.container} >
-            {/* <LinearGradient
-                style={styles.backgroundGradient}
-                start={{ x: 0.5, y: 0 }}
-                end={{ x: 0.5, y: 1 }}
-                colors={['rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0)']}
-            /> */}
             <Animated.View style={[styles.background, { opacity: backgroundInterpolate }]} />
             <BaseButton
                 onPress={goBack}

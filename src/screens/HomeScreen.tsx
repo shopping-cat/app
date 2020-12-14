@@ -4,6 +4,7 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-nativ
 import BaseButton from '../components/Buttons/BaseButton'
 import ItemCard from '../components/Cards/ItemCard'
 import HomeHeader from '../components/Headers/HomeHeader'
+import ScreenLayout from '../components/Layout/ScreenLayout'
 import { I_USER } from '../graphql/auth'
 import { useItems } from '../graphql/item'
 import useAuth from '../hooks/useAuth'
@@ -37,7 +38,7 @@ const HomeScreen = () => {
     // }, [data, fetchMore])
 
     return (
-        <View style={{ flex: 1 }} >
+        <ScreenLayout >
             <HomeHeader />
             <BaseButton style={{ width: 100, height: 100 }} onPress={logout} >
                 <Text>logout</Text>
@@ -57,7 +58,7 @@ const HomeScreen = () => {
                 renderItem={({ item }) => <ItemCard {...item} />}
                 ListFooterComponent={<ActivityIndicator style={{ marginVertical: 24 }} />}
             /> */}
-        </View>
+        </ScreenLayout>
     )
 }
 

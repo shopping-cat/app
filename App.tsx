@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react'
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { ApolloProvider } from '@apollo/client';
 import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtools'
 import codePush from "react-native-code-push";
@@ -17,9 +17,9 @@ const App = () => {
     <>
       <ApolloProvider client={client}>
         <StatusBar backgroundColor='#fff' barStyle='dark-content' />
-        {/* <SafeAreaView style={styles.container} > */}
-        <Navigation />
-        {/* </SafeAreaView> */}
+        <View style={styles.container} >
+          <Navigation />
+        </View>
       </ApolloProvider>
     </>
   )
