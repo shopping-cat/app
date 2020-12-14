@@ -6,7 +6,6 @@ import auth from '@react-native-firebase/auth';
 
 
 import HomeScreen from './HomeScreen'
-import ChatScreen from './ChatScreen';
 import ItemDetailScreen from './ItemDetail';
 import LoginScreen from './LoginScreen';
 import SearchScreen from './SearchScreen';
@@ -23,7 +22,6 @@ const TabNavigation = () => {
             initialRouteName='Home'
         >
             <Tab.Screen name='Home' component={HomeScreen} />
-            <Tab.Screen name='Chat' component={ChatScreen} />
         </Tab.Navigator>
     )
 }
