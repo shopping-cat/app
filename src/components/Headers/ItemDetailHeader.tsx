@@ -1,16 +1,18 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
-import { StyleSheet, View, Animated } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { StyleSheet, View, Animated, StatusBar } from 'react-native'
 import BaseButton from '../Buttons/BaseButton'
 import { COLOR1, COLOR1_RGB, GRAY, GRAY_RGB, WIDTH, WITHE_RGB } from '../../constants/styles'
 import BackArrowIcon from '../../components/Svgs/BackArrowIcon'
-import LinearGradient from 'react-native-linear-gradient'
 import CartIcon from '../Svgs/CartIcon'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 interface ItemDetailHeaderProps {
     scrollY: Animated.Value
 }
+
+const HeaderHeight = 56 + getStatusBarHeight()
+const inputRange = [0, WIDTH - HeaderHeight - 56, WIDTH - HeaderHeight - 56 + 50]
 
 const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY }) => {
 
@@ -21,36 +23,38 @@ const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY }) => {
     }, [])
 
     const titleInterpolate = scrollY.interpolate({
-        inputRange: [0, WIDTH - 56],
-        outputRange: [0, 1]
+        inputRange,
+        outputRange: [0, 0, 1],
+        extrapolate: 'clamp'
     })
 
     const backArrowInterpolate = scrollY.interpolate({
-        inputRange: [0, (WIDTH - 56) / 2],
-        outputRange: [WITHE_RGB, GRAY_RGB],
-        extrapolateRight: 'clamp'
+        inputRange,
+        outputRange: [WITHE_RGB, WITHE_RGB, GRAY_RGB],
+        extrapolate: 'clamp'
     })
 
     const cartInterpolate = scrollY.interpolate({
-        inputRange: [0, (WIDTH - 56) / 2],
-        outputRange: [WITHE_RGB, COLOR1_RGB],
-        extrapolateRight: 'clamp'
+        inputRange,
+        outputRange: [WITHE_RGB, WITHE_RGB, COLOR1_RGB],
+        extrapolate: 'clamp'
     })
 
     const backgroundInterpolate = scrollY.interpolate({
-        inputRange: [0, WIDTH - 56],
-        outputRange: [0, 1]
+        inputRange,
+        outputRange: [0, 0, 1],
+        extrapolate: 'clamp'
     })
 
 
     return (
         <View style={styles.container} >
-            <LinearGradient
+            {/* <LinearGradient
                 style={styles.backgroundGradient}
                 start={{ x: 0.5, y: 0 }}
                 end={{ x: 0.5, y: 1 }}
                 colors={['rgba(0, 0, 0, 0.5)', 'rgba(0, 0, 0, 0)']}
-            />
+            /> */}
             <Animated.View style={[styles.background, { opacity: backgroundInterpolate }]} />
             <BaseButton
                 onPress={goBack}
@@ -80,9 +84,12 @@ export default ItemDetailHeader
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: 56,
+        height: HeaderHeight,
+        paddingTop: getStatusBarHeight(),
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+        zIndex: 99
     },
     backgroundGradient: {
         width: '100%',
@@ -91,7 +98,7 @@ const styles = StyleSheet.create({
     },
     background: {
         width: '100%',
-        height: 56,
+        height: HeaderHeight,
         position: 'absolute',
         backgroundColor: '#fff'
     },
