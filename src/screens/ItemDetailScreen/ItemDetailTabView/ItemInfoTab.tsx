@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native'
 
 const ItemInfoTab = () => {
     return (
-        <View>
-            <Text>sdfsdf</Text>
+        <View style={{ backgroundColor: 'blue', height: 1000 }} >
+
         </View>
     )
 }

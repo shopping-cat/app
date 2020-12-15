@@ -22,7 +22,6 @@ const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({
             easing: Easing.linear,
             toValue: WIDTH / 4 * index,
         }).start()
-
     }, [index])
 
     return (
@@ -49,7 +48,8 @@ const styles = StyleSheet.create({
         borderBottomColor: VERY_LIGHT_GRAY,
         borderBottomWidth: 1,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
     itemContainer: {
         flex: 1,
