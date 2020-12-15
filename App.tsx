@@ -4,7 +4,7 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 import { ApolloProvider } from '@apollo/client';
 import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtools'
 import codePush from "react-native-code-push";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { client } from './src/lib/apollo';
 import Navigation from './src/screens';
 
@@ -16,10 +16,12 @@ const App = () => {
   return (
     <>
       <ApolloProvider client={client}>
-        <StatusBar backgroundColor='#fff' barStyle='dark-content' />
-        <View style={styles.container} >
-          <Navigation />
-        </View>
+        <SafeAreaProvider>
+          <StatusBar backgroundColor='#fff' barStyle='dark-content' />
+          <View style={styles.container} >
+            <Navigation />
+          </View>
+        </SafeAreaProvider>
       </ApolloProvider>
     </>
   )
