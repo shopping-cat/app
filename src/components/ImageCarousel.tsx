@@ -35,7 +35,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
             {/* indicator */}
             <View style={styles.indicatorContainer} >
                 {images.map((_, i) =>
-                    <View style={[styles.dot, { opacity: i === targetIndex ? 1 : 0.5 }]} />
+                    <View key={i.toString()} style={[styles.dot, { opacity: i === targetIndex ? 1 : 0.5 }]} />
                 )}
             </View>
         </View>

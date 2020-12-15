@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
 import BaseText from '../../components/BaseText'
 import RateStars from '../../components/RateStars'
+import moneyFormat from '../../lib/moneyFormat'
 
 const id = 12424
 const shopId = 21
@@ -49,9 +50,9 @@ const ItemDetailInfo = () => {
 
             <View style={styles.priceInfoContainer} >
                 {isSale && <BaseText style={styles.sale}>{sale}%</BaseText>}
-                <BaseText style={styles.sellingPrice} >{sellingPrice}</BaseText>
+                <BaseText style={styles.sellingPrice} >{moneyFormat(sellingPrice)}</BaseText>
                 <BaseText style={styles.sellingPriceUnit} >원</BaseText>
-                {isSale && <BaseText style={styles.price} >{price}원</BaseText>}
+                {isSale && <BaseText style={styles.price} >{moneyFormat(price)}원</BaseText>}
             </View>
 
             {rateNum > 0 && <View style={styles.rateInfoContainer} >
