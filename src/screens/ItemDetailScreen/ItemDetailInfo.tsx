@@ -2,9 +2,9 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Pressable, Share, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { COLOR1, COLOR2, GRAY } from '../constants/styles'
-import BaseText from './BaseText'
-import RateStars from './RateStars'
+import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
+import BaseText from '../../components/BaseText'
+import RateStars from '../../components/RateStars'
 
 const id = 12424
 const shopId = 21
@@ -22,7 +22,7 @@ const ItemDetailInfo = () => {
     const { navigate } = useNavigation()
 
     const onShare = useCallback(() => {
-        Share.share({ message: `쇼핑냥이://item/${id}` })
+        Share.share({ message: `shoppingcat://item/${id}` })
     }, [])
 
     const onShop = useCallback(() => {

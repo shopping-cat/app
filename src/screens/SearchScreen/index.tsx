@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import SearchHeader from '../components/Headers/SearchHeader'
-import KeywordList from '../components/KeywordList'
-import { LIGHT_GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
-import useRecentSearchKeywords from '../hooks/useRecentSearchKeywords'
-import useSearchKeyword from '../hooks/useSearchKeyword'
+import SearchHeader from '../../components/Headers/SearchHeader'
+import KeywordList from '../../components/KeywordList'
+import { LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import useRecentSearchKeywords from '../../hooks/useRecentSearchKeywords'
+import useSearchKeyword from '../../hooks/useSearchKeyword'
 
 const SearchScreen = () => {
 

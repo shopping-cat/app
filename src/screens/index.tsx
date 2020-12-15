@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 
 
 import HomeScreen from './HomeScreen'
-import ItemDetailScreen from './ItemDetail';
+import ItemDetailScreen from './ItemDetailScreen';
 import LoginScreen from './LoginScreen';
 import SearchScreen from './SearchScreen';
 import SearchDetailScreen from './SearchDetailScreen';
@@ -27,7 +27,7 @@ const TabNavigation = () => {
 }
 
 const linking: LinkingOptions = {
-    prefixes: ['쇼핑냥이://'],
+    prefixes: ['shoppingcat://'],
     config: {
         screens: {
             Login: {

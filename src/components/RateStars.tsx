@@ -31,14 +31,14 @@ const RateStars: React.FC<RateStarRrops> = ({ rate, spacing, starSize, children,
 
     return (
         <View style={styles.container} >
-            {starList.map(v => {
+            {starList.map((v, i) => {
                 switch (v) {
                     case 'fill':
-                        return <Icon name='star' color={fillColor} size={starSize} />
+                        return <Icon key={v + i} name='star' color={fillColor} size={starSize} />
                     case 'half':
-                        return <HalfStar fillColor={fillColor} emptyColor={emptyColor} size={starSize} />
+                        return <HalfStar key={v + i} fillColor={fillColor} emptyColor={emptyColor} size={starSize} />
                     case 'empty':
-                        return <Icon name='star' color={emptyColor} size={starSize} />
+                        return <Icon key={v + i} name='star' color={emptyColor} size={starSize} />
                 }
             })}
         </View>

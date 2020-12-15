@@ -2,13 +2,13 @@ import { useRoute } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Animated, NativeScrollEvent, NativeSyntheticEvent, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
-import ThinLine from '../components/ThinLine'
-import ItemDetailHeader from '../components/Headers/ItemDetailHeader'
-import ImageCarousel from '../components/ImageCarousel'
-import { WIDTH } from '../constants/styles'
-import ItemDetailInfo from '../components/ItemDetailInfo'
+import ThinLine from '../../components/ThinLine'
+import ItemDetailHeader from '../../components/Headers/ItemDetailHeader'
+import ImageCarousel from '../../components/ImageCarousel'
+import { WIDTH } from '../../constants/styles'
+import ItemDetailInfo from './ItemDetailInfo'
 
-const dummyImages = ['https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg']
+const dummyImages = ['https://wallpaperaccess.com/full/32048.jpg', 'https://site.groupe-psa.com/content/uploads/sites/9/2016/12/white-background-2.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg']
 
 const ItemDetail = () => {
 
@@ -33,7 +33,7 @@ const ItemDetail = () => {
                     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                     { useNativeDriver: true }
                 )}
-                stickyHeaderIndices={[1]}
+                stickyHeaderIndices={[3]}
                 showsVerticalScrollIndicator={false}
             >
                 <ImageCarousel images={dummyImages} />

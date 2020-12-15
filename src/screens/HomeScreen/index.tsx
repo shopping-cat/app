@@ -1,14 +1,14 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
-import BaseButton from '../components/Buttons/BaseButton'
-import ItemCard from '../components/Cards/ItemCard'
-import HomeHeader from '../components/Headers/HomeHeader'
-import ScreenLayout from '../components/Layout/ScreenLayout'
-import { I_USER } from '../graphql/auth'
-import { useItems } from '../graphql/item'
-import useAuth from '../hooks/useAuth'
-import { client } from '../lib/apollo'
+import BaseButton from '../../components/Buttons/BaseButton'
+import ItemCard from '../../components/Cards/ItemCard'
+import HomeHeader from '../../components/Headers/HomeHeader'
+import ScreenLayout from '../../components/Layout/ScreenLayout'
+import { I_USER } from '../../graphql/auth'
+import { useItems } from '../../graphql/item'
+import useAuth from '../../hooks/useAuth'
+import { client } from '../../lib/apollo'
 
 const HomeScreen = () => {
 

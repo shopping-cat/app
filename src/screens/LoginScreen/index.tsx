@@ -1,12 +1,12 @@
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import BaseButton from '../components/Buttons/BaseButton'
-import useAuth from '../hooks/useAuth'
-import BaseText from '../components/BaseText'
-import { APPLE_COLOR, FACEBOOK_COLOR, KAKAO_COLOR } from '../constants/styles'
-import { IS_IOS } from '../constants/values'
+import BaseButton from '../../components/Buttons/BaseButton'
+import useAuth from '../../hooks/useAuth'
+import BaseText from '../../components/BaseText'
+import { APPLE_COLOR, FACEBOOK_COLOR, KAKAO_COLOR } from '../../constants/styles'
+import { IS_IOS } from '../../constants/values'
 import appleAuth from '@invertase/react-native-apple-authentication'
-import TouchableScale from '../components/Buttons/TouchableScale'
+import TouchableScale from '../../components/Buttons/TouchableScale'
 
 
 const LoginScreen = () => {
@@ -25,7 +25,7 @@ const LoginScreen = () => {
                 >
                     <Image
                         style={styles.snsIcon}
-                        source={require('../assets/kakaotalk.png')}
+                        source={require('../../assets/kakaotalk.png')}
                         resizeMode='contain'
                     />
                     <BaseText style={{ color: '#000' }} >카카오톡으로 로그인</BaseText>
@@ -36,7 +36,7 @@ const LoginScreen = () => {
                 >
                     <Image
                         style={styles.snsIcon}
-                        source={require('../assets/facebook.png')}
+                        source={require('../../assets/facebook.png')}
                         resizeMode='contain'
                     />
                     <BaseText style={{ color: '#fff' }} >페이스북으로 로그인</BaseText>
@@ -47,7 +47,7 @@ const LoginScreen = () => {
                 >
                     <Image
                         style={styles.snsIcon}
-                        source={require('../assets/apple.png')}
+                        source={require('../../assets/apple.png')}
                         resizeMode='contain'
                     />
                     <BaseText style={{ color: '#fff' }} >애플로 로그인</BaseText>
