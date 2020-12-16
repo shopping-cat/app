@@ -19,7 +19,9 @@ const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY, itemDetail
 
     const { goBack, navigate } = useNavigation()
 
-    const inputRange = [0, WIDTH - HeaderHeight, itemDetailInfoHeight - HeaderHeight]
+    const startPos = WIDTH - HeaderHeight
+    const endPos = itemDetailInfoHeight - HeaderHeight
+    const inputRange = [0, startPos, startPos > endPos ? startPos : endPos]
 
     const onCart = useCallback(() => {
         navigate('Cart')

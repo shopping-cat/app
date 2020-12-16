@@ -32,7 +32,6 @@ const ItemDetail = () => {
     }, [])
 
     const onTopContentLayout = useCallback((event: LayoutChangeEvent) => {
-        console.log(event.nativeEvent.layout)
         setItemDetailInfoHeight(event.nativeEvent.layout.height)
     }, [])
 
