@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Animated, { Easing } from 'react-native-reanimated'
 import BaseText from '../../components/BaseText'
-import TouchableScale from '../../components/Buttons/TouchableScale'
-import { COLOR1, GRAY, STATUSBAR_HEIGHT, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
+import { COLOR1, GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 
 interface ItemDetailTabViewNavigatorProps {
     index: number
     setIndex: (v: number) => void
+    scrollToTop: () => void
 }
 
 const LABELS = ['상품정보', '리뷰', '주문정보', '문의']
 
-const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({ index, setIndex }) => {
+const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({ index, setIndex, scrollToTop }) => {
 
     const [indicatorOffset] = useState(new Animated.Value(0))
 
@@ -24,11 +24,19 @@ const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({
         }).start()
     }, [index])
 
+    const onPress = useCallback((i: number) => {
+        // if (i === index) scrollToTop()
+        // else setIndex(i)
+        setIndex(i)
+        scrollToTop()
+    }, [index, scrollToTop])
+
     return (
         <View style={styles.container} >
             {LABELS.map((v, i) =>
                 <Pressable
-                    onPress={() => setIndex(i)}
+                    key={v}
+                    onPress={() => onPress(i)}
                     style={styles.itemContainer}
                 >
                     <BaseText style={{ color: index === i ? COLOR1 : GRAY }} >{v}</BaseText>

@@ -1,21 +1,31 @@
 import React from 'react'
-import { StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleSheet, ViewStyle, Animated } from 'react-native'
 import TouchableScale from './Buttons/TouchableScale'
 import UpArrowIcon from './Svgs/UpArrowIcon'
 
 interface UpFabProps {
     onPress: () => void
     style?: ViewStyle
+    scrollY?: Animated.Value
+    inputRange?: number[]
+    animation?: boolean,
 }
 
-const UpFab: React.FC<UpFabProps> = ({ onPress, style }) => {
+const UpFab: React.FC<UpFabProps> = ({ onPress, style, scrollY, animation, inputRange }) => {
+
+    const opacity = animation && inputRange && scrollY
+        ? scrollY?.interpolate({
+            inputRange,
+            outputRange: [0, 0, 1]
+        })
+        : 1
+
     return (
-        <TouchableScale
-            onPress={onPress}
-            style={[styles.container, style]}
-        >
-            <UpArrowIcon />
-        </TouchableScale>
+        <Animated.View style={[{ opacity }, styles.container, style]}>
+            <TouchableScale style={styles.btn} onPress={onPress}>
+                <UpArrowIcon />
+            </TouchableScale>
+        </Animated.View>
     )
 }
 
@@ -26,14 +36,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 16,
         right: 16,
+    },
+    btn: {
+        opacity: 0.9,
         backgroundColor: '#fff',
         width: 48,
         height: 48,
         borderRadius: 24,
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: 0.7,
-        elevation: 7,
+        elevation: 4,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

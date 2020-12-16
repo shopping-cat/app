@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 const ReviewTab = () => {
     return (
         <View style={{ backgroundColor: 'red', height: 1000 }} >
+            <Text>REVIEW</Text>
         </View>
     )
 }
