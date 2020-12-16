@@ -17,9 +17,7 @@ const HomeScreen = () => {
     // const [refreshing, setRefresing] = useState(false)
     const { logout } = useAuth()
 
-    useEffect(() => {
-        client.query({ query: I_USER })
-    }, [])
+
     // const onRefresh = useCallback(async () => {
     //     try {
     //         if (refreshing) return

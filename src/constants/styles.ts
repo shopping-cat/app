@@ -2,6 +2,7 @@ import { Dimensions } from "react-native"
 import { getStatusBarHeight } from "react-native-status-bar-height"
 
 export const WIDTH = Dimensions.get('window').width
+export const HEIGHT = Dimensions.get('window').height
 export const STATUSBAR_HEIGHT = getStatusBarHeight()
 
 // HEX COLORS

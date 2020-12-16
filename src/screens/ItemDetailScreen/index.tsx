@@ -11,6 +11,7 @@ import ItemDetailTabView from './ItemDetailTabView'
 import ItemDetailTabViewNavigator from './ItemDetailTabViewNavigator'
 import UpFab from '../../components/UpFab'
 import ItemDetailFooter from './ItemDetailFooter'
+import ItemDetailBuyProcessModal from './ItemDetailOptionModal';
 
 const dummyImages = ['https://wallpaperaccess.com/full/32048.jpg', 'https://site.groupe-psa.com/content/uploads/sites/9/2016/12/white-background-2.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg']
 
@@ -20,6 +21,7 @@ const ItemDetail = () => {
     const { params } = useRoute()
 
     const scrollViewRef = useRef<ScrollView>(null)
+    const [optionModalVisible, setOptionModalVisible] = useState(false)
     const [scrollY] = useState(new Animated.Value(0))
     const [isLight, setIsLight] = useState(true) // status bar color
     const [tabViewIndex, setTabViewIndex] = useState(0)
@@ -84,7 +86,13 @@ const ItemDetail = () => {
                 style={{ bottom: 80 + bottom + 16 }}
                 onPress={onFab}
             />
-            <ItemDetailFooter />
+            <ItemDetailFooter
+                onBuy={() => setOptionModalVisible(true)}
+            />
+            <ItemDetailBuyProcessModal
+                visible={optionModalVisible}
+                onClose={() => setOptionModalVisible(false)}
+            />
         </View>
     )
 }

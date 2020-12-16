@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         position: 'absolute',
-        zIndex: 99
+        zIndex: 1
     },
     backgroundGradient: {
         width: '100%',

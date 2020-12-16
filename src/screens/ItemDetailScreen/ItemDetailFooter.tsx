@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseText from '../../components/BaseText'
 import TouchableScale from '../../components/Buttons/TouchableScale'
@@ -7,7 +7,11 @@ import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/style
 
 const isSale = true
 
-const ItemDetailFooter = () => {
+interface ItemDetailFooter {
+    onBuy: () => void
+}
+
+const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy }) => {
 
     const [liked, setLiked] = useState(false)
 
@@ -17,7 +21,8 @@ const ItemDetailFooter = () => {
 
     const onBigBuy = useCallback(() => {
         if (!isSale) return
-    }, [])
+        onBuy()
+    }, [onBuy])
 
     return (
         <View style={styles.container} >

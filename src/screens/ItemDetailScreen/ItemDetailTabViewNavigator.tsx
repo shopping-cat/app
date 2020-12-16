@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import Animated, { Easing } from 'react-native-reanimated'
+import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 
@@ -21,6 +20,7 @@ const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({
             duration: 150,
             easing: Easing.linear,
             toValue: WIDTH / 4 * index,
+            useNativeDriver: false
         }).start()
     }, [index])
 
