@@ -5,19 +5,21 @@ import BaseButton from '../Buttons/BaseButton'
 import { COLOR1, COLOR1_RGB, GRAY, GRAY_RGB, STATUSBAR_HEIGHT, WIDTH, WITHE_RGB } from '../../constants/styles'
 import BackArrowIcon from '../../components/Svgs/BackArrowIcon'
 import CartIcon from '../Svgs/CartIcon'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
 import LinearGradient from 'react-native-linear-gradient'
 
 interface ItemDetailHeaderProps {
     scrollY: Animated.Value
+    itemDetailInfoHeight: number
 }
 
-const HeaderHeight = 56 + getStatusBarHeight()
-const inputRange = [0, WIDTH - HeaderHeight, WIDTH - HeaderHeight + 50]
+const HeaderHeight = 56 + STATUSBAR_HEIGHT
 
-const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY }) => {
+
+const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY, itemDetailInfoHeight }) => {
 
     const { goBack, navigate } = useNavigation()
+
+    const inputRange = [0, WIDTH - HeaderHeight, itemDetailInfoHeight - HeaderHeight]
 
     const onCart = useCallback(() => {
         navigate('Cart')

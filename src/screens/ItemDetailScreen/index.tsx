@@ -49,7 +49,7 @@ const ItemDetail = () => {
     return (
         <View style={[styles.container, { paddingBottom: bottom }]} >
             <StatusBar translucent backgroundColor='transparent' barStyle={isLight ? 'light-content' : 'dark-content'} />
-            <ItemDetailHeader scrollY={scrollY} />
+            <ItemDetailHeader itemDetailInfoHeight={itemDetailInfoHeight} scrollY={scrollY} />
             <Animated.ScrollView
                 ref={scrollViewRef}
                 overScrollMode='never'
