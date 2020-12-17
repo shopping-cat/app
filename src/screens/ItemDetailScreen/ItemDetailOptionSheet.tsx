@@ -1,13 +1,16 @@
 // 안드로이드 gesture handler 가 모달 위에서 적용이 되지 않기 때문에 
 // Modal에 coverScreen={false}를 주고 이 컴포넌트를 스크린이 선언되는 최상단 View 바로 아래에다가 배치해주세요
 import React, { useCallback, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BaseText from '../../components/BaseText';
 import BottomSheet from '../../components/BottomSheet';
 import TouchableScale from '../../components/Buttons/TouchableScale';
-import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles';
-
+import NumberCounterMinusIcon from '../../components/Svgs/NumberCounterMinusIcon';
+import NumberCounterPlusIcon from '../../components/Svgs/NumberCounterPlusIcon';
+import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
+import moneyFormat from '../../lib/moneyFormat';
+import arraySum from '../../lib/arraySum'
 const dummyOption = [
     {
         optionGroupName: '색상',
@@ -64,114 +67,98 @@ const dummyOption = [
         ]
     }
 ]
+const dummyPrice = 38700
 
-interface ItemDetailOptionModalProps {
+const MIN_NUMBER = 1
+const MAX_NUMBER = 99
+
+interface ItemDetailOptionSheetProps {
     visible: boolean
     onClose: () => void
 }
 
-const ItemDetailOptionModal: React.FC<ItemDetailOptionModalProps> = ({ onClose, visible }) => {
+const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, visible }) => {
 
     const { bottom } = useSafeAreaInsets()
 
-    const [options, setOptions] = useState(dummyOption.map(() => null))
-
+    const [options, setOptions] = useState<(number | null)[]>(dummyOption.map(() => null))
+    const isSelectedOption = options.filter(v => !v).length === 0
     // 모든 옵션이 null이 아닐때
-    // const isSelectedOption = options.filter(v => !v).length === 0
-    const isSelectedOption = true
+    const [number, setNumber] = useState(1)
+
+    const totalPrice = (dummyPrice + arraySum(dummyOption.map((v, i) => {
+        const option = options[i]
+        if (!option) return 0
+        return v.optionDetails[option].price
+    }))) * number
+
+    const init = useCallback(() => { // 초기화
+        setOptions(dummyOption.map(() => null))
+        setNumber(1)
+    }, [])
 
     const onCart = useCallback(() => {
-        console.log('123')
         if (!isSelectedOption) return
         onClose()
+        init()
     }, [isSelectedOption])
 
     const onBuy = useCallback(() => {
         if (!isSelectedOption) return
         onClose()
+        init()
     }, [isSelectedOption])
 
+    const numberIncrease = useCallback(() => {
+        if (number === MAX_NUMBER) return
+        setNumber(number + 1)
+    }, [number])
+
+    const numberDecrease = useCallback(() => {
+        if (number === MIN_NUMBER) return
+        setNumber(number - 1)
+    }, [number])
+
+
     return (
-        // <Modal
-        //     // coverScreen={false}
-        //     isVisible={visible}
-        //     onBackButtonPress={onClose}
-        //     onBackdropPress={onClose}
-        //     onSwipeComplete={onClose}
-        //     swipeDirection='down'
-        //     backdropOpacity={0.5}
-        //     backdropTransitionOutTiming={0}
-        //     style={styles.modal}
-        //     propagateSwipe
-        //     //@ts-ignore
-        //     statusBarTranslucent
-        // >
-        //     <BaseButton>
-        //         <View style={[styles.container, { maxHeight: 400 + bottom, paddingBottom: bottom }]} >
-        //             <View style={styles.swipeHandleConatiner} >
-        //                 <View style={styles.swipeHandle} />
-        //             </View>
-        //             <ScrollView>
-        //                 {/* TouahbleOpacity로 래핑 해줘야 스크롤 할때 modal의 swipe랑 안겹침 */}
-        //                 <View style={{ height: 1000, backgroundColor: 'red' }} />
-        //             </ScrollView>
-        //             <View style={styles.footerContainer}>
-        //                 <View style={styles.footerBtnContainer} >
-        //                     <BaseButton onPress={onCart} style={{ flex: 1 }} >
-        //                         <TouchableScale
-        //                             onPress={onCart}
-        //                             style={[
-        //                                 styles.footerCartBtn,
-        //                                 { backgroundColor: isSelectedOption ? '#fff' : LIGHT_GRAY }
-        //                             ]}
-        //                             targetScale={0.8}
-        //                         >
-        //                             <BaseText
-        //                                 style={[
-        //                                     styles.footerBtnText,
-        //                                     { color: isSelectedOption ? '#000' : GRAY }
-        //                                 ]}
-        //                             >
-        //                                 장바구니
-        //                 </BaseText>
-        //                         </TouchableScale>
-        //                     </BaseButton>
-        //                 </View>
-        //                 <View style={styles.footerBtnContainer} >
-        //                     <TouchableScale
-        //                         onPress={onBuy}
-        //                         style={[
-        //                             styles.footerBuyBtn,
-        //                             { backgroundColor: isSelectedOption ? COLOR1 : LIGHT_GRAY }
-        //                         ]}
-        //                         targetScale={0.8}
-        //                     >
-        //                         <BaseText
-        //                             style={[
-        //                                 styles.footerBtnText,
-        //                                 { color: isSelectedOption ? '#fff' : GRAY }
-        //                             ]}
-        //                         >
-        //                             구매하기
-        //                 </BaseText>
-        //                     </TouchableScale>
-        //                 </View>
-        //             </View>
-        //         </View>
-        //     </BaseButton>
-        // </Modal>
         <BottomSheet
             visible={visible}
             onClose={onClose}
+            draggAbleHeaderRender={() =>
+                <View style={styles.swipeHandleConatiner} >
+                    <View style={styles.swipeHandle} />
+                </View>
+            }
             render={() =>
-                <View style={[styles.container, { maxHeight: 400 + bottom, paddingBottom: bottom }]} >
-                    <View style={styles.swipeHandleConatiner} >
-                        <View style={styles.swipeHandle} />
+                <View style={[styles.container, { paddingBottom: bottom }]} >
+
+                    <View style={[styles.resultContainer, { borderTopWidth: options.length > 1 ? 1 : 0 }]} >
+                        <View style={styles.numberCounterContainer} >
+                            <TouchableScale
+                                onPress={numberDecrease}
+                                style={[
+                                    styles.numberCounterBtn,
+                                    { opacity: number === MIN_NUMBER ? 0.3 : 1 }
+                                ]}
+                            >
+                                <NumberCounterMinusIcon />
+                            </TouchableScale>
+                            <View style={styles.numberContainer} >
+                                <BaseText>{number}</BaseText>
+                            </View>
+                            <TouchableScale
+                                onPress={numberIncrease}
+                                style={[
+                                    styles.numberCounterBtn,
+                                    { opacity: number === MAX_NUMBER ? 0.3 : 1 }
+                                ]}
+                            >
+                                <NumberCounterPlusIcon />
+                            </TouchableScale>
+                        </View>
+                        <BaseText>{moneyFormat(totalPrice)}원</BaseText>
                     </View>
-                    <ScrollView>
-                        {/* TouahbleOpacity로 래핑 해줘야 스크롤 할때 modal의 swipe랑 안겹침 */}
-                        <View style={{ height: 1000, backgroundColor: 'red' }} />
-                    </ScrollView>
+
                     <View style={styles.footerContainer}>
                         <View style={styles.footerBtnContainer} >
                             <TouchableScale
@@ -218,25 +205,23 @@ const ItemDetailOptionModal: React.FC<ItemDetailOptionModalProps> = ({ onClose, 
     )
 }
 
-export default ItemDetailOptionModal
+export default ItemDetailOptionSheet
 
 const styles = StyleSheet.create({
-    modal: {
-        margin: 0,
-        zIndex: 2,
-        justifyContent: 'flex-end'
-    },
     container: {
         width: '100%',
         backgroundColor: '#fff',
-        borderTopLeftRadius: 16,
-        borderTopRightRadius: 16
+        maxHeight: '100%'
     },
     swipeHandleConatiner: {
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
         width: '100%',
-        height: 24,
+        height: 25,
+        marginBottom: -1, // container랑 겹치기 위해서
         alignItems: 'center',
-        marginTop: 8
+        paddingTop: 8,
+        backgroundColor: '#fff'
     },
     swipeHandle: {
         width: 32,
@@ -272,5 +257,34 @@ const styles = StyleSheet.create({
     },
     footerBtnText: {
         fontSize: 20
+    },
+    resultContainer: {
+        width: '100%',
+        height: 64,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        borderTopColor: VERY_LIGHT_GRAY
+    },
+    numberCounterContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    numberCounterBtn: {
+        width: 32,
+        height: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 16,
+        borderColor: GRAY,
+        borderWidth: 1
+    },
+    numberContainer: {
+        width: 40,
+        alignItems: 'center'
+    },
+    totalPrice: {
+        fontSize: 16
     }
 })

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { BackHandler, NativeEventSubscription, Pressable, StyleSheet, Text, View } from 'react-native'
 import { PanGestureHandler, State } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
-import { WIDTH } from '../constants/styles'
+import { HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../constants/styles'
 
 const { set, cond, block, eq, clockRunning, Clock, spring, startClock, Value, stopClock, greaterThan, call, useCode, sub, not } = Animated
 
@@ -41,9 +41,10 @@ interface BottomSheetProps {
     visible: boolean
     onClose: () => void
     render: () => React.ReactNode
+    draggAbleHeaderRender?: () => React.ReactNode
 }
 
-const BottomSheet: React.FC<BottomSheetProps> = ({ onClose, visible, render }) => {
+const BottomSheet: React.FC<BottomSheetProps> = ({ onClose, visible, render, draggAbleHeaderRender }) => {
 
     const [openClock] = useState(new Clock())
     const [closeClock] = useState(new Clock())
@@ -53,10 +54,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose, visible, render }) =
     const [visibleAnimation] = useState(new Value<number>(0))
     const [contentHeight, setContentHeight] = useState(0)
     const [renderd, setRenderd] = useState(false) //첫 로드때 안보이게 하기위한 변수
-
-    useEffect(() => {
-        console.log(visible)
-    }, [visible])
 
     useEffect(() => {
         let backHandler: NativeEventSubscription
@@ -146,9 +143,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose, visible, render }) =
             // visible일때 zindex 맨 앞에 있어도 뒤에 ui들 클릭 받아지게 설정
             // visible === false 라도 contentHeight를 유지해야해서 unmount 할수는 없음
             pointerEvents={visible ? 'auto' : 'none'}
-            style={[styles.container,
-            { opacity: renderd ? 1 : 0 }
-            ]}
+            style={[styles.container, { opacity: renderd ? 1 : 0 }]}
         >
             <Animated.View
                 // backdrop
@@ -164,24 +159,25 @@ const BottomSheet: React.FC<BottomSheetProps> = ({ onClose, visible, render }) =
                     style={styles.backdrop}
                     onPress={onClose}
                 />
-                <PanGestureHandler
-                    onGestureEvent={({ nativeEvent }) => {
-                        draggAnimation.setValue(nativeEvent.translationY)
-                        draggState.setValue(nativeEvent.state)
-                    }}
-                    onHandlerStateChange={({ nativeEvent }) => {
-                        draggAnimation.setValue(nativeEvent.translationY)
-                        draggState.setValue(nativeEvent.state)
-                    }}
-                >
-                    <View
-                        style={{ height: 56 }}
-                    />
-                </PanGestureHandler>
                 <View
                     onLayout={({ nativeEvent }) => setContentHeight(nativeEvent.layout.height)}
                     style={styles.contentContainer}
                 >
+                    <PanGestureHandler
+                        onGestureEvent={({ nativeEvent }) => {
+                            draggAnimation.setValue(nativeEvent.translationY)
+                            draggState.setValue(nativeEvent.state)
+                        }}
+                        onHandlerStateChange={({ nativeEvent }) => {
+                            draggAnimation.setValue(nativeEvent.translationY)
+                            draggState.setValue(nativeEvent.state)
+                        }}
+                    >
+                        <View>
+                            <View style={styles.extraPanHandler} />
+                            {draggAbleHeaderRender ? draggAbleHeaderRender() : null}
+                        </View>
+                    </PanGestureHandler>
                     {render()}
                 </View>
                 <View style={styles.bottomSpringSafeView} />
@@ -205,14 +201,13 @@ const styles = StyleSheet.create({
     },
     movableContainer: {
         position: 'absolute',
-        width: WIDTH,
-        height: '100%'
+        left: 0, right: 0, top: 0, bottom: 0,
     },
     backdrop: {
         flex: 1
     },
     contentContainer: {
-        maxHeight: '100%'
+        maxHeight: '100%',
     },
     bottomSpringSafeView: {
         backgroundColor: '#fff',
@@ -222,5 +217,9 @@ const styles = StyleSheet.create({
         width: WIDTH,
         zIndex: -99,
         transform: [{ translateY: 40 }]
+    },
+    extraPanHandler: {
+        width: '100%',
+        height: STATUSBAR_HEIGHT
     }
 })

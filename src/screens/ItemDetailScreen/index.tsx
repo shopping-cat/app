@@ -11,7 +11,7 @@ import ItemDetailTabView from './ItemDetailTabView'
 import ItemDetailTabViewNavigator from './ItemDetailTabViewNavigator'
 import UpFab from '../../components/UpFab'
 import ItemDetailFooter from './ItemDetailFooter'
-import ItemDetailBuyProcessModal from './ItemDetailOptionModal';
+import ItemDetailOptionSheet from './ItemDetailOptionSheet';
 
 const dummyImages = ['https://wallpaperaccess.com/full/32048.jpg', 'https://site.groupe-psa.com/content/uploads/sites/9/2016/12/white-background-2.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg']
 
@@ -89,7 +89,7 @@ const ItemDetail = () => {
             <ItemDetailFooter
                 onBuy={() => setOptionModalVisible(true)}
             />
-            <ItemDetailBuyProcessModal
+            <ItemDetailOptionSheet
                 visible={optionModalVisible}
                 onClose={() => setOptionModalVisible(false)}
             />
