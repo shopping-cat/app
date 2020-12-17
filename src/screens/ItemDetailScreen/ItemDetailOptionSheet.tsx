@@ -1,7 +1,7 @@
 // 안드로이드 gesture handler 가 모달 위에서 적용이 되지 않기 때문에 
 // Modal에 coverScreen={false}를 주고 이 컴포넌트를 스크린이 선언되는 최상단 View 바로 아래에다가 배치해주세요
-import React, { useCallback, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BaseText from '../../components/BaseText';
 import BottomSheet from '../../components/BottomSheet';
@@ -10,7 +10,8 @@ import NumberCounterMinusIcon from '../../components/Svgs/NumberCounterMinusIcon
 import NumberCounterPlusIcon from '../../components/Svgs/NumberCounterPlusIcon';
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
 import moneyFormat from '../../lib/moneyFormat';
-import arraySum from '../../lib/arraySum'
+import Accordian from '../../components/Accordian';
+
 const dummyOption = [
     {
         optionGroupName: '색상',
@@ -67,6 +68,7 @@ const dummyOption = [
         ]
     }
 ]
+// const dummyOption = null
 const dummyPrice = 38700
 
 const MIN_NUMBER = 1
@@ -81,21 +83,36 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
 
     const { bottom } = useSafeAreaInsets()
 
-    const [options, setOptions] = useState<(number | null)[]>(dummyOption.map(() => null))
-    const isSelectedOption = options.filter(v => !v).length === 0
+    const [options, setOptions] = useState<(number | null)[]>([])
+    const isSelectedOption = options.filter(v => v === null).length === 0
     // 모든 옵션이 null이 아닐때
     const [number, setNumber] = useState(1)
+    const [totalPrice, setTotalPrice] = useState(0)
 
-    const totalPrice = (dummyPrice + arraySum(dummyOption.map((v, i) => {
-        const option = options[i]
-        if (!option) return 0
-        return v.optionDetails[option].price
-    }))) * number
+    useEffect(() => {
+        init()
+    }, [])
 
     const init = useCallback(() => { // 초기화
-        setOptions(dummyOption.map(() => null))
+        setOptions((dummyOption || []).map(() => null))
         setNumber(1)
     }, [])
+
+    useEffect(() => { // totalPrice 계산
+        if (!dummyPrice) return
+        // 기본가
+        let totalPriceTemp = dummyPrice
+        // 옵션 가격 적용
+        for (const [index, value] of (dummyOption || []).entries()) {
+            const currentOption = options[index]
+            if (currentOption === null || currentOption === undefined) continue
+            totalPriceTemp += value.optionDetails[currentOption].price
+        }
+        // 수량 적용
+        totalPriceTemp *= number
+        setTotalPrice(totalPriceTemp)
+    }, [dummyPrice, options, number])
+
 
     const onCart = useCallback(() => {
         if (!isSelectedOption) return
@@ -131,6 +148,24 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
             }
             render={() =>
                 <View style={[styles.container, { paddingBottom: bottom }]} >
+
+                    {dummyOption && <FlatList
+                        style={{ height: 64 * 5 }}
+                        data={dummyOption}
+                        keyExtractor={({ optionGroupName }, index) => optionGroupName + index}
+                        renderItem={({ item, index }) => {
+                            const selectedIndex = options[index]
+                            const selectedOption = selectedIndex !== null ? item.optionDetails[selectedIndex] : null
+                            const isSelected = selectedIndex !== null
+                            return <Accordian
+                                onSelect={(selectedIndex) => setOptions(options.map((v, i) => i === index ? selectedIndex : v))}
+                                style={[styles.accordian, { borderColor: isSelected ? GRAY : VERY_LIGHT_GRAY }]}
+                                title={item.optionGroupName + ' 옵션을 선택해주세요'}
+                                selectedTitle={selectedOption && selectedOption.optionDetailName}
+                                contents={item.optionDetails.map(({ optionDetailName, price }) => ({ left: optionDetailName, right: price === 0 ? '' : moneyFormat(price) }))}
+                            />
+                        }}
+                    />}
 
                     <View style={[styles.resultContainer, { borderTopWidth: options.length > 1 ? 1 : 0 }]} >
                         <View style={styles.numberCounterContainer} >
@@ -286,5 +321,8 @@ const styles = StyleSheet.create({
     },
     totalPrice: {
         fontSize: 16
+    },
+    accordian: {
+        marginBottom: 16, marginHorizontal: 16, borderWidth: 1
     }
 })
