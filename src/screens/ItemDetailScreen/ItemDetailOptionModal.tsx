@@ -2,8 +2,6 @@
 // Modal에 coverScreen={false}를 주고 이 컴포넌트를 스크린이 선언되는 최상단 View 바로 아래에다가 배치해주세요
 import React, { useCallback, useState } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { BaseButton, TouchableOpacity } from 'react-native-gesture-handler';
-import Modal from 'react-native-modal';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BaseText from '../../components/BaseText';
 import BottomSheet from '../../components/BottomSheet';

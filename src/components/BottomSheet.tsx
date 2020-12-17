@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { BackHandler, NativeEventSubscription, Pressable, StyleSheet, Text, View } from 'react-native'
 import { PanGestureHandler, State } from 'react-native-gesture-handler'
-import Animated, { Easing } from 'react-native-reanimated'
-import { HEIGHT, WIDTH } from '../constants/styles'
+import Animated from 'react-native-reanimated'
+import { WIDTH } from '../constants/styles'
 
-const { set, cond, block, eq, lessThan, clockRunning, Clock, spring, startClock, Value, stopClock, concat, multiply, timing, useCode } = Animated
+const { set, cond, block, eq, clockRunning, Clock, spring, startClock, Value, stopClock, greaterThan, call, useCode, sub, not } = Animated
 
-const returnTo0 = (clock: any, value: any) => {
+const runSpring = (clock: any, value: any, toValue: any) => {
     const state = {
         finished: new Value(0),
         velocity: new Value(0),
@@ -25,10 +25,10 @@ const returnTo0 = (clock: any, value: any) => {
     };
 
     return [
-        cond(clockRunning(clock), 0, [
+        cond(not(clockRunning(clock)), [
             set(state.finished, 0),
             set(state.position, value),
-            set(config.toValue, 0),
+            set(config.toValue, toValue),
             startClock(clock)
         ]),
         spring(clock, state, config),
@@ -45,102 +45,145 @@ interface BottomSheetProps {
 
 const BottomSheet: React.FC<BottomSheetProps> = ({ onClose, visible, render }) => {
 
-    const [isRendering, setIsRendering] = useState(false)
-    const [onOffAnimation] = useState(new Value(1))
+    const [openClock] = useState(new Clock())
+    const [closeClock] = useState(new Clock())
+    const [animation] = useState(new Value(0))
     const [draggAnimation] = useState(new Value<number>(0))
     const [draggState] = useState(new Value(State.UNDETERMINED))
-    const [draggClock] = useState(new Clock())
+    const [visibleAnimation] = useState(new Value<number>(0))
     const [contentHeight, setContentHeight] = useState(0)
-
+    const [renderd, setRenderd] = useState(false) //첫 로드때 안보이게 하기위한 변수
 
     useEffect(() => {
-        if (visible) setIsRendering(true)
-        timing(onOffAnimation, {
-            duration: 250,
-            easing: Easing.inOut(Easing.ease),
-            toValue: visible ? 1 : 0
-        }).start(() => setIsRendering(visible))
+        console.log(visible)
+    }, [visible])
+
+    useEffect(() => {
+        let backHandler: NativeEventSubscription
+        // 초기화
+        if (visible) {
+            // 안드로이드 뒤로가기 버튼 클릭시 바텀시트 닫힘
+            backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+                onClose()
+                return true
+            })
+            draggAnimation.setValue(0) // 값 초기화
+            animation.setValue(0)
+            draggState.setValue(State.UNDETERMINED)
+            visibleAnimation.setValue(1)
+
+            setRenderd(true)
+        } else {
+            // stopClock(clock)
+            visibleAnimation.setValue(0)
+        }
+        return () => {
+            // 안드로이드 뒤로가기 리스더 삭제
+            backHandler && backHandler.remove()
+        }
     }, [visible])
 
     useCode(() => block([
-        cond(
-            eq(draggState, State.ACTIVE),
+        cond(eq(visibleAnimation, new Value(1)),
             [
-                //clamp
-                cond(lessThan(draggAnimation, 0), set(draggAnimation, 0)),
-                stopClock(draggClock)
+                stopClock(closeClock),
+                cond(
+                    eq(draggState, State.ACTIVE),
+                    [
+                        stopClock(openClock),
+                        cond(
+                            greaterThan(draggAnimation, 0), //clamp
+                            set(animation, sub(contentHeight, draggAnimation))
+                        )
+                    ],
+                    [
+                        // onChange()
+                        cond(
+                            greaterThan(draggAnimation, new Value(contentHeight / 2)), // 드래그를 반 이상 했을때
+                            [
+
+                                call([], onClose), // on change 로 수정해줘야 하나 // 닫기
+                            ],
+                            set( // 다시 원상복귀
+                                animation,
+                                runSpring(
+                                    openClock,
+                                    animation,
+                                    contentHeight
+                                )
+                            )
+                        )
+                    ]
+                ),
             ],
             [
+                stopClock(openClock),
                 set(
-                    draggAnimation,
-                    returnTo0(
-                        draggClock,
-                        cond(lessThan(draggAnimation, 0), 0, draggAnimation) //clamp
+                    animation,
+                    runSpring(
+                        closeClock,
+                        animation,
+                        0
                     )
                 )
             ]
         )
-    ]), [])
+    ]), [contentHeight])
 
-    const translateY = onOffAnimation.interpolate({
-        inputRange: [0, 1],
+    const translateY = animation.interpolate({
+        inputRange: [0, contentHeight],
         outputRange: [contentHeight, 0]
     })
 
-
+    const opacity = animation.interpolate({
+        inputRange: [0, contentHeight],
+        outputRange: [0, 1]
+    })
 
 
     return (
         <View
-            style={[
-                styles.container,
-                // 렌더링을 유지해야 content height를 딜레이 없이 받을수 있어서 아예 삭제 하지말고 스케일 0 으로 숨깁니다
-                { transform: [{ scale: isRendering ? 1 : 0 }] }
+            // visible일때 zindex 맨 앞에 있어도 뒤에 ui들 클릭 받아지게 설정
+            // visible === false 라도 contentHeight를 유지해야해서 unmount 할수는 없음
+            pointerEvents={visible ? 'auto' : 'none'}
+            style={[styles.container,
+            { opacity: renderd ? 1 : 0 }
             ]}
         >
-
             <Animated.View
+                // backdrop
                 style={[
                     styles.background,
-                    { opacity: onOffAnimation }
+                    { opacity }
                 ]}
             />
             <Animated.View
                 style={[styles.movableContainer, { transform: [{ translateY }] }]}
             >
-                <Animated.View
-                    style={[
-                        styles.movableContainer,
-                        { transform: [{ translateY: draggAnimation }], }
-                    ]}
+                <Pressable
+                    style={styles.backdrop}
+                    onPress={onClose}
+                />
+                <PanGestureHandler
+                    onGestureEvent={({ nativeEvent }) => {
+                        draggAnimation.setValue(nativeEvent.translationY)
+                        draggState.setValue(nativeEvent.state)
+                    }}
+                    onHandlerStateChange={({ nativeEvent }) => {
+                        draggAnimation.setValue(nativeEvent.translationY)
+                        draggState.setValue(nativeEvent.state)
+                    }}
                 >
-                    <Pressable
-                        style={styles.backdrop}
-                        onPress={onClose}
-                    />
-                    <PanGestureHandler
-                        onGestureEvent={({ nativeEvent }) => {
-                            console.log(nativeEvent.translationY)
-                            draggAnimation.setValue(nativeEvent.translationY)
-                            draggState.setValue(nativeEvent.state)
-                        }}
-                        onHandlerStateChange={({ nativeEvent }) => {
-                            draggAnimation.setValue(nativeEvent.translationY)
-                            draggState.setValue(nativeEvent.state)
-                        }}
-                    >
-                        <View
-                            style={{ height: 56, backgroundColor: 'blue' }}
-                        />
-                    </PanGestureHandler>
                     <View
-                        onLayout={({ nativeEvent }) => setContentHeight(nativeEvent.layout.height)}
-                        style={styles.contentContainer}
-                    >
-                        {render()}
-                    </View>
-
-                </Animated.View>
+                        style={{ height: 56 }}
+                    />
+                </PanGestureHandler>
+                <View
+                    onLayout={({ nativeEvent }) => setContentHeight(nativeEvent.layout.height)}
+                    style={styles.contentContainer}
+                >
+                    {render()}
+                </View>
                 <View style={styles.bottomSpringSafeView} />
             </Animated.View>
         </View>
@@ -163,13 +206,21 @@ const styles = StyleSheet.create({
     movableContainer: {
         position: 'absolute',
         width: WIDTH,
-        height: HEIGHT
+        height: '100%'
     },
     backdrop: {
         flex: 1
     },
     contentContainer: {
-        maxHeight: HEIGHT
+        maxHeight: '100%'
     },
-    bottomSpringSafeView: { backgroundColor: '#fff', height: 20, position: 'absolute', bottom: 0, width: WIDTH, zIndex: -1 }
+    bottomSpringSafeView: {
+        backgroundColor: '#fff',
+        height: 50,
+        position: 'absolute',
+        bottom: 0,
+        width: WIDTH,
+        zIndex: -99,
+        transform: [{ translateY: 40 }]
+    }
 })

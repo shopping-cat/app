@@ -2,7 +2,7 @@ import { Dimensions } from "react-native"
 import { getStatusBarHeight } from "react-native-status-bar-height"
 
 export const WIDTH = Dimensions.get('window').width
-export const HEIGHT = Dimensions.get('window').height
+export const HEIGHT = Dimensions.get('window').height // 가능하면 사용하지 말아주세요 기종별로 오류가 너무 많아서...
 export const STATUSBAR_HEIGHT = getStatusBarHeight()
 
 // HEX COLORS
