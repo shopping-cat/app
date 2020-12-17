@@ -162,7 +162,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
                                 style={[styles.accordian, { borderColor: isSelected ? GRAY : VERY_LIGHT_GRAY }]}
                                 title={item.optionGroupName + ' 옵션을 선택해주세요'}
                                 selectedTitle={selectedOption && selectedOption.optionDetailName}
-                                contents={item.optionDetails.map(({ optionDetailName, price }) => ({ left: optionDetailName, right: price === 0 ? '' : moneyFormat(price) }))}
+                                contents={item.optionDetails.map(({ optionDetailName, price }) => ({ left: optionDetailName, right: price === 0 ? '' : moneyFormat(price, true) }))}
                             />
                         }}
                     />}
