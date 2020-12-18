@@ -18,7 +18,7 @@ const UpFab: React.FC<UpFabProps> = ({ onPress, style, scrollY, animation, input
             inputRange,
             outputRange: [0, 0, 1]
         })
-        : 1
+        : 0
 
     return (
         <Animated.View style={[{ opacity }, styles.container, style]}>

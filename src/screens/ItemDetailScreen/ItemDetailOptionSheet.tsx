@@ -11,6 +11,7 @@ import NumberCounterPlusIcon from '../../components/Svgs/NumberCounterPlusIcon';
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
 import moneyFormat from '../../lib/moneyFormat';
 import Accordian from '../../components/Accordian';
+import LinearGradient from 'react-native-linear-gradient';
 
 const dummyOption = [
     {
@@ -117,13 +118,17 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
     const onCart = useCallback(() => {
         if (!isSelectedOption) return
         onClose()
-        init()
+        setTimeout(() => {
+            init()
+        }, 250);
     }, [isSelectedOption])
 
     const onBuy = useCallback(() => {
         if (!isSelectedOption) return
         onClose()
-        init()
+        setTimeout(() => {
+            init()
+        }, 250);
     }, [isSelectedOption])
 
     const numberIncrease = useCallback(() => {
@@ -149,8 +154,15 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
             render={() =>
                 <View style={[styles.container, { paddingBottom: bottom }]} >
 
+                    <LinearGradient
+                        style={styles.fadeoutView}
+                        colors={['#ffffff', '#ffffff00']}
+                        start={{ x: 0.5, y: 0 }}
+                        end={{ x: 0.5, y: 1 }}
+                    />
+
                     {dummyOption && <FlatList
-                        style={{ height: 64 * 5 }}
+                        style={{ height: 64 * 5, paddingTop: 8 }}
                         data={dummyOption}
                         keyExtractor={({ optionGroupName }, index) => optionGroupName + index}
                         renderItem={({ item, index }) => {
@@ -255,13 +267,13 @@ const styles = StyleSheet.create({
         height: 25,
         marginBottom: -1, // container랑 겹치기 위해서
         alignItems: 'center',
-        paddingTop: 8,
+        paddingTop: 16,
         backgroundColor: '#fff'
     },
     swipeHandle: {
-        width: 32,
-        height: 2,
-        borderRadius: 1,
+        width: 48,
+        height: 4,
+        borderRadius: 2,
         backgroundColor: LIGHT_GRAY
     },
     footerContainer: {
@@ -324,5 +336,6 @@ const styles = StyleSheet.create({
     },
     accordian: {
         marginBottom: 16, marginHorizontal: 16, borderWidth: 1
-    }
+    },
+    fadeoutView: { height: 8, position: 'absolute', top: 0, zIndex: 999, left: 0, right: 0 }
 })
