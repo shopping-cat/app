@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { BaseButton } from 'react-native-gesture-handler'
+import Hyperlink from 'react-native-hyperlink'
 import BaseText from '../../../components/BaseText'
-import { GRAY } from '../../../constants/styles'
+import { COLOR2, GRAY } from '../../../constants/styles'
 
 const dummyOrderInfos = [
     {
@@ -37,7 +37,12 @@ const OrderInfoTab = () => {
             {dummyOrderInfos.map(({ content, title }) =>
                 <View>
                     <BaseText style={styles.title} >{title}</BaseText>
-                    <BaseText style={styles.content} >{content}</BaseText>
+                    <Hyperlink
+                        linkStyle={{ color: COLOR2 }}
+                        linkDefault={true}
+                    >
+                        <BaseText style={styles.content} >{content}</BaseText>
+                    </Hyperlink>
                 </View>
             )}
         </View>
