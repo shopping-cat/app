@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 const OrderInfoTab = () => {
     return (
-        <View style={{ backgroundColor: 'blue', height: 1000 }} >
+        <View>
             <Text>ORDER</Text>
         </View>
     )

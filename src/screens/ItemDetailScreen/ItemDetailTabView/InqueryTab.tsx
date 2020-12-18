@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 const InqueryTab = () => {
     return (
-        <View style={{ backgroundColor: '#fff', height: 1000 }} >
+        <View>
             <Text>INQUERY</Text>
         </View>
     )
