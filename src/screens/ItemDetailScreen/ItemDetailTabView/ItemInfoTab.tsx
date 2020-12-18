@@ -1,9 +1,44 @@
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
-import { WIDTH } from '../../../constants/styles';
+import BaseText from '../../../components/BaseText';
+import ThinLine from '../../../components/ThinLine';
+import { GRAY, WIDTH } from '../../../constants/styles';
 
-
+const dummyRequiredInformation = [
+    {
+        title: '품명 및 모델명',
+        content: 'iti 캣 치킨 앤 연어 1kg (200g*5개)'
+    },
+    {
+        title: '인증사항',
+        content: '해당없음'
+    },
+    {
+        title: '제조국 또는 원산지',
+        content: '뉴질랜드'
+    },
+    {
+        title: '제조사/수입자',
+        content: '아이티아이/(주)산시아코리아'
+    },
+    {
+        title: '소비자상담 관련 전화번호',
+        content: '02-1234-3424'
+    },
+    {
+        title: '브랜드',
+        content: 'iti'
+    },
+    {
+        title: '중량',
+        content: '1kg'
+    },
+    {
+        title: '원료구성',
+        content: '닭고기, 연어, 닭의간, 완두콩, 식물성글리세린, 녹색입홍합, 치커리, 파슬리, 아마씨, 다시마, 소금, 탄산칼슘, 염화콜린, 토코페롤, 타우린, 철산화아연, 닭고기, 연어, 닭의간, 완두콩, 식물성글리세린, 녹색입홍합, 치커리, 파슬리 ,아마씨, 다시마, 소금, 탄산칼슘, 염화콜린, 토코페롤, 타우린, 철산화아연'
+    }
+]
 
 const html = `
 <div>
@@ -44,10 +79,10 @@ const ItemInfoTab = () => {
 
 
     return (
-        <View>
+        <View style={styles.container} >
             <WebView
                 source={{ html: generateHtml(html) }}
-                style={{ height, width: WIDTH }}
+                style={[styles.webview, { height }]}
                 onMessage={onWebViewMessage}
                 injectedJavaScript='setTimeout(() => { window.ReactNativeWebView.postMessage(document.body.scrollHeight) }, 500)'
                 originWhitelist={['*']}
@@ -57,10 +92,53 @@ const ItemInfoTab = () => {
                 mixedContentMode="always"
                 automaticallyAdjustContentInsets={false}
             />
+            <ThinLine />
+            <View style={styles.baseInfoContainer} >
+                <BaseText style={styles.baseInfoTitle} >필수표기정보</BaseText>
+                {dummyRequiredInformation.map(({ content, title }) =>
+                    <View key={title} style={styles.baseInfoContentContainer} >
+                        <BaseText style={styles.baseInfoContentTitle} >{title}</BaseText>
+                        <BaseText style={styles.baseInfoContent} >{content}</BaseText>
+                    </View>
+                )}
+            </View>
         </View>
     )
 }
 
 export default ItemInfoTab
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        alignItems: 'center'
+    },
+    webview: {
+        width: WIDTH - 32,
+        marginVertical: 16
+    },
+    baseInfoContainer: {
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingVertical: 24
+    },
+    baseInfoTitle: {
+        fontSize: 16
+    },
+    baseInfoContentContainer: {
+        marginTop: 16,
+        flexDirection: 'row'
+    },
+    baseInfoContentTitle: {
+        fontSize: 12,
+        color: GRAY,
+        width: 100,
+        marginRight: 16,
+        lineHeight: 16
+    },
+    baseInfoContent: {
+        fontSize: 12,
+        flex: 1,
+        lineHeight: 16
+    }
+})
