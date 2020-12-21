@@ -58,7 +58,7 @@ const ItemDetailInfo = () => {
             {rateNum > 0 && <View style={styles.rateInfoContainer} >
                 <RateStars
                     rate={rate}
-                    spacing={6}
+                    spacing={3}
                     starSize={12}
                 />
                 <BaseText style={styles.rateNum} >({rateNum})</BaseText>

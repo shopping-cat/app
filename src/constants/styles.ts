@@ -11,6 +11,7 @@ export const COLOR2 = '#35C5F0'
 export const GRAY = '#8B8B8B'
 export const VERY_LIGHT_GRAY = '#ECECEC'
 export const LIGHT_GRAY = '#C4C4C4'
+export const VERY_VERY_LIGHT_GRAY = '#F5F5F5'
 
 // RGB COLORS
 export const COLOR1_RGB = 'rgb(233, 160, 160)'

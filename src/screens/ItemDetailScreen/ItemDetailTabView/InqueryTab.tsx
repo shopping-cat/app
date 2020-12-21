@@ -37,7 +37,7 @@ const InqueryTab = () => {
                 onPress={onChat}
             >
                 <BaseText style={styles.chattingBtnText} >채팅으로 문의하기</BaseText>
-                <RightArrowIcon />
+                <RightArrowIcon fill='#fff' />
             </Pressable>
         </View>
     )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, ViewProps } from 'react-native'
+import { StyleSheet, View, ViewProps } from 'react-native'
 import { COLOR1, LIGHT_GRAY } from '../constants/styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
@@ -30,7 +30,7 @@ const RateStars: React.FC<RateStarRrops> = ({ rate, spacing, starSize, children,
     starList = [...starList, ...Array(5 - starList.length).fill('empty')]
 
     return (
-        <View style={styles.container} >
+        <View style={[styles.container, { width: (starSize * 5) + (spacing * 4) }]} >
             {starList.map((v, i) => {
                 switch (v) {
                     case 'fill':
@@ -47,7 +47,10 @@ const RateStars: React.FC<RateStarRrops> = ({ rate, spacing, starSize, children,
 
 RateStars.defaultProps = {
     emptyColor: LIGHT_GRAY,
-    fillColor: COLOR1
+    fillColor: COLOR1,
+    spacing: 0,
+    rate: 5,
+    starSize: 16
 }
 
 export default RateStars
@@ -55,6 +58,7 @@ export default RateStars
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-between'
     }
 })

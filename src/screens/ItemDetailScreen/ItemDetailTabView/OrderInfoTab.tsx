@@ -35,7 +35,7 @@ const OrderInfoTab = () => {
     return (
         <View style={styles.container} >
             {dummyOrderInfos.map(({ content, title }) =>
-                <View>
+                <View key={title} >
                     <BaseText style={styles.title} >{title}</BaseText>
                     <Hyperlink
                         linkStyle={{ color: COLOR2 }}
