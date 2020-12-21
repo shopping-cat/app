@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions, Theme, useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, { useEffect, useRef } from 'react';
+import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions, Theme } from '@react-navigation/native';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 
 
 import HomeScreen from './HomeScreen'
 import ItemDetailScreen from './ItemDetailScreen';
+import ItemReviewScreen from './ItemReviewScreen';
 import LoginScreen from './LoginScreen';
 import SearchScreen from './SearchScreen';
 import SearchDetailScreen from './SearchDetailScreen';
@@ -88,10 +89,12 @@ const Navigation = () => {
             <Stack.Navigator
                 initialRouteName='Login'
                 headerMode='none'
+                screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
             >
                 <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='Tab' component={TabNavigation} />
                 <Stack.Screen name='ItemDetail' component={ItemDetailScreen} />
+                <Stack.Screen name='ItemReview' component={ItemReviewScreen} />
                 <Stack.Screen name='Search' component={SearchScreen} />
                 <Stack.Screen name='SearchDetail' component={SearchDetailScreen} />
             </Stack.Navigator>

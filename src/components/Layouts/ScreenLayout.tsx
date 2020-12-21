@@ -1,6 +1,6 @@
 import React from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
+import { STATUSBAR_HEIGHT } from '../../constants/styles'
 
 const ScreenLayout: React.FC = ({ children }) => {
     return (
@@ -17,6 +17,6 @@ export default ScreenLayout
 const styles = StyleSheet.create({
     statusBarBackground: {
         width: '100%',
-        height: getStatusBarHeight()
+        height: STATUSBAR_HEIGHT
     }
 })

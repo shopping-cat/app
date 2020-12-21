@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { BackHandler, NativeEventSubscription, Pressable, StyleSheet, Text, View } from 'react-native'
 import { PanGestureHandler, State } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
-import { STATUSBAR_HEIGHT, WIDTH } from '../constants/styles'
+import { STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 
 const { set, cond, block, eq, clockRunning, Clock, spring, startClock, Value, stopClock, greaterThan, call, useCode, sub, not } = Animated
 

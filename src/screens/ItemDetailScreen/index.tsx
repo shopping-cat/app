@@ -81,6 +81,7 @@ const ItemDetail = () => {
                 />
             </Animated.ScrollView>
             <UpFab
+                defaultOpacity={0}
                 animation={scrollToTabViewTopTarget > 0}
                 scrollY={scrollY}
                 inputRange={[0, scrollToTabViewTopTarget, scrollToTabViewTopTarget + 50]}

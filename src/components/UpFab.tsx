@@ -9,16 +9,17 @@ interface UpFabProps {
     scrollY?: Animated.Value
     inputRange?: number[]
     animation?: boolean,
+    defaultOpacity?: number
 }
 
-const UpFab: React.FC<UpFabProps> = ({ onPress, style, scrollY, animation, inputRange }) => {
+const UpFab: React.FC<UpFabProps> = ({ onPress, style, scrollY, animation, inputRange, defaultOpacity }) => {
 
     const opacity = animation && inputRange && scrollY
-        ? scrollY?.interpolate({
+        ? scrollY.interpolate({
             inputRange,
             outputRange: [0, 0, 1]
         })
-        : 0
+        : defaultOpacity
 
     return (
         <Animated.View style={[{ opacity }, styles.container, style]}>
@@ -27,6 +28,10 @@ const UpFab: React.FC<UpFabProps> = ({ onPress, style, scrollY, animation, input
             </TouchableScale>
         </Animated.View>
     )
+}
+
+UpFab.defaultProps = {
+    defaultOpacity: 1
 }
 
 export default UpFab

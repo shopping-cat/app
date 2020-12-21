@@ -4,7 +4,7 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-nativ
 import BaseButton from '../../components/Buttons/BaseButton'
 import ItemCard from '../../components/Cards/ItemCard'
 import HomeHeader from '../../components/Headers/HomeHeader'
-import ScreenLayout from '../../components/Layout/ScreenLayout'
+import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { I_USER } from '../../graphql/auth'
 import { useItems } from '../../graphql/item'
 import useAuth from '../../hooks/useAuth'

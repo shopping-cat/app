@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BaseText from '../../components/BaseText';
-import BottomSheet from '../../components/BottomSheet';
+import BottomSheet from '../../components/BottomSheets/BottomSheet';
 import TouchableScale from '../../components/Buttons/TouchableScale';
 import NumberCounterMinusIcon from '../../components/Svgs/NumberCounterMinusIcon';
 import NumberCounterPlusIcon from '../../components/Svgs/NumberCounterPlusIcon';

@@ -53,7 +53,7 @@ const MoreReview = () => {
     const { navigate } = useNavigation()
 
     const onMoreReview = useCallback(() => {
-        navigate('Review')
+        navigate('ItemReview')
     }, [])
 
     return (

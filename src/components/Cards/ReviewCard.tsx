@@ -16,7 +16,7 @@ const reviewContent = '빠른 배송! 조립은 30분 정도 걸린 것 같아�
 const reviewRecommendNum = 5
 type recommendStateType = 'none' | 'liked' | 'unliked'
 
-const ReviewCard = () => {
+const ReviewCard: React.FC<any> = () => {
 
     const [recommendState, setRecommendState] = useState<recommendStateType>('none')
     const isLiked = recommendState === 'liked'
