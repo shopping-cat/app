@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
-import { COLOR1 } from '../../constants/styles'
+import { COLOR1, GRAY, LIGHT_COLOR1 } from '../../constants/styles'
 import BaseButton from '../Buttons/BaseButton'
 import BaseText from '../BaseText'
 const HomeHeader = () => {
@@ -26,8 +26,8 @@ const HomeHeader = () => {
                 onPress={onSearch}
                 style={styles.inputContainer}
             >
-                <Icon2 name='search' size={16} style={{ marginRight: 8 }} />
-                <BaseText>검색어를 입력해주세요!</BaseText>
+                <Icon2 name='search' color={GRAY} size={16} style={{ marginRight: 8 }} />
+                <BaseText style={styles.inputText} >검색어를 입력해주세요!</BaseText>
             </Pressable>
             <BaseButton
                 onPress={onCart}
@@ -61,11 +61,13 @@ const styles = StyleSheet.create({
     inputContainer: {
         flex: 1,
         height: 32,
-        backgroundColor: COLOR1,
-        opacity: 0.3,
+        backgroundColor: LIGHT_COLOR1,
         borderRadius: 16,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16
+    },
+    inputText: {
+        color: GRAY
     }
 })

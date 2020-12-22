@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { GRAY } from '../constants/styles'
+import { GRAY, LIGHT_GRAY } from '../constants/styles'
 import useSearchKeyword from '../hooks/useSearchKeyword'
+import BaseText from './BaseText'
 import BaseButton from './Buttons/BaseButton'
 
 interface KeywordListProps {
@@ -20,7 +21,7 @@ const KeywordListItem: React.FC<KeywordListItemProps> = ({ keyword, onPress }) =
             style={styles.itemContainer}
             onPress={() => onPress(keyword)}
         >
-            <Text numberOfLines={1} style={styles.keyword} >{keyword}</Text>
+            <BaseText numberOfLines={1} style={styles.keyword} >{keyword}</BaseText>
         </BaseButton>
     )
 }

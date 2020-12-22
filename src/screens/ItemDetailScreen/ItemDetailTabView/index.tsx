@@ -17,10 +17,10 @@ interface ItemDetailTabViewProps {
 const ItemDetailTabView: React.FC<ItemDetailTabViewProps> = ({ index, onIndexChange }) => {
 
     const [tabViewRoutes] = useState([
-        { key: 'itemInfo', title: '상품정보' },
-        { key: 'review', title: '리뷰' },
-        { key: 'orderInfo', title: '주문정보' },
-        { key: 'inquery', title: '문의' },
+        { key: 'itemInfo' },
+        { key: 'review' },
+        { key: 'orderInfo' },
+        { key: 'inquery' }
     ])
 
     const renderScene = SceneMap({

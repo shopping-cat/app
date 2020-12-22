@@ -3,10 +3,13 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseButton from '../Buttons/BaseButton'
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
-import { COLOR1, GRAY } from '../../constants/styles'
+import { COLOR1, GRAY, LIGHT_COLOR1 } from '../../constants/styles'
 import { useNavigation } from '@react-navigation/native'
 import useSearchKeyword from '../../hooks/useSearchKeyword'
 import useRecentSearchKeywords from '../../hooks/useRecentSearchKeywords'
+import BackArrowIcon from '../Svgs/BackArrowIcon'
+import BaseText from '../BaseText'
+import CloseIcon from '../Svgs/CloseIcon'
 
 interface SearchHeaderProps {
     editable?: boolean
@@ -32,18 +35,19 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ editable }) => {
 
     return (
         <View style={styles.container} >
-            <BaseButton
+            <Pressable
                 onPress={goBack}
                 style={styles.backContainer}
             >
-                <Icon name='arrow-left' size={24} color={COLOR1} />
-            </BaseButton>
+                <BackArrowIcon fill={COLOR1} />
+            </Pressable>
             <View
                 style={styles.inputContainer}
             >
-                <Icon2 name='search' size={16} color='#00000076' />
+                <Icon2 name='search' size={16} color={GRAY} />
                 {editable ?
                     <TextInput
+                        placeholder='검색어를 입력해주세요!'
                         editable={editable}
                         style={styles.input}
                         maxLength={100}
@@ -51,20 +55,21 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ editable }) => {
                         value={searchKeyword}
                         onChangeText={onChange}
                         autoFocus={editable}
+                        placeholderTextColor={GRAY}
                     />
                     :
                     <Pressable
                         onPress={goBack}
                         style={styles.keywordContainer}
                     >
-                        <Text numberOfLines={1}>{searchKeyword}</Text>
+                        <BaseText numberOfLines={1}>{searchKeyword}</BaseText>
                     </Pressable>
                 }
                 <Pressable
                     onPress={onClearBtn}
                     style={styles.inputClearBtn}
                 >
-                    <Icon2 name='clear' size={12} color={GRAY} />
+                    <CloseIcon />
                 </Pressable>
             </View>
         </View>
@@ -97,14 +102,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 16,
-        backgroundColor: COLOR1 + '76',
+        backgroundColor: LIGHT_COLOR1,
         borderRadius: 16
     },
     input: {
         flex: 1,
         paddingHorizontal: 10,
         color: '#000',
-        paddingVertical: 0
+        paddingVertical: 0,
+        fontFamily: 'BMJUA'
     },
     keywordContainer: {
         flex: 1,

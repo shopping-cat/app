@@ -77,7 +77,6 @@ const ItemInfoTab = () => {
         setHeight(Number(event.nativeEvent.data) * WIDTH / 980)
     }, [])
 
-
     return (
         <View style={styles.container} >
             <WebView
@@ -85,12 +84,10 @@ const ItemInfoTab = () => {
                 style={[styles.webview, { height }]}
                 onMessage={onWebViewMessage}
                 injectedJavaScript='setTimeout(() => { window.ReactNativeWebView.postMessage(document.body.scrollHeight) }, 500)'
-                originWhitelist={['*']}
-                scalesPageToFit
+                showsVerticalScrollIndicator={false}
+                cacheEnabled={true}
                 startInLoadingState={true}
                 scrollEnabled={false}
-                mixedContentMode="always"
-                automaticallyAdjustContentInsets={false}
             />
             <ThinLine />
             <View style={styles.baseInfoContainer} >

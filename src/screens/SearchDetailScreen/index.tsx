@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import BaseButton from '../../components/Buttons/BaseButton'
 import ItemCard from '../../components/Cards/ItemCard'
 import SearchHeader from '../../components/Headers/SearchHeader'
+import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { GRAY } from '../../constants/styles'
 import { useSearch } from '../../graphql/search'
 
@@ -21,36 +22,36 @@ const SearchDetailScreen = () => {
     const { params } = useRoute<Route<'SearchDetail', RouteParams>>()
     const [refreshing, setRefresing] = useState(false)
     const [orderBy, setOrderBy] = useState<OrderBy>('Popular')
-    const { data, refetch } = useSearch({ variables: { orderBy, keyword: params.searchKeyword } })
+    // const { data, refetch } = useSearch({ variables: { orderBy, keyword: params.searchKeyword } })
 
-    const onRefresh = useCallback(async () => {
-        try {
-            if (refreshing) return
-            setRefresing(true)
-            await refetch()
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setRefresing(false)
-        }
-    }, [refreshing, refetch])
+    // const onRefresh = useCallback(async () => {
+    //     try {
+    //         if (refreshing) return
+    //         setRefresing(true)
+    //         await refetch()
+    //     } catch (error) {
+    //         console.log(error)
+    //     } finally {
+    //         setRefresing(false)
+    //     }
+    // }, [refreshing, refetch])
 
     return (
-        <View>
+        <ScreenLayout>
             <SearchHeader editable={false} />
             <View style={styles.orderSelector} >
                 {ORDER_BY_LIST.map(v => <BaseButton key={v} onPress={() => setOrderBy(v)} style={styles.orderBtn} ><Text style={{ color: v === orderBy ? '#000' : GRAY }}>{v}</Text></BaseButton>)}
             </View>
-            <FlatList
-                onRefresh={onRefresh}
+            {/* <FlatList
+                // onRefresh={onRefresh}
                 refreshing={refreshing}
                 style={{ paddingHorizontal: 16 }}
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
                 data={data?.search?.items || []}
                 renderItem={({ item }) => <ItemCard {...item} />}
-            />
-        </View >
+            /> */}
+        </ScreenLayout >
     )
 }
 

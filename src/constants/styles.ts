@@ -7,6 +7,7 @@ export const STATUSBAR_HEIGHT = getStatusBarHeight()
 
 // HEX COLORS
 export const COLOR1 = '#E9A0A0'
+export const LIGHT_COLOR1 = '#FAE7E7'
 export const COLOR2 = '#35C5F0'
 export const GRAY = '#8B8B8B'
 export const VERY_LIGHT_GRAY = '#ECECEC'

@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
+import BaseText from '../../components/BaseText'
 import SearchHeader from '../../components/Headers/SearchHeader'
 import KeywordList from '../../components/KeywordList'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import { LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import useRecentSearchKeywords from '../../hooks/useRecentSearchKeywords'
 import useSearchKeyword from '../../hooks/useSearchKeyword'
+
+const dummyRecentSearchKeywords = ['츄르', '장난감', '사료', '레이저 장난감']
 
 const SearchScreen = () => {
 
@@ -22,13 +25,21 @@ const SearchScreen = () => {
             <SearchHeader />
             <View style={styles.recentKeywordsContainer} >
                 <View style={styles.recentKeywordsHeader} >
-                    <Text style={styles.recentKeywordHeaderText} >Recent Keywords</Text>
+                    <BaseText style={styles.recentKeywordHeaderText} >최근 검색어</BaseText>
                     <Pressable onPress={removeAllRecentSearchKeywords} >
-                        <Text style={styles.recentKeywordHeaderText} >Remove all</Text>
+                        <BaseText style={styles.recentKeywordHeaderText} >전체삭제</BaseText>
                     </Pressable>
                 </View>
                 <KeywordList
-                    data={recentSearchKeywords.map((keyword) => keyword) || []}
+                    data={dummyRecentSearchKeywords.map((keyword) => keyword) || []}
+                />
+            </View>
+            <View style={styles.popularKeywordsContainer} >
+                <View style={styles.popularKeywordsHeader} >
+                    <BaseText style={styles.popularKeywordHeaderText} >인기 검색어</BaseText>
+                </View>
+                <KeywordList
+                    data={dummyRecentSearchKeywords.map((keyword) => keyword) || []}
                 />
             </View>
         </ScreenLayout>
@@ -50,6 +61,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16
     },
     recentKeywordHeaderText: {
-        color: LIGHT_GRAY
-    }
+        color: GRAY
+    },
+    popularKeywordsContainer: {
+
+    },
+    popularKeywordsHeader: {
+        height: 48,
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16
+    },
+    popularKeywordHeaderText: {
+        color: GRAY
+    },
 })
