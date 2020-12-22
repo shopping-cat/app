@@ -2,11 +2,15 @@ import React from 'react'
 import { StatusBar, StyleSheet, Text, View } from 'react-native'
 import { STATUSBAR_HEIGHT } from '../../constants/styles'
 
-const ScreenLayout: React.FC = ({ children }) => {
+interface ScreenLayoutProps {
+    disableStatusbarHeight?: boolean
+}
+
+const ScreenLayout: React.FC<ScreenLayoutProps> = ({ children, disableStatusbarHeight }) => {
     return (
         <View style={{ flex: 1 }} >
-            <StatusBar translucent barStyle='dark-content' />
-            <View style={styles.statusBarBackground} />
+            <StatusBar translucent backgroundColor={disableStatusbarHeight && 'transparent'} barStyle='dark-content' />
+            {!disableStatusbarHeight && <View style={styles.statusBarBackground} />}
             {children}
         </View>
     )
