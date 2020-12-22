@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import BaseText from '../BaseText'
 import TouchableScale from '../Buttons/TouchableScale'
@@ -88,24 +89,24 @@ const ReviewCard: React.FC<any> = () => {
             <BaseText style={styles.content} > {reviewContent}</BaseText>
             <BaseText style={styles.reviewRecommendNum} >{reviewRecommendNum}명에게 도움됐습니다</BaseText>
             <View style={styles.recommendContainer} >
-                <TouchableScale
+                <Pressable
                     onPress={onLike}
                     style={[styles.recommendBtn, {
                         backgroundColor: isLiked ? COLOR1 : '#fff',
                         borderWidth: isLiked ? 0 : 1
                     }]}
                 >
-                    <LikeIcon fill={isLiked ? '#fff' : GRAY} />
-                </TouchableScale>
-                <TouchableScale
+                    <Icon name='thumb-up-outline' color={isLiked ? '#fff' : GRAY} size={24} />
+                </Pressable>
+                <Pressable
                     onPress={onUnlike}
                     style={[styles.recommendBtn, {
                         backgroundColor: isUnliked ? COLOR1 : '#fff',
                         borderWidth: isUnliked ? 0 : 1
                     }]}
                 >
-                    <LikeIcon isUnlike fill={isUnliked ? '#fff' : GRAY} />
-                </TouchableScale>
+                    <Icon name='thumb-down-outline' color={isUnliked ? '#fff' : GRAY} size={24} />
+                </Pressable>
                 <Pressable style={styles.report} onPress={onReport} >
                     <BaseText style={styles.report} >신고하기</BaseText>
                 </Pressable>

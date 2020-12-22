@@ -39,6 +39,7 @@ const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy }) => {
             <TouchableScale
                 onPress={onBigBuy}
                 style={[styles.bigBuyContainer, { backgroundColor: isSale ? COLOR1 : LIGHT_GRAY }]}
+                contianerStyle={styles.bigBuyTouchableContainer}
                 targetScale={0.9}
             >
                 <BaseText style={styles.bigBuyText} >구매하기</BaseText>
@@ -67,10 +68,15 @@ const styles = StyleSheet.create({
     likeNumText: {
         marginTop: 4
     },
-    bigBuyContainer: {
+    bigBuyTouchableContainer: {
         flex: 1,
         height: 48,
         marginRight: 16,
+        borderRadius: 12,
+    },
+    bigBuyContainer: {
+        flex: 1,
+        height: 48,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center'

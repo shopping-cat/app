@@ -214,6 +214,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
                                     styles.footerCartBtn,
                                     { backgroundColor: isSelectedOption ? '#fff' : LIGHT_GRAY }
                                 ]}
+                                contianerStyle={styles.footerCartBtnTouchableContainer}
                                 targetScale={0.8}
                             >
                                 <BaseText
@@ -233,6 +234,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
                                     styles.footerBuyBtn,
                                     { backgroundColor: isSelectedOption ? COLOR1 : LIGHT_GRAY }
                                 ]}
+                                contianerStyle={styles.footerBuyBtnTouchableContainer}
                                 targetScale={0.8}
                             >
                                 <BaseText
@@ -296,11 +298,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    footerCartBtnTouchableContainer: {
+        flex: 1
+    },
     footerBuyBtn: {
         flex: 1,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    footerBuyBtnTouchableContainer: {
+        flex: 1
     },
     footerBtnText: {
         fontSize: 20
