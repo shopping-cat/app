@@ -1,5 +1,5 @@
 import { Route, useRoute } from '@react-navigation/native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import BaseText from '../../components/BaseText'
@@ -28,6 +28,7 @@ const dummySearchResultNum = 320
 
 const SearchDetailScreen = () => {
 
+    const flatlistRef = useRef<FlatList>(null)
     const { params } = useRoute<Route<'SearchDetail', RouteParams>>()
     const { bottom } = useSafeAreaInsets()
     const [category, setCategory] = useState(null)
@@ -46,12 +47,13 @@ const SearchDetailScreen = () => {
             <SearchHeader editable={false} />
             <CategorySelector />
             <FlatList
+                ref={flatlistRef}
                 overScrollMode='never'
                 showsVerticalScrollIndicator={false}
                 data={Array(10).fill(1).map((v, i) => ({ id: i }))}
                 renderItem={({ item }) => <ItemCardAThird {...item} />}
                 numColumns={3}
-                style={styles.flatlist}
+                columnWrapperStyle={styles.flatlistColumnWrapper}
                 ListHeaderComponent={
                     <Pressable
                         onPress={onSort}
@@ -66,7 +68,7 @@ const SearchDetailScreen = () => {
                 }
             />
             <UpFab
-                onPress={() => { }}
+                onPress={() => flatlistRef.current?.scrollToOffset({ offset: 0 })}
                 animation={false}
                 style={{ marginBottom: bottom }}
             />
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    flatlist: {
+    flatlistColumnWrapper: {
         paddingLeft: 8
     },
     sortBtnContainer: {
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingLeft: 8, // flatlist 전체에 8을 줘서 8만 더 주면됨
+        paddingLeft: 16,
         paddingRight: 16
     },
     sortText: {

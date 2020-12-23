@@ -8,10 +8,11 @@ import BaseText from '../BaseText'
 import BackArrowIcon from '../Svgs/BackArrowIcon'
 
 interface DefaultHeaderProps {
-    title: string
+    title?: string
+    underLine?: boolean
 }
 
-const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title }) => {
+const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine }) => {
 
     const { canGoBack, goBack, navigate } = useNavigation()
 
@@ -24,7 +25,7 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title }) => {
     }, [])
 
     return (
-        <View style={styles.container} >
+        <View style={[styles.container, { borderBottomWidth: underLine ? 1 : 0 }]} >
             {canGoBack &&
                 <Pressable onPress={goBack} style={styles.btn} >
                     <BackArrowIcon fill={GRAY} />
@@ -43,6 +44,10 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title }) => {
     )
 }
 
+DefaultHeader.defaultProps = {
+    underLine: true
+}
+
 export default DefaultHeader
 
 const styles = StyleSheet.create({
@@ -51,8 +56,7 @@ const styles = StyleSheet.create({
         height: 56,
         flexDirection: 'row',
         alignItems: 'center',
-        borderBottomColor: VERY_LIGHT_GRAY,
-        borderBottomWidth: 1
+        borderBottomColor: VERY_LIGHT_GRAY
     },
     btn: {
         width: 56,

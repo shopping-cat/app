@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 interface RateStarRrops {
     rate: number
-    starSize: number
-    spacing: number
+    starSize?: number
+    spacing?: number
     fillColor?: string
     emptyColor?: string
 }
