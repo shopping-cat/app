@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -19,6 +20,7 @@ type recommendStateType = 'none' | 'liked' | 'unliked'
 
 const ReviewCard: React.FC<any> = () => {
 
+    const { navigate } = useNavigation()
     const [recommendState, setRecommendState] = useState<recommendStateType>('none')
     const isLiked = recommendState === 'liked'
     const isUnliked = recommendState === 'unliked'
@@ -42,8 +44,8 @@ const ReviewCard: React.FC<any> = () => {
 
     }, [])
 
-    const onImage = useCallback(() => { // 이미지 확대해서 보여주기
-
+    const onImage = useCallback((index: number) => { // 이미지 확대해서 보여주기
+        navigate('ImageView', { index, images: reviewImages })
     }, [])
 
 
@@ -74,9 +76,9 @@ const ReviewCard: React.FC<any> = () => {
                     showsHorizontalScrollIndicator={false}
                     ListHeaderComponent={<View style={{ width: 16 }} />}
                     ListFooterComponent={<View style={{ width: 12 }} />} // image component에 marginRight 4 가 있으니깐 12만
-                    renderItem={({ item }) =>
+                    renderItem={({ item, index }) =>
                         <Pressable
-                            onPress={onImage}
+                            onPress={() => onImage(index)}
                         >
                             <Image
                                 source={{ uri: item }}
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
         right: 0
     },
     endLine: {
-        width: 112,
+        width: 56 + 56 + 16,
         height: 1,
         backgroundColor: VERY_LIGHT_GRAY,
         borderRadius: 1,

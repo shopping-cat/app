@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, StyleSheet, Text, View } from 'react-native'
 import { WIDTH } from '../constants/styles'
 
 interface ImageCarouselProps {
@@ -8,6 +9,7 @@ interface ImageCarouselProps {
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
 
+    const { navigate } = useNavigation()
     const [targetIndex, setTargetIndex] = useState(0)
 
     const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -25,11 +27,15 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
                 scrollEventThrottle={16}
                 onScroll={onScroll}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) =>
-                    <Image
-                        style={styles.image}
-                        source={{ uri: item }}
-                    />
+                renderItem={({ item, index }) =>
+                    <Pressable
+                        onPress={() => navigate('ImageView', { images, index })}
+                    >
+                        <Image
+                            style={styles.image}
+                            source={{ uri: item }}
+                        />
+                    </Pressable>
                 }
             />
             {/* indicator */}

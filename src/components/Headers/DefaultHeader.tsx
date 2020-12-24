@@ -25,7 +25,7 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine }) => {
     }, [])
 
     return (
-        <View style={[styles.container, { borderBottomWidth: underLine ? 1 : 0 }]} >
+        <View style={styles.container} >
             {canGoBack &&
                 <Pressable onPress={goBack} style={styles.btn} >
                     <BackArrowIcon fill={GRAY} />
@@ -40,6 +40,7 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine }) => {
             <Pressable onPress={onCart} style={styles.btn} >
                 <Icon name='cart-outline' size={24} color={COLOR1} />
             </Pressable>
+            <View style={[styles.underLine, { backgroundColor: underLine ? VERY_LIGHT_GRAY : undefined }]} />
         </View>
     )
 }
@@ -55,8 +56,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 56,
         flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomColor: VERY_LIGHT_GRAY
+        alignItems: 'center'
     },
     btn: {
         width: 56,
@@ -66,9 +66,16 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         flex: 1,
-        paddingLeft: 20
+        paddingLeft: 16
     },
     title: {
         fontSize: 20
+    },
+    underLine: {
+        height: 1,
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        left: 0
     }
 })

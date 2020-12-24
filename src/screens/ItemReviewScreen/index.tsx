@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import BaseText from '../../components/BaseText'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
@@ -32,6 +32,7 @@ const ItemReviewScreen = () => {
     const onFab = useCallback(() => {
         flatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
     }, [])
+
 
     return (
         <ScreenLayout>
