@@ -1,7 +1,6 @@
 import { Route, useRoute } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
-import ImageViewer from 'react-native-image-zoom-viewer';
 import { COLOR1, GRAY, STATUSBAR_HEIGHT, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import DefaultHeader from '../../components/Headers/DefaultHeader';
 import ScreenLayout from '../../components/Layouts/ScreenLayout';
@@ -21,6 +20,10 @@ const ImageViewScreen = () => {
     const imageViewRef = useRef<FlatList>(null)
 
     const [index, setIndex] = useState(params.index || 0)
+
+    useEffect(() => {
+        imageViewRef.current?.scrollToOffset({ offset: WIDTH * index, animated: false })
+    }, [])
 
     useEffect(() => {
         footerFlatlistRef.current?.scrollToOffset({ offset: 56 * index })
