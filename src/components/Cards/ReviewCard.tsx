@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
+import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
 import TouchableScale from '../Buttons/TouchableScale'
 import RateStars from '../RateStars'
@@ -15,7 +16,7 @@ const option = '딱해먹 고양이 구름다리 벽걸이 캣타워 (옵션 : �
 const date = '2020.05.18'
 const reviewImages = ['https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b', 'https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b', 'https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b', 'https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b']
 const reviewContent = '빠른 배송! 조립은 30분 정도 걸린 것 같아요 여자 혼자 가능합니다 원목 상태나 마무리 상태도 너무 좋아요 우리집 텐텐 통통이 너무 좋아합니다! 저희집 천장이 낮아서 캣폴 설치되는 상품이 많이없어서 정말 한참을 찾다가 그린웨일을 알게 되었는데 상담도 잘 해주시고 설치 방법도 잘 설명해주셨어요! 너무 감사합니다!'
-const reviewRecommendNum = 5
+const reviewRecommendNum = 5123
 type recommendStateType = 'none' | 'liked' | 'unliked'
 
 const ReviewCard: React.FC<any> = () => {
@@ -88,8 +89,8 @@ const ReviewCard: React.FC<any> = () => {
                     }
                 />
             </View>
-            <BaseText style={styles.content} > {reviewContent}</BaseText>
-            <BaseText style={styles.reviewRecommendNum} >{reviewRecommendNum}명에게 도움됐습니다</BaseText>
+            <BaseText style={styles.content} >{reviewContent}</BaseText>
+            <BaseText style={styles.reviewRecommendNum} >{moneyFormat(reviewRecommendNum)}명에게 도움됐습니다</BaseText>
             <View style={styles.recommendContainer} >
                 <Pressable
                     onPress={onLike}

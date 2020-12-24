@@ -4,8 +4,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseText from '../../components/BaseText'
 import TouchableScale from '../../components/Buttons/TouchableScale'
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import numberToKoreanUnit from '../../lib/numberToKoreanUnit'
 
 const isSale = true
+const likes = 4100
 
 interface ItemDetailFooter {
     onBuy: () => void
@@ -34,7 +36,7 @@ const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy }) => {
                     ? <Icon name='heart' size={24} color={COLOR1} />
                     : <Icon name='heart-outline' size={24} color={GRAY} />
                 }
-                <BaseText style={[styles.likeNumText, { color: liked ? COLOR1 : GRAY }]} >4.1천</BaseText>
+                <BaseText style={[styles.likeNumText, { color: liked ? COLOR1 : GRAY }]} >{numberToKoreanUnit(likes)}</BaseText>
             </TouchableScale>
             <TouchableScale
                 onPress={onBigBuy}

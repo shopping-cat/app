@@ -16,7 +16,7 @@ const isSale = true
 const price = 49000
 const sellingPrice = 38750
 const rate = 4.73
-const rateNum = 235
+const rateNum = 2352
 
 const ItemDetailInfo = () => {
 
@@ -61,7 +61,7 @@ const ItemDetailInfo = () => {
                     spacing={3}
                     starSize={12}
                 />
-                <BaseText style={styles.rateNum} >({rateNum})</BaseText>
+                <BaseText style={styles.rateNum} >({moneyFormat(rateNum)})</BaseText>
             </View>}
         </View>
     )

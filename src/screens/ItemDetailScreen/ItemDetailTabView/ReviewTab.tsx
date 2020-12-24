@@ -6,9 +6,10 @@ import ReviewCard from '../../../components/Cards/ReviewCard'
 import RateStars from '../../../components/RateStars'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../../constants/styles'
+import moneyFormat from '../../../lib/moneyFormat'
 
 const dummyRate = 4.2
-const dummyReviewNum = 234
+const dummyReviewNum = 2343
 const dummyReviews = [
     {
         id: 1
@@ -61,7 +62,7 @@ const MoreReview = () => {
             onPress={onMoreReview}
             style={styles.moreReviewContainer}
         >
-            <BaseText style={styles.moreReviewText} >{dummyReviewNum}개의 리뷰 전체보기</BaseText>
+            <BaseText style={styles.moreReviewText} >{moneyFormat(dummyReviewNum)}개의 리뷰 전체보기</BaseText>
             <RightArrowIcon fill={GRAY} />
         </Pressable>
     )

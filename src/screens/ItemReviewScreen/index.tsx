@@ -10,10 +10,11 @@ import RateStars from '../../components/RateStars'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import UpFab from '../../components/UpFab'
 import { GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../constants/styles'
+import moneyFormat from '../../lib/moneyFormat'
 
 const dummyRate = 4.3
 const dummyReviews = ['1', '2', '3', '4', '5'].map(v => ({ id: v }))
-const dummyReviewNum = 234
+const dummyReviewNum = 2342
 const sortList = ['추천순', '최신순']
 
 const ItemReviewScreen = () => {
@@ -57,7 +58,7 @@ const ItemReviewScreen = () => {
                             onPress={onSort}
                             style={styles.reviewNumSortContainer}
                         >
-                            <BaseText style={styles.reviewNum} >{dummyReviewNum}개의 리뷰</BaseText>
+                            <BaseText style={styles.reviewNum} >{moneyFormat(dummyReviewNum)}개의 리뷰</BaseText>
                             <View style={styles.sortContainer} >
                                 <BaseText style={styles.sort} >{sort}</BaseText>
                                 <DownArrowIcon />
