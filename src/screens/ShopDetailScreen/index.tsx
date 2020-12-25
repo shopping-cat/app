@@ -37,7 +37,7 @@ const ShopDetailScreen = () => {
     }, [])
 
     const onChat = useCallback(() => {
-        navigate('Chat')
+        navigate('ShopChat', { name: dummyShopName })
     }, [])
 
     const onScroll = useCallback(({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {

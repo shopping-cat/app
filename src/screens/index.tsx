@@ -12,6 +12,7 @@ import LoginScreen from './LoginScreen';
 import SearchScreen from './SearchScreen';
 import SearchDetailScreen from './SearchDetailScreen';
 import ShopDetailScreen from './ShopDetailScreen';
+import ShopChatScreen from './ShopChatScreen';
 import ImageViewScreen from './ImageViewScreen';
 
 
@@ -100,6 +101,7 @@ const Navigation = () => {
                 <Stack.Screen name='Search' component={SearchScreen} />
                 <Stack.Screen name='SearchDetail' component={SearchDetailScreen} />
                 <Stack.Screen name='ShopDetail' component={ShopDetailScreen} />
+                <Stack.Screen name='ShopChat' component={ShopChatScreen} />
                 <Stack.Screen name='ImageView' component={ImageViewScreen} />
             </Stack.Navigator>
         </NavigationContainer>

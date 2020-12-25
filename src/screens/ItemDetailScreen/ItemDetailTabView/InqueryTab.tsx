@@ -1,17 +1,18 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import { BaseButton } from 'react-native-gesture-handler'
 import BaseText from '../../../components/BaseText'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { COLOR1, GRAY, LIGHT_GRAY } from '../../../constants/styles'
+
+const dummyShopName = '아이러브캣'
 
 const InqueryTab = () => {
 
     const { navigate } = useNavigation()
 
     const onChat = useCallback(() => {
-        navigate('Chat')
+        navigate('ShopChat', { name: dummyShopName })
     }, [])
 
     return (
