@@ -6,6 +6,7 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, GRAY, LIGHT_COLOR1 } from '../../constants/styles'
 import BaseButton from '../Buttons/BaseButton'
 import BaseText from '../BaseText'
+import CartButton from '../Buttons/CartButton'
 const HomeHeader = () => {
 
     const { navigate } = useNavigation()
@@ -29,12 +30,7 @@ const HomeHeader = () => {
                 <Icon2 name='search' color={GRAY} size={16} style={{ marginRight: 8 }} />
                 <BaseText style={styles.inputText} >검색어를 입력해주세요!</BaseText>
             </Pressable>
-            <BaseButton
-                onPress={onCart}
-                style={styles.cart}
-            >
-                <Icon name='cart-outline' color={COLOR1} size={24} />
-            </BaseButton>
+            <CartButton />
         </View>
     )
 }
@@ -51,12 +47,6 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         marginHorizontal: 16,
-    },
-    cart: {
-        width: 56,
-        height: 56,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     inputContainer: {
         flex: 1,

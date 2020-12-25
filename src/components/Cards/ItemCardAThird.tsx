@@ -11,7 +11,7 @@ const isFreeDelivery = true
 const isNew = true
 const itemName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
 const isILiked = true
-const sale = null
+const sale = 25
 const salePrice = 75600
 
 const width = (WIDTH - 64) / 3

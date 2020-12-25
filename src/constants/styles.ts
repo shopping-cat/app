@@ -16,6 +16,7 @@ export const VERY_VERY_LIGHT_GRAY = '#F5F5F5'
 
 // RGB COLORS
 export const COLOR1_RGB = 'rgb(233, 160, 160)'
+export const COLOR2_RGB = 'rgb(53, 197, 240)'
 export const GRAY_RGB = 'rgb(139, 139, 139)'
 
 // RGB BASIC

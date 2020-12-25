@@ -2,10 +2,12 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { StyleSheet, View, Animated, StatusBar } from 'react-native'
 import BaseButton from '../Buttons/BaseButton'
-import { COLOR1, COLOR1_RGB, GRAY, GRAY_RGB, STATUSBAR_HEIGHT, WIDTH, WITHE_RGB } from '../../constants/styles'
+import { COLOR1, COLOR1_RGB, COLOR2_RGB, GRAY, GRAY_RGB, STATUSBAR_HEIGHT, WIDTH, WITHE_RGB } from '../../constants/styles'
 import BackArrowIcon from '../../components/Svgs/BackArrowIcon'
 import CartIcon from '../Svgs/CartIcon'
 import LinearGradient from 'react-native-linear-gradient'
+import BaseText from '../BaseText'
+import CartButton from '../Buttons/CartButton'
 
 interface ItemDetailHeaderProps {
     scrollY: Animated.Value
@@ -17,15 +19,11 @@ const HeaderHeight = 56 + STATUSBAR_HEIGHT
 
 const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY, itemDetailInfoHeight }) => {
 
-    const { goBack, navigate } = useNavigation()
+    const { goBack } = useNavigation()
 
     const startPos = WIDTH - HeaderHeight
     const endPos = itemDetailInfoHeight - HeaderHeight
     const inputRange = [0, startPos, startPos > endPos ? startPos : endPos]
-
-    const onCart = useCallback(() => {
-        navigate('Cart')
-    }, [])
 
     const titleInterpolate = scrollY.interpolate({
         inputRange,
@@ -74,12 +72,7 @@ const ItemDetailHeader: React.FC<ItemDetailHeaderProps> = ({ scrollY, itemDetail
                     {'상품정보'}
                 </Animated.Text>
             </View>
-            <BaseButton
-                onPress={onCart}
-                style={styles.cartContainer}
-            >
-                <CartIcon fill={cartInterpolate} />
-            </BaseButton>
+            <CartButton color={cartInterpolate} />
         </View>
     )
 }

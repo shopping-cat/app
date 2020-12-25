@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import BaseText from '../BaseText'
+import CartButton from '../Buttons/CartButton'
 import BackArrowIcon from '../Svgs/BackArrowIcon'
 
 interface DefaultHeaderProps {
@@ -20,9 +20,6 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine }) => {
         navigate('Search')
     }, [])
 
-    const onCart = useCallback(() => {
-        navigate('Cart')
-    }, [])
 
     return (
         <View style={styles.container} >
@@ -37,9 +34,7 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine }) => {
             <Pressable onPress={onSearch} style={styles.btn} >
                 <Icon2 name='search' size={24} color={COLOR1} />
             </Pressable>
-            <Pressable onPress={onCart} style={styles.btn} >
-                <Icon name='cart-outline' size={24} color={COLOR1} />
-            </Pressable>
+            <CartButton />
             <View style={[styles.underLine, { backgroundColor: underLine ? VERY_LIGHT_GRAY : undefined }]} />
         </View>
     )
