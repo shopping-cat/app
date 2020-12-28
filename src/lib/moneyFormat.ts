@@ -7,7 +7,7 @@ const moneyFormat = (money: number, sign = false): string => {
             if (i > 0 && i % 3 === 0) str += ','
             str += v
         }
-        if (sign) str += signTemp
+        if (sign || money < 0) str += signTemp
         return str.split('').reverse().join('')
     } catch (error) {
         console.log(error)

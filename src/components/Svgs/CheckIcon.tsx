@@ -1,7 +1,12 @@
 import React from 'react'
 import Svg, { Path } from 'react-native-svg'
+import { COLOR1 } from '../../constants/styles'
 
-const CheckIcon = () => {
+interface CheckIconProps {
+    fill?: string
+}
+
+const CheckIcon: React.FC<CheckIconProps> = ({ fill }) => {
     return (
         <Svg
             width={13.393}
@@ -11,13 +16,17 @@ const CheckIcon = () => {
             <Path
                 d="M1.415 4.243L5.283 8.11l6.7-6.7"
                 fill="none"
-                stroke="#e9a0a0"
+                stroke={fill}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
             />
         </Svg>
     )
+}
+
+CheckIcon.defaultProps = {
+    fill: COLOR1
 }
 
 export default CheckIcon

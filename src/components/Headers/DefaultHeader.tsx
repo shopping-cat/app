@@ -10,9 +10,10 @@ import BackArrowIcon from '../Svgs/BackArrowIcon'
 interface DefaultHeaderProps {
     title?: string
     underLine?: boolean
+    disableBtns?: boolean
 }
 
-const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine }) => {
+const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine, disableBtns }) => {
 
     const { canGoBack, goBack, navigate } = useNavigation()
 
@@ -31,10 +32,12 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine }) => {
             <View style={styles.titleContainer} >
                 <BaseText style={styles.title} >{title}</BaseText>
             </View>
-            <Pressable onPress={onSearch} style={styles.btn} >
-                <Icon2 name='search' size={24} color={COLOR1} />
-            </Pressable>
-            <CartButton />
+            {!disableBtns && <>
+                <Pressable onPress={onSearch} style={styles.btn} >
+                    <Icon2 name='search' size={24} color={COLOR1} />
+                </Pressable>
+                <CartButton />
+            </>}
             <View style={[styles.underLine, { backgroundColor: underLine ? VERY_LIGHT_GRAY : undefined }]} />
         </View>
     )
