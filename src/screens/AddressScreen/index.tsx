@@ -14,16 +14,16 @@ import useInput from '../../hooks/useInput'
 const AddressScreen = () => {
 
     const { navigate } = useNavigation()
-    const [postalCode, setPostalCode] = useState('')
+    const [postCode, setPostCode] = useState('')
     const [address, setAddress] = useState('')
     const [addressDetail, onChangeAddressDetail] = useInput('')
     const [name, onChangeName] = useInput('')
     const [phone, onChangePhone] = useInput('')
 
-    const active = postalCode && address && addressDetail && name && phone
+    const active = postCode && address && addressDetail && name && phone
 
-    const onPostalCode = useCallback(() => {
-        navigate('AddressSearch')
+    const onPostCode = useCallback(() => {
+        navigate('AddressSearch', { setPostCode, setAddress })
     }, [])
 
     const onSubmit = useCallback(() => {
@@ -43,17 +43,17 @@ const AddressScreen = () => {
                     overScrollMode='never'
                 >
                     <Pressable
-                        onPress={onPostalCode}
+                        onPress={onPostCode}
                         style={styles.inputContainer}
                     >
-                        <BaseText style={[styles.text, { color: postalCode ? '#000' : GRAY }]} >{postalCode || '우편번호'}</BaseText>
+                        <BaseText style={[styles.text, { color: postCode ? '#000' : GRAY }]} >{postCode || '우편번호'}</BaseText>
                         <View style={styles.postalIcon} >
                             <RightArrowIcon fill={GRAY} />
                         </View>
                         <View style={styles.postalCodeInputLine} />
                     </Pressable>
                     <View style={styles.inputContainer}>
-                        <BaseText style={[styles.text, { color: postalCode ? '#000' : GRAY }]} >{address || '주소'}</BaseText>
+                        <BaseText style={[styles.text, { color: postCode ? '#000' : GRAY }]} >{address || '주소'}</BaseText>
                         <View style={styles.inputLine} />
                     </View>
                     <View style={styles.inputContainer}>

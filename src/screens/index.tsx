@@ -17,6 +17,7 @@ import ImageViewScreen from './ImageViewScreen';
 import CartScreen from './CartScreen';
 import PaymentScreen from './PaymentScreen';
 import AddressScreen from './AddressScreen';
+import AddressSearchScreen from './AddressSearchScreen'
 
 
 const Stack = createStackNavigator()
@@ -109,6 +110,7 @@ const Navigation = () => {
                 <Stack.Screen name='Cart' component={CartScreen} />
                 <Stack.Screen name='Payment' component={PaymentScreen} />
                 <Stack.Screen name='Address' component={AddressScreen} />
+                <Stack.Screen name='AddressSearch' component={AddressSearchScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

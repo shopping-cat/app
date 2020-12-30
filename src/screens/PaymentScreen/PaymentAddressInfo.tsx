@@ -9,7 +9,7 @@ const dummyDeliveryInfo = {
     addressDetail: '신림아파트 102호 1202호',
     phone: '01023958153',
     name: '홍길동',
-    postalCode: '46076'
+    postCode: '46076'
 }
 // const dummyDeliveryInfo = null
 

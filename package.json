@@ -36,6 +36,7 @@
     "react-native": "0.63.2",
     "react-native-autoheight-webview": "^1.5.7",
     "react-native-code-push": "^6.3.0",
+    "react-native-daum-postcode": "^1.0.9",
     "react-native-device-info": "^7.3.1",
     "react-native-fbsdk": "^2.0.0",
     "react-native-flipper": "^0.62.0",
