@@ -1,18 +1,17 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import BaseText from '../../components/BaseText'
-import TouchableScale from '../../components/Buttons/TouchableScale'
-import { COLOR1, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import moneyFormat from '../../lib/moneyFormat'
+import { COLOR1, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
+import BaseText from './BaseText'
+import TouchableScale from './Buttons/TouchableScale'
 
-interface PaymentFooterProps {
-    totalPaymentPrice: number
+interface ButtonFooterProps {
+    text: string
     onPress: () => void
     active: boolean
 }
 
-const PaymentFooter: React.FC<PaymentFooterProps> = ({ totalPaymentPrice, onPress, active }) => {
+const ButtonFooter: React.FC<ButtonFooterProps> = ({ text, onPress, active }) => {
 
     const { bottom } = useSafeAreaInsets()
 
@@ -24,13 +23,13 @@ const PaymentFooter: React.FC<PaymentFooterProps> = ({ totalPaymentPrice, onPres
                 contianerStyle={styles.btnContainer}
                 style={[styles.btn, { backgroundColor: active ? COLOR1 : LIGHT_GRAY }]}
             >
-                <BaseText style={styles.btnText} >{moneyFormat(totalPaymentPrice)}원 결제하기</BaseText>
+                <BaseText style={styles.btnText} >{text}</BaseText>
             </TouchableScale>
         </View>
     )
 }
 
-export default PaymentFooter
+export default ButtonFooter
 
 const styles = StyleSheet.create({
     container: {

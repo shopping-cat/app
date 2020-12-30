@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
+import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import PaymentDeliveryInfo from './PaymentDeliveryInfo'
-import PaymentFooter from './PaymentFooter'
+import moneyFormat from '../../lib/moneyFormat'
+import PaymentAddressInfo from './PaymentAddressInfo'
 import PaymentItemInfo from './PaymentItemInfo'
 import PaymentRefundAccount from './PaymentRefundAccount'
 
@@ -20,13 +21,13 @@ const PaymentScreen = () => {
                 showsVerticalScrollIndicator
             >
                 <PaymentItemInfo />
-                <PaymentDeliveryInfo />
+                <PaymentAddressInfo />
                 <PaymentRefundAccount />
             </ScrollView>
-            <PaymentFooter
-                active={true}
+            <ButtonFooter
+                active
                 onPress={onPayment}
-                totalPaymentPrice={156900}
+                text={`${moneyFormat(156900)}원 결제하기`}
             />
         </ScreenLayout>
     )

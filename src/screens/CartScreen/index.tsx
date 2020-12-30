@@ -1,17 +1,20 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
+import ButtonFooter from '../../components/ButtonFooter'
 import CartItemCard from '../../components/Cards/CartItemCard'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import ThinLine from '../../components/ThinLine'
 import { ID } from '../../constants/types'
+import moneyFormat from '../../lib/moneyFormat'
 import CartEmpty from './CartEmpty'
-import CartFooter from './CartFooter'
 import CartPaymentInformation from './CartPaymentInformation'
 import CartSelector from './CartSelector'
 
 const dummyCarts = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }]
+
+const active = true
 
 const CartScreen = () => {
 
@@ -71,10 +74,10 @@ const CartScreen = () => {
                         </>
                     }
                 />
-                <CartFooter
+                <ButtonFooter
+                    active={active}
                     onPress={onOrder}
-                    totalPrice={159000}
-                    active={true}
+                    text={`${active ? moneyFormat(156900) + '원 ' : ''}주문하기`}
                 />
             </>}
         </ScreenLayout>

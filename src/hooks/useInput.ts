@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-const useInput = (initialValue = '') => {
+const useInput = (initialValue = ''): any => {
 
     const [value, setValue] = useState(initialValue)
 
@@ -12,7 +12,7 @@ const useInput = (initialValue = '') => {
         setValue('')
     }, [])
 
-    return { value, onChange, setValue, onClear }
+    return [value, onChange, setValue, onClear]
 }
 
 export default useInput
