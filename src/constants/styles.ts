@@ -27,3 +27,12 @@ export const BLACK_RGB = 'rgb(0, 0, 0)'
 export const KAKAO_COLOR = '#FFE812'
 export const FACEBOOK_COLOR = '#0078FF'
 export const APPLE_COLOR = '#000'
+
+export const SPRING_CONFIG = {
+    damping: 10,
+    mass: 0.4,
+    stiffness: 121.6,
+    overshootClamping: false,
+    restSpeedThreshold: 0.001,
+    restDisplacementThreshold: 0.001,
+}

@@ -1,7 +1,12 @@
 import React from 'react'
 import Svg, { Path } from 'react-native-svg'
+import { GRAY } from '../../constants/styles'
 
-const DownArrowIcon = () => {
+interface DownArrowIconProps {
+    fill?: string
+}
+
+const DownArrowIcon: React.FC<DownArrowIconProps> = ({ fill }) => {
     return (
         <Svg
             width={12.427}
@@ -11,13 +16,17 @@ const DownArrowIcon = () => {
             <Path
                 d="M1.414 1.414l4.8 4.8 4.8-4.8"
                 fill="none"
-                stroke="#8b8b8b"
+                stroke={fill}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
             />
         </Svg>
     )
+}
+
+DownArrowIcon.defaultProps = {
+    fill: GRAY
 }
 
 export default DownArrowIcon

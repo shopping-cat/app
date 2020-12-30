@@ -10,7 +10,7 @@ import NumberCounterMinusIcon from '../../components/Svgs/NumberCounterMinusIcon
 import NumberCounterPlusIcon from '../../components/Svgs/NumberCounterPlusIcon';
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
 import moneyFormat from '../../lib/moneyFormat';
-import Accordian from '../../components/Accordian';
+import Accordian from '../../components/ItemOptionAccordian';
 import LinearGradient from 'react-native-linear-gradient';
 
 const dummyOption = [

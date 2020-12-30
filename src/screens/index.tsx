@@ -15,6 +15,7 @@ import ShopDetailScreen from './ShopDetailScreen';
 import ShopChatScreen from './ShopChatScreen';
 import ImageViewScreen from './ImageViewScreen';
 import CartScreen from './CartScreen';
+import PaymentScreen from './PaymentScreen';
 
 
 const Stack = createStackNavigator()
@@ -105,6 +106,7 @@ const Navigation = () => {
                 <Stack.Screen name='ShopChat' component={ShopChatScreen} />
                 <Stack.Screen name='ImageView' component={ImageViewScreen} />
                 <Stack.Screen name='Cart' component={CartScreen} />
+                <Stack.Screen name='Payment' component={PaymentScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { Pressable, StyleProp, StyleSheet, Text, View, ViewProps, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { VERY_LIGHT_GRAY } from '../constants/styles'
+import { SPRING_CONFIG } from '../constants/styles'
 import BaseText from './BaseText'
 
 const { set, cond, block, eq, clockRunning, Clock, spring, startClock, Value, stopClock, greaterThan, call, useCode, sub, not } = Animated
@@ -25,12 +26,7 @@ const runSpring = (clock: any, value: any, toValue: any) => {
     };
 
     const config = {
-        damping: 10,
-        mass: 0.4,
-        stiffness: 121.6,
-        overshootClamping: false,
-        restSpeedThreshold: 0.001,
-        restDisplacementThreshold: 0.001,
+        ...SPRING_CONFIG,
         toValue: new Value(0)
     };
 
