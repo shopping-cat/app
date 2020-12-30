@@ -21,7 +21,7 @@ const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
 const dummyShopNAme = '아이러브캣'
 const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
 const option = '해먹 | 베이지'
-const isFreeDelivery = false
+const isFreeDelivery = true
 const price = 79000
 const salePrice = 67000
 const number = 1
@@ -65,10 +65,10 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelec
                 </Pressable>
             </View>
             <View style={styles.bottomContainer} >
-                <View style={styles.freeDeleveryContainer} >
+                {isFreeDelivery && <View style={styles.freeDeleveryContainer} >
                     <BaseText style={styles.freeDelivery} >무료배송</BaseText>
-                </View>
-                <View style={styles.priceContainer} >
+                </View>}
+                <View style={[styles.priceContainer, { marginLeft: isFreeDelivery ? 0 : 64 }]} >
                     {salePrice && <BaseText style={styles.price} >{moneyFormat(price)}원</BaseText>}
                     <BaseText style={styles.salePrice} >{salePrice ? moneyFormat(salePrice) : moneyFormat(price)}원</BaseText>
                     <BaseText style={styles.number} >{number}개</BaseText>
@@ -133,7 +133,8 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 16,
         color: GRAY,
-        marginRight: 8
+        marginRight: 8,
+        textDecorationLine: 'line-through'
     },
     salePrice: {
         fontSize: 18,
