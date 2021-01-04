@@ -9,6 +9,7 @@ import ItemCardAThird from '../../components/Cards/ItemCardAThird'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RateStars from '../../components/RateStars'
+import StatusBarHeightView from '../../components/StatusBarHeightView'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import ThinLine from '../../components/ThinLine'
 import UpFab from '../../components/UpFab'
@@ -46,7 +47,8 @@ const ShopDetailScreen = () => {
 
 
     return (
-        <ScreenLayout>
+        <ScreenLayout disableStatusbarHeight >
+            <StatusBarHeightView />
             <DefaultHeader underLine={headerUnderline} />
             <FlatList
                 onScroll={onScroll}

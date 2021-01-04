@@ -6,6 +6,7 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import moneyFormat from '../../lib/moneyFormat'
 import PaymentAddressInfo from './PaymentAddressInfo'
 import PaymentItemInfo from './PaymentItemInfo'
+import PaymentPrice from './PaymentPrice'
 import PaymentRefundAccount from './PaymentRefundAccount'
 
 const PaymentScreen = () => {
@@ -23,6 +24,7 @@ const PaymentScreen = () => {
                 <PaymentItemInfo />
                 <PaymentAddressInfo />
                 <PaymentRefundAccount />
+                <PaymentPrice />
             </ScrollView>
             <ButtonFooter
                 active
