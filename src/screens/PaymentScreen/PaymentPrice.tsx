@@ -20,7 +20,7 @@ const PaymentPrice = () => {
     }, [])
 
     const onPoint = useCallback(() => {
-
+        navigate('PointSelect')
     }, [])
 
     const onAccordian = useCallback(() => {
@@ -61,7 +61,7 @@ const PaymentPrice = () => {
                     <View style={styles.couponCotnainer} >
                         <View style={styles.couponInfoContainer} >
                             <BaseText style={styles.couponeText} >쿠폰</BaseText>
-                            <BaseText style={styles.couponeText}>전체 0장, 적용가능 0장</BaseText>
+                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>전체 29장, 적용가능 2장</BaseText>
                         </View>
                         <Pressable onPress={onCoupon} style={styles.couponBtn} >
                             <RightArrowIcon fill={GRAY} />
@@ -70,7 +70,7 @@ const PaymentPrice = () => {
                     <View style={styles.couponCotnainer} >
                         <View style={styles.couponInfoContainer} >
                             <BaseText style={styles.couponeText} >포인트</BaseText>
-                            <BaseText style={styles.couponeText}>{moneyFormat(2400)}포인트 사용가능</BaseText>
+                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>{moneyFormat(2400)}포인트 사용가능</BaseText>
                         </View>
                         <Pressable onPress={onPoint} style={styles.couponBtn} >
                             <RightArrowIcon fill={GRAY} />

@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
+import StatusBarHeightView from '../../components/StatusBarHeightView'
 import moneyFormat from '../../lib/moneyFormat'
 import PaymentAddressInfo from './PaymentAddressInfo'
 import PaymentItemInfo from './PaymentItemInfo'
@@ -16,7 +17,8 @@ const PaymentScreen = () => {
     }, [])
 
     return (
-        <ScreenLayout>
+        <ScreenLayout disableStatusbarHeight >
+            <StatusBarHeightView />
             <DefaultHeader title='주문/결제' disableBtns />
             <ScrollView
                 showsVerticalScrollIndicator

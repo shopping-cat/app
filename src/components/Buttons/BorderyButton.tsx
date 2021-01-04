@@ -6,7 +6,7 @@ import TouchableScale from './TouchableScale'
 
 interface BorderyButtonProps {
     active?: boolean
-    style: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
     onPress: () => void
 }
 
