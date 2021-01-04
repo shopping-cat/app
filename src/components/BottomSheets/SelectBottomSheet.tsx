@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LIGHT_GRAY } from '../../constants/styles'
 import BaseText from '../BaseText'
@@ -8,7 +9,7 @@ import BottomSheet from './BottomSheet'
 
 interface SelectBottomSheetProps {
     list: string[]
-    selectedIndex: number
+    selectedIndex?: number
     onSelect: (index: number) => void
     visible: boolean
     onClose: () => void
@@ -33,7 +34,7 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ list, onClose, on
                 </View>
             }
             render={() =>
-                <View style={[styles.renderContainer, { paddingBottom: bottom }]} >
+                <ScrollView style={[styles.renderContainer, { maxHeight: 56 * 8 + bottom }]} >
                     {list.map((v, i) =>
                         <Pressable
                             key={v + i}
@@ -46,7 +47,8 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ list, onClose, on
                             }
                         </Pressable>
                     )}
-                </View>
+                    <View style={{ height: bottom }} />
+                </ScrollView>
             }
         />
     )
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
         backgroundColor: LIGHT_GRAY
     },
     renderContainer: {
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     itemContainer: {
         width: '100%',
