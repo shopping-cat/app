@@ -37,7 +37,7 @@ const PointSelectScreen = () => {
                         placeholderTextColor={GRAY}
                         placeholder={`${moneyFormat(dummyIPoint)}포인트 사용가능`}
                         style={styles.inputText}
-                        value={point.toString()}
+                        value={point === 0 ? '' : point.toString()}
                         keyboardType='number-pad'
                         onChangeText={(t) => setPoint(Number(t))}
                     />

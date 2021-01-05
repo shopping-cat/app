@@ -20,6 +20,7 @@ import AddressScreen from './AddressScreen';
 import AddressSearchScreen from './AddressSearchScreen'
 import RefundAccountScreen from './RefundAccountScreen';
 import PointSelectScreen from './PointSelectScreen';
+import CouponSelectScreen from './CouponSelectScreen';
 
 
 const Stack = createStackNavigator()
@@ -96,7 +97,7 @@ const Navigation = () => {
             theme={theme}
         >
             <Stack.Navigator
-                initialRouteName='Login'
+                initialRouteName='CouponSelect'
                 headerMode='none'
                 screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
             >
@@ -115,6 +116,7 @@ const Navigation = () => {
                 <Stack.Screen name='AddressSearch' component={AddressSearchScreen} />
                 <Stack.Screen name='RefundAccount' component={RefundAccountScreen} />
                 <Stack.Screen name='PointSelect' component={PointSelectScreen} />
+                <Stack.Screen name='CouponSelect' component={CouponSelectScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
