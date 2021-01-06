@@ -21,6 +21,7 @@ import AddressSearchScreen from './AddressSearchScreen'
 import RefundAccountScreen from './RefundAccountScreen';
 import PointSelectScreen from './PointSelectScreen';
 import CouponSelectScreen from './CouponSelectScreen';
+import PaymentResultScreen from './PaymentResultScreen';
 
 
 const Stack = createStackNavigator()
@@ -70,6 +71,7 @@ const Navigation = () => {
                 // 중복 네비게이트 방지
                 const route = navigationRef?.current?.getCurrentRoute()
                 if (route?.name === 'Home') return
+                // navigationRef.current?.reset({})
                 navigationRef?.current?.dispatch(StackActions.replace('Tab'))
             }, 200)
         } else {
@@ -117,6 +119,7 @@ const Navigation = () => {
                 <Stack.Screen name='RefundAccount' component={RefundAccountScreen} />
                 <Stack.Screen name='PointSelect' component={PointSelectScreen} />
                 <Stack.Screen name='CouponSelect' component={CouponSelectScreen} />
+                <Stack.Screen name='PaymentResult' component={PaymentResultScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

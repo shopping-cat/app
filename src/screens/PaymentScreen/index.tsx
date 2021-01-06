@@ -1,3 +1,4 @@
+import { StackActions, useNavigation } from '@react-navigation/native'
 import React, { useCallback, useRef, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
@@ -19,6 +20,8 @@ const BANKS = ['우체국 (123124-2-4124-12)', '농협 (12353-512525-512)', '우
 
 const PaymentScreen = () => {
 
+    const { navigate, dispatch } = useNavigation()
+
     const scrollViewRef = useRef<ScrollView>(null)
 
     const [method, setMethod] = useState(PAY_METHODS[0])
@@ -28,7 +31,8 @@ const PaymentScreen = () => {
     const [bankSheetVisible, setBankSheetVisible] = useState(false)
 
     const onPayment = useCallback(() => {
-
+        // navigate('PaymentResult')
+        dispatch(StackActions.replace('PaymentResult'))
     }, [])
 
     const onMethod = useCallback(() => {
