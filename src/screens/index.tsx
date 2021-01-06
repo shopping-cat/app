@@ -97,7 +97,7 @@ const Navigation = () => {
             theme={theme}
         >
             <Stack.Navigator
-                initialRouteName='CouponSelect'
+                initialRouteName='Login'
                 headerMode='none'
                 screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
             >

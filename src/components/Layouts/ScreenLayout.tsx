@@ -9,7 +9,7 @@ interface ScreenLayoutProps {
 const ScreenLayout: React.FC<ScreenLayoutProps> = ({ children, disableStatusbarHeight }) => {
     return (
         <View style={{ flex: 1 }} >
-            <StatusBar translucent backgroundColor={disableStatusbarHeight && 'transparent'} barStyle='dark-content' />
+            <StatusBar translucent backgroundColor={disableStatusbarHeight ? 'transparent' : undefined} barStyle='dark-content' />
             {!disableStatusbarHeight && <View style={styles.statusBarBackground} />}
             {children}
         </View>
