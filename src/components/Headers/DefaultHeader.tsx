@@ -11,9 +11,10 @@ interface DefaultHeaderProps {
     title?: string
     underLine?: boolean
     disableBtns?: boolean
+    disableGoBack?: boolean
 }
 
-const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine, disableBtns }) => {
+const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine, disableBtns, disableGoBack }) => {
 
     const { canGoBack, goBack, navigate } = useNavigation()
 
@@ -24,7 +25,7 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine, disable
 
     return (
         <View style={styles.container} >
-            {canGoBack &&
+            {canGoBack && !disableGoBack &&
                 <Pressable onPress={goBack} style={styles.btn} >
                     <BackArrowIcon fill={GRAY} />
                 </Pressable>

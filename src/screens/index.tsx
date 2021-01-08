@@ -3,9 +3,13 @@ import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerR
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import TabNavigationTabBar from '../components/TabNavigationTabBar';
 
 import HomeScreen from './HomeScreen'
+import CategoryScreen from './CategoryScreen';
+import ZzimScreen from './ZzimScreen';
+import MyPageScreen from './MyPageScreen';
 import ItemDetailScreen from './ItemDetailScreen';
 import ItemReviewScreen from './ItemReviewScreen';
 import LoginScreen from './LoginScreen';
@@ -22,6 +26,8 @@ import RefundAccountScreen from './RefundAccountScreen';
 import PointSelectScreen from './PointSelectScreen';
 import CouponSelectScreen from './CouponSelectScreen';
 import PaymentResultScreen from './PaymentResultScreen';
+import DownArrowIcon from '../components/Svgs/DownArrowIcon';
+
 
 
 const Stack = createStackNavigator()
@@ -32,8 +38,40 @@ const TabNavigation = () => {
     return (
         <Tab.Navigator
             initialRouteName='Home'
+            tabBar={(props) => <TabNavigationTabBar {...props} />}
         >
-            <Tab.Screen name='Home' component={HomeScreen} />
+            <Tab.Screen
+                name='Home'
+                component={HomeScreen}
+                options={{
+                    tabBarLabel: '홈',
+                    tabBarIcon: (({ color }) => <Icon size={24} name='home-outline' color={color} />)
+                }}
+            />
+            <Tab.Screen
+                name='Category'
+                component={CategoryScreen}
+                options={{
+                    tabBarLabel: '카테고리',
+                    tabBarIcon: (({ color }) => <Icon size={24} name='menu' color={color} />)
+                }}
+            />
+            <Tab.Screen
+                name='Zzim'
+                component={ZzimScreen}
+                options={{
+                    tabBarLabel: '찜',
+                    tabBarIcon: (({ color }) => <Icon size={24} name='heart-outline' color={color} />)
+                }}
+            />
+            <Tab.Screen
+                name='MyPage'
+                component={MyPageScreen}
+                options={{
+                    tabBarLabel: '마이페이지',
+                    tabBarIcon: (({ color }) => <Icon size={24} name='account-outline' color={color} />)
+                }}
+            />
         </Tab.Navigator>
     )
 }
