@@ -74,6 +74,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, init
                     overScrollMode='never'
                     data={dummyCategory.map(v => v.category)}
                     keyExtractor={(item, index) => item + index}
+                    nestedScrollEnabled
                     renderItem={({ item }) =>
                         <CategoryContainer
                             category={item}
@@ -83,6 +84,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, init
                     }
                 />}
             {category1 && <FlatList
+                nestedScrollEnabled
                 contentContainerStyle={styles.flatlist}
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -123,7 +125,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomColor: VERY_LIGHT_GRAY,
         borderBottomWidth: 1,
-        paddingLeft: 16
+        paddingLeft: 16,
+        backgroundColor: '#fff'
     },
     flatlist: {
         alignItems: 'center'
