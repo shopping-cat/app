@@ -30,9 +30,10 @@ interface CategorySelectorProps {
     initCategory1?: string
     initCategory2?: string
     onChange?: (category1: string | null, category2: string | null) => void
+    enable?: boolean
 }
 
-const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, initCategory2, onChange }) => {
+const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, initCategory2, onChange, enable }) => {
 
     const [category1, setCategory1] = useState<string | null>(initCategory1 || null)
     const [category2, setCategory2] = useState<string | null>(initCategory2 || null)
@@ -42,17 +43,20 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, init
     }, [category1, category2])
 
     const onAll = useCallback(() => {
+        if (!enable) return
         setCategory1(null)
         setCategory2(null)
-    }, [])
+    }, [enable])
 
     const onCategory1 = useCallback((category: string) => {
+        if (!enable) return
         setCategory1(category)
-    }, [])
+    }, [enable])
 
     const onCategory2 = useCallback((category: string) => {
+        if (!enable) return
         setCategory2(category)
-    }, [])
+    }, [enable])
 
     return (
         <View style={styles.container} >
@@ -101,6 +105,10 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, init
             />}
         </View>
     )
+}
+
+CategorySelector.defaultProps = {
+    enable: true
 }
 
 interface CategoryContainerProps {

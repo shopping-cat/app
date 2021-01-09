@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import TabNavigationTabBar from '../components/TabNavigationTabBar';
 
+
 import HomeScreen from './HomeScreen'
 import CategoryScreen from './CategoryScreen';
 import ZzimScreen from './ZzimScreen';
@@ -26,7 +27,6 @@ import RefundAccountScreen from './RefundAccountScreen';
 import PointSelectScreen from './PointSelectScreen';
 import CouponSelectScreen from './CouponSelectScreen';
 import PaymentResultScreen from './PaymentResultScreen';
-import DownArrowIcon from '../components/Svgs/DownArrowIcon';
 
 
 
