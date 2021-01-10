@@ -27,6 +27,7 @@ import RefundAccountScreen from './RefundAccountScreen';
 import PointSelectScreen from './PointSelectScreen';
 import CouponSelectScreen from './CouponSelectScreen';
 import PaymentResultScreen from './PaymentResultScreen';
+import CategoryScreenSortSheet from './CategoryScreen/CategoryScreenSortSheet';
 
 
 
@@ -163,4 +164,13 @@ const Navigation = () => {
     )
 }
 
-export default Navigation
+const NavigationWrapper = () => {
+    return (
+        <>
+            <Navigation />
+            <CategoryScreenSortSheet />
+        </>
+    )
+}
+
+export default NavigationWrapper
