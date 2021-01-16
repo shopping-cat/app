@@ -28,6 +28,7 @@ import PointSelectScreen from './PointSelectScreen';
 import CouponSelectScreen from './CouponSelectScreen';
 import PaymentResultScreen from './PaymentResultScreen';
 import CategoryScreenSortSheet from './CategoryScreen/CategoryScreenSortSheet';
+import InqueryScreen from './InqueryScreen';
 
 
 
@@ -159,6 +160,7 @@ const Navigation = () => {
                 <Stack.Screen name='PointSelect' component={PointSelectScreen} />
                 <Stack.Screen name='CouponSelect' component={CouponSelectScreen} />
                 <Stack.Screen name='PaymentResult' component={PaymentResultScreen} />
+                <Stack.Screen name='Inquery' component={InqueryScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
