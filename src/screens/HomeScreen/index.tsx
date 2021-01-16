@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Animated, View } from 'react-native'
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Animated, View, FlatList } from 'react-native'
 import CategorySelector from '../../components/CategorySelector'
 import HomeHeader from '../../components/Headers/HomeHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
@@ -13,6 +13,10 @@ import HomeScreenTabSelector from './HomeScreenTabSelector'
 const HomeScreen = () => {
 
     const scrollViewRef = useRef<ScrollView>(null)
+    const homeFlatlistRef = useRef<FlatList>(null)
+    const bestFlatlistRef = useRef<FlatList>(null)
+    const newFlatlistRef = useRef<FlatList>(null)
+
     const [tabIndex, setTabIndex] = useState(0)
     const [scrollX] = useState(new Animated.Value(0))
 
@@ -24,6 +28,12 @@ const HomeScreen = () => {
         inputRange: [0, WIDTH / 4 * 3, WIDTH, WIDTH / 4 * 5, WIDTH * 2],
         outputRange: [-48, -48, 0, -48, -48,]
     })
+
+    const goUp = useCallback(() => {
+        if (tabIndex === 0) homeFlatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
+        if (tabIndex === 1) bestFlatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
+        if (tabIndex === 2) newFlatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
+    }, [tabIndex])
 
     return (
         <ScreenLayout >
@@ -55,13 +65,12 @@ const HomeScreen = () => {
                 )}
                 showsHorizontalScrollIndicator={false}
             >
-                <HomeTab />
-                <BestTab />
-                <NewTab />
+                <HomeTab ref={homeFlatlistRef} />
+                <BestTab ref={bestFlatlistRef} />
+                <NewTab ref={newFlatlistRef} />
             </Animated.ScrollView>
-
             <UpFab
-                onPress={() => { }}
+                onPress={goUp}
             />
         </ScreenLayout>
     )

@@ -5,9 +5,10 @@ import { WIDTH } from '../../../constants/styles'
 
 const dummyItems = Array(20).fill({}).map((_, i) => ({ id: (i + 1).toString() }))
 
-const BestTab = () => {
+const BestTab = React.forwardRef<FlatList>((_, ref) => {
     return (
         <FlatList
+            ref={ref}
             overScrollMode='never'
             showsVerticalScrollIndicator={false}
             columnWrapperStyle={styles.columnWrapperStyle}
@@ -17,7 +18,7 @@ const BestTab = () => {
             renderItem={() => <ItemCard />}
         />
     )
-}
+})
 
 export default BestTab
 

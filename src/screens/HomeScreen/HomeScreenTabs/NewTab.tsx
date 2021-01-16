@@ -6,9 +6,10 @@ import { WIDTH } from '../../../constants/styles'
 
 const dummyItems = Array(20).fill({}).map((_, i) => ({ id: (i + 1).toString() }))
 
-const NewTab = () => {
+const NewTab = React.forwardRef<FlatList>((_, ref) => {
     return (
         <FlatList
+            ref={ref}
             overScrollMode='never'
             showsVerticalScrollIndicator={false}
             style={styles.container}
@@ -22,7 +23,7 @@ const NewTab = () => {
             }
         />
     )
-}
+})
 
 export default NewTab
 

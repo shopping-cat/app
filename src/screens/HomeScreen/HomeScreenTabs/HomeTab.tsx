@@ -6,9 +6,10 @@ import { WIDTH } from '../../../constants/styles'
 
 const dummyItems = Array(20).fill({}).map((_, i) => ({ id: (i + 1).toString() }))
 
-const HomeTab = () => {
+const HomeTab = React.forwardRef<FlatList>((_, ref) => {
     return (
         <FlatList
+            ref={ref}
             overScrollMode='never'
             showsVerticalScrollIndicator={false}
             style={styles.container}
@@ -23,7 +24,7 @@ const HomeTab = () => {
         />
 
     )
-}
+})
 
 export default HomeTab
 
