@@ -32,6 +32,7 @@ import InqueryScreen from './InqueryScreen';
 import UserInfoScreen from './UserInfoScreen';
 import UserInfoProfileModifyScreen from './UserInfoProfileModifyScreen';
 import DeleteAccountScreen from './DeleteAccountScreen';
+import PointScreen from './PointScreen';
 
 
 
@@ -167,6 +168,7 @@ const Navigation = () => {
                 <Stack.Screen name='UserInfo' component={UserInfoScreen} />
                 <Stack.Screen name='UserInfoProfileModify' component={UserInfoProfileModifyScreen} />
                 <Stack.Screen name='DeleteAccount' component={DeleteAccountScreen} />
+                <Stack.Screen name='Point' component={PointScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
