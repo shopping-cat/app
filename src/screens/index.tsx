@@ -31,6 +31,7 @@ import CategoryScreenSortSheet from './CategoryScreen/CategoryScreenSortSheet';
 import InqueryScreen from './InqueryScreen';
 import UserInfoScreen from './UserInfoScreen';
 import UserInfoProfileModifyScreen from './UserInfoProfileModifyScreen';
+import DeleteAccountScreen from './DeleteAccountScreen';
 
 
 
@@ -165,6 +166,7 @@ const Navigation = () => {
                 <Stack.Screen name='Inquery' component={InqueryScreen} />
                 <Stack.Screen name='UserInfo' component={UserInfoScreen} />
                 <Stack.Screen name='UserInfoProfileModify' component={UserInfoProfileModifyScreen} />
+                <Stack.Screen name='DeleteAccount' component={DeleteAccountScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

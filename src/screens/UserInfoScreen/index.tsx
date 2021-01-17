@@ -90,7 +90,7 @@ const UserInfoScreen = () => {
                     </View>
                 </Pressable>
                 <Pressable
-                    onPress={() => navigate('UserWithDrawal')}
+                    onPress={() => navigate('DeleteAccount')}
                     style={styles.underLineBtn}
                 >
                     <View style={styles.underLineBtnLeft} >
