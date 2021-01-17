@@ -123,8 +123,12 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>프로필 사진 &amp; 리뷰 사진 업로드 용으로 엑세스합니다</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>프로필 사진 &amp; 리뷰 사진 업로드 용으로 엑세스합니다</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>프로필 사진 &amp; 리뷰 사진 업로드 용으로 엑세스합니다</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>BMJUA.ttf</string>
