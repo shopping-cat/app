@@ -65,6 +65,7 @@ const ReviewMyCard: React.FC<any> = () => {
                 <View style={styles.androidReviewImagesContainer} >
                     {reviewImages.map((item, index) =>
                         <Pressable
+                            key={index.toString()}
                             onPress={() => onImage(index)}
                         >
                             <Image

@@ -21,6 +21,7 @@ const TabSelector: React.FC<TabSelectorProps> = ({ scrollX, onPress, tabIndex, l
         <View style={styles.container} >
             {labels.map((label, index) =>
                 <Pressable
+                    key={index.toString()}
                     style={styles.btn}
                     onPress={() => onPress(index)}
                 >

@@ -35,6 +35,7 @@ import DeleteAccountScreen from './DeleteAccountScreen';
 import PointScreen from './PointScreen';
 import CouponScreen from './CouponScreen';
 import ReviewScreen from './ReviewScreen';
+import ReviewPostScreen from './ReviewPostScreen';
 
 
 
@@ -173,6 +174,7 @@ const Navigation = () => {
                 <Stack.Screen name='Point' component={PointScreen} />
                 <Stack.Screen name='Coupon' component={CouponScreen} />
                 <Stack.Screen name='Review' component={ReviewScreen} />
+                <Stack.Screen name='ReviewPost' component={ReviewPostScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
