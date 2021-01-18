@@ -22,8 +22,8 @@ export default PointCard
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        paddingHorizontal: 16,
+        // width: '100%',
+        marginHorizontal: 16,
         paddingVertical: 24,
         borderBottomWidth: 1,
         borderBottomColor: VERY_LIGHT_GRAY
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     date: {
         color: GRAY,
         position: 'absolute',
-        right: 16,
+        right: 0,
         top: 24
     }
 })

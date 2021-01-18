@@ -39,7 +39,7 @@ const ImageViewScreen = () => {
 
     return (
         <ScreenLayout >
-            <DefaultHeader title='이미지 상세보기' />
+            <DefaultHeader title='이미지 상세보기' disableBtns />
             <FlatList
                 ref={imageViewRef}
                 overScrollMode='never'

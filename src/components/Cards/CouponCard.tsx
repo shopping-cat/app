@@ -40,8 +40,7 @@ export default CouponCard
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        paddingHorizontal: 16,
+        marginHorizontal: 16,
         paddingVertical: 24,
         borderBottomWidth: 1,
         borderBottomColor: VERY_LIGHT_GRAY,
