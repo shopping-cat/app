@@ -9,14 +9,21 @@ interface ButtonFooterProps {
     text: string
     onPress: () => void
     active: boolean
+    disableTopLine?: boolean
 }
 
-const ButtonFooter: React.FC<ButtonFooterProps> = ({ text, onPress, active }) => {
+const ButtonFooter: React.FC<ButtonFooterProps> = ({ text, onPress, active, disableTopLine }) => {
 
     const { bottom } = useSafeAreaInsets()
 
     return (
-        <View style={[styles.container, { paddingBottom: bottom + 16, height: 80 + bottom }]} >
+        <View style={[
+            styles.container,
+            {
+                paddingBottom: bottom + 16, height: 80 + bottom,
+                borderTopWidth: disableTopLine ? 0 : 1
+            },
+        ]} >
             <TouchableScale
                 onPress={onPress}
                 targetScale={0.8}
@@ -37,7 +44,6 @@ const styles = StyleSheet.create({
         height: 80,
         padding: 16,
         borderTopColor: VERY_LIGHT_GRAY,
-        borderTopWidth: 1
     },
     btnContainer: {
         width: '100%',

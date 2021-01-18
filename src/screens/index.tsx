@@ -33,6 +33,7 @@ import UserInfoScreen from './UserInfoScreen';
 import UserInfoProfileModifyScreen from './UserInfoProfileModifyScreen';
 import DeleteAccountScreen from './DeleteAccountScreen';
 import PointScreen from './PointScreen';
+import CouponScreen from './CouponScreen';
 
 
 
@@ -169,6 +170,7 @@ const Navigation = () => {
                 <Stack.Screen name='UserInfoProfileModify' component={UserInfoProfileModifyScreen} />
                 <Stack.Screen name='DeleteAccount' component={DeleteAccountScreen} />
                 <Stack.Screen name='Point' component={PointScreen} />
+                <Stack.Screen name='Coupon' component={CouponScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

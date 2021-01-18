@@ -4,17 +4,18 @@ import { GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
 import { baseTextStyle } from './BaseText'
 
 
-const UnderLineInput: React.FC<TextInputProps> = (props) => {
+const UnderLineInput = React.forwardRef<TextInput, TextInputProps>((props, ref) => {
     return (
         <View style={styles.container} >
             <TextInput
+                ref={ref}
                 style={[baseTextStyle, styles.textInput]}
                 placeholderTextColor={GRAY}
                 {...props}
             />
         </View>
     )
-}
+})
 
 export default UnderLineInput
 
