@@ -4,6 +4,7 @@ import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native
 import ImageCropPicker from 'react-native-image-crop-picker'
 import { VERY_LIGHT_GRAY, WIDTH } from '../constants/styles'
 import { MAX_REVIEW_IMAGE_NUMBER } from '../constants/values'
+import useSelectBottomSheet from '../hooks/useSelectBottomSheet'
 import ImageUploadPlusIcon from './Svgs/ImageUploadPlusIcon'
 
 interface ImagesUploaderProps {
@@ -16,16 +17,17 @@ interface ImagesUploaderProps {
 const ImagesUploader: React.FC<ImagesUploaderProps> = ({ images, setImages, setLoading, marginHorizon }) => {
 
     const { navigate } = useNavigation()
+    const { open } = useSelectBottomSheet()
 
     const onImageSelect = useCallback(async () => {
         try {
             const { path } = await ImageCropPicker.openPicker({
-                cropping: true,
-                freeStyleCropEnabled: true,
+                // cropping: true,
+                // freeStyleCropEnabled: true,
                 cropperCancelText: '취소',
                 loadingLabelText: '불러오는중',
                 cropperChooseText: '완료',
-                mediaType: 'photo'
+                mediaType: 'photo',
             })
             setImages([...images, path])
         } catch (error) {
@@ -34,8 +36,14 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ images, setImages, setL
     }, [images, setImages])
 
     const onImagePress = useCallback((index: number) => {
-        navigate('ImageView', { images, index })
-    }, [images])
+        open(
+            ['자세히 보기', '삭제'],
+            (i) => {
+                if (i === 0) navigate('ImageView', { images, index })
+                if (i === 1) setImages(images.filter((_, i) => i !== index))
+            }
+        )
+    }, [images, setImages])
 
     if (!marginHorizon) return null
 

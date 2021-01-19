@@ -3,31 +3,25 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LIGHT_GRAY } from '../../constants/styles'
+import useSelectBottomSheet from '../../hooks/useSelectBottomSheet'
 import BaseText from '../BaseText'
-import CheckIcon from '../Svgs/CheckIcon'
 import BottomSheet from './BottomSheet'
 
-interface SelectBottomSheetProps {
-    list: string[]
-    selectedIndex?: number
-    onSelect: (index: number) => void
-    visible: boolean
-    onClose: () => void
-}
 
-const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ list, onClose, onSelect, selectedIndex, visible }) => {
+const GlobalSelectBottomSheet = () => {
 
     const { bottom } = useSafeAreaInsets()
+    const { visible, close, list, onSelected } = useSelectBottomSheet()
 
     const onPress = useCallback((index: number) => {
-        onSelect(index)
-        onClose()
-    }, [])
+        onSelected(index)
+        close()
+    }, [onSelected, close])
 
     return (
         <BottomSheet
             visible={visible}
-            onClose={onClose}
+            onClose={close}
             draggAbleHeaderRender={() =>
                 <View style={styles.swipeHandleConatiner} >
                     <View style={styles.swipeHandle} />
@@ -42,9 +36,6 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ list, onClose, on
                             onPress={() => onPress(i)}
                         >
                             <BaseText>{v}</BaseText>
-                            {selectedIndex === i &&
-                                <CheckIcon />
-                            }
                         </TouchableOpacity>
                     )}
                     <View style={{ height: bottom }} />
@@ -54,7 +45,7 @@ const SelectBottomSheet: React.FC<SelectBottomSheetProps> = ({ list, onClose, on
     )
 }
 
-export default SelectBottomSheet
+export default GlobalSelectBottomSheet
 
 const styles = StyleSheet.create({
     swipeHandleConatiner: {

@@ -7,6 +7,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ImagesUploader from '../../components/ImagesUploader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RateStars from '../../components/RateStars'
+import StatusBarHeightView from '../../components/StatusBarHeightView'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import useInput from '../../hooks/useInput'
@@ -34,12 +35,13 @@ const ReviewPostScreen = () => {
     }, [])
 
     return (
-        <ScreenLayout>
+        <ScreenLayout disableStatusbarHeight >
             <KeyboardAvoidingView
                 style={styles.keyboardAvoidingView}
                 behavior='padding'
                 enabled={IS_IOS}
             >
+                <StatusBarHeightView />
                 <DefaultHeader title='리뷰작성' disableBtns />
                 <ScrollView
                     overScrollMode='never'

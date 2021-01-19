@@ -36,6 +36,7 @@ import PointScreen from './PointScreen';
 import CouponScreen from './CouponScreen';
 import ReviewScreen from './ReviewScreen';
 import ReviewPostScreen from './ReviewPostScreen';
+import GlobalSelectBottomSheet from '../components/BottomSheets/GlobalSelectBottomSheet';
 
 
 
@@ -185,6 +186,7 @@ const NavigationWrapper = () => {
         <>
             <Navigation />
             <CategoryScreenSortSheet />
+            <GlobalSelectBottomSheet />
         </>
     )
 }
