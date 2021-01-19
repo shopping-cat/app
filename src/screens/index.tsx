@@ -37,6 +37,7 @@ import CouponScreen from './CouponScreen';
 import ReviewScreen from './ReviewScreen';
 import ReviewPostScreen from './ReviewPostScreen';
 import GlobalSelectBottomSheet from '../components/BottomSheets/GlobalSelectBottomSheet';
+import ReviewModifyScreen from './ReviewModifyScreen';
 
 
 
@@ -176,6 +177,7 @@ const Navigation = () => {
                 <Stack.Screen name='Coupon' component={CouponScreen} />
                 <Stack.Screen name='Review' component={ReviewScreen} />
                 <Stack.Screen name='ReviewPost' component={ReviewPostScreen} />
+                <Stack.Screen name='ReviewModify' component={ReviewModifyScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
