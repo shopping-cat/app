@@ -40,6 +40,7 @@ import GlobalSelectBottomSheet from '../components/BottomSheets/GlobalSelectBott
 import ReviewModifyScreen from './ReviewModifyScreen';
 import PrivacyPolicyScreen from './PrivacyPolicyScreen';
 import AgreeMentScreen from './AgreeMentScreen';
+import OpenSourceLicenseScreen from './OpenSourceLicenseScreen';
 
 
 
@@ -182,6 +183,7 @@ const Navigation = () => {
                 <Stack.Screen name='ReviewModify' component={ReviewModifyScreen} />
                 <Stack.Screen name='PrivacyPolicy' component={PrivacyPolicyScreen} />
                 <Stack.Screen name='AgreeMent' component={AgreeMentScreen} />
+                <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicenseScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

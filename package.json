@@ -15,7 +15,8 @@
     "pod": "cd ios && pod install && cd ..",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "oss": "license-checker --json --out ./src/assets/oss.json"
   },
   "dependencies": {
     "@apollo/client": "^3.2.4",
