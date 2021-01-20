@@ -11,7 +11,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
 import ThinLine from '../../components/ThinLine'
-import { COLOR1, COLOR2, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { COLOR2, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 
 const dummyImage = 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_283/5-2-%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg'
 const dummyName = '다니엘'
@@ -115,7 +115,7 @@ const MyPageScreen = () => {
                     />
                     <LabelUnderLineButton
                         label='서비스 이용약관'
-                        onPress={() => navigate('ServicesTerms')}
+                        onPress={() => navigate('AgreeMent')}
                     />
                     <LabelUnderLineButton
                         label='개인정보 처리방침'

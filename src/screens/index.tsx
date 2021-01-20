@@ -38,6 +38,8 @@ import ReviewScreen from './ReviewScreen';
 import ReviewPostScreen from './ReviewPostScreen';
 import GlobalSelectBottomSheet from '../components/BottomSheets/GlobalSelectBottomSheet';
 import ReviewModifyScreen from './ReviewModifyScreen';
+import PrivacyPolicyScreen from './PrivacyPolicyScreen';
+import AgreeMentScreen from './AgreeMentScreen';
 
 
 
@@ -178,6 +180,8 @@ const Navigation = () => {
                 <Stack.Screen name='Review' component={ReviewScreen} />
                 <Stack.Screen name='ReviewPost' component={ReviewPostScreen} />
                 <Stack.Screen name='ReviewModify' component={ReviewModifyScreen} />
+                <Stack.Screen name='PrivacyPolicy' component={PrivacyPolicyScreen} />
+                <Stack.Screen name='AgreeMent' component={AgreeMentScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
