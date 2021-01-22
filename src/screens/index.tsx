@@ -43,7 +43,8 @@ import AgreeMentScreen from './AgreeMentScreen';
 import OpenSourceLicenseScreen from './OpenSourceLicenseScreen';
 import NotificationScreen from './NotificationScreen';
 import OrderScreen from './OrderScreen';
-
+import OrderDetailScreen from './OrderDetailScreen';
+import OrderCancelGuideScreen from './OrderCancelGuideScreen'
 
 
 const Stack = createStackNavigator()
@@ -188,6 +189,8 @@ const Navigation = () => {
                 <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicenseScreen} />
                 <Stack.Screen name='Notification' component={NotificationScreen} />
                 <Stack.Screen name='Order' component={OrderScreen} />
+                <Stack.Screen name='OrderDetail' component={OrderDetailScreen} />
+                <Stack.Screen name='OrderCancelGuide' component={OrderCancelGuideScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

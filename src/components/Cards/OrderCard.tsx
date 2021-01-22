@@ -13,7 +13,7 @@ const OrderCard: React.FC<any> = ({ id, date, name, state }) => {
         navigate('OrderDetail', { id })
     }, [])
     ''
-    const color = state.includes('구매') || state.includes('배송') ? COLOR2 : COLOR1
+    const color = state === '정상처리' || state == '구매접수' ? COLOR2 : state === '취소처리' ? COLOR1 : GRAY
 
     return (
         <View style={styles.container} >

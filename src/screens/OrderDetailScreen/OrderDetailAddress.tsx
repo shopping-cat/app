@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 
@@ -7,7 +7,7 @@ const name = '홍길동'
 const address = '부산 기장군 기장읍 백길동 14-3, 123동 567호'
 const phone = '010-1234-1512'
 
-const PaymentResultAddress = () => {
+const OrderDetailAddress = () => {
     return (
         <View style={styles.container} >
             <BaseText style={styles.title} >배송지</BaseText>
@@ -29,7 +29,7 @@ const PaymentResultAddress = () => {
     )
 }
 
-export default PaymentResultAddress
+export default OrderDetailAddress
 
 const styles = StyleSheet.create({
     container: {

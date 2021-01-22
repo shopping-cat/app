@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
@@ -10,6 +10,7 @@ import PaymentResultError from './PaymentResultError'
 import PaymentResultItems from './PaymentResultItems'
 import PaymentResultPayment from './PaymentResultPayment'
 import PaymentResultSuccess from './PaymentResultSuccess'
+import PaymentResultDeliveryMemo from './PaymentResultDeliveryMemo'
 
 const isSuccess = true
 const isDepositWithoutBankbook = true
@@ -31,6 +32,7 @@ const PaymentResultScreen = () => {
                     <PaymentResultSuccess />
                     {isDepositWithoutBankbook && <PaymentResultDepositWithoutBankbook />}
                     <PaymentResultAddress />
+                    <PaymentResultDeliveryMemo />
                     <PaymentResultPayment />
                     <PaymentResultItems />
                 </>}
