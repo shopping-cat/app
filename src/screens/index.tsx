@@ -42,6 +42,7 @@ import PrivacyPolicyScreen from './PrivacyPolicyScreen';
 import AgreeMentScreen from './AgreeMentScreen';
 import OpenSourceLicenseScreen from './OpenSourceLicenseScreen';
 import NotificationScreen from './NotificationScreen';
+import OrderScreen from './OrderScreen';
 
 
 
@@ -186,6 +187,7 @@ const Navigation = () => {
                 <Stack.Screen name='AgreeMent' component={AgreeMentScreen} />
                 <Stack.Screen name='OpenSourceLicense' component={OpenSourceLicenseScreen} />
                 <Stack.Screen name='Notification' component={NotificationScreen} />
+                <Stack.Screen name='Order' component={OrderScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

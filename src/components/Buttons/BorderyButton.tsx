@@ -14,7 +14,7 @@ const BorderyButton: React.FC<BorderyButtonProps> = ({ active, children, style, 
     return (
         <TouchableScale
             onPress={onPress}
-            contianerStyle={[styles.removeBtnContainer, style]}
+            contianerStyle={[styles.container, style]}
             style={[styles.removeBtn, { borderWidth: active ? 1 : 0, backgroundColor: active ? undefined : VERY_LIGHT_GRAY }]}
         >
             <BaseText style={{ color: active ? '#000' : LIGHT_GRAY }} >{children}</BaseText>
@@ -29,7 +29,7 @@ BorderyButton.defaultProps = {
 export default BorderyButton
 
 const styles = StyleSheet.create({
-    removeBtnContainer: {
+    container: {
     },
     removeBtn: {
         borderRadius: 4,

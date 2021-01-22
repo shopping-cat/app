@@ -5,7 +5,7 @@
 - 이벤트 -> TODO
 */
 import React, { useCallback } from 'react'
-import { FlatList, Pressable, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import NotificationCard from '../../components/Cards/NotificationCard'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
