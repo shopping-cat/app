@@ -36,14 +36,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     title: {
-        fontSize: 20
+        fontSize: 18
     },
     row: {
         flexDirection: 'row',
         alignItems: 'center'
     },
     method: {
-        fontSize: 16,
+        fontSize: 14,
         color: GRAY,
         marginRight: 16
     }

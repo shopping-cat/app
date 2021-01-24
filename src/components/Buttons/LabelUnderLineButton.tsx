@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     label: {
-        fontSize: 16,
+        fontSize: 14,
     },
     underLine: {
         height: 1,

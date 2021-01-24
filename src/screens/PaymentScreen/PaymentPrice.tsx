@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         zIndex: -1
     },
     title: {
-        fontSize: 20
+        fontSize: 18
     },
     totalPrieceContainer: {
         paddingHorizontal: 16,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 1
     },
     totalPrice: {
-        fontSize: 20,
+        fontSize: 16,
         color: COLOR1
     },
     couponCotnainer: {
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         paddingRight: 16
     },
     couponeText: {
-        fontSize: 16,
+        fontSize: 14,
         color: GRAY
     },
     couponPricesSpac: {
@@ -186,10 +186,10 @@ const styles = StyleSheet.create({
         marginBottom: 32
     },
     pricesTitle: {
-        fontSize: 16,
+        fontSize: 14,
         color: GRAY
     },
     pricesPrice: {
-        fontSize: 16
+        fontSize: 14
     }
 })

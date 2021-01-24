@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
     itemPrice: {
-        fontSize: 18
+        fontSize: 16
     },
     itemNumber: {
         color: GRAY,

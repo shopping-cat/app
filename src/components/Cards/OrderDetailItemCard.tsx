@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     price: {
-        fontSize: 18,
+        fontSize: 16,
         marginRight: 8
     },
     number: {

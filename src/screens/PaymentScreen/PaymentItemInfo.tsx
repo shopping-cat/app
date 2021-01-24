@@ -30,7 +30,7 @@ const PaymentItemInfo = () => {
 
     const height = animation.interpolate({
         inputRange: [0, 1],
-        outputRange: [68, contentsHeight + 68]
+        outputRange: [64, contentsHeight + 64]
     })
 
     return (
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         top: 0,
         right: 0,
         left: 0,
-        height: 68,
+        height: 64,
         paddingHorizontal: 16,
         flexDirection: 'row',
         alignItems: 'center',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     title: {
-        fontSize: 20
+        fontSize: 18
     },
     contentContainer: {
         position: 'absolute',

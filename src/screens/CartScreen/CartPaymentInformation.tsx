@@ -58,20 +58,20 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1
     },
     totalPaymentPriceText: {
-        fontSize: 20,
+        fontSize: 16,
         color: COLOR1
     },
     textContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 8
+        paddingVertical: 12
     },
     infoText: {
-        fontSize: 16,
+        fontSize: 14,
         color: GRAY
     },
     priceText: {
-        fontSize: 16
+        fontSize: 14
     }
 })

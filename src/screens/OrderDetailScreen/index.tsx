@@ -24,7 +24,9 @@ const OrderDetailScreen = () => {
         if (state === '취소처리') return // 작동 안함
         if (state === '오류처리') return // 작동 안함
         if (state === '정상처리') navigate('OrderCancelGuide')
-        if (state === '구매접수') navigate('OrderCancel') // 주문 취소
+        if (state === '구매접수') { // 주문 취소
+
+        }
     }, [state])
 
     return (
@@ -36,7 +38,7 @@ const OrderDetailScreen = () => {
                 <OrderDetailItemInfo />
                 <OrderDetailCancelGuide />
                 {billingWay === '무통장입금' && state === '구매접수' && <OrderDetailDepositWithoutBankbook />}
-                {state === '취소처리' && <OrderDetailCancelInfo />}
+                {/* {state === '취소처리' && <OrderDetailCancelInfo />} */}
                 <OrderDetailAddress />
                 <OrderDetailDeliveryMemo />
                 <OrderDetailPaymentInfo />

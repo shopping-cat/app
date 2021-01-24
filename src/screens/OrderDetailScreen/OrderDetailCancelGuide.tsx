@@ -38,6 +38,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     title: {
-        fontSize: 20
+        fontSize: 18
     }
 })

@@ -10,7 +10,7 @@ const message = '2020-01-11 23시 34분 까지 입금해 주세요\n시간안에
 const price = 159000
 const name = '홍길동'
 const bank = '우체국 1234567-123-42412'
-const isProcessed = true
+const isProcessed = false
 
 
 const OrderDetailDepositWithoutBankbook = () => {
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         paddingTop: 24
     },
     title: {
-        fontSize: 20,
+        fontSize: 18,
         marginBottom: 24,
         marginLeft: 16
     },
