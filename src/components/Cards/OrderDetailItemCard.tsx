@@ -12,7 +12,7 @@ const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
 const option = '해먹 | 베이지'
 const price = 79000
 const number = 1
-let state: OrderState = '환불중'
+let state: OrderState = '환불처리'
 
 const OrderDetailItemCard = () => {
 
