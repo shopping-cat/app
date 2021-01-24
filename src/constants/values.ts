@@ -6,7 +6,13 @@ export const IS_IOS = Platform.OS === 'ios'
 export const ITEM_CATEGORYS = ['']
 export const MAX_REVIEW_IMAGE_NUMBER = 9
 
-export const REFUND_REASONS = [ // 환불 취소 사유
+export const REFUND_REASONS = [ // 환불 사유
+    '단순 변심',
+    '배송 문제',
+    '상품 문제'
+]
+
+export const EXCHANGE_REASON = [ // 교환 사유
     '단순 변심',
     '배송 문제',
     '상품 문제'

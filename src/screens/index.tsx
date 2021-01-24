@@ -48,6 +48,9 @@ import OrderCancelGuideScreen from './OrderCancelGuideScreen'
 import RefundScreen from './RefundScreen';
 import RefundDetailScreen from './RefundDetailScreen';
 import RefundResultScreen from './RefundResultScreen';
+import ExchangeScreen from './ExchangeScreen';
+import ExchangeDetailScreen from './ExchangeDetailScreen';
+import ExchangeResultScreen from './ExchangeResultScreen';
 
 
 const Stack = createStackNavigator()
@@ -197,6 +200,9 @@ const Navigation = () => {
                 <Stack.Screen name='Refund' component={RefundScreen} />
                 <Stack.Screen name='RefundDetail' component={RefundDetailScreen} />
                 <Stack.Screen name='RefundResult' component={RefundResultScreen} />
+                <Stack.Screen name='Exchange' component={ExchangeScreen} />
+                <Stack.Screen name='ExchangeDetail' component={ExchangeDetailScreen} />
+                <Stack.Screen name='ExchangeResult' component={ExchangeResultScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
