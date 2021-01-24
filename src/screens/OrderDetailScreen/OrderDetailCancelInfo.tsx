@@ -39,11 +39,9 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     label: {
-        fontSize: 16,
         color: GRAY,
         width: 80
     },
     content: {
-        fontSize: 16
     }
 })

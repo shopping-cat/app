@@ -51,11 +51,9 @@ const styles = StyleSheet.create({
     },
     infoTitle: {
         color: GRAY,
-        fontSize: 16,
         width: 80
     },
     infoContent: {
-        fontSize: 16,
         flex: 1,
         lineHeight: 20
     }

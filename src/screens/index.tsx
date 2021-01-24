@@ -45,6 +45,8 @@ import NotificationScreen from './NotificationScreen';
 import OrderScreen from './OrderScreen';
 import OrderDetailScreen from './OrderDetailScreen';
 import OrderCancelGuideScreen from './OrderCancelGuideScreen'
+import RefundScreen from './RefundScreen';
+import RefundDetailScreen from './RefundDetailScreen';
 
 
 const Stack = createStackNavigator()
@@ -131,7 +133,7 @@ const Navigation = () => {
             }, 200)
         } else {
             console.log('logged out')
-            // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
+            // timeout 없으면 앱 처음 실행시에 NavigastionContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
             setTimeout(() => {
                 // 중복 네비게이트 방지
                 const route = navigationRef?.current?.getCurrentRoute()
@@ -191,6 +193,8 @@ const Navigation = () => {
                 <Stack.Screen name='Order' component={OrderScreen} />
                 <Stack.Screen name='OrderDetail' component={OrderDetailScreen} />
                 <Stack.Screen name='OrderCancelGuide' component={OrderCancelGuideScreen} />
+                <Stack.Screen name='Refund' component={RefundScreen} />
+                <Stack.Screen name='RefundDetail' component={RefundDetailScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

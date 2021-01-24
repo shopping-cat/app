@@ -4,18 +4,17 @@ import { useCallback } from "react"
 
 const listVar = makeVar<string[]>([])
 const visibleVar = makeVar<boolean>(false)
-const callBackVar = makeVar<(i: number) => void>(() => { })
+let callBackVar = (i: number) => { }
 
 
 const useSelectBottomSheet = () => {
 
     const list = useReactiveVar(listVar)
     const visible = useReactiveVar(visibleVar)
-    const callBack = useReactiveVar(callBackVar)
 
     const open = useCallback((list: string[], callBack: (i: number) => void) => {
         listVar(list)
-        callBackVar(callBack)
+        callBackVar = callBack
         setTimeout(() => {
             visibleVar(true)
         }, 100)
@@ -26,8 +25,8 @@ const useSelectBottomSheet = () => {
     }, [])
 
     const onSelected = useCallback((i: number) => {
-        callBack(i)
-    }, [callBack])
+        callBackVar && callBackVar(i)
+    }, [callBackVar])
 
     return {
         list,

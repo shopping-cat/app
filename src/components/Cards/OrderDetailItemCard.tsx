@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
-import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
 import { OrderState } from '../../constants/types'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
@@ -12,7 +12,7 @@ const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
 const option = '해먹 | 베이지'
 const price = 79000
 const number = 1
-let state: OrderState = '배송중'
+let state: OrderState = '환불중'
 
 const OrderDetailItemCard = () => {
 
@@ -34,13 +34,13 @@ const OrderDetailItemCard = () => {
                 <View style={styles.stateContainer} >
                     {state === '상점취소처리' && <BorderyButton onPress={() => navigate('OrderShopCancelDetail')}>취소처리됨</BorderyButton>}
                     {state === '배송완료' && <>
-                        <BorderyButton onPress={() => navigate('Refund')} >교환하기</BorderyButton>
-                        <BorderyButton style={{ marginLeft: 16 }} onPress={() => navigate('Exchange')}>환불하기</BorderyButton>
+                        <BorderyButton onPress={() => navigate('Exchange')} >교환하기</BorderyButton>
+                        <BorderyButton style={{ marginLeft: 16 }} onPress={() => navigate('Refund')}>환불하기</BorderyButton>
                     </>}
-                    {state === '환불중' && <BorderyButton onPress={() => navigate('RefundDetail')}>환불상세</BorderyButton>}
                     {state === '교환중' && <BorderyButton onPress={() => navigate('ExchangeDetail')}>교환상세</BorderyButton>}
-                    {state === '환불처리' && <BorderyButton onPress={() => navigate('RefundDetail')}>환불처리됨</BorderyButton>}
-                    {state === '교환처리' && <BorderyButton onPress={() => navigate('ExchangeDetail')}>교환처리됨</BorderyButton>}
+                    {state === '환불중' && <BorderyButton onPress={() => navigate('RefundDetail')}>환불상세</BorderyButton>}
+                    {state === '교환처리' && <BorderyButton onPress={() => navigate('ExchangeResult')}>교환처리됨</BorderyButton>}
+                    {state === '환불처리' && <BorderyButton onPress={() => navigate('RefundResult')}>환불처리됨</BorderyButton>}
                 </View>
             </View>
         </View>

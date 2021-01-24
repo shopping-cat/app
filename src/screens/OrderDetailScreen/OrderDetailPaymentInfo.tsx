@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
@@ -68,10 +68,8 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     label: {
-        fontSize: 16,
         color: GRAY
     },
     content: {
-        fontSize: 16
     }
 })
