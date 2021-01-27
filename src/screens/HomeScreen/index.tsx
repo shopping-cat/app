@@ -5,6 +5,7 @@ import HomeHeader from '../../components/Headers/HomeHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import UpFab from '../../components/UpFab'
 import { STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
+import { Category } from '../../constants/types'
 import BestTab from './HomeScreenTabs/BestTab'
 import HomeTab from './HomeScreenTabs/HomeTab'
 import NewTab from './HomeScreenTabs/NewTab'
@@ -19,6 +20,8 @@ const HomeScreen = () => {
 
     const [tabIndex, setTabIndex] = useState(0)
     const [scrollX] = useState(new Animated.Value(0))
+    const [bestTabCategory1, setBestTabCategory1] = useState<Category>(null)
+    const [bestTabCategory2, setBestTabCategory2] = useState<Category>(null)
 
     const onTabSelectorPress = useCallback((index: number) => { // 셀렉터 버튼 클릭시
         scrollViewRef.current?.scrollTo({ animated: true, x: WIDTH * index })
@@ -35,6 +38,11 @@ const HomeScreen = () => {
         if (tabIndex === 2) newFlatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
     }, [tabIndex])
 
+    const onBestTabCategoryChange = useCallback((category1: Category, category2: Category) => {
+        setBestTabCategory1(category1)
+        setBestTabCategory2(category2)
+    }, [])
+
     return (
         <ScreenLayout >
             <HomeHeader />
@@ -45,7 +53,7 @@ const HomeScreen = () => {
             />
             <View style={styles.categoryContainer} >
                 <Animated.View style={[{ transform: [{ translateY: categoryTranslateY }] }]} >
-                    <CategorySelector />
+                    <CategorySelector onChange={onBestTabCategoryChange} />
                 </Animated.View>
             </View>
             <Animated.ScrollView
@@ -66,7 +74,7 @@ const HomeScreen = () => {
                 showsHorizontalScrollIndicator={false}
             >
                 <HomeTab ref={homeFlatlistRef} />
-                <BestTab ref={bestFlatlistRef} />
+                <BestTab ref={bestFlatlistRef} category1={bestTabCategory1} category2={bestTabCategory2} />
                 <NewTab ref={newFlatlistRef} />
             </Animated.ScrollView>
             <UpFab

@@ -13,7 +13,7 @@ const httpLink = createHttpLink({
 const authLink = setContext(async (_, { headers }) => {
     // 파이어베이스에서 해당 유저의 계정 토큰을 받아서 header에 authorization 속성에 추가
     const token = await auth().currentUser?.getIdToken()
-    console.log('token ' + token)
+    // console.log('token ' + token)
     return {
         headers: {
             ...headers,

@@ -6,7 +6,8 @@ export default new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
-                items: offsetLimitPagination(),
+                filteredItems: offsetLimitPagination(['category', 'keyword', 'orderBy']),
+                recommendedItems: offsetLimitPagination()
             },
         }
     },

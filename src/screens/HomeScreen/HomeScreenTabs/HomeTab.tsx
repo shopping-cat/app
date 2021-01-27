@@ -3,19 +3,27 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../../components/BaseText'
 import ItemCard from '../../../components/Cards/ItemCard'
 import { WIDTH } from '../../../constants/styles'
-
-const dummyItems = Array(20).fill({}).map((_, i) => ({ id: (i + 1).toString() }))
+import { useRecommendedItems } from '../../../graphql/item'
 
 const HomeTab = React.forwardRef<FlatList>((_, ref) => {
+
+    const { data, loading, refetch, fetchMore } = useRecommendedItems()
+
     return (
         <FlatList
             ref={ref}
+            refreshing={!!data && loading}
+            onRefresh={refetch}
+            onEndReached={() => fetchMore({
+                variables: { offset: data?.recommendedItems.length }
+            })}
+            onEndReachedThreshold={0.4}
             overScrollMode='never'
             showsVerticalScrollIndicator={false}
             style={styles.container}
             numColumns={2}
-            data={dummyItems}
-            renderItem={() => <ItemCard />}
+            data={data?.recommendedItems}
+            renderItem={({ item }) => <ItemCard {...item} />}
             ListHeaderComponent={
                 <View style={styles.headerContainer} >
                     <BaseText style={styles.headerTitle} >추천 상품</BaseText>

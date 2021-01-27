@@ -11,3 +11,4 @@ export type OrderState = // 각각 아이템에 해당됨
     '배송중' | '배송완료' | '구매확정' | // 정상 
     '환불중' | '환불처리' | // 환불 
     '교환중' | '교환처리' // 교환
+export type Category = string | null

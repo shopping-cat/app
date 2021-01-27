@@ -1,32 +1,62 @@
 import React from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import ItemCard from '../../../components/Cards/ItemCard'
 import { WIDTH } from '../../../constants/styles'
+import { Category } from '../../../constants/types'
+import { useFilteredItems } from '../../../graphql/item'
 
-const dummyItems = Array(20).fill({}).map((_, i) => ({ id: (i + 1).toString() }))
+interface BsetTabProps {
+    category1: Category
+    category2: Category
+}
 
-const BestTab = React.forwardRef<FlatList>((_, ref) => {
+const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2 }, ref) => {
+
+    const { data, refetch, fetchMore, loading } = useFilteredItems({
+        variables: {
+            orderBy: '인기순',
+            category: category2 || category1 || '전체',
+        }
+    })
+
+
     return (
-        <FlatList
-            ref={ref}
-            overScrollMode='never'
-            showsVerticalScrollIndicator={false}
-            columnWrapperStyle={styles.columnWrapperStyle}
-            numColumns={2}
-            style={styles.container}
-            data={dummyItems}
-            renderItem={() => <ItemCard />}
-        />
+        <View style={{ flex: 1 }} >
+            <View style={styles.marginTop} />
+            <FlatList
+                ref={ref}
+                refreshing={!!data && loading}
+                onRefresh={refetch}
+                onEndReached={() => fetchMore({
+                    variables: { offset: data?.filteredItems.length }
+                })}
+                overScrollMode='never'
+                showsVerticalScrollIndicator={false}
+                columnWrapperStyle={styles.columnWrapperStyle}
+                numColumns={2}
+                onEndReachedThreshold={0.4}
+                style={styles.container}
+                data={data?.filteredItems}
+                renderItem={({ item }) => <ItemCard {...item} />}
+                ListHeaderComponent={<View style={styles.paddingTop} />}
+            />
+        </View>
     )
 })
 
 export default BestTab
 
 const styles = StyleSheet.create({
+    marginTop: {
+        height: 48
+    },
+    paddingTop: {
+        height: 24,
+    },
     container: {
         width: WIDTH,
         flex: 1,
-        paddingTop: 48 + 24
+        // paddingTop: 24
     },
     columnWrapperStyle: {
         paddingLeft: 8,

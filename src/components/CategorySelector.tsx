@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
+import { Category } from '../constants/types'
 import BaseText from './BaseText'
 
 const dummyCategory = [
@@ -29,14 +30,14 @@ const dummyCategory = [
 interface CategorySelectorProps {
     initCategory1?: string
     initCategory2?: string
-    onChange?: (category1: string | null, category2: string | null) => void
+    onChange?: (category1: Category, category2: Category) => void
     enable?: boolean
 }
 
 const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, initCategory2, onChange, enable }) => {
 
-    const [category1, setCategory1] = useState<string | null>(initCategory1 || null)
-    const [category2, setCategory2] = useState<string | null>(initCategory2 || null)
+    const [category1, setCategory1] = useState<Category>(initCategory1 || null)
+    const [category2, setCategory2] = useState<Category>(initCategory2 || null)
 
     useEffect(() => {
         onChange && onChange(category1, category2)
