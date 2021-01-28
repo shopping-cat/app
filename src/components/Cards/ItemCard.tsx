@@ -1,11 +1,13 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import { COLOR1, COLOR2, WIDTH } from '../../constants/styles'
-import BaseText from '../BaseText'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
+import { COLOR1, COLOR2, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
+import BaseText from '../BaseText'
 import moneyFormat from '../../lib/moneyFormat'
 import { FilteredItems } from '../../graphql/item'
+import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder';
 
 const width = (WIDTH - 48) / 2
 
@@ -55,6 +57,17 @@ const ItemCard: React.FC<FilteredItems> = ({ id, isFreeDelivery, isILiked, isNew
 }
 
 export default ItemCard
+
+export const ItemCardSkeleton = () => {
+    return (
+        <BaseSkeletonPlaceHolder>
+            <View style={styles.container} >
+                <View style={styles.image} />
+                <View style={{ width, height: 32, marginTop: 8, borderRadius: 8 }} />
+            </View>
+        </BaseSkeletonPlaceHolder>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import BaseText from '../../../components/BaseText'
 import ItemCard from '../../../components/Cards/ItemCard'
@@ -16,7 +16,7 @@ const NewTab = React.forwardRef<FlatList>((_, ref) => {
     return (
         <FlatList
             ref={ref}
-            refreshing={!!data && loading}
+            refreshing={loading}
             onRefresh={refetch}
             onEndReached={() => fetchMore({
                 variables: { offset: data?.filteredItems.length }

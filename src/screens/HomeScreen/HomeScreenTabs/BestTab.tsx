@@ -25,7 +25,7 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
             <View style={styles.marginTop} />
             <FlatList
                 ref={ref}
-                refreshing={!!data && loading}
+                refreshing={loading}
                 onRefresh={refetch}
                 onEndReached={() => fetchMore({
                     variables: { offset: data?.filteredItems.length }
