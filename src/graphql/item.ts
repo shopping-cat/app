@@ -16,7 +16,7 @@ export const FILTERED_ITEMS = gql`
     }
   }
 `
-export interface FilteredItems {
+export interface Item {
   id: number
   salePrice: number
   mainImage: string
@@ -27,7 +27,7 @@ export interface FilteredItems {
   isILiked: boolean
 }
 interface FilteredItemsData {
-  filteredItems: FilteredItems[]
+  filteredItems: Item[]
 }
 interface FilteredItemsVars {
   category?: string
@@ -56,7 +56,7 @@ export const RECOMMENDED_ITEMS = gql`
 `
 
 interface RecommendedItemsData {
-  recommendedItems: FilteredItems[]
+  recommendedItems: Item[]
 }
 interface RecommendedItemsVars {
   offset?: number
@@ -65,3 +65,31 @@ interface RecommendedItemsVars {
 export const useRecommendedItems = (options?: QueryHookOptions<RecommendedItemsData, RecommendedItemsVars>) => createQueryHook<RecommendedItemsData, RecommendedItemsVars>(RECOMMENDED_ITEMS, {
   ...options,
 })
+
+export const ZZIM_ITEMS = gql`
+  query ($category: String,$offset:Int, $limit:Int){
+    zzimItems(category:$category,offset:$offset, limit:$limit) {
+      id
+      salePrice
+      mainImage
+      name
+      sale
+      isFreeDelivery
+      isNew
+      isILiked
+    }
+  }
+`
+
+interface ZzimItemsData {
+  zzimItems: Item[]
+}
+interface ZzimItemsVars {
+  offset?: number
+  limit?: number
+  category?: string
+}
+export const useZzimItems = (options?: QueryHookOptions<ZzimItemsData, ZzimItemsVars>) => createQueryHook<ZzimItemsData, ZzimItemsVars>(ZZIM_ITEMS, {
+  ...options,
+})
+

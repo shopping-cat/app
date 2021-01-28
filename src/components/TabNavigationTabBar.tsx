@@ -3,6 +3,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
+import useZzimFooter from '../hooks/useZzimFooter'
 import ZzimScreenSelectModeFooter from '../screens/ZzimScreen/ZzimScreenSelectModeFooter'
 import BaseText from './BaseText'
 import TouchableScale from './Buttons/TouchableScale'
@@ -10,6 +11,7 @@ import TouchableScale from './Buttons/TouchableScale'
 const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({ state, navigation, descriptors }) => {
 
     const { bottom } = useSafeAreaInsets()
+    const { onCart, onDelete, onSelectAll, isSelectMode } = useZzimFooter()
 
     return (
         <>
@@ -48,14 +50,10 @@ const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
                 })}
             </View>
             <ZzimScreenSelectModeFooter
-                //@ts-ignore
-                visible={state.index === 2 && state.routes[2].params?.isSelectMode}
-                //@ts-ignore
-                onSelectAll={state.routes[2].params?.onSelectAll}
-                //@ts-ignore
-                onCart={state.routes[2].params?.onCart}
-                //@ts-ignore
-                onDelete={state.routes[2].params?.onDelete}
+                visible={state.index === 2 && isSelectMode}
+                onSelectAll={onSelectAll}
+                onCart={onCart}
+                onDelete={onDelete}
             />
         </>
     )

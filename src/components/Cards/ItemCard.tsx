@@ -6,13 +6,13 @@ import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import { COLOR1, COLOR2, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import BaseText from '../BaseText'
 import moneyFormat from '../../lib/moneyFormat'
-import { FilteredItems } from '../../graphql/item'
+import { Item } from '../../graphql/item'
 import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder';
 
 const width = (WIDTH - 48) / 2
 
 
-const ItemCard: React.FC<FilteredItems> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice }) => {
+const ItemCard: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice }) => {
 
     const { navigate } = useNavigation()
 

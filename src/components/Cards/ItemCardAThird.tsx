@@ -3,14 +3,14 @@ import React, { useCallback } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, COLOR2, WIDTH } from '../../constants/styles'
-import { FilteredItems } from '../../graphql/item'
+import { Item } from '../../graphql/item'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
 import BaseText from '../BaseText'
 
 const width = (WIDTH - 64) / 3
 
-const ItemCardAThird: React.FC<FilteredItems> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice }) => {
+const ItemCardAThird: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice }) => {
 
     const { navigate } = useNavigation()
 
