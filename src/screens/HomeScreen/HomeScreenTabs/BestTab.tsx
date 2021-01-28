@@ -1,9 +1,11 @@
 import React from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import ItemCard from '../../../components/Cards/ItemCard'
+import ItemCard, { ItemCardSkeleton } from '../../../components/Cards/ItemCard'
 import { WIDTH } from '../../../constants/styles'
 import { Category } from '../../../constants/types'
 import { useFilteredItems } from '../../../graphql/item'
+import useRefreshing from '../../../hooks/useRefreshing'
+import makeIdArray from '../../../lib/makeIdArray'
 
 interface BsetTabProps {
     category1: Category
@@ -18,6 +20,7 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
             category: category2 || category1 || '전체',
         }
     })
+    const { onRefresh, refreshing } = useRefreshing(refetch)
 
 
     return (
@@ -25,8 +28,8 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
             <View style={styles.marginTop} />
             <FlatList
                 ref={ref}
-                refreshing={loading}
-                onRefresh={refetch}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
                 onEndReached={() => fetchMore({
                     variables: { offset: data?.filteredItems.length }
                 })}
@@ -36,8 +39,8 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
                 numColumns={2}
                 onEndReachedThreshold={0.4}
                 style={styles.container}
-                data={data?.filteredItems}
-                renderItem={({ item }) => <ItemCard {...item} />}
+                data={loading ? makeIdArray(6) : data?.filteredItems}
+                renderItem={({ item }) => loading ? <ItemCardSkeleton /> : <ItemCard {...item} />}
                 ListHeaderComponent={<View style={styles.paddingTop} />}
             />
         </View>

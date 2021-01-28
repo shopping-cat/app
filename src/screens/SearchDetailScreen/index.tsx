@@ -6,7 +6,7 @@ import BaseText from '../../components/BaseText'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
 import BaseButton from '../../components/Buttons/BaseButton'
 import ItemCard from '../../components/Cards/ItemCard'
-import ItemCardAThird from '../../components/Cards/ItemCardAThird'
+import ItemCardAThird, { ItemCardAThirdSkeleton } from '../../components/Cards/ItemCardAThird'
 import CategorySelector from '../../components/CategorySelector'
 import SearchHeader from '../../components/Headers/SearchHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
@@ -14,11 +14,14 @@ import StatusBarHeightView from '../../components/StatusBarHeightView'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import UpFab from '../../components/UpFab'
 import { GRAY } from '../../constants/styles'
+import { useFilteredItems } from '../../graphql/item'
 import { useSearch } from '../../graphql/search'
+import useRefreshing from '../../hooks/useRefreshing'
+import makeIdArray from '../../lib/makeIdArray'
 
 
 interface RouteParams {
-    searchKeyword: string
+    keyword: string
 }
 
 type Sort = '인기순' | '최신순' | '저가순' | '고가순'
@@ -29,13 +32,20 @@ const dummySearchResultNum = 320
 const SearchDetailScreen = () => {
 
     const flatlistRef = useRef<FlatList>(null)
+
+    // data
     const { params } = useRoute<Route<'SearchDetail', RouteParams>>()
-    const { bottom } = useSafeAreaInsets()
-    const [category, setCategory] = useState(null)
-    const [refreshing, setRefresing] = useState(false)
+    const [category, setCategory] = useState('전체')
     const [sortIndex, setSortIndex] = useState(0)
-    const sort = SORT_LIST[sortIndex]
+    const orderBy = SORT_LIST[sortIndex]
+    const { data, refetch, fetchMore, loading } = useFilteredItems({ variables: { orderBy, category, keyword: params.keyword } })
+
+    // ui
+    const { bottom } = useSafeAreaInsets()
+    const { onRefresh, refreshing } = useRefreshing(refetch)
     const [sortSheetVisible, setSortSheetVisible] = useState(false)
+
+
 
     const onSort = useCallback(() => {
         setSortSheetVisible(true)
@@ -45,13 +55,18 @@ const SearchDetailScreen = () => {
         <ScreenLayout disableStatusbarHeight >
             <StatusBarHeightView />
             <SearchHeader editable={false} />
-            <CategorySelector />
+            <CategorySelector onChange={(c1, c2) => setCategory(c2 || c1 || '전체')} />
             <FlatList
                 ref={flatlistRef}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                onEndReached={() => fetchMore({
+                    variables: { offset: data?.filteredItems.length }
+                })}
                 overScrollMode='never'
                 showsVerticalScrollIndicator={false}
-                data={Array(10).fill(1).map((v, i) => ({ id: i }))}
-                renderItem={({ item }) => <ItemCardAThird {...item} />}
+                data={loading ? makeIdArray(12) : data?.filteredItems}
+                renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> : <ItemCardAThird {...item} />}
                 numColumns={3}
                 columnWrapperStyle={styles.flatlistColumnWrapper}
                 ListHeaderComponent={
@@ -61,7 +76,7 @@ const SearchDetailScreen = () => {
                     >
                         <BaseText style={styles.sortText} >전체 {dummySearchResultNum}건</BaseText>
                         <View style={styles.sortContainer} >
-                            <BaseText style={styles.sortText}>{sort}</BaseText>
+                            <BaseText style={styles.sortText}>{orderBy}</BaseText>
                             <DownArrowIcon />
                         </View>
                     </Pressable>

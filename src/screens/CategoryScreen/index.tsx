@@ -4,7 +4,7 @@ import { FlatList, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import BaseText from '../../components/BaseText'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
-import ItemCardAThird from '../../components/Cards/ItemCardAThird'
+import ItemCardAThird, { ItemCardAThirdSkeleton } from '../../components/Cards/ItemCardAThird'
 import CategorySelector from '../../components/CategorySelector'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
@@ -12,7 +12,10 @@ import StatusBarHeightView from '../../components/StatusBarHeightView'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import UpFab from '../../components/UpFab'
 import { GRAY } from '../../constants/styles'
+import { useFilteredItems } from '../../graphql/item'
 import useCategorySortSheet from '../../hooks/useCategorySortSheet'
+import useRefreshing from '../../hooks/useRefreshing'
+import makeIdArray from '../../lib/makeIdArray'
 
 
 const dummySearchResultNum = 1042
@@ -23,7 +26,10 @@ const CategoryScreen = () => {
     const flatlistRef = useRef<FlatList>(null)
     const { bottom } = useSafeAreaInsets()
 
+    const [category, setCategory] = useState('전체')
     const { SORT_LIST, open, sortIndex } = useCategorySortSheet()
+    const { data, loading, fetchMore, refetch } = useFilteredItems({ variables: { category, orderBy: SORT_LIST[sortIndex] } })
+    const { onRefresh, refreshing } = useRefreshing(refetch)
 
 
     const onSort = useCallback(() => {
@@ -36,13 +42,18 @@ const CategoryScreen = () => {
         <ScreenLayout disableStatusbarHeight >
             <StatusBarHeightView />
             <DefaultHeader underLine={false} disableGoBack title='카테고리' />
-            <CategorySelector />
+            <CategorySelector onChange={(c1, c2) => setCategory(c2 || c1 || '전체')} />
             <FlatList
                 ref={flatlistRef}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                onEndReached={() => fetchMore({
+                    variables: { offset: data?.filteredItems.length }
+                })}
                 overScrollMode='never'
                 showsVerticalScrollIndicator={false}
-                data={Array(30).fill(1).map((v, i) => ({ id: i }))}
-                renderItem={({ item }) => <ItemCardAThird {...item} />}
+                data={loading ? makeIdArray(9) : data?.filteredItems}
+                renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> : <ItemCardAThird {...item} />}
                 numColumns={3}
                 columnWrapperStyle={styles.flatlistColumnWrapper}
                 ListHeaderComponent={

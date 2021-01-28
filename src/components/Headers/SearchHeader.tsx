@@ -22,7 +22,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ editable }) => {
 
     const onSearch = useCallback(() => {
         if (!editable) return
-        navigate('SearchDetail', { searchKeyword })
+        navigate('SearchDetail', { keyword: searchKeyword })
         addRecentSearchKeywords(searchKeyword)
     }, [searchKeyword])
 

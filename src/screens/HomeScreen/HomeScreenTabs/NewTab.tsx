@@ -4,20 +4,22 @@ import BaseText from '../../../components/BaseText'
 import ItemCard from '../../../components/Cards/ItemCard'
 import { WIDTH } from '../../../constants/styles'
 import { useFilteredItems } from '../../../graphql/item'
+import useRefreshing from '../../../hooks/useRefreshing'
 
 const NewTab = React.forwardRef<FlatList>((_, ref) => {
 
-    const { data, loading, refetch, fetchMore } = useFilteredItems({
+    const { data, refetch, fetchMore } = useFilteredItems({
         variables: {
             orderBy: '최신순'
         }
     })
+    const { onRefresh, refreshing } = useRefreshing(refetch)
 
     return (
         <FlatList
             ref={ref}
-            refreshing={loading}
-            onRefresh={refetch}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
             onEndReached={() => fetchMore({
                 variables: { offset: data?.filteredItems.length }
             })}

@@ -33,7 +33,7 @@ const KeywordList: React.FC<KeywordListProps> = ({ data }) => {
 
     const onKeyword = useCallback((keyword: string) => {
         onChange(keyword)
-        navigate('SearchDetail')
+        navigate('SearchDetail', { keyword })
     }, [])
 
     return (

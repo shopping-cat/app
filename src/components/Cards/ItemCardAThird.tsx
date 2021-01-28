@@ -3,26 +3,20 @@ import React, { useCallback } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, COLOR2, WIDTH } from '../../constants/styles'
+import { FilteredItems } from '../../graphql/item'
 import moneyFormat from '../../lib/moneyFormat'
+import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
 import BaseText from '../BaseText'
-
-const dummyMainImage = 'https://undark.org/wp-content/uploads/2020/02/GettyImages-1199242002-1-scaled.jpg'
-const isFreeDelivery = true
-const isNew = true
-const itemName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const isILiked = true
-const sale = 25
-const salePrice = 75600
 
 const width = (WIDTH - 64) / 3
 
-const ItemCardAThird: React.FC<any> = () => {
+const ItemCardAThird: React.FC<FilteredItems> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice }) => {
 
     const { navigate } = useNavigation()
 
     const onPress = useCallback(() => {
-        navigate('ItemDetail', {})
-    }, [])
+        navigate('ItemDetail', { id })
+    }, [id])
 
     return (
         <Pressable
@@ -31,7 +25,7 @@ const ItemCardAThird: React.FC<any> = () => {
         >
             <View>
                 <Image
-                    source={{ uri: dummyMainImage }}
+                    source={{ uri: mainImage }}
                     style={styles.image}
                 />
                 {isILiked && <Icon style={styles.likedIcon} name='heart' size={16} color={COLOR1} />}
@@ -50,10 +44,10 @@ const ItemCardAThird: React.FC<any> = () => {
                     }
                 </View>
             }
-            <BaseText numberOfLines={2} style={styles.name} >{itemName}</BaseText>
+            <BaseText numberOfLines={2} style={styles.name} >{name}</BaseText>
             <View style={styles.priceContainer} >
-                {sale && <BaseText style={styles.sale} >{sale}%</BaseText>}
-                <BaseText >{moneyFormat(salePrice)}</BaseText>
+                {sale !== 0 && <BaseText style={styles.sale} >{sale}%</BaseText>}
+                <BaseText>{moneyFormat(salePrice)}</BaseText>
                 <BaseText style={styles.priceUnit} >원</BaseText>
             </View>
         </Pressable>
@@ -61,6 +55,17 @@ const ItemCardAThird: React.FC<any> = () => {
 }
 
 export default ItemCardAThird
+
+export const ItemCardAThirdSkeleton = () => {
+    return (
+        <BaseSkeletonPlaceHolder>
+            <View style={styles.container} >
+                <View style={styles.image} />
+                <View style={{ width, height: 32, borderRadius: 8 }} />
+            </View>
+        </BaseSkeletonPlaceHolder>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
