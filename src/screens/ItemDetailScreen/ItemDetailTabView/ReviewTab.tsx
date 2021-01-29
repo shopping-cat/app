@@ -6,50 +6,30 @@ import ReviewCard from '../../../components/Cards/ReviewCard'
 import RateStars from '../../../components/RateStars'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../../constants/styles'
+import { ItemDetail } from '../../../graphql/item'
 import moneyFormat from '../../../lib/moneyFormat'
 
-const dummyRate = 4.2
-const dummyReviewNum = 2343
-const dummyReviews = [
-    {
-        id: 1
-    },
-    {
-        id: 2
-    },
-    {
-        id: 3
-    },
-    {
-        id: 4
-    },
-    {
-        id: 5
-    }
-]
 
-
-
-const ReviewTab = () => {
+const ReviewTab: React.FC<ItemDetail> = ({ rate, reviews, reviewNum }) => {
     return (
         <View style={styles.container} >
             <View style={styles.rateContainer} >
                 <RateStars
-                    rate={dummyRate}
+                    rate={rate}
                     spacing={6}
                     starSize={24}
                     emptyColor={VERY_LIGHT_GRAY}
                 />
-                <BaseText style={styles.rate} >{dummyRate}</BaseText>
+                <BaseText style={styles.rate} >{rate}</BaseText>
             </View>
-            <MoreReview />
-            {dummyReviews.map((item) => <ReviewCard key={item.id} {...item} />)}
-            <MoreReview />
+            <MoreReview reviewNum={reviewNum} />
+            {(reviews || []).map((item) => <ReviewCard key={item.id} {...item} />)}
+            {reviewNum > 0 && <MoreReview reviewNum={reviewNum} />}
         </View>
     )
 }
 
-const MoreReview = () => {
+const MoreReview: React.FC<{ reviewNum: number }> = ({ reviewNum }) => {
 
     const { navigate } = useNavigation()
 
@@ -62,7 +42,7 @@ const MoreReview = () => {
             onPress={onMoreReview}
             style={styles.moreReviewContainer}
         >
-            <BaseText style={styles.moreReviewText} >{moneyFormat(dummyReviewNum)}개의 리뷰 전체보기</BaseText>
+            <BaseText style={styles.moreReviewText} >{moneyFormat(reviewNum)}개의 리뷰 전체보기</BaseText>
             <RightArrowIcon fill={GRAY} />
         </Pressable>
     )

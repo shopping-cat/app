@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, LayoutChangeEvent, ScrollView, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,15 +12,24 @@ import ItemDetailTabViewNavigator from './ItemDetailTabViewNavigator'
 import UpFab from '../../components/UpFab'
 import ItemDetailFooter from './ItemDetailFooter'
 import ItemDetailOptionSheet from './ItemDetailOptionSheet';
-import ItemInfoTab from './ItemDetailTabView/ItemInfoTab';
+import { ID } from '../../constants/types';
+import { useItem } from '../../graphql/item';
 
-const dummyImages = ['https://catwheel.net/web/product/big/201810/9cc28454ba71dedadf4686ed493ad400.jpg', 'https://image.hnsmall.com/images/goods/948/13016948_g.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg', 'https://wallpaperaccess.com/full/32048.jpg', 'https://i.pinimg.com/originals/36/0c/62/360c628d043b2461d011d0b7f9b4d880.jpg']
 
-const ItemDetail = () => {
+interface ItemDetailProps {
+    id: ID
+}
+
+const ItemDetailScreen = () => {
 
     const { bottom } = useSafeAreaInsets()
-    const { params } = useRoute()
+    const { goBack } = useNavigation()
+    const { params } = useRoute<Route<'ItemDetail', ItemDetailProps>>()
 
+    // DATA
+    const { data, loading } = useItem({ variables: { id: params.id } })
+
+    // UI
     const scrollViewRef = useRef<ScrollView>(null)
     const [optionModalVisible, setOptionModalVisible] = useState(false)
     const [scrollY] = useState(new Animated.Value(0))
@@ -30,9 +39,12 @@ const ItemDetail = () => {
     const scrollToTabViewTopTarget = itemDetailInfoHeight - 56 - STATUSBAR_HEIGHT
 
     useEffect(() => {
+        // id 가 없으면 goBack
+        if (!params.id) goBack()
         // 언제 status bar style 색깔 바뀔지
         scrollY.addListener(({ value }) => setIsLight(value < WIDTH - 56 - STATUSBAR_HEIGHT))
     }, [])
+
 
     const onTopContentLayout = useCallback((event: LayoutChangeEvent) => {
         setItemDetailInfoHeight(event.nativeEvent.layout.height)
@@ -47,6 +59,7 @@ const ItemDetail = () => {
         scrollViewRef.current?.scrollTo({ animated: true, y: scrollToTabViewTopTarget })
     }, [scrollToTabViewTopTarget])
 
+    if (!data) return null
 
     return (
         <View style={[styles.container, { paddingBottom: bottom }]} >
@@ -64,8 +77,8 @@ const ItemDetail = () => {
                 )}
             >
                 <View onLayout={onTopContentLayout}  >
-                    <ImageCarousel images={dummyImages} />
-                    <ItemDetailInfo />
+                    <ImageCarousel images={data.item.imageUrls} />
+                    <ItemDetailInfo {...data.item} />
                     <ThinLine />
                 </View>
                 <View style={styles.tabViewNavigatorWrapper} >
@@ -76,6 +89,7 @@ const ItemDetail = () => {
                     />
                 </View>
                 <ItemDetailTabView
+                    data={data.item}
                     index={tabViewIndex}
                     onIndexChange={setTabViewIndex}
                 />
@@ -89,9 +103,11 @@ const ItemDetail = () => {
                 onPress={onFab}
             />
             <ItemDetailFooter
+                data={data.item}
                 onBuy={() => setOptionModalVisible(true)}
             />
             <ItemDetailOptionSheet
+                data={data.item}
                 visible={optionModalVisible}
                 onClose={() => setOptionModalVisible(false)}
             />
@@ -99,7 +115,7 @@ const ItemDetail = () => {
     )
 }
 
-export default ItemDetail
+export default ItemDetailScreen
 
 const styles = StyleSheet.create({
     container: {

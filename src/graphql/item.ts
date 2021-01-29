@@ -1,5 +1,88 @@
 import { gql, QueryHookOptions, useApolloClient } from "@apollo/client";
+import { ID, ItemState } from "../constants/types";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
+import { ItemReview } from "./itemReview";
+
+// QUERY/ITEM
+export const ITEM = gql`
+  query ($id:Int!){
+    item(id:$id) {
+      id
+      likeNum
+      state
+      name
+      price
+      sale
+      salePrice
+      option
+      requireInformation
+      html
+      imageUrls
+      isILiked
+      rate
+      reviewNum
+      reviews {
+        id
+        createdAt
+        likeNum
+        rate
+        content
+        itemNameOption
+        imageUrls
+        recommendState
+        user {
+            id
+            name
+            photo
+        }
+      }
+      partner {
+        id
+        shopName
+      }
+    }
+  }
+`
+export interface ItemDetail {
+  id: ID
+  likeNum: number
+  state: ItemState
+  name: string
+  price: number
+  sale: number
+  salePrice: number
+  option?: {
+    data: {
+      optionGroupName: string
+      optionDetails: {
+        name: string
+        price: number
+      }[]
+    }[]
+  }
+  requireInformation: {
+    data: { title: string, content: string }[]
+  }
+  html: string
+  imageUrls: string[]
+  isILiked: boolean
+  rate: number
+  reviewNum: number
+  reviews: ItemReview[]
+  partner: {
+    id: ID
+    shopName: string
+  }
+}
+interface ItemData {
+  item: ItemDetail
+}
+interface ItemVars {
+  id: ID
+}
+export const useItem = (options?: QueryHookOptions<ItemData, ItemVars>) => createQueryHook<ItemData, ItemVars>(ITEM, {
+  ...options,
+})
 
 // QUERY/FILTERED_ITEMS
 export const FILTERED_ITEMS = gql`

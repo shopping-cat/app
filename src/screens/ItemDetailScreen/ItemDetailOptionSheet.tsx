@@ -12,65 +12,64 @@ import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/style
 import moneyFormat from '../../lib/moneyFormat';
 import Accordian from '../../components/ItemOptionAccordian';
 import LinearGradient from 'react-native-linear-gradient';
+import { ItemDetail } from '../../graphql/item';
 
 const dummyOption = [
     {
-        optionGroupName: '색상',
-        optionDetails: [
+        "optionGroupName": "색상",
+        "optionDetails": [
             {
-                optionDetailName: '빨간색',
-                price: 0
+                "name": "빨간색",
+                "price": 0
             },
             {
-                optionDetailName: '주황색',
-                price: 0
+                "name": "주황색",
+                "price": 0
             },
             {
-                optionDetailName: '노란색',
-                price: 0
+                "name": "노란색",
+                "price": 0
             },
             {
-                optionDetailName: '초록색',
-                price: 0
+                "name": "초록색",
+                "price": 0
             },
             {
-                optionDetailName: '파란색',
-                price: 0
+                "name": "파란색",
+                "price": 0
             },
             {
-                optionDetailName: '남색',
-                price: -20000
+                "name": "남색",
+                "price": -20000
             },
             {
-                optionDetailName: '보라색',
-                price: 2300
+                "name": "보라색",
+                "price": 2300
             }
         ]
     },
     {
-        optionGroupName: '사이즈',
-        optionDetails: [
+        "optionGroupName": "사이즈",
+        "optionDetails": [
             {
-                optionDetailName: 'S',
-                price: -300
+                "name": "S",
+                "price": -300
             },
             {
-                optionDetailName: 'M',
-                price: 0
+                "name": "M",
+                "price": 0
             },
             {
-                optionDetailName: 'L',
-                price: 20000
+                "name": "L",
+                "price": 20000
             },
             {
-                optionDetailName: 'XL',
-                price: 50000
+                "name": "XL",
+                "price": 50000
             }
         ]
     }
 ]
-// const dummyOption = null
-const dummyPrice = 38700
 
 const MIN_NUMBER = 1
 const MAX_NUMBER = 99
@@ -78,9 +77,10 @@ const MAX_NUMBER = 99
 interface ItemDetailOptionSheetProps {
     visible: boolean
     onClose: () => void
+    data: ItemDetail
 }
 
-const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, visible }) => {
+const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, visible, data }) => {
 
     const { bottom } = useSafeAreaInsets()
 
@@ -100,9 +100,9 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
     }, [])
 
     useEffect(() => { // totalPrice 계산
-        if (!dummyPrice) return
+        if (!data.salePrice) return
         // 기본가
-        let totalPriceTemp = dummyPrice
+        let totalPriceTemp = data.salePrice
         // 옵션 가격 적용
         for (const [index, value] of (dummyOption || []).entries()) {
             const currentOption = options[index]
@@ -112,11 +112,12 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
         // 수량 적용
         totalPriceTemp *= number
         setTotalPrice(totalPriceTemp)
-    }, [dummyPrice, options, number])
+    }, [data, options, number])
 
 
     const onCart = useCallback(() => {
         if (!isSelectedOption) return
+        // TODO
         onClose()
         setTimeout(() => {
             init()
@@ -125,6 +126,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
 
     const onBuy = useCallback(() => {
         if (!isSelectedOption) return
+        // TODO
         onClose()
         setTimeout(() => {
             init()
@@ -161,9 +163,9 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
                         end={{ x: 0.5, y: 1 }}
                     />
 
-                    {dummyOption && <FlatList
+                    {data.option?.data && <FlatList
                         style={{ height: 64 * 5, paddingTop: 8 }}
-                        data={dummyOption}
+                        data={data.option.data}
                         keyExtractor={({ optionGroupName }, index) => optionGroupName + index}
                         renderItem={({ item, index }) => {
                             const selectedIndex = options[index]
@@ -173,8 +175,8 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
                                 onSelect={(selectedIndex) => setOptions(options.map((v, i) => i === index ? selectedIndex : v))}
                                 style={[styles.accordian, { borderColor: isSelected ? GRAY : VERY_LIGHT_GRAY }]}
                                 title={item.optionGroupName + ' 옵션을 선택해주세요'}
-                                selectedTitle={selectedOption && selectedOption.optionDetailName}
-                                contents={item.optionDetails.map(({ optionDetailName, price }) => ({ left: optionDetailName, right: price === 0 ? '' : moneyFormat(price, true) }))}
+                                selectedTitle={selectedOption && selectedOption.name}
+                                contents={item.optionDetails.map(({ name, price }) => ({ left: name, right: price === 0 ? '' : moneyFormat(price, true) }))}
                             />
                         }}
                     />}

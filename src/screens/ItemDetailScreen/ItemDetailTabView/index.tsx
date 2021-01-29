@@ -8,13 +8,15 @@ import ReviewTab from './ReviewTab'
 import OrderInfoTab from './OrderInfoTab'
 import InqueryTab from './InqueryTab'
 import { WIDTH } from '../../../constants/styles'
+import { ItemDetail } from '../../../graphql/item'
 
 interface ItemDetailTabViewProps {
     index: number
     onIndexChange: (v: number) => void
+    data: ItemDetail
 }
 
-const ItemDetailTabView: React.FC<ItemDetailTabViewProps> = ({ index, onIndexChange }) => {
+const ItemDetailTabView: React.FC<ItemDetailTabViewProps> = ({ index, onIndexChange, data }) => {
 
     const [tabViewRoutes] = useState([
         { key: 'itemInfo' },
@@ -24,10 +26,10 @@ const ItemDetailTabView: React.FC<ItemDetailTabViewProps> = ({ index, onIndexCha
     ])
 
     const renderScene = SceneMap({
-        itemInfo: ItemInfoTab,
-        review: ReviewTab,
+        itemInfo: () => ItemInfoTab(data),
+        review: () => ReviewTab(data),
         orderInfo: OrderInfoTab,
-        inquery: InqueryTab
+        inquery: () => InqueryTab(data)
     })
 
     return (

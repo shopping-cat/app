@@ -1,42 +1,43 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import BaseText from '../../../components/BaseText';
 import ThinLine from '../../../components/ThinLine';
 import { GRAY, WIDTH } from '../../../constants/styles';
+import { ItemDetail } from '../../../graphql/item';
 
 const dummyRequiredInformation = [
     {
-        title: '품명 및 모델명',
-        content: 'iti 캣 치킨 앤 연어 1kg (200g*5개)'
+        "title": "품명 및 모델명",
+        "content": "iti 캣 치킨 앤 연어 1kg (200g*5개)"
     },
     {
-        title: '인증사항',
-        content: '해당없음'
+        "title": "인증사항",
+        "content": "해당없음"
     },
     {
-        title: '제조국 또는 원산지',
-        content: '뉴질랜드'
+        "title": "제조국 또는 원산지",
+        "content": "뉴질랜드"
     },
     {
-        title: '제조사/수입자',
-        content: '아이티아이/(주)산시아코리아'
+        "title": "제조사/수입자",
+        "content": "아이티아이/(주)산시아코리아"
     },
     {
-        title: '소비자상담 관련 전화번호',
-        content: '02-1234-3424'
+        "title": "소비자상담 관련 전화번호",
+        "content": "02-1234-3424"
     },
     {
-        title: '브랜드',
-        content: 'iti'
+        "title": "브랜드",
+        "content": "iti"
     },
     {
-        title: '중량',
-        content: '1kg'
+        "title": "중량",
+        "content": "1kg"
     },
     {
-        title: '원료구성',
-        content: '닭고기, 연어, 닭의간, 완두콩, 식물성글리세린, 녹색입홍합, 치커리, 파슬리, 아마씨, 다시마, 소금, 탄산칼슘, 염화콜린, 토코페롤, 타우린, 철산화아연, 닭고기, 연어, 닭의간, 완두콩, 식물성글리세린, 녹색입홍합, 치커리, 파슬리 ,아마씨, 다시마, 소금, 탄산칼슘, 염화콜린, 토코페롤, 타우린, 철산화아연'
+        "title": "원료구성",
+        "content": "닭고기, 연어, 닭의간, 완두콩, 식물성글리세린, 녹색입홍합, 치커리, 파슬리, 아마씨, 다시마, 소금, 탄산칼슘, 염화콜린, 토코페롤, 타우린, 철산화아연, 닭고기, 연어, 닭의간, 완두콩, 식물성글리세린, 녹색입홍합, 치커리, 파슬리 ,아마씨, 다시마, 소금, 탄산칼슘, 염화콜린, 토코페롤, 타우린, 철산화아연"
     }
 ]
 
@@ -64,18 +65,22 @@ const generateHtml = (content: string) => `
     </style>
   </head>
   <body>
-    ${content}
+    ${content || ''}
   </body>
 </html>
 `
 
-const ItemInfoTab = () => {
+const ItemInfoTab: React.FC<ItemDetail> = ({ html, requireInformation }) => {
 
     const [height, setHeight] = useState(10000)
 
     const onWebViewMessage = useCallback((event: WebViewMessageEvent) => {
         setHeight(Number(event.nativeEvent.data) * WIDTH / 980)
     }, [])
+
+    useEffect(() => {
+        console.log('req', requireInformation.data)
+    }, [requireInformation])
 
     return (
         <View style={styles.container} >
@@ -92,7 +97,7 @@ const ItemInfoTab = () => {
             <ThinLine />
             <View style={styles.baseInfoContainer} >
                 <BaseText style={styles.baseInfoTitle} >필수표기정보</BaseText>
-                {dummyRequiredInformation.map(({ content, title }) =>
+                {(requireInformation?.data || []).map(({ content, title }) =>
                     <View key={title} style={styles.baseInfoContentContainer} >
                         <BaseText style={styles.baseInfoContentTitle} >{title}</BaseText>
                         <BaseText style={styles.baseInfoContent} >{content}</BaseText>

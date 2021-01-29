@@ -1,19 +1,20 @@
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { atan } from 'react-native-reanimated'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseText from '../../components/BaseText'
 import TouchableScale from '../../components/Buttons/TouchableScale'
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { ItemDetail } from '../../graphql/item'
 import numberToKoreanUnit from '../../lib/numberToKoreanUnit'
 
-const isSale = true
-const likes = 4100
 
 interface ItemDetailFooter {
     onBuy: () => void
+    data: ItemDetail
 }
 
-const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy }) => {
+const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy, data }) => {
 
     const [liked, setLiked] = useState(false)
 
@@ -22,7 +23,7 @@ const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy }) => {
     }, [liked])
 
     const onBigBuy = useCallback(() => {
-        if (!isSale) return
+        if (data.state !== 'sale') return
         onBuy()
     }, [onBuy])
 
@@ -36,15 +37,15 @@ const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy }) => {
                     ? <Icon name='heart' size={24} color={COLOR1} />
                     : <Icon name='heart-outline' size={24} color={GRAY} />
                 }
-                <BaseText style={[styles.likeNumText, { color: liked ? COLOR1 : GRAY }]} >{numberToKoreanUnit(likes)}</BaseText>
+                <BaseText style={[styles.likeNumText, { color: liked ? COLOR1 : GRAY }]} >{numberToKoreanUnit(data.likeNum)}</BaseText>
             </TouchableScale>
             <TouchableScale
                 onPress={onBigBuy}
-                style={[styles.bigBuyContainer, { backgroundColor: isSale ? COLOR1 : LIGHT_GRAY }]}
+                style={[styles.bigBuyContainer, { backgroundColor: data.state === 'sale' ? COLOR1 : LIGHT_GRAY }]}
                 contianerStyle={styles.bigBuyTouchableContainer}
                 targetScale={0.9}
             >
-                <BaseText style={styles.bigBuyText} >구매하기</BaseText>
+                <BaseText style={styles.bigBuyText} >{data.state === 'sale' ? '구매하기' : data.state === 'noStock' ? '재고없음' : '판매중지'}</BaseText>
             </TouchableScale>
         </View>
     )

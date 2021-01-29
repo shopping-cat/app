@@ -6,28 +6,20 @@ import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
 import BaseText from '../../components/BaseText'
 import RateStars from '../../components/RateStars'
 import moneyFormat from '../../lib/moneyFormat'
+import { ItemDetail } from '../../graphql/item'
 
-const id = 12424
-const shopId = 21
-const shopName = '아이러브켓'
-const title = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const sale = 7
-const isSale = true
-const price = 49000
-const sellingPrice = 38750
-const rate = 4.73
-const rateNum = 2352
 
-const ItemDetailInfo = () => {
+const ItemDetailInfo: React.FC<ItemDetail> = ({ id, partner, name, sale, salePrice, price, rate, reviewNum }) => {
 
     const { navigate } = useNavigation()
 
     const onShare = useCallback(() => {
+        // TODO
         Share.share({ message: `shoppingcat://item/${id}` })
     }, [])
 
     const onShop = useCallback(() => {
-        navigate('ShopDetail', { id: shopId })
+        navigate('ShopDetail', { id: partner.id })
     }, [])
 
     return (
@@ -43,26 +35,26 @@ const ItemDetailInfo = () => {
                 style={styles.shopInfoContainer}
             >
                 <Icon name='storefront-outline' color={COLOR2} size={16} />
-                <BaseText style={styles.shopName} >{shopName}</BaseText>
+                <BaseText style={styles.shopName} >{partner.shopName}</BaseText>
             </Pressable>
 
-            <BaseText style={styles.title} >{title}</BaseText>
+            <BaseText style={styles.title} >{name}</BaseText>
 
             <View style={styles.priceInfoContainer} >
-                {isSale && <BaseText style={styles.sale}>{sale}%</BaseText>}
-                <BaseText style={styles.sellingPrice} >{moneyFormat(sellingPrice)}</BaseText>
+                {sale !== 0 && <BaseText style={styles.sale}>{sale}%</BaseText>}
+                <BaseText style={styles.sellingPrice} >{moneyFormat(salePrice)}</BaseText>
                 <BaseText style={styles.sellingPriceUnit} >원</BaseText>
-                {isSale && <BaseText style={styles.price} >{moneyFormat(price)}원</BaseText>}
+                {sale !== 0 && <BaseText style={styles.price} >{moneyFormat(price)}원</BaseText>}
             </View>
 
-            {rateNum > 0 && <View style={styles.rateInfoContainer} >
+            <View style={styles.rateInfoContainer} >
                 <RateStars
                     rate={rate}
                     spacing={3}
                     starSize={12}
                 />
-                <BaseText style={styles.rateNum} >({moneyFormat(rateNum)})</BaseText>
-            </View>}
+                <BaseText style={styles.rateNum} >({moneyFormat(reviewNum)})</BaseText>
+            </View>
         </View>
     )
 }

@@ -4,15 +4,14 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../../components/BaseText'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { COLOR1, GRAY, LIGHT_GRAY } from '../../../constants/styles'
+import { ItemDetail } from '../../../graphql/item'
 
-const dummyShopName = '아이러브캣'
-
-const InqueryTab = () => {
+const InqueryTab: React.FC<ItemDetail> = ({ partner }) => {
 
     const { navigate } = useNavigation()
 
     const onChat = useCallback(() => {
-        navigate('ShopChat', { name: dummyShopName })
+        navigate('ShopChat', { name: partner.shopName })
     }, [])
 
     return (
