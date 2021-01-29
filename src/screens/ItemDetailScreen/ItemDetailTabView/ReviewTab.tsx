@@ -5,12 +5,12 @@ import BaseText from '../../../components/BaseText'
 import ReviewCard from '../../../components/Cards/ReviewCard'
 import RateStars from '../../../components/RateStars'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
-import { GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../../constants/styles'
+import { GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY, WIDTH } from '../../../constants/styles'
 import { ItemDetail } from '../../../graphql/item'
 import moneyFormat from '../../../lib/moneyFormat'
 
 
-const ReviewTab: React.FC<ItemDetail> = ({ rate, reviews, reviewNum }) => {
+const ReviewTab: React.FC<ItemDetail> = ({ rate, bestItemReviews, reviewNum }) => {
     return (
         <View style={styles.container} >
             <View style={styles.rateContainer} >
@@ -23,7 +23,7 @@ const ReviewTab: React.FC<ItemDetail> = ({ rate, reviews, reviewNum }) => {
                 <BaseText style={styles.rate} >{rate}</BaseText>
             </View>
             <MoreReview reviewNum={reviewNum} />
-            {(reviews || []).map((item) => <ReviewCard key={item.id} {...item} />)}
+            {(bestItemReviews || []).map((item) => <ReviewCard key={item.id} {...item} />)}
             {reviewNum > 0 && <MoreReview reviewNum={reviewNum} />}
         </View>
     )
@@ -52,7 +52,7 @@ export default ReviewTab
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: WIDTH,
     },
     rateContainer: {
         width: '100%',

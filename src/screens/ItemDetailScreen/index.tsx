@@ -27,12 +27,14 @@ const ItemDetailScreen = () => {
     const { params } = useRoute<Route<'ItemDetail', ItemDetailProps>>()
 
     // DATA
-    const { data, loading } = useItem({ variables: { id: params.id } })
+    const { data } = useItem({ variables: { id: params.id } })
 
     // UI
     const scrollViewRef = useRef<ScrollView>(null)
+    const tabViewRef = useRef<ScrollView>(null)
     const [optionModalVisible, setOptionModalVisible] = useState(false)
-    const [scrollY] = useState(new Animated.Value(0))
+    const [scrollY] = useState(new Animated.Value(0)) // 전체 수직 스크롤뷰
+    const [scrollX] = useState(new Animated.Value(0)) // 탭 뷰
     const [isLight, setIsLight] = useState(true) // status bar color
     const [tabViewIndex, setTabViewIndex] = useState(0)
     const [itemDetailInfoHeight, setItemDetailInfoHeight] = useState(0)
@@ -43,6 +45,8 @@ const ItemDetailScreen = () => {
         if (!params.id) goBack()
         // 언제 status bar style 색깔 바뀔지
         scrollY.addListener(({ value }) => setIsLight(value < WIDTH - 56 - STATUSBAR_HEIGHT))
+        // tabView index 지정
+        scrollX.addListener(({ value }) => setTabViewIndex(Math.round(value / WIDTH)))
     }, [])
 
 
@@ -58,6 +62,10 @@ const ItemDetailScreen = () => {
         //<Line /> 바로 아래로 scroll to
         scrollViewRef.current?.scrollTo({ animated: true, y: scrollToTabViewTopTarget })
     }, [scrollToTabViewTopTarget])
+
+    const scrollToTabViewIndex = useCallback((index: number) => {
+        tabViewRef.current?.scrollTo({ x: index * WIDTH, animated: true })
+    }, [])
 
     if (!data) return null
 
@@ -84,14 +92,16 @@ const ItemDetailScreen = () => {
                 <View style={styles.tabViewNavigatorWrapper} >
                     <ItemDetailTabViewNavigator
                         index={tabViewIndex}
-                        setIndex={setTabViewIndex}
+                        scrollToTabViewIndex={scrollToTabViewIndex}
+                        scrollX={scrollX}
                         scrollToTop={scrollToTabViewTop}
                     />
                 </View>
                 <ItemDetailTabView
+                    ref={tabViewRef}
+                    tabViewIndex={tabViewIndex}
                     data={data.item}
-                    index={tabViewIndex}
-                    onIndexChange={setTabViewIndex}
+                    scrollX={scrollX}
                 />
             </Animated.ScrollView>
             <UpFab

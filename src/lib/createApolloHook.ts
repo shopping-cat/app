@@ -11,7 +11,7 @@ export const createMutationHook = <Data, Vars>(mutation: DocumentNode, options?:
 
 export const createQueryHook = <Data, Vars>(query: DocumentNode, options?: QueryHookOptions<Data, Vars>) =>
     useQuery<Data, Vars>(query, {
-        onCompleted: data => console.log(data), //console.log middle ware
+        // onCompleted: data => console.log(data), //console.log middle ware
         onError: (error) => {
             console.error(error)
             ToastAndroid.show(error?.message || 'Invalid error', ToastAndroid.SHORT)

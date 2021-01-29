@@ -4,6 +4,7 @@ import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from '
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import { RecommendState } from '../../constants/types'
+import { IS_ANDROID, IS_IOS } from '../../constants/values'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
 import RateStars from '../RateStars'
@@ -68,7 +69,7 @@ const ReviewCard: React.FC<any> = () => {
                 <BaseText style={styles.date} >{date}</BaseText>
             </View>
             <BaseText style={styles.option} >{option}</BaseText>
-            <View style={styles.reviewImagesContainer} >
+            {IS_IOS && <View style={styles.reviewImagesContainer} >
                 <FlatList
                     horizontal
                     data={reviewImages}
@@ -87,7 +88,22 @@ const ReviewCard: React.FC<any> = () => {
                         </Pressable >
                     }
                 />
-            </View>
+            </View>}
+            {IS_ANDROID &&
+                <View style={styles.androidReviewImagesContainer} >
+                    {reviewImages.map((item, index) =>
+                        <Pressable
+                            key={index.toString()}
+                            onPress={() => onImage(index)}
+                        >
+                            <Image
+                                source={{ uri: item }}
+                                style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }}
+                            />
+                        </Pressable >
+                    )}
+                </View>
+            }
             <BaseText style={styles.content} >{reviewContent}</BaseText>
             <BaseText style={styles.reviewRecommendNum} >{moneyFormat(reviewRecommendNum)}명에게 도움됐습니다</BaseText>
             <View style={styles.recommendContainer} >
@@ -125,6 +141,12 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 16,
         paddingTop: 24
+    },
+    androidReviewImagesContainer: {
+        flex: 1,
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        marginTop: 16
     },
     userInfoContainer: {
         width: '100%',

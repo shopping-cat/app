@@ -21,7 +21,7 @@ export const ITEM = gql`
       isILiked
       rate
       reviewNum
-      reviews {
+      bestItemReviews {
         id
         createdAt
         likeNum
@@ -68,7 +68,7 @@ export interface ItemDetail {
   isILiked: boolean
   rate: number
   reviewNum: number
-  reviews: ItemReview[]
+  bestItemReviews: ItemReview[]
   partner: {
     id: ID
     shopName: string

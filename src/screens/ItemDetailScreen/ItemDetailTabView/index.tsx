@@ -1,50 +1,85 @@
-import React, { useState } from 'react'
-import { StyleSheet } from 'react-native'
-import { SceneMap, TabView } from 'react-native-tab-view'
-
-
+import React, { useCallback, useEffect, useState } from 'react'
+import { StyleSheet, Animated, ScrollView, View } from 'react-native'
 import ItemInfoTab from './ItemInfoTab'
 import ReviewTab from './ReviewTab'
 import OrderInfoTab from './OrderInfoTab'
 import InqueryTab from './InqueryTab'
-import { WIDTH } from '../../../constants/styles'
+import { HEIGHT, STATUSBAR_HEIGHT, WIDTH } from '../../../constants/styles'
 import { ItemDetail } from '../../../graphql/item'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 interface ItemDetailTabViewProps {
-    index: number
-    onIndexChange: (v: number) => void
+    scrollX: Animated.Value
     data: ItemDetail
+    tabViewIndex: number
 }
 
-const ItemDetailTabView: React.FC<ItemDetailTabViewProps> = ({ index, onIndexChange, data }) => {
 
-    const [tabViewRoutes] = useState([
-        { key: 'itemInfo' },
-        { key: 'review' },
-        { key: 'orderInfo' },
-        { key: 'inquery' }
-    ])
+const ItemDetailTabView = React.forwardRef<ScrollView, ItemDetailTabViewProps>(({ scrollX, data, tabViewIndex }, ref) => {
 
-    const renderScene = SceneMap({
-        itemInfo: () => ItemInfoTab(data),
-        review: () => ReviewTab(data),
-        orderInfo: OrderInfoTab,
-        inquery: () => InqueryTab(data)
-    })
+    const { bottom } = useSafeAreaInsets()
+
+    const [height] = useState(new Animated.Value(0))
+    const [heights, setHeights] = useState([0, 0, 0, 0])
+
+    const minHeight = HEIGHT - STATUSBAR_HEIGHT - 56 - 40 - 80 - bottom
+
+    const onLayout = useCallback((height: number, index: number) => {
+        setHeights(heights.map((v, i) => i === index ? height : v))
+        console.log(heights)
+    }, [heights])
+
+    useEffect(() => {
+        Animated.timing(height, {
+            toValue: heights[tabViewIndex] < minHeight ? minHeight : heights[tabViewIndex],
+            duration: 500,
+            useNativeDriver: false
+        }).start()
+    }, [tabViewIndex, heights])
 
     return (
-        <TabView
-            navigationState={{ index, routes: tabViewRoutes }}
-            renderScene={renderScene}
-            onIndexChange={onIndexChange}
-            initialLayout={{ width: WIDTH }}
-            renderTabBar={() => null}
-        />
+        <Animated.ScrollView
+            ref={ref}
+            overScrollMode='never'
+            scrollEventThrottle={16}
+            horizontal
+            style={[styles.scrollView, { height }]}
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            nestedScrollEnabled
+            onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: true }
+            )}
+        >
+            <View style={{ width: WIDTH }} >
+                <View style={{ position: 'absolute' }} onLayout={({ nativeEvent }) => onLayout(nativeEvent.layout.height, 0)} >
+                    <ItemInfoTab {...data} />
+                </View>
+            </View>
+            <View style={{ width: WIDTH }} >
+                <View style={{ position: 'absolute' }} onLayout={({ nativeEvent }) => onLayout(nativeEvent.layout.height, 1)}  >
+                    <ReviewTab {...data} />
+                </View>
+            </View>
+            <View style={{ width: WIDTH }} >
+                <View style={{ position: 'absolute' }} onLayout={({ nativeEvent }) => onLayout(nativeEvent.layout.height, 2)}  >
+                    <OrderInfoTab />
+                </View>
+            </View>
+            <View style={{ width: WIDTH }} >
+                <View style={{ position: 'absolute' }} onLayout={({ nativeEvent }) => onLayout(nativeEvent.layout.height, 3)}  >
+                    <InqueryTab {...data} />
+                </View>
+            </View>
+        </Animated.ScrollView>
     )
-}
+})
 
 export default ItemDetailTabView
 
 const styles = StyleSheet.create({
-
+    scrollView: {
+        width: WIDTH,
+    }
 })

@@ -112,7 +112,7 @@ export default ItemInfoTab
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: WIDTH,
         alignItems: 'center'
     },
     webview: {

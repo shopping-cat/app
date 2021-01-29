@@ -5,31 +5,24 @@ import { COLOR1, GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 
 interface ItemDetailTabViewNavigatorProps {
     index: number
-    setIndex: (v: number) => void
+    scrollToTabViewIndex: (index: number) => void
+    scrollX: Animated.Value
     scrollToTop: () => void
 }
 
 const LABELS = ['상품정보', '리뷰', '주문정보', '문의']
 
-const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({ index, setIndex, scrollToTop }) => {
-
-    const [indicatorOffset] = useState(new Animated.Value(0))
-
-    useEffect(() => {
-        Animated.timing(indicatorOffset, {
-            duration: 150,
-            easing: Easing.linear,
-            toValue: WIDTH / 4 * index,
-            useNativeDriver: false
-        }).start()
-    }, [index])
+const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({ index, scrollToTabViewIndex, scrollX, scrollToTop }) => {
 
     const onPress = useCallback((i: number) => {
-        // if (i === index) scrollToTop()
-        // else setIndex(i)
-        setIndex(i)
+        scrollToTabViewIndex(i)
         scrollToTop()
-    }, [index, scrollToTop])
+    }, [index, scrollToTop, scrollToTabViewIndex])
+
+    const indicatorOffset = scrollX.interpolate({
+        inputRange: [0, WIDTH * 4],
+        outputRange: [0, WIDTH]
+    })
 
     return (
         <View style={styles.container} >
@@ -42,7 +35,7 @@ const ItemDetailTabViewNavigator: React.FC<ItemDetailTabViewNavigatorProps> = ({
                     <BaseText style={{ color: index === i ? COLOR1 : GRAY }} >{v}</BaseText>
                 </Pressable>
             )}
-            <Animated.View style={[styles.indicator, { left: indicatorOffset }]} />
+            <Animated.View style={[styles.indicator, { transform: [{ translateX: indicatorOffset }] }]} />
         </View>
     )
 }

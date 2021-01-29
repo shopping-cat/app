@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Hyperlink from 'react-native-hyperlink'
 import BaseText from '../../../components/BaseText'
-import { COLOR2, GRAY } from '../../../constants/styles'
+import { COLOR2, GRAY, WIDTH } from '../../../constants/styles'
 
 const dummyOrderInfos = [
     {
@@ -53,7 +53,7 @@ export default OrderInfoTab
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: WIDTH,
         paddingHorizontal: 16,
         paddingTop: 24
     },
