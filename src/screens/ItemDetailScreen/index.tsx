@@ -14,6 +14,7 @@ import ItemDetailFooter from './ItemDetailFooter'
 import ItemDetailOptionSheet from './ItemDetailOptionSheet';
 import { ID } from '../../constants/types';
 import { useItem } from '../../graphql/item';
+import ItemDetailPlaceHolder from './ItemDetailPlaceHolder';
 
 
 interface ItemDetailProps {
@@ -67,60 +68,62 @@ const ItemDetailScreen = () => {
         tabViewRef.current?.scrollTo({ x: index * WIDTH, animated: true })
     }, [])
 
-    if (!data) return null
 
     return (
         <View style={[styles.container, { paddingBottom: bottom }]} >
             <StatusBar translucent backgroundColor='transparent' barStyle={isLight ? 'light-content' : 'dark-content'} />
             <ItemDetailHeader itemDetailInfoHeight={itemDetailInfoHeight} scrollY={scrollY} />
-            <Animated.ScrollView
-                ref={scrollViewRef}
-                overScrollMode='never'
-                scrollEventThrottle={16}
-                stickyHeaderIndices={[1]}
-                showsVerticalScrollIndicator={false}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                    { useNativeDriver: true }
-                )}
-            >
-                <View onLayout={onTopContentLayout}  >
-                    <ImageCarousel images={data.item.imageUrls} />
-                    <ItemDetailInfo {...data.item} />
-                    <ThinLine />
-                </View>
-                <View style={styles.tabViewNavigatorWrapper} >
-                    <ItemDetailTabViewNavigator
-                        index={tabViewIndex}
-                        scrollToTabViewIndex={scrollToTabViewIndex}
+            {!data && <ItemDetailPlaceHolder />}
+            {data && <>
+                <Animated.ScrollView
+                    ref={scrollViewRef}
+                    overScrollMode='never'
+                    scrollEventThrottle={16}
+                    stickyHeaderIndices={[1]}
+                    showsVerticalScrollIndicator={false}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                        { useNativeDriver: true }
+                    )}
+                >
+                    <View onLayout={onTopContentLayout}  >
+                        <ImageCarousel images={data.item.imageUrls} />
+                        <ItemDetailInfo {...data.item} />
+                        <ThinLine />
+                    </View>
+                    <View style={styles.tabViewNavigatorWrapper} >
+                        <ItemDetailTabViewNavigator
+                            index={tabViewIndex}
+                            scrollToTabViewIndex={scrollToTabViewIndex}
+                            scrollX={scrollX}
+                            scrollToTop={scrollToTabViewTop}
+                        />
+                    </View>
+                    <ItemDetailTabView
+                        ref={tabViewRef}
+                        tabViewIndex={tabViewIndex}
+                        data={data.item}
                         scrollX={scrollX}
-                        scrollToTop={scrollToTabViewTop}
                     />
-                </View>
-                <ItemDetailTabView
-                    ref={tabViewRef}
-                    tabViewIndex={tabViewIndex}
-                    data={data.item}
-                    scrollX={scrollX}
+                </Animated.ScrollView>
+                <UpFab
+                    defaultOpacity={0}
+                    animation={scrollToTabViewTopTarget > 0}
+                    scrollY={scrollY}
+                    inputRange={[0, scrollToTabViewTopTarget, scrollToTabViewTopTarget + 50]}
+                    style={{ bottom: 80 + bottom + 16 }}
+                    onPress={onFab}
                 />
-            </Animated.ScrollView>
-            <UpFab
-                defaultOpacity={0}
-                animation={scrollToTabViewTopTarget > 0}
-                scrollY={scrollY}
-                inputRange={[0, scrollToTabViewTopTarget, scrollToTabViewTopTarget + 50]}
-                style={{ bottom: 80 + bottom + 16 }}
-                onPress={onFab}
-            />
-            <ItemDetailFooter
-                data={data.item}
-                onBuy={() => setOptionModalVisible(true)}
-            />
-            <ItemDetailOptionSheet
-                data={data.item}
-                visible={optionModalVisible}
-                onClose={() => setOptionModalVisible(false)}
-            />
+                <ItemDetailFooter
+                    data={data.item}
+                    onBuy={() => setOptionModalVisible(true)}
+                />
+                <ItemDetailOptionSheet
+                    data={data.item}
+                    visible={optionModalVisible}
+                    onClose={() => setOptionModalVisible(false)}
+                />
+            </>}
         </View>
     )
 }
