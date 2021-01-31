@@ -6,11 +6,12 @@ import ReviewCard from '../../../components/Cards/ReviewCard'
 import RateStars from '../../../components/RateStars'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY, WIDTH } from '../../../constants/styles'
+import { ID } from '../../../constants/types'
 import { ItemDetail } from '../../../graphql/item'
 import moneyFormat from '../../../lib/moneyFormat'
+import { ItemReviewScreenProps } from '../../ItemReviewScreen'
 
-
-const ReviewTab: React.FC<ItemDetail> = ({ rate, bestItemReviews, reviewNum }) => {
+const ReviewTab: React.FC<ItemDetail> = ({ rate, bestItemReviews, reviewNum, id }) => {
     return (
         <View style={styles.container} >
             <View style={styles.rateContainer} >
@@ -22,20 +23,22 @@ const ReviewTab: React.FC<ItemDetail> = ({ rate, bestItemReviews, reviewNum }) =
                 />
                 <BaseText style={styles.rate} >{rate}</BaseText>
             </View>
-            <MoreReview reviewNum={reviewNum} />
+            <MoreReview rate={rate} itemId={id} reviewNum={reviewNum} />
             {(bestItemReviews || []).map((item) => <ReviewCard key={item.id} {...item} />)}
-            {reviewNum > 0 && <MoreReview reviewNum={reviewNum} />}
+            {reviewNum > 0 && <MoreReview rate={rate} itemId={id} reviewNum={reviewNum} />}
         </View>
     )
 }
 
-const MoreReview: React.FC<{ reviewNum: number }> = ({ reviewNum }) => {
+const MoreReview: React.FC<{ reviewNum: number, itemId: ID, rate: number }> = ({ reviewNum, itemId, rate }) => {
 
     const { navigate } = useNavigation()
 
     const onMoreReview = useCallback(() => {
-        navigate('ItemReview')
-    }, [])
+        const params: ItemReviewScreenProps = { itemId, averageRate: rate, reviewNum }
+        console.log(params)
+        navigate('ItemReview', params)
+    }, [reviewNum, itemId, rate])
 
     return (
         <Pressable

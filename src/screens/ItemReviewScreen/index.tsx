@@ -1,30 +1,48 @@
+import { Route, useRoute } from '@react-navigation/native'
 import React, { useCallback, useRef, useState } from 'react'
 import { FlatList, Pressable, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import BaseText from '../../components/BaseText'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
-import ReviewCard from '../../components/Cards/ReviewCard'
+import ReviewCard, { ReviewCardSkeleton } from '../../components/Cards/ReviewCard'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RateStars from '../../components/RateStars'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import UpFab from '../../components/UpFab'
 import { GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../constants/styles'
+import { ID } from '../../constants/types'
+import { useItemReviews } from '../../graphql/itemReview'
+import useRefreshing from '../../hooks/useRefreshing'
+import makeIdArray from '../../lib/makeIdArray'
 import moneyFormat from '../../lib/moneyFormat'
 
-const dummyRate = 4.3
-const dummyReviews = ['1', '2', '3', '4', '5'].map(v => ({ id: v }))
-const dummyReviewNum = 2342
-const sortList = ['추천순', '최신순']
+const SORT_LIST = ['추천순', '최신순']
+
+export interface ItemReviewScreenProps {
+    itemId: ID
+    averageRate: number
+    reviewNum: number
+}
 
 const ItemReviewScreen = () => {
+    // DATA
+    const { params } = useRoute<Route<'ItemReview', ItemReviewScreenProps>>()
+    const [sortIndex, setSortIndex] = useState(0)
+    const sort = SORT_LIST[sortIndex]
+    const { data, loading, fetchMore, refetch } = useItemReviews({
+        variables: {
+            orderBy: sort,
+            itemId: params.itemId
+        }
+    })
+    const { onRefresh, refreshing } = useRefreshing(refetch)
 
+    // UI
     const { bottom } = useSafeAreaInsets()
     const flatlistRef = useRef<FlatList>(null)
-
-    const [sortIndex, setSortIndex] = useState(0)
     const [visible, setVisible] = useState(false) // 정렬방법 선택 bottom sheet
-    const sort = sortList[sortIndex]
+
 
     const onSort = useCallback(() => {
         setVisible(true)
@@ -40,25 +58,31 @@ const ItemReviewScreen = () => {
             <DefaultHeader title='리뷰' />
             <FlatList
                 ref={flatlistRef}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                onEndReached={() => fetchMore({ variables: { offset: data?.itemReviews.length } })}
+                onEndReachedThreshold={0.4}
+                overScrollMode='never'
                 showsVerticalScrollIndicator={false}
-                data={dummyReviews}
-                renderItem={({ item }) => <ReviewCard {...item} />}
+                keyExtractor={({ id }) => id.toString()}
+                data={loading ? makeIdArray(3) : data?.itemReviews}
+                renderItem={({ item }) => loading ? <ReviewCardSkeleton /> : <ReviewCard scrollViewEnable {...item} />}
                 ListHeaderComponent={
                     <>
                         <View style={styles.rateContainer} >
                             <RateStars
-                                rate={dummyRate}
+                                rate={params.averageRate}
                                 spacing={6}
                                 starSize={24}
                                 emptyColor={VERY_LIGHT_GRAY}
                             />
-                            <BaseText style={styles.rate} >{dummyRate}</BaseText>
+                            <BaseText style={styles.rate} >{params.averageRate}</BaseText>
                         </View>
                         <Pressable
                             onPress={onSort}
                             style={styles.reviewNumSortContainer}
                         >
-                            <BaseText style={styles.reviewNum} >{moneyFormat(dummyReviewNum)}개의 리뷰</BaseText>
+                            <BaseText style={styles.reviewNum} >{moneyFormat(params.reviewNum)}개의 리뷰</BaseText>
                             <View style={styles.sortContainer} >
                                 <BaseText style={styles.sort} >{sort}</BaseText>
                                 <DownArrowIcon />
@@ -75,7 +99,7 @@ const ItemReviewScreen = () => {
             <SelectBottomSheet
                 visible={visible}
                 onClose={() => setVisible(false)}
-                list={sortList}
+                list={SORT_LIST}
                 onSelect={(i) => setSortIndex(i)}
                 selectedIndex={sortIndex}
             />

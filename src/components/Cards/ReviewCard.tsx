@@ -7,6 +7,7 @@ import { RecommendState } from '../../constants/types'
 import { ItemReview } from '../../graphql/itemReview'
 import dateFormat from '../../lib/dateFormat'
 import moneyFormat from '../../lib/moneyFormat'
+import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
 import BaseText from '../BaseText'
 import RateStars from '../RateStars'
 
@@ -132,6 +133,29 @@ const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, 
 }
 
 export default ReviewCard
+
+export const ReviewCardSkeleton = () => {
+    return (
+        <BaseSkeletonPlaceHolder>
+            <View style={[styles.container, { marginBottom: 24 }]} >
+                <View style={styles.userInfoContainer} >
+                    <View style={styles.userProfileImage} />
+                    <View>
+                        <View style={{ width: 100, height: 24, borderRadius: 6 }} />
+                        <View style={{ width: 60, height: 24, borderRadius: 6, marginTop: 16 }} />
+                    </View>
+                </View>
+                <View style={{ flexDirection: 'row', marginTop: 16 }} >
+                    <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
+                    <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
+                    <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
+                </View>
+                <View style={{ width: '70%', height: 24, borderRadius: 6, marginTop: 16 }} />
+                <View style={{ width: '50%', height: 24, borderRadius: 6, marginTop: 16 }} />
+            </View >
+        </BaseSkeletonPlaceHolder>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {

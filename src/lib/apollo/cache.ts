@@ -8,7 +8,8 @@ export default new InMemoryCache({
             fields: {
                 filteredItems: offsetLimitPagination(['category', 'keyword', 'orderBy']),
                 recommendedItems: offsetLimitPagination(),
-                zzimItems: offsetLimitPagination(['category'])
+                zzimItems: offsetLimitPagination(['category']),
+                itemReviews: offsetLimitPagination(['itemId', 'orderBy'])
             },
         }
     },
