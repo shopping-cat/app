@@ -33,6 +33,7 @@
     "appcenter": "3.1.2",
     "appcenter-analytics": "3.1.2",
     "appcenter-crashes": "3.1.2",
+    "dayjs": "^1.10.4",
     "graphql": "^15.3.0",
     "react": "16.13.1",
     "react-native": "0.63.2",

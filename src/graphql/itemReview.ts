@@ -2,7 +2,7 @@ import { ID, RecommendState } from "../constants/types";
 
 export interface ItemReview {
     id: ID
-    createdAt: Date
+    createdAt: string
     likeNum: number
     rate: number
     content: string
