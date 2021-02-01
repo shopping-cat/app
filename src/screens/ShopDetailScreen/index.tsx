@@ -1,11 +1,11 @@
-import { useNavigation } from '@react-navigation/native'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useRef, useState } from 'react'
 import { FlatList, Pressable, StyleSheet, Image, View, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseText from '../../components/BaseText'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
-import ItemCardAThird from '../../components/Cards/ItemCardAThird'
+import ItemCardAThird, { ItemCardAThirdSkeleton } from '../../components/Cards/ItemCardAThird'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RateStars from '../../components/RateStars'
@@ -14,17 +14,24 @@ import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import ThinLine from '../../components/ThinLine'
 import UpFab from '../../components/UpFab'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { ID } from '../../constants/types'
+import { useShopItems } from '../../graphql/item'
+import { usePartner } from '../../graphql/partner'
+import useRefreshing from '../../hooks/useRefreshing'
+import makeIdArray from '../../lib/makeIdArray'
+import ShopDetailSkeleton from './ShopDetailSkeleton'
 
 type Sort = '인기순' | '최신순'
 const SORT_LIST: Sort[] = ['인기순', '최신순']
 
-const dummySearchResultNum = 33
-const dummyShopImage = 'https://www.memphisveterinaryspecialists.com/files/best-breeds-of-house-cats-memphis-vet-1-1.jpeg'
-const dummyShopName = '아이러브캣'
-const dummyRate = 4.3
-const dummyRateNumber = 243
+interface ShopDetailScreenProps {
+    id: ID
+}
+
 
 const ShopDetailScreen = () => {
+
+    // UI
     const { navigate } = useNavigation()
     const flatlistRef = useRef<FlatList>(null)
     const { bottom } = useSafeAreaInsets()
@@ -33,13 +40,24 @@ const ShopDetailScreen = () => {
     const [sortSheetVisible, setSortSheetVisible] = useState(false)
     const [headerUnderline, setHeaderUnderline] = useState(false)
 
+    // DATA
+    const { params } = useRoute<Route<'ShopDetail', ShopDetailScreenProps>>()
+    const { data: shopData } = usePartner({ variables: { id: params.id } })
+    const { data, fetchMore, loading, refetch } = useShopItems({
+        variables: {
+            shopId: params.id,
+            orderBy: sort
+        }
+    })
+    const { onRefresh, refreshing } = useRefreshing(refetch)
+
     const onSort = useCallback(() => {
         setSortSheetVisible(true)
     }, [])
 
     const onChat = useCallback(() => {
-        navigate('ShopChat', { name: dummyShopName })
-    }, [])
+        navigate('ShopChat', { name: shopData?.partner.shopName, id: params.id })
+    }, [shopData, params])
 
     const onScroll = useCallback(({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
         setHeaderUnderline(nativeEvent.contentOffset.y > 14)
@@ -53,48 +71,58 @@ const ShopDetailScreen = () => {
             <FlatList
                 onScroll={onScroll}
                 ref={flatlistRef}
-                overScrollMode='never'
                 showsVerticalScrollIndicator={false}
-                data={Array(10).fill(1).map((v, i) => ({ id: i }))}
-                renderItem={({ item }) => <ItemCardAThird {...item} />}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                onEndReached={() => fetchMore({
+                    variables: { offset: data?.shopItems.length }
+                })}
+                onEndReachedThreshold={0.4}
+                overScrollMode='never'
+                data={loading ? makeIdArray(9) : data?.shopItems}
+                renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> : <ItemCardAThird {...item} />}
                 numColumns={3}
                 columnWrapperStyle={styles.flatlistColumnWrapper}
+                ListFooterComponent={<View style={{ height: bottom }} />}
                 ListHeaderComponent={
-                    <>
-                        <View style={styles.shopInfoContianer} >
-                            <View style={styles.shopInfoContainerLeft} >
-                                <Image
-                                    source={{ uri: dummyShopImage }}
-                                    style={styles.image}
-                                />
-                                <View >
-                                    <BaseText style={styles.shopName} >{dummyShopName}</BaseText>
-                                    <View style={styles.rateContainer} >
-                                        <RateStars
-                                            rate={dummyRate}
-                                            spacing={3.5}
-                                            emptyColor={VERY_LIGHT_GRAY}
-                                        />
-                                        <BaseText style={styles.rate}>{dummyRate} ({dummyRateNumber})</BaseText>
+                    shopData ?
+                        <>
+                            <View style={styles.shopInfoContianer} >
+                                <View style={styles.shopInfoContainerLeft} >
+                                    <Image
+                                        source={{ uri: shopData.partner.shopImage }}
+                                        style={styles.image}
+                                    />
+                                    <View >
+                                        <BaseText style={styles.shopName} >{shopData.partner.shopName}</BaseText>
+                                        <View style={styles.rateContainer} >
+                                            <RateStars
+                                                rate={shopData.partner.rate}
+                                                spacing={3.5}
+                                                emptyColor={VERY_LIGHT_GRAY}
+                                            />
+                                            <BaseText style={styles.rate}>{shopData.partner.rate} ({shopData.partner.rateNum})</BaseText>
+                                        </View>
                                     </View>
                                 </View>
+                                <Pressable onPress={onChat} >
+                                    <Icon name='chat-processing' color={COLOR1} size={32} />
+                                </Pressable>
                             </View>
-                            <Pressable onPress={onChat} >
-                                <Icon name='chat-processing' color={COLOR1} size={32} />
+                            <ThinLine />
+                            <Pressable
+                                onPress={onSort}
+                                style={styles.sortBtnContainer}
+                            >
+                                <BaseText style={styles.sortText} >전체 {shopData.partner.itemNum}건</BaseText>
+                                <View style={styles.sortContainer} >
+                                    <BaseText style={styles.sortText}>{sort}</BaseText>
+                                    <DownArrowIcon />
+                                </View>
                             </Pressable>
-                        </View>
-                        <ThinLine />
-                        <Pressable
-                            onPress={onSort}
-                            style={styles.sortBtnContainer}
-                        >
-                            <BaseText style={styles.sortText} >전체 {dummySearchResultNum}건</BaseText>
-                            <View style={styles.sortContainer} >
-                                <BaseText style={styles.sortText}>{sort}</BaseText>
-                                <DownArrowIcon />
-                            </View>
-                        </Pressable>
-                    </>
+                        </>
+                        :
+                        <ShopDetailSkeleton />
                 }
             />
             <UpFab

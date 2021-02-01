@@ -180,3 +180,32 @@ export const useZzimItems = (options?: QueryHookOptions<ZzimItemsData, ZzimItems
   ...options,
 })
 
+export const SHOP_ITEMS = gql`
+  query ($shopId: Int!, $orderBy:String $offset:Int, $limit:Int){
+    shopItems(shopId:$shopId, orderBy:$orderBy, offset:$offset, limit:$limit) {
+      id
+      salePrice
+      state
+      mainImage
+      name
+      sale
+      isFreeDelivery
+      isNew
+      isILiked
+    }
+  }
+`
+
+interface ShopItemsData {
+  shopItems: Item[]
+}
+interface ShopItemsVars {
+  shopId: ID
+  orderBy?: string,
+  offset?: number
+  limit?: number
+}
+export const useShopItems = (options?: QueryHookOptions<ShopItemsData, ShopItemsVars>) => createQueryHook<ShopItemsData, ShopItemsVars>(SHOP_ITEMS, {
+  ...options,
+})
+

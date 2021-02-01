@@ -26,7 +26,6 @@ const ItemDetailTabView = React.forwardRef<ScrollView, ItemDetailTabViewProps>((
 
     const onLayout = useCallback((height: number, index: number) => {
         setHeights(heights.map((v, i) => i === index ? height : v))
-        console.log(heights)
     }, [heights])
 
     useEffect(() => {

@@ -33,11 +33,11 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
                 onEndReached={() => fetchMore({
                     variables: { offset: data?.filteredItems.length }
                 })}
+                onEndReachedThreshold={0.4}
                 overScrollMode='never'
                 showsVerticalScrollIndicator={false}
                 columnWrapperStyle={styles.columnWrapperStyle}
                 numColumns={2}
-                onEndReachedThreshold={0.4}
                 style={styles.container}
                 data={loading ? makeIdArray(6) : data?.filteredItems}
                 renderItem={({ item }) => loading ? <ItemCardSkeleton /> : <ItemCard {...item} />}

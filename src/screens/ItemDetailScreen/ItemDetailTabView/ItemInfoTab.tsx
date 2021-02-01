@@ -78,10 +78,6 @@ const ItemInfoTab: React.FC<ItemDetail> = ({ html, requireInformation }) => {
         setHeight(Number(event.nativeEvent.data) * WIDTH / 980)
     }, [])
 
-    useEffect(() => {
-        console.log('req', requireInformation.data)
-    }, [requireInformation])
-
     return (
         <View style={styles.container} >
             <WebView
