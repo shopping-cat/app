@@ -90,6 +90,7 @@ export const FILTERED_ITEMS = gql`
     filteredItems(category:$category, keyword:$keyword, orderBy:$orderBy, offset:$offset, limit:$limit) {
       id
       salePrice
+      state
       mainImage
       name
       sale
@@ -102,6 +103,7 @@ export const FILTERED_ITEMS = gql`
 export interface Item {
   id: number
   salePrice: number
+  state: ItemState
   mainImage: string
   name: string
   sale: number
@@ -128,6 +130,7 @@ export const RECOMMENDED_ITEMS = gql`
     recommendedItems(offset:$offset, limit:$limit) {
       id
       salePrice
+      state
       mainImage
       name
       sale
@@ -154,6 +157,7 @@ export const ZZIM_ITEMS = gql`
     zzimItems(category:$category,offset:$offset, limit:$limit) {
       id
       salePrice
+      state
       mainImage
       name
       sale

@@ -10,7 +10,7 @@ import BaseText from '../BaseText'
 
 const width = (WIDTH - 64) / 3
 
-const ItemCardAThird: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice }) => {
+const ItemCardAThird: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice, state }) => {
 
     const { navigate } = useNavigation()
 
@@ -29,6 +29,9 @@ const ItemCardAThird: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, m
                     style={styles.image}
                 />
                 {isILiked && <Icon style={styles.likedIcon} name='heart' size={16} color={COLOR1} />}
+                {state !== 'sale' && <View style={styles.itemStateCotnainer} >
+                    <BaseText style={styles.itemState} >{state === 'noStock' ? '재고없음' : '판매중지'}</BaseText>
+                </View>}
             </View>
             {(isNew || isFreeDelivery) &&
                 <View style={styles.optionContainer} >
@@ -78,6 +81,18 @@ const styles = StyleSheet.create({
         height: width,
         borderRadius: 8,
         marginBottom: 8
+    },
+    itemStateCotnainer: {
+        position: 'absolute',
+        width,
+        height: width,
+        borderRadius: 8,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    itemState: {
+        color: '#fff',
     },
     likedIcon: {
         position: 'absolute',

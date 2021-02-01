@@ -12,7 +12,7 @@ import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder';
 const width = (WIDTH - 48) / 2
 
 
-const ItemCard: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice }) => {
+const ItemCard: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, mainImage, name, sale, salePrice, state }) => {
 
     const { navigate } = useNavigation()
 
@@ -31,6 +31,9 @@ const ItemCard: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, mainIma
                     style={styles.image}
                 />
                 {isILiked && <Icon style={styles.likedIcon} name='heart' size={24} color={COLOR1} />}
+                {state !== 'sale' && <View style={styles.itemStateCotnainer} >
+                    <BaseText style={styles.itemState} >{state === 'noStock' ? '재고없음' : '판매중지'}</BaseText>
+                </View>}
             </View>
             {(isNew || isFreeDelivery) &&
                 <View style={styles.optionContainer} >
@@ -80,6 +83,19 @@ const styles = StyleSheet.create({
         height: width,
         borderRadius: 16,
         marginBottom: 8
+    },
+    itemStateCotnainer: {
+        position: 'absolute',
+        width,
+        height: width,
+        borderRadius: 16,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    itemState: {
+        color: '#fff',
+        fontSize: 18
     },
     likedIcon: {
         position: 'absolute',
