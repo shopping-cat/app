@@ -13,63 +13,8 @@ import moneyFormat from '../../lib/moneyFormat';
 import Accordian from '../../components/ItemOptionAccordian';
 import LinearGradient from 'react-native-linear-gradient';
 import { ItemDetail } from '../../graphql/item';
+import { useAddToCart } from '../../graphql/cartItem';
 
-const dummyOption = [
-    {
-        "optionGroupName": "색상",
-        "optionDetails": [
-            {
-                "name": "빨간색",
-                "price": 0
-            },
-            {
-                "name": "주황색",
-                "price": 0
-            },
-            {
-                "name": "노란색",
-                "price": 0
-            },
-            {
-                "name": "초록색",
-                "price": 0
-            },
-            {
-                "name": "파란색",
-                "price": 0
-            },
-            {
-                "name": "남색",
-                "price": -20000
-            },
-            {
-                "name": "보라색",
-                "price": 2300
-            }
-        ]
-    },
-    {
-        "optionGroupName": "사이즈",
-        "optionDetails": [
-            {
-                "name": "S",
-                "price": -300
-            },
-            {
-                "name": "M",
-                "price": 0
-            },
-            {
-                "name": "L",
-                "price": 20000
-            },
-            {
-                "name": "XL",
-                "price": 50000
-            }
-        ]
-    }
-]
 
 const MIN_NUMBER = 1
 const MAX_NUMBER = 99
@@ -85,17 +30,19 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
     const { bottom } = useSafeAreaInsets()
 
     const [options, setOptions] = useState<(number | null)[]>([])
-    const isSelectedOption = options.filter(v => v === null).length === 0
     // 모든 옵션이 null이 아닐때
+    const isSelectedOption = options.filter(v => v === null).length === 0
     const [number, setNumber] = useState(1)
     const [totalPrice, setTotalPrice] = useState(0)
+
+    const [addToCart] = useAddToCart()
 
     useEffect(() => {
         init()
     }, [])
 
     const init = useCallback(() => { // 초기화
-        setOptions((dummyOption || []).map(() => null))
+        setOptions((data.option?.data || []).map(() => null))
         setNumber(1)
     }, [])
 
@@ -104,7 +51,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
         // 기본가
         let totalPriceTemp = data.salePrice
         // 옵션 가격 적용
-        for (const [index, value] of (dummyOption || []).entries()) {
+        for (const [index, value] of (data.option?.data || []).entries()) {
             const currentOption = options[index]
             if (currentOption === null || currentOption === undefined) continue
             totalPriceTemp += value.optionDetails[currentOption].price
@@ -115,22 +62,28 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
     }, [data, options, number])
 
 
-    const onCart = useCallback(() => {
+    const onCart = useCallback(async () => {
         if (!isSelectedOption) return
         // TODO
+        await addToCart({
+            variables: {
+                itemId: data.id,
+                number,
+                option: !!data.option ? JSON.stringify(options) : null
+            }
+        })
+
         onClose()
-        setTimeout(() => {
-            init()
-        }, 250);
-    }, [isSelectedOption])
+        setTimeout(() => { init() }, 250)
+    }, [isSelectedOption, addToCart, number])
 
     const onBuy = useCallback(() => {
         if (!isSelectedOption) return
         // TODO
+
+
         onClose()
-        setTimeout(() => {
-            init()
-        }, 250);
+        setTimeout(() => { init() }, 250)
     }, [isSelectedOption])
 
     const numberIncrease = useCallback(() => {

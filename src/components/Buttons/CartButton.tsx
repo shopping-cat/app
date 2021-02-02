@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Animated, Pressable, StyleSheet, View } from 'react-native'
 import { COLOR1, COLOR2 } from '../../constants/styles'
+import { useCartItems } from '../../graphql/cartItem'
 import BaseText from '../BaseText'
 import CartIcon from '../Svgs/CartIcon'
 
@@ -9,11 +10,11 @@ interface CartButtonProps {
     color?: string | Animated.AnimatedInterpolation
 }
 
-const dummyItemNumber = 2 // under 99
-
 const CartButton: React.FC<CartButtonProps> = ({ color }) => {
 
     const { navigate } = useNavigation()
+
+    const { data } = useCartItems()
 
     const onCart = useCallback(() => {
         navigate('Cart')
@@ -25,9 +26,9 @@ const CartButton: React.FC<CartButtonProps> = ({ color }) => {
             style={styles.container}
         >
             <CartIcon fill={color || COLOR1} />
-            {dummyItemNumber > 0 &&
+            {(data && data.cartItems.length > 0) &&
                 <Animated.View style={styles.badge} >
-                    <BaseText style={styles.badgeText} >{dummyItemNumber}</BaseText>
+                    <BaseText style={styles.badgeText} >{data.cartItems.length > 99 ? 99 : data.cartItems.length}</BaseText>
                 </Animated.View>
             }
         </Pressable>

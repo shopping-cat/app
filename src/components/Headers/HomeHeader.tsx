@@ -7,6 +7,7 @@ import { COLOR1, GRAY, LIGHT_COLOR1 } from '../../constants/styles'
 import BaseButton from '../Buttons/BaseButton'
 import BaseText from '../BaseText'
 import CartButton from '../Buttons/CartButton'
+
 const HomeHeader = () => {
 
     const { navigate } = useNavigation()
@@ -14,11 +15,6 @@ const HomeHeader = () => {
     const onSearch = useCallback(() => {
         navigate('Search')
     }, [])
-
-    const onCart = useCallback(() => {
-        navigate('Cart')
-    }, [])
-
 
     return (
         <View style={styles.container} >
