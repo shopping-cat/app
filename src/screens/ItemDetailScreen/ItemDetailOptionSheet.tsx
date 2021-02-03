@@ -35,7 +35,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
     const [number, setNumber] = useState(1)
     const [totalPrice, setTotalPrice] = useState(0)
 
-    const [addToCart] = useAddToCart()
+    const [addToCart, { loading }] = useAddToCart()
 
     useEffect(() => {
         init()
@@ -64,6 +64,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
 
     const onCart = useCallback(async () => {
         if (!isSelectedOption) return
+        if (loading) return
         // TODO
         await addToCart({
             variables: {
@@ -75,7 +76,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
 
         onClose()
         setTimeout(() => { init() }, 250)
-    }, [isSelectedOption, addToCart, number])
+    }, [isSelectedOption, addToCart, number, loading])
 
     const onBuy = useCallback(() => {
         if (!isSelectedOption) return

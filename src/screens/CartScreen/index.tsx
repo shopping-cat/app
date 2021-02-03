@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FlatList, StyleSheet } from 'react-native'
 import ButtonFooter from '../../components/ButtonFooter'
 import CartItemCard from '../../components/Cards/CartItemCard'
@@ -7,18 +7,18 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import ThinLine from '../../components/ThinLine'
 import { ID } from '../../constants/types'
+import { useCartItems } from '../../graphql/cartItem'
 import moneyFormat from '../../lib/moneyFormat'
 import CartEmpty from './CartEmpty'
 import CartPaymentInformation from './CartPaymentInformation'
 import CartSelector from './CartSelector'
-
-const dummyCarts = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }]
 
 const active = true
 
 const CartScreen = () => {
 
     const { navigate } = useNavigation()
+    const { data } = useCartItems()
 
     const onSelectAll = useCallback(() => {
 
@@ -43,13 +43,13 @@ const CartScreen = () => {
     return (
         <ScreenLayout>
             <DefaultHeader title='장바구니' disableBtns />
-
-            {dummyCarts.length === 0 && <CartEmpty />}
-            {dummyCarts.length > 0 && <>
+            {data?.cartItems.length === 0 && <CartEmpty />}
+            {data?.cartItems.length > 0 && <>
                 <FlatList
-                    data={dummyCarts}
-                    renderItem={() =>
+                    data={data?.cartItems}
+                    renderItem={({ item }) =>
                         <CartItemCard
+                            data={item}
                             selected={true}
                             onDelete={onDeleteItem}
                             onSelect={onSelectItem}
@@ -67,7 +67,7 @@ const CartScreen = () => {
                         </>
                     }
                     ListFooterComponent={
-                        <>
+                        data && <>
                             <ThinLine />
                             <CartPaymentInformation
                             />

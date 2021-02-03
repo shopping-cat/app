@@ -3,77 +3,72 @@ import React, { useCallback } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { ID } from '../../constants/types'
+import { CartItem } from '../../graphql/cartItem'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
 import Close14pxIcon from '../Svgs/Close14pxIcon'
-import CloseIcon from '../Svgs/CloseIcon'
 import CheckBoxToggle from '../Toggle/CheckBoxToggle'
 
 interface CartItemCardProps {
     selected: boolean
     onDelete: (id: ID) => void
     onSelect: (id: ID) => void
+    data: CartItem
 }
 
-const dummyId = 123
-const shopId = 123
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyShopNAme = '아이러브캣'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const isFreeDelivery = true
-const price = 79000
-const salePrice = 67000
-const number = 1
-
-const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelect }) => {
+const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelect, data }) => {
 
     const { navigate } = useNavigation()
 
     const onItem = useCallback(() => {
-        navigate('ItemDetail', { id: dummyId })
-    }, [dummyId])
+        navigate('ItemDetail', { id: data.itemId })
+    }, [data])
 
     const onShop = useCallback(() => {
-        navigate('ShopDetail', { id: shopId })
-    }, [shopId])
+        navigate('ShopDetail', { id: data.item.partner.id })
+    }, [data])
 
     return (
         <View style={styles.container} >
             <View style={styles.rowContainer} >
-                <CheckBoxToggle active={true} onPress={() => onSelect(dummyId)} />
-                <Pressable onPress={onItem} >
-                    <Image
-                        style={styles.image}
-                        source={{ uri: dummyImage }}
-                    />
-                </Pressable>
-                <View style={styles.itemInfoContainer} >
+                <View style={styles.checkBoxContainer} >
+                    <CheckBoxToggle active={true} onPress={() => onSelect(data.id)} />
+                </View>
+                <View>
+                    <Pressable onPress={onItem} >
+                        <Image
+                            style={styles.image}
+                            source={{ uri: data.item.mainImage }}
+                        />
+                    </Pressable>
+                    {data.item.isFreeDelivery && <View style={styles.freeDeleveryContainer} >
+                        <BaseText style={styles.freeDelivery} >무료배송</BaseText>
+                    </View>}
+                </View>
+
+                <View>
                     <Pressable onPress={onShop} >
-                        <BaseText style={styles.shopName} >{dummyShopNAme}</BaseText>
+                        <BaseText style={styles.shopName} >{data.item.partner.shopName}</BaseText>
                     </Pressable>
                     <Pressable onPress={onShop} >
-                        <BaseText numberOfLines={1} >{dummyName}</BaseText>
+                        <BaseText numberOfLines={1} >{data.item.name}</BaseText>
                     </Pressable>
-                    <BaseText numberOfLines={1} style={styles.option} >{option}</BaseText>
+                    {data.stringOption && <BaseText numberOfLines={1} style={styles.option} >{data.stringOption}</BaseText>}
+                    <View style={styles.priceContainer} >
+                        {data.item.salePrice && <BaseText style={styles.price} >{moneyFormat(data.item.price * data.num)}원</BaseText>}
+                        <BaseText style={styles.salePrice} >{data.item.salePrice ? moneyFormat(data.item.salePrice * data.num) : moneyFormat(data.item.price * data.num)}원</BaseText>
+                        <BaseText style={styles.number} >{data.num}개</BaseText>
+                    </View>
                 </View>
-                <Pressable
-                    style={styles.deleteIcon}
-                    onPress={() => onDelete(dummyId)}
-                >
-                    <Close14pxIcon />
-                </Pressable>
+
             </View>
-            <View style={styles.bottomContainer} >
-                {isFreeDelivery && <View style={styles.freeDeleveryContainer} >
-                    <BaseText style={styles.freeDelivery} >무료배송</BaseText>
-                </View>}
-                <View style={[styles.priceContainer, { marginLeft: isFreeDelivery ? 0 : 64 }]} >
-                    {salePrice && <BaseText style={styles.price} >{moneyFormat(price)}원</BaseText>}
-                    <BaseText style={styles.salePrice} >{salePrice ? moneyFormat(salePrice) : moneyFormat(price)}원</BaseText>
-                    <BaseText style={styles.number} >{number}개</BaseText>
-                </View>
-            </View>
+
+            <Pressable
+                style={styles.deleteIcon}
+                onPress={() => onDelete(data.id)}
+            >
+                <Close14pxIcon />
+            </Pressable>
         </View>
     )
 }
@@ -90,7 +85,10 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
+    },
+    checkBoxContainer: {
+        height: 64,
+        justifyContent: 'center'
     },
     image: {
         width: 64,
@@ -104,13 +102,17 @@ const styles = StyleSheet.create({
         flex: 1
     },
     shopName: {
-        color: COLOR2
+        color: COLOR2,
+        marginBottom: 8
     },
     option: {
-        color: GRAY
+        color: GRAY,
+        marginTop: 8
     },
     deleteIcon: {
-        alignSelf: 'flex-start'
+        position: 'absolute',
+        right: 16,
+        top: 24
     },
     bottomContainer: {
         flexDirection: 'row',
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     priceContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 16
+        marginTop: 12
     },
     freeDeleveryContainer: {
         backgroundColor: COLOR1,
@@ -128,7 +130,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 8,
         width: 64,
-        height: 20
+        height: 20,
+        marginLeft: 16,
+        marginTop: 8
     },
     price: {
         fontSize: 16,
