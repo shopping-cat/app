@@ -70,7 +70,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
             variables: {
                 itemId: data.id,
                 number,
-                option: !!data.option ? JSON.stringify(options) : null
+                option: data.option ? options.map(v => v || 0) : undefined
             }
         })
 

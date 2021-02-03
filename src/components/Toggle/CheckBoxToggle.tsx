@@ -11,6 +11,7 @@ interface CheckBoxToggleProps {
 const CheckBoxToggle: React.FC<CheckBoxToggleProps> = ({ active, onPress }) => {
     return (
         <Pressable
+            onPress={onPress}
             style={[
                 styles.container,
                 {

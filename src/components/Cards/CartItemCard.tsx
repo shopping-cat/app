@@ -32,7 +32,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelec
         <View style={styles.container} >
             <View style={styles.rowContainer} >
                 <View style={styles.checkBoxContainer} >
-                    <CheckBoxToggle active={true} onPress={() => onSelect(data.id)} />
+                    <CheckBoxToggle active={selected} onPress={() => onSelect(data.id)} />
                 </View>
                 <View>
                     <Pressable onPress={onItem} >

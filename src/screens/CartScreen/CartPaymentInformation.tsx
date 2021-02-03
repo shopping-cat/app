@@ -1,22 +1,25 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { CartItem } from '../../graphql/cartItem'
+import arraySum from '../../lib/arraySum'
 import moneyFormat from '../../lib/moneyFormat'
 
 interface CartPaymentInformationProps {
-
+    data: CartItem[]
+    selectList: number[]
 }
 
-const CartPaymentInformation: React.FC<CartPaymentInformationProps> = ({ }) => {
+const CartPaymentInformation: React.FC<CartPaymentInformationProps> = ({ data, selectList }) => {
 
-
-    const totalPrice = 169800
-    const totalSale = -14800
-    const deleveryPrice = 2500
-    const totalPaymentPrice = 156000
-    const selectedNum = 3
-    const expectationPoint = Math.floor(totalPaymentPrice * 0.02)
+    const selectedData = data.filter(v => selectList.includes(v.id))
+    const totalPrice = arraySum(selectedData.map(v => (v.item.price * v.num)))
+    const totalPaymentItemPrice = arraySum(selectedData.map(v => (v.item.salePrice * v.num)))
+    const totalSale = totalPaymentItemPrice - totalPrice
+    const deliveryPrice = arraySum(selectedData.map(v => v.item.deliveryPrice))
+    const totalPaymentPrice = totalPaymentItemPrice + deliveryPrice
+    const expectationPoint = Math.floor(totalPaymentPrice * 0.01)
 
     return (
         <View>
@@ -31,12 +34,12 @@ const CartPaymentInformation: React.FC<CartPaymentInformationProps> = ({ }) => {
                 </View>
                 <View style={styles.textContainer} >
                     <BaseText style={styles.infoText} >배송비</BaseText>
-                    <BaseText style={styles.priceText} >{moneyFormat(deleveryPrice)}원</BaseText>
+                    <BaseText style={styles.priceText} >{moneyFormat(deliveryPrice)}원</BaseText>
                 </View>
             </View>
             <View style={styles.container} >
                 <View style={styles.textContainer} >
-                    <BaseText style={styles.infoText} >총 {selectedNum}개 주문금액</BaseText>
+                    <BaseText style={styles.infoText} >총 {selectList.length}개 예상 결제 금액</BaseText>
                     <BaseText style={styles.totalPaymentPriceText} >{moneyFormat(totalPaymentPrice)}원</BaseText>
                 </View>
                 <View style={styles.textContainer} >

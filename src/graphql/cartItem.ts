@@ -1,5 +1,6 @@
-import { gql, QueryHookOptions } from "@apollo/client"
+import { gql, QueryHookOptions, useApolloClient } from "@apollo/client"
 import { ID } from "../constants/types"
+import cache from "../lib/apollo/cache"
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook"
 
 // QUERY/CART_ITEMS 장바구니 리스트
@@ -18,6 +19,7 @@ export const CART_ITEMS = gql`
         name
         price
         salePrice
+        deliveryPrice
         partner {
           id
           shopName
@@ -44,6 +46,7 @@ export interface CartItem {
     name: string
     price: number
     salePrice: number
+    deliveryPrice: number
     partner: {
       id: ID
       shopName: string
@@ -64,7 +67,7 @@ export const useCartItems = (options?: QueryHookOptions<CartItemsData, CartItems
 
 // MUTATION/ADD_TO_CART 장바구니에 담기
 export const ADD_TO_CART = gql`
-  mutation ($itemId:Int!, $number: Int!, $option: String) {
+  mutation ($itemId:Int!, $number: Int!, $option: [Int]) {
     addToCart(itemId:$itemId, number:$number, option:$option) {
       id
       itemId
@@ -78,6 +81,7 @@ export const ADD_TO_CART = gql`
         name
         price
         salePrice
+        deliveryPrice
         partner {
           id
           shopName
@@ -93,7 +97,7 @@ interface AddToCartData {
 interface AddToCartVars {
   itemId: number
   number: number
-  option: string | null
+  option?: number[]
 }
 
 export const useAddToCart = () => createMutationHook<AddToCartData, AddToCartVars>(ADD_TO_CART, {
@@ -120,3 +124,32 @@ export const useAddToCart = () => createMutationHook<AddToCartData, AddToCartVar
     })
   }
 })
+
+
+// MUTATION/deleteCartItems 장바구니에서 제거
+export const DELETE_CART_ITEMS = gql`
+  mutation ($itemIds:[Int]!) {
+    deleteCartItems(itemIds:$itemIds) 
+  }
+`
+
+interface DeleteCartItemsData {
+  deleteCartItems: number
+}
+interface DeleteCartItemsVars {
+  itemIds: number[]
+}
+
+export const useDeleteCartItems = () => createMutationHook<DeleteCartItemsData, DeleteCartItemsVars>(DELETE_CART_ITEMS, {
+
+})
+
+export const deleteCartItemsFromCache = (ids: number[]) => {
+  cache.modify({
+    fields: {
+      cartItems(existingRefs, { readField }) {
+        return existingRefs.filter((ref: any) => !ids.includes(Number(readField('id', ref))))
+      }
+    }
+  })
+}
