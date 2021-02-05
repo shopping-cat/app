@@ -4,10 +4,17 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
-import { COLOR1, COLOR2, GRAY, SPRING_CONFIG, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { COLOR1, GRAY, SPRING_CONFIG, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { OrderCalculate } from '../../graphql/order'
+import useCouponPoint from '../../hooks/useCouponPoint'
 import moneyFormat from '../../lib/moneyFormat'
+import { PointSelectScreenProps } from '../PointSelectScreen'
 
-const PaymentPrice = () => {
+interface PaymentPriceProps {
+    data: OrderCalculate
+}
+
+const PaymentPrice: React.FC<PaymentPriceProps> = ({ data }) => {
 
     const { navigate } = useNavigation()
     // animation state
@@ -15,13 +22,16 @@ const PaymentPrice = () => {
     const [animation] = useState(new Animated.Value(1))
     const [contentsHeight, setContentsHeight] = useState(0)
 
+    const { couponIds, point } = useCouponPoint()
+
     const onCoupon = useCallback(() => {
         navigate('CouponSelect')
     }, [])
 
     const onPoint = useCallback(() => {
-        navigate('PointSelect')
-    }, [])
+        const params: PointSelectScreenProps = { data }
+        navigate('PointSelect', params)
+    }, [data])
 
     const onAccordian = useCallback(() => {
         if (!open) Animated.spring(animation, {
@@ -61,7 +71,7 @@ const PaymentPrice = () => {
                     <View style={styles.couponCotnainer} >
                         <View style={styles.couponInfoContainer} >
                             <BaseText style={styles.couponeText} >쿠폰</BaseText>
-                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>전체 29장, 적용가능 2장</BaseText>
+                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>{couponIds && couponIds.length >= 0 ? `${couponIds.length}장 적용` : `전체 todo장, 적용가능 todo장`}</BaseText>
                         </View>
                         <Pressable onPress={onCoupon} style={styles.couponBtn} >
                             <RightArrowIcon fill={GRAY} />
@@ -70,7 +80,7 @@ const PaymentPrice = () => {
                     <View style={styles.couponCotnainer} >
                         <View style={styles.couponInfoContainer} >
                             <BaseText style={styles.couponeText} >포인트</BaseText>
-                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>{moneyFormat(2400)}포인트 사용가능</BaseText>
+                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>{point === 0 ? `${moneyFormat(data.maxPointPrice)}포인트 사용가능` : `${moneyFormat(point)}포인트 적용`} </BaseText>
                         </View>
                         <Pressable onPress={onPoint} style={styles.couponBtn} >
                             <RightArrowIcon fill={GRAY} />
@@ -79,29 +89,33 @@ const PaymentPrice = () => {
                     <View style={styles.couponPricesSpac} />
                     <View style={styles.pricesContainer} >
                         <BaseText style={styles.pricesTitle} >총 상품금액</BaseText>
-                        <BaseText style={styles.pricesPrice} >{moneyFormat(189000)}원</BaseText>
+                        <BaseText style={styles.pricesPrice} >{moneyFormat(data.totalItemPrice)}원</BaseText>
                     </View>
                     <View style={styles.pricesContainer} >
                         <BaseText style={styles.pricesTitle} >배송비</BaseText>
-                        <BaseText style={styles.pricesPrice} >{moneyFormat(2500)}원</BaseText>
+                        <BaseText style={styles.pricesPrice} >{moneyFormat(data.totalDeliveryPrice)}원</BaseText>
                     </View>
+                    {data.totalExtraDeliveryPrice > 0 && <View style={styles.pricesContainer} >
+                        <BaseText style={styles.pricesTitle} >도서산간지역 추가 배송비</BaseText>
+                        <BaseText style={styles.pricesPrice} >{moneyFormat(data.totalExtraDeliveryPrice)}원</BaseText>
+                    </View>}
                     <View style={styles.pricesContainer} >
                         <BaseText style={styles.pricesTitle} >상품 할인</BaseText>
-                        <BaseText style={styles.pricesPrice} >{moneyFormat(-5000)}원</BaseText>
+                        <BaseText style={styles.pricesPrice} >{moneyFormat(-data.totalSale)}원</BaseText>
                     </View>
                     <View style={styles.pricesContainer} >
                         <BaseText style={styles.pricesTitle} >쿠폰 할인</BaseText>
-                        <BaseText style={styles.pricesPrice} >{moneyFormat(0)}원</BaseText>
+                        <BaseText style={styles.pricesPrice} >{moneyFormat(-data.totalCouponSale)}원</BaseText>
                     </View>
                     <View style={styles.pricesContainer} >
                         <BaseText style={styles.pricesTitle} >포인트 할인</BaseText>
-                        <BaseText style={styles.pricesPrice} >{moneyFormat(-2400)}원</BaseText>
+                        <BaseText style={styles.pricesPrice} >{moneyFormat(-data.totalPointSale)}원</BaseText>
                     </View>
                 </View>
             </Animated.View>
             <View style={styles.totalPrieceContainer} >
                 <BaseText style={styles.title} >총 결제금액</BaseText>
-                <BaseText style={styles.totalPrice} >{moneyFormat(156900)}원</BaseText>
+                <BaseText style={styles.totalPrice} >{moneyFormat(data.totalPaymentPrice)}원</BaseText>
             </View>
         </View>
     )

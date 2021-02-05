@@ -9,7 +9,9 @@ import ThinLine from '../../components/ThinLine'
 import { ID } from '../../constants/types'
 import { deleteCartItemsFromCache, useCartItems, useDeleteCartItems } from '../../graphql/cartItem'
 import useRefreshing from '../../hooks/useRefreshing'
+import arraySum from '../../lib/arraySum'
 import moneyFormat from '../../lib/moneyFormat'
+import { PaymentScreenProps } from '../PaymentScreen'
 import CartEmpty from './CartEmpty'
 import CartPaymentInformation from './CartPaymentInformation'
 import CartScreenSkeleton from './CartScreenSkeleton'
@@ -24,6 +26,9 @@ const CartScreen = () => {
 
     const [selectList, setSelectList] = useState<ID[]>(data?.cartItems.map(v => v.id) || [])
 
+    const totalPrice =
+        arraySum((data?.cartItems || []).filter(v => selectList.includes(v.id)).map(v => (v.item.salePrice * v.num)))
+        + arraySum((data?.cartItems || []).filter(v => selectList.includes(v.id)).map(v => v.item.deliveryPrice))
     const active = selectList.length > 0
 
 
@@ -65,8 +70,9 @@ const CartScreen = () => {
     }, [selectList])
 
     const onPayment = useCallback(() => {
-        navigate('Payment')
-    }, [])
+        const params: PaymentScreenProps = { cartItemIds: selectList }
+        navigate('Payment', params)
+    }, [selectList])
 
     return (
         <ScreenLayout>
@@ -111,7 +117,7 @@ const CartScreen = () => {
                 <ButtonFooter
                     active={active}
                     onPress={onPayment}
-                    text={`${active ? moneyFormat(156900) + '원 ' : ''}주문하기`}
+                    text={`${active ? moneyFormat(totalPrice) + '원 ' : ''}주문하기`}
                 />
             </>}
         </ScreenLayout>

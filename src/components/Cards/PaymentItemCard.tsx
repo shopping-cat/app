@@ -2,40 +2,33 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { OrderItem } from '../../graphql/order'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
 
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyShopNAme = '아이러브캣'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const isFreeDelivery = false
-const price = 79000
-const salePrice = 67000
-const number = 1
 
-const PaymentItemCard = () => {
+const PaymentItemCard: React.FC<OrderItem> = ({ item, num, stringOption }) => {
     return (
         <View style={styles.container} >
             <View style={styles.rowContainer} >
-                <Image
-                    style={styles.image}
-                    source={{ uri: dummyImage }}
-                />
-                <View style={styles.itemInfoContainer} >
-                    <BaseText style={styles.shopName} >{dummyShopNAme}</BaseText>
-                    <BaseText numberOfLines={1} >{dummyName}</BaseText>
-                    <BaseText numberOfLines={1} style={styles.option} >{option}</BaseText>
+                <View>
+                    <Image
+                        style={styles.image}
+                        source={{ uri: item.mainImage }}
+                    />
+                    {item.isFreeDelivery && <View style={styles.freeDeleveryContainer} >
+                        <BaseText style={styles.freeDelivery} >무료배송</BaseText>
+                    </View>}
                 </View>
-            </View>
-            <View style={styles.bottomContainer} >
-                {isFreeDelivery && <View style={styles.freeDeleveryContainer} >
-                    <BaseText style={styles.freeDelivery} >무료배송</BaseText>
-                </View>}
-                <View style={[styles.priceContainer, { marginLeft: isFreeDelivery ? 0 : 64 }]} >
-                    {salePrice && <BaseText style={styles.price} >{moneyFormat(price)}원</BaseText>}
-                    <BaseText style={styles.salePrice} >{salePrice ? moneyFormat(salePrice) : moneyFormat(price)}원</BaseText>
-                    <BaseText style={styles.number} >{number}개</BaseText>
+                <View >
+                    <BaseText style={styles.shopName} >{item.partner.shopName}</BaseText>
+                    <BaseText numberOfLines={1} >{item.name}</BaseText>
+                    {stringOption && <BaseText numberOfLines={1} style={styles.option} >{stringOption}</BaseText>}
+                    <View style={styles.priceContainer} >
+                        {item.salePrice !== item.price && <BaseText style={styles.price} >{moneyFormat(item.price * num)}원</BaseText>}
+                        <BaseText style={styles.salePrice} >{moneyFormat(item.salePrice * num)}원</BaseText>
+                        <BaseText style={styles.number} >{num}개</BaseText>
+                    </View>
                 </View>
             </View>
         </View>
@@ -54,7 +47,6 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         flexDirection: 'row',
-        alignItems: 'center'
     },
     image: {
         width: 64,
@@ -68,30 +60,29 @@ const styles = StyleSheet.create({
         flex: 1
     },
     shopName: {
-        color: COLOR2
+        color: COLOR2,
+        marginBottom: 8
     },
     option: {
-        color: GRAY
+        color: GRAY,
+        marginTop: 8
     },
     deleteIcon: {
         alignSelf: 'flex-start'
     },
-    bottomContainer: {
-        flexDirection: 'row',
-        marginTop: 8
-    },
     priceContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 16
+        marginTop: 8
     },
     freeDeleveryContainer: {
         backgroundColor: COLOR1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 8,
+        borderRadius: 6,
         width: 64,
-        height: 20
+        height: 20,
+        marginTop: 8
     },
     price: {
         fontSize: 16,

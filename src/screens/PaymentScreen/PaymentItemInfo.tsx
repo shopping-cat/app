@@ -5,10 +5,13 @@ import PaymentItemCard from '../../components/Cards/PaymentItemCard'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import ThinLine from '../../components/ThinLine'
 import { SPRING_CONFIG, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { OrderCalculate } from '../../graphql/order'
 
-const dummyData = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }, { id: '6' }]
+interface PaymentItemInfoProps {
+    data: OrderCalculate
+}
 
-const PaymentItemInfo = () => {
+const PaymentItemInfo: React.FC<PaymentItemInfoProps> = ({ data }) => {
 
     const [open, setOpen] = useState(false)
     const [animation] = useState(new Animated.Value(0))
@@ -39,7 +42,7 @@ const PaymentItemInfo = () => {
                 onPress={onPress}
                 style={styles.titleContainer}
             >
-                <BaseText style={styles.title}  >주문상품 총 {dummyData.length}개</BaseText>
+                <BaseText style={styles.title}  >주문상품 총 {data.orderItems.length}개</BaseText>
                 <View style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} >
                     <DownArrowIcon fill='#000' />
                 </View>
@@ -49,7 +52,7 @@ const PaymentItemInfo = () => {
                 onLayout={({ nativeEvent }) => setContentsHeight(nativeEvent.layout.height)}
             >
                 <ThinLine />
-                {dummyData.map(({ id }) => <PaymentItemCard key={id} />)}
+                {data.orderItems.map((item) => <PaymentItemCard key={item.id} {...item} />)}
                 <ThinLine />
             </View>
             <View style={styles.bottomLine} />

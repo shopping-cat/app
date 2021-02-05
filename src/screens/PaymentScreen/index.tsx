@@ -1,12 +1,14 @@
-import { StackActions, useNavigation } from '@react-navigation/native'
-import React, { useCallback, useRef, useState } from 'react'
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native'
+import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
 import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
 import { IS_IOS } from '../../constants/values'
+import { useOrderCalculate } from '../../graphql/order'
+import useCouponPoint from '../../hooks/useCouponPoint'
 import moneyFormat from '../../lib/moneyFormat'
 import PaymentAddressInfo from './PaymentAddressInfo'
 import PaymentItemInfo from './PaymentItemInfo'
@@ -18,8 +20,13 @@ import PaymnetDepositWithoutBankbook from './PaymnetDepositWithoutBankbook'
 const PAY_METHODS = ['카드결제', '무통장입금', '휴대폰결제']
 const BANKS = ['우체국 (123124-2-4124-12)', '농협 (12353-512525-512)', '우리 (15025-125251-25125)', '우채국 (25125-2512-12-2)', '우체국 (123124-2-4124-12)', '농협 (12353-512525-512)', '우리 (15025-125251-25125)', '우채국 (25125-2512-12-2)']
 
+export interface PaymentScreenProps {
+    cartItemIds: number[]
+}
+
 const PaymentScreen = () => {
 
+    const { params } = useRoute<Route<'Payment', PaymentScreenProps>>()
     const { navigate, dispatch } = useNavigation()
 
     const scrollViewRef = useRef<ScrollView>(null)
@@ -30,10 +37,26 @@ const PaymentScreen = () => {
     const [bank, setBank] = useState(BANKS[0]) //무통장입금 은행
     const [bankSheetVisible, setBankSheetVisible] = useState(false)
 
+    const { couponIds, point, init } = useCouponPoint()
+
+    const { data, loading } = useOrderCalculate({
+        variables: {
+            cartItemIds: params.cartItemIds,
+            couponIds,
+            point
+        },
+        fetchPolicy: 'network-only'
+    })
+
+    useEffect(() => {
+        init()
+    }, [])
+
     const onPayment = useCallback(() => {
         // navigate('PaymentResult')
+        if (loading) return
         dispatch(StackActions.replace('PaymentResult'))
-    }, [])
+    }, [loading])
 
     const onMethod = useCallback(() => {
         setMethodSheetVisible(true)
@@ -66,24 +89,24 @@ const PaymentScreen = () => {
             >
                 <StatusBarHeightView />
                 <DefaultHeader title='주문/결제' disableBtns />
-                <ScrollView
+                {data && <ScrollView
                     ref={scrollViewRef}
                     overScrollMode='never'
                     showsVerticalScrollIndicator
                 >
-                    <PaymentItemInfo />
-                    <PaymentAddressInfo />
-                    <PaymentRefundAccount />
-                    <PaymentPrice />
+                    <PaymentItemInfo data={data.orderCalculate} />
+                    <PaymentAddressInfo data={data.orderCalculate} />
+                    <PaymentRefundAccount data={data.orderCalculate} />
+                    <PaymentPrice data={data.orderCalculate} />
                     <PaymentMethod onMethod={onMethod} method={method} />
                     {method === '무통장입금' && <PaymnetDepositWithoutBankbook bank={bank} onBank={onBank} />}
-                </ScrollView>
+                </ScrollView>}
             </KeyboardAvoidingView>
-            <ButtonFooter
-                active
+            {data && <ButtonFooter
+                active={!loading}
                 onPress={onPayment}
-                text={`${moneyFormat(156900)}원 결제하기`}
-            />
+                text={`${moneyFormat(data.orderCalculate.totalPaymentPrice)}원 결제하기`}
+            />}
             <SelectBottomSheet
                 list={PAY_METHODS}
                 visible={methodSheetVisible}

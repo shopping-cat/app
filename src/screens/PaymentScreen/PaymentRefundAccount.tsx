@@ -3,15 +3,14 @@ import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { OrderCalculate } from '../../graphql/order'
 
-const refundAccount = {
-    name: '홍길동',
-    accountNumber: '0294109249022',
-    bank: '농협'
+
+interface PaymentRefundAccountProps {
+    data: OrderCalculate
 }
-// const refundAccount = null
 
-const PaymentRefundAccount = () => {
+const PaymentRefundAccount: React.FC<PaymentRefundAccountProps> = ({ data }) => {
 
     const { navigate } = useNavigation()
 
@@ -26,15 +25,15 @@ const PaymentRefundAccount = () => {
                 onPress={onModify}
                 style={styles.modifyBtn}
             >
-                <BaseText style={styles.modify} >{refundAccount ? '변경하기' : '입력하기'}</BaseText>
+                <BaseText style={styles.modify} >{data.user.refundBankAccount ? '변경하기' : '입력하기'}</BaseText>
             </TouchableOpacity>
 
-            {refundAccount &&
+            {data.user.refundBankAccount &&
                 <View>
-                    <BaseText style={styles.info} >{refundAccount.name} | {refundAccount.bank} {refundAccount.accountNumber}</BaseText>
+                    <BaseText style={styles.info} >{data.user.refundBankAccount.ownerName} | {data.user.refundBankAccount.bankName} {data.user.refundBankAccount.accountNumber}</BaseText>
                 </View>
             }
-            {!refundAccount && <BaseText style={styles.emptyText} >배송지를 입력해주세요</BaseText>}
+            {!data.user.refundBankAccount && <BaseText style={styles.emptyText} >배송지를 입력해주세요</BaseText>}
 
         </View>
     )

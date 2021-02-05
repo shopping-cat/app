@@ -55,8 +55,8 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelec
                     </Pressable>
                     {data.stringOption && <BaseText numberOfLines={1} style={styles.option} >{data.stringOption}</BaseText>}
                     <View style={styles.priceContainer} >
-                        {data.item.salePrice && <BaseText style={styles.price} >{moneyFormat(data.item.price * data.num)}원</BaseText>}
-                        <BaseText style={styles.salePrice} >{data.item.salePrice ? moneyFormat(data.item.salePrice * data.num) : moneyFormat(data.item.price * data.num)}원</BaseText>
+                        {data.item.price !== data.item.salePrice && <BaseText style={styles.price} >{moneyFormat(data.item.price * data.num)}원</BaseText>}
+                        <BaseText style={styles.salePrice} >{moneyFormat(data.item.salePrice * data.num)}원</BaseText>
                         <BaseText style={styles.number} >{data.num}개</BaseText>
                     </View>
                 </View>

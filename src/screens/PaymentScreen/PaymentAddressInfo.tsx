@@ -3,23 +3,21 @@ import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { OrderCalculate } from '../../graphql/order'
+import { PointSelectScreenProps } from '../PointSelectScreen'
 
-const dummyDeliveryInfo = {
-    address: '부상 기장군 기장읍 백동길 24-4',
-    addressDetail: '신림아파트 102호 1202호',
-    phone: '01023958153',
-    name: '홍길동',
-    postCode: '46076'
+interface PaymentDeliveryInfoProps {
+    data: OrderCalculate
 }
-// const dummyDeliveryInfo = null
 
-const PaymentDeliveryInfo = () => {
+const PaymentDeliveryInfo: React.FC<PaymentDeliveryInfoProps> = ({ data }) => {
 
     const { navigate } = useNavigation()
 
     const onModify = useCallback(() => {
-        navigate('Address')
-    }, [])
+        const params: PointSelectScreenProps = { data }
+        navigate('Address', params)
+    }, [data])
 
     return (
         <View style={styles.container} >
@@ -28,19 +26,19 @@ const PaymentDeliveryInfo = () => {
                 onPress={onModify}
                 style={styles.modifyBtn}
             >
-                <BaseText style={styles.modify} >{dummyDeliveryInfo ? '변경하기' : '입력하기'}</BaseText>
+                <BaseText style={styles.modify} >{data.user.deliveryInfo ? '변경하기' : '입력하기'}</BaseText>
             </TouchableOpacity>
 
-            {dummyDeliveryInfo &&
+            {data.user.deliveryInfo &&
                 <View>
-                    <BaseText style={styles.info} >{dummyDeliveryInfo.name} {dummyDeliveryInfo.phone}</BaseText>
+                    <BaseText style={styles.info} >{data.user.deliveryInfo.name} {data.user.deliveryInfo.phone}</BaseText>
                     <View style={styles.spac} />
-                    <BaseText style={styles.info} >{dummyDeliveryInfo.address}</BaseText>
+                    <BaseText style={styles.info} >{data.user.deliveryInfo.address}</BaseText>
                     <View style={styles.spac} />
-                    <BaseText style={styles.info} >{dummyDeliveryInfo.addressDetail}</BaseText>
+                    <BaseText style={styles.info} >{data.user.deliveryInfo.addressDetail}</BaseText>
                 </View>
             }
-            {!dummyDeliveryInfo && <BaseText style={styles.emptyText} >배송지를 입력해주세요</BaseText>}
+            {!data.user.deliveryInfo && <BaseText style={styles.emptyText} >배송지를 입력해주세요</BaseText>}
 
         </View>
     )

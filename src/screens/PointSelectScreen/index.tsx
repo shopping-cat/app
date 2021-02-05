@@ -1,3 +1,4 @@
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseText from '../../components/BaseText'
@@ -7,22 +8,37 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import ThinLine from '../../components/ThinLine'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { OrderCalculate } from '../../graphql/order'
+import useCouponPoint from '../../hooks/useCouponPoint'
 import moneyFormat from '../../lib/moneyFormat'
 
-const dummyIPoint = 2500
+export interface PointSelectScreenProps {
+    data: OrderCalculate
+}
 
 const PointSelectScreen = () => {
 
-    const [point, setPoint] = useState(0)
-    const active = true
+    const { params } = useRoute<Route<'PointSelect', PointSelectScreenProps>>()
+    const { goBack } = useNavigation()
+    const { point, setPoint } = useCouponPoint()
+    const [pointTemp, setPointTemp] = useState(point)
+
+    const maxPoint = params.data.maxPointPrice
 
     const onSubmit = useCallback(() => {
-
-    }, [])
+        setPoint(pointTemp)
+        goBack()
+    }, [setPoint, pointTemp])
 
     const onUseAll = useCallback(() => {
-        setPoint(dummyIPoint)
-    }, [dummyIPoint])
+        setPointTemp(maxPoint)
+    }, [maxPoint])
+
+    const onChangeText = useCallback((t: string) => {
+        if (Number.isInteger(Number(t))) {
+            setPointTemp(Number(t) > maxPoint ? maxPoint : Number(t))
+        }
+    }, [params, maxPoint])
 
     return (
         <ScreenLayout>
@@ -35,11 +51,11 @@ const PointSelectScreen = () => {
                 <View style={styles.inputContainer} >
                     <TextInput
                         placeholderTextColor={GRAY}
-                        placeholder={`${moneyFormat(dummyIPoint)}포인트 사용가능`}
+                        placeholder={`${moneyFormat(maxPoint)}포인트 사용가능`}
                         style={styles.inputText}
-                        value={point === 0 ? '' : point.toString()}
+                        value={pointTemp === 0 ? '' : pointTemp.toString()}
                         keyboardType='number-pad'
-                        onChangeText={(t) => setPoint(Number(t))}
+                        onChangeText={onChangeText}
                     />
                     <BorderyButton onPress={onUseAll} >모두 사용</BorderyButton>
                 </View>
@@ -47,7 +63,7 @@ const PointSelectScreen = () => {
             <ButtonFooter
                 text='포인트 적용'
                 onPress={onSubmit}
-                active={active}
+                active={true}
             />
         </ScreenLayout>
     )
