@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { COLOR1, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
 import BaseText from './BaseText'
@@ -10,9 +10,10 @@ interface ButtonFooterProps {
     onPress: () => void
     active: boolean
     disableTopLine?: boolean
+    loading?: boolean
 }
 
-const ButtonFooter: React.FC<ButtonFooterProps> = ({ text, onPress, active, disableTopLine }) => {
+const ButtonFooter: React.FC<ButtonFooterProps> = ({ text, onPress, active, disableTopLine, loading }) => {
 
     const { bottom } = useSafeAreaInsets()
 
@@ -31,6 +32,11 @@ const ButtonFooter: React.FC<ButtonFooterProps> = ({ text, onPress, active, disa
                 style={[styles.btn, { backgroundColor: active ? COLOR1 : LIGHT_GRAY }]}
             >
                 <BaseText style={styles.btnText} >{text}</BaseText>
+                {loading && <ActivityIndicator
+                    style={styles.loading}
+                    color='#fff'
+                    size='small'
+                />}
             </TouchableScale>
         </View>
     )
@@ -58,5 +64,9 @@ const styles = StyleSheet.create({
     btnText: {
         fontSize: 18,
         color: '#fff'
+    },
+    loading: {
+        position: 'absolute',
+        right: 16
     }
 })

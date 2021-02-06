@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
@@ -9,24 +10,53 @@ import StatusBarHeightView from '../../components/StatusBarHeightView'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
+import { useIUser, useUpdateRefundBankAccount } from '../../graphql/auth'
 import useInput from '../../hooks/useInput'
 
+// TODO
 const dummyBankList = ['농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행', '농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행', '농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행', '농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행']
 
 const RefundAccountScreen = () => {
 
-    // data
-    const [bank, setBank] = useState<null | string>(null)
-    const [name, onChangeName] = useInput('')
-    const [accountNumber, onChangeAccountNumber] = useInput('')
-    // ui state
+    const { goBack } = useNavigation()
+
+    // UI
     const [bankSelectorVisible, setBankSelectorVisible] = useState(false)
+    // DATA
 
-    const active = bank && name && accountNumber
+    const { data } = useIUser()
+    const [updateRefundBankAccount, { loading }] = useUpdateRefundBankAccount()
+    const [bankName, setBankName] = useState<null | string>(null)
+    const [ownerName, onChangeOwnerName, setOwnerName] = useInput('')
+    const [accountNumber, onChangeAccountNumber, setAccountNumber] = useInput('', true)
 
-    const onSubmit = useCallback(() => {
+    const active = bankName && ownerName && accountNumber
 
-    }, [active])
+    useEffect(() => {
+        if (!data) return
+        if (!data.iUser.refundBankAccount) return
+        setBankName(data.iUser.refundBankAccount.bankName)
+        setOwnerName(data.iUser.refundBankAccount.ownerName)
+        setAccountNumber(data.iUser.refundBankAccount.accountNumber)
+    }, [data])
+
+    const onSubmit = useCallback(async () => {
+        if (!bankName) return
+        if (!ownerName) return
+        if (!accountNumber) return
+        try {
+            await updateRefundBankAccount({
+                variables: {
+                    accountNumber,
+                    bankName,
+                    ownerName
+                }
+            })
+            goBack()
+        } catch (error) {
+            console.error(error)
+        }
+    }, [bankName, ownerName, accountNumber, updateRefundBankAccount])
 
     const onBank = useCallback(() => {
         setBankSelectorVisible(true)
@@ -50,7 +80,7 @@ const RefundAccountScreen = () => {
                             onPress={onBank}
                             style={styles.bankSelector}
                         >
-                            <BaseText style={{ color: bank ? '#000' : GRAY }} >{bank || '은행선택'}</BaseText>
+                            <BaseText style={{ color: bankName ? '#000' : GRAY }} >{bankName || '은행선택'}</BaseText>
                             <DownArrowIcon />
                         </Pressable>
                     </View>
@@ -58,8 +88,8 @@ const RefundAccountScreen = () => {
                         <TextInput
                             placeholderTextColor={GRAY}
                             placeholder='예금주'
-                            value={name}
-                            onChangeText={onChangeName}
+                            value={ownerName}
+                            onChangeText={onChangeOwnerName}
                             style={[styles.text]}
                         />
                         <View style={styles.inputLine} />
@@ -81,12 +111,13 @@ const RefundAccountScreen = () => {
                 active={active}
                 onPress={onSubmit}
                 text='환불계좌 변경'
+                loading={loading}
             />
             <SelectBottomSheet
                 visible={bankSelectorVisible}
                 onClose={() => setBankSelectorVisible(false)}
                 list={dummyBankList}
-                onSelect={(i) => setBank(dummyBankList[i])}
+                onSelect={(i) => setBankName(dummyBankList[i])}
             />
         </ScreenLayout>
     )

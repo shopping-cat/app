@@ -1,4 +1,4 @@
-import { gql, QueryHookOptions, useApolloClient } from "@apollo/client"
+import { gql, QueryHookOptions } from "@apollo/client"
 import { ID } from "../constants/types"
 import cache from "../lib/apollo/cache"
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook"

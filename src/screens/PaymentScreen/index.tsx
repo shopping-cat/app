@@ -37,7 +37,7 @@ const PaymentScreen = () => {
     const [bank, setBank] = useState(BANKS[0]) //무통장입금 은행
     const [bankSheetVisible, setBankSheetVisible] = useState(false)
 
-    const { couponIds, point, init } = useCouponPoint()
+    const { couponIds, point, init, setPoint } = useCouponPoint()
 
     const { data, loading } = useOrderCalculate({
         variables: {
@@ -45,12 +45,18 @@ const PaymentScreen = () => {
             couponIds,
             point
         },
-        fetchPolicy: 'network-only'
+        fetchPolicy: 'network-only',
+        nextFetchPolicy: 'cache-and-network'
     })
 
     useEffect(() => {
         init()
     }, [])
+
+    useEffect(() => {
+        if (!data) return
+        if (data.orderCalculate.maxPointPrice < point) setPoint(data.orderCalculate.maxPointPrice)
+    }, [data?.orderCalculate.maxPointPrice])
 
     const onPayment = useCallback(() => {
         // navigate('PaymentResult')
@@ -103,9 +109,10 @@ const PaymentScreen = () => {
                 </ScrollView>}
             </KeyboardAvoidingView>
             {data && <ButtonFooter
-                active={!loading}
+                active
                 onPress={onPayment}
                 text={`${moneyFormat(data.orderCalculate.totalPaymentPrice)}원 결제하기`}
+                loading={loading}
             />}
             <SelectBottomSheet
                 list={PAY_METHODS}
