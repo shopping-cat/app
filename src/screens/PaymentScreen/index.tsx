@@ -15,6 +15,7 @@ import PaymentItemInfo from './PaymentItemInfo'
 import PaymentMethod from './PaymentMethod'
 import PaymentPrice from './PaymentPrice'
 import PaymentRefundAccount from './PaymentRefundAccount'
+import PaymentSkeleton from './PaymentSkeleton'
 import PaymnetDepositWithoutBankbook from './PaymnetDepositWithoutBankbook'
 
 const PAY_METHODS = ['카드결제', '무통장입금', '휴대폰결제']
@@ -95,6 +96,7 @@ const PaymentScreen = () => {
             >
                 <StatusBarHeightView />
                 <DefaultHeader title='주문/결제' disableBtns />
+                {!data && <PaymentSkeleton />}
                 {data && <ScrollView
                     ref={scrollViewRef}
                     overScrollMode='never'
