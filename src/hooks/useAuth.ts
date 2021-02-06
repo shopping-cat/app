@@ -4,7 +4,7 @@ import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import auth from '@react-native-firebase/auth';
 import { useApolloClient } from "@apollo/client";
-import { KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../graphql/auth'
+import { KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../graphql/user'
 
 
 

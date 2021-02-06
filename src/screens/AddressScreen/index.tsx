@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import ButtonFooter from '../../components/ButtonFooter'
@@ -8,27 +8,60 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
+import { useIUser, useUpdateDeliveryInfo } from '../../graphql/user'
 import useInput from '../../hooks/useInput'
 
 
 const AddressScreen = () => {
 
-    const { navigate } = useNavigation()
+    const { navigate, goBack } = useNavigation()
+
+    const { data } = useIUser()
+    const [updateDeliveryInfo, { loading }] = useUpdateDeliveryInfo()
+
     const [postCode, setPostCode] = useState('')
     const [address, setAddress] = useState('')
-    const [addressDetail, onChangeAddressDetail] = useInput('')
-    const [name, onChangeName] = useInput('')
-    const [phone, onChangePhone] = useInput('')
+    const [addressDetail, onChangeAddressDetail, setAddressDetail] = useInput('')
+    const [name, onChangeName, setName] = useInput('')
+    const [phone, onChangePhone, setPhone] = useInput('')
 
     const active = postCode && address && addressDetail && name && phone
 
+    useEffect(() => {
+        if (!data) return
+        if (!data.iUser.deliveryInfo) return
+        setPostCode(data.iUser.deliveryInfo.postCode)
+        setAddress(data.iUser.deliveryInfo.address)
+        setAddressDetail(data.iUser.deliveryInfo.addressDetail)
+        setName(data.iUser.deliveryInfo.name)
+        setPhone(data.iUser.deliveryInfo.phone)
+    }, [data])
+
     const onPostCode = useCallback(() => {
         navigate('AddressSearch', { setPostCode, setAddress })
-    }, [])
+    }, [setPostCode, setAddress])
 
-    const onSubmit = useCallback(() => {
-        if (!active) return
-    }, [active])
+    const onSubmit = useCallback(async () => {
+        if (!postCode) return
+        if (!address) return
+        if (!addressDetail) return
+        if (!name) return
+        if (!phone) return
+        try {
+            await updateDeliveryInfo({
+                variables: {
+                    postCode,
+                    address,
+                    addressDetail,
+                    name,
+                    phone
+                }
+            })
+            goBack()
+        } catch (error) {
+            console.error(error)
+        }
+    }, [postCode, address, addressDetail, name, phone])
 
     return (
         <ScreenLayout>
@@ -93,6 +126,7 @@ const AddressScreen = () => {
                 active={active}
                 onPress={onSubmit}
                 text='배송지 입력하기'
+                loading={loading}
             />
 
         </ScreenLayout>

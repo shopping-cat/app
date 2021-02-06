@@ -10,7 +10,7 @@ import StatusBarHeightView from '../../components/StatusBarHeightView'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
-import { useIUser, useUpdateRefundBankAccount } from '../../graphql/auth'
+import { useIUser, useUpdateRefundBankAccount } from '../../graphql/user'
 import useInput from '../../hooks/useInput'
 
 // TODO

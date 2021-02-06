@@ -27,6 +27,14 @@ export const I_USER = gql`
         bankName
         accountNumber
       }
+      deliveryInfo {
+        id
+        postCode
+        address
+        addressDetail
+        name
+        phone
+      }
     }
   }
 `
@@ -38,6 +46,14 @@ interface IUserData {
       ownerName: string
       bankName: string
       accountNumber: string
+    }
+    deliveryInfo: {
+      id: ID
+      postCode: string
+      address: string
+      addressDetail: string
+      name: string
+      phone: string
     }
   }
 }
@@ -82,3 +98,42 @@ export const useUpdateRefundBankAccount = (options?: MutationHookOptions<UpdateR
   ...options
 })
 
+// MUTATION/UPDATE_DELIVERY_INFO
+export const UPDATE_DELIVERY_INFO = gql`
+  mutation ($postCode:String!, $address:String!, $addressDetail:String!, $name:String!, $phone:String!) {
+    updateDeliveryInfo(postCode:$postCode, address:$address, addressDetail:$addressDetail, name:$name, phone:$phone) {
+      id
+      deliveryInfo {
+        id
+        postCode
+        address
+        addressDetail
+        name
+        phone
+      }
+    }
+  }
+`
+interface UpdateDeliveryInfoData {
+  updateDeliveryInfo: {
+    id: ID,
+    deliveryInfo: {
+      id: ID
+      postCode: string
+      address: string
+      addressDetail: string
+      name: string
+      phone: string
+    }
+  }
+}
+interface UpdateDeliveryInfoVars {
+  postCode: string
+  address: string
+  addressDetail: string
+  name: string
+  phone: string
+}
+export const useUpdateDeliveryInfo = (options?: MutationHookOptions<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>) => createMutationHook<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>(UPDATE_DELIVERY_INFO, {
+  ...options
+})
