@@ -12,6 +12,8 @@ export const CART_ITEMS = gql`
       option
       num
       stringOption
+      optionedPrice
+      optionedSaledPrice
       item {
         id
         isFreeDelivery
@@ -39,6 +41,8 @@ export interface CartItem {
   option: CartItemOption
   num: number
   stringOption: string
+  optionedPrice: number
+  optionedSaledPrice: number
   item: {
     id: ID
     isFreeDelivery: boolean

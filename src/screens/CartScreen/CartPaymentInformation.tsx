@@ -14,8 +14,8 @@ interface CartPaymentInformationProps {
 const CartPaymentInformation: React.FC<CartPaymentInformationProps> = ({ data, selectList }) => {
 
     const selectedData = data.filter(v => selectList.includes(v.id))
-    const totalPrice = arraySum(selectedData.map(v => (v.item.price * v.num)))
-    const totalPaymentItemPrice = arraySum(selectedData.map(v => (v.item.salePrice * v.num)))
+    const totalPrice = arraySum(selectedData.map(v => (v.optionedPrice * v.num)))
+    const totalPaymentItemPrice = arraySum(selectedData.map(v => (v.optionedSaledPrice * v.num)))
     const totalSale = totalPaymentItemPrice - totalPrice
     const deliveryPrice = arraySum(selectedData.map(v => v.item.deliveryPrice))
     const totalPaymentPrice = totalPaymentItemPrice + deliveryPrice

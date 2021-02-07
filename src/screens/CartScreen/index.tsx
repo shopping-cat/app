@@ -27,7 +27,7 @@ const CartScreen = () => {
     const [selectList, setSelectList] = useState<ID[]>(data?.cartItems.map(v => v.id) || [])
 
     const totalPrice =
-        arraySum((data?.cartItems || []).filter(v => selectList.includes(v.id)).map(v => (v.item.salePrice * v.num)))
+        arraySum((data?.cartItems || []).filter(v => selectList.includes(v.id)).map(v => (v.optionedSaledPrice * v.num)))
         + arraySum((data?.cartItems || []).filter(v => selectList.includes(v.id)).map(v => v.item.deliveryPrice))
     const active = selectList.length > 0
 

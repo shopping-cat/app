@@ -25,6 +25,10 @@ export const ORDER_CALCULATE = gql`
         }
         orderItems {
             id
+            stringOption
+            num
+            optionedPrice
+            optionedSaledPrice
             item {
                 id
                 name
@@ -37,11 +41,9 @@ export const ORDER_CALCULATE = gql`
                 shopName
                 }
             }
-            stringOption
-            num
         }
-        itemsCoupons {
-            itemId
+        orderItemsCoupons {
+            orderItemId
             coupon {
                 salePrice
                 salePercent
@@ -69,6 +71,8 @@ export interface OrderItem {
     id: ID
     stringOption: string | null
     num: number
+    optionedPrice: number
+    optionedSaledPrice: number
     item: {
         id: ID
         name: string
@@ -92,8 +96,8 @@ export interface Coupon {
     period: Date
 }
 
-export interface ItemsCoupons {
-    itemId: ID
+export interface OrderItemsCoupons {
+    orderItemId: ID
     coupon: Coupon[]
 }
 
@@ -116,7 +120,7 @@ export interface OrderCalculate {
         } | null
     }
     orderItems: OrderItem[]
-    itemsCoupons: ItemsCoupons[]
+    orderItemsCoupons: OrderItemsCoupons[]
     totalItemPrice: number
     totalSaledPrice: number
     totalCouponedPrice: number

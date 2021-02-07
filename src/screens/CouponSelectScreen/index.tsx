@@ -1,3 +1,4 @@
+import { Route, useRoute } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import CouponSelectBottomSheet from '../../components/BottomSheets/CouponSelectBottomSheet'
@@ -6,16 +7,29 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
 import { ID } from '../../constants/types'
+import { OrderCalculate } from '../../graphql/order'
+import useCouponPoint from '../../hooks/useCouponPoint'
 
-const dummyData = Array(10).fill({}).map((_, i) => ({ id: (i + 1).toString() }))
+interface CouponSelectScreenProps {
+    data: OrderCalculate
+}
 
 const CouponSelectScreen = () => {
 
+    const { params } = useRoute<Route<'CouponSelect', CouponSelectScreenProps>>()
+    const { couponIds, setCouponIds } = useCouponPoint()
     const [list, setList] = useState<any[]>([])
     const [visible, setVisible] = useState(false)
 
-    const onCouponSelect = useCallback((id: ID, couponList: any[]) => {
-        setList(couponList)
+    const data = []
+    for (const item of params.data.orderItems) {
+        for (let i = 0; i < item.num; i++) {
+            data.push({ ...item, num: i })
+        }
+    }
+
+    const onCouponSelect = useCallback((id: ID) => {
+        setList([])
         setVisible(true)
     }, [])
 
@@ -28,8 +42,15 @@ const CouponSelectScreen = () => {
             <StatusBarHeightView />
             <DefaultHeader title='쿠폰선택' disableBtns />
             <FlatList
-                data={dummyData}
-                renderItem={() => <CouponSelectCard onCouponSelect={onCouponSelect} />}
+                data={data}
+                keyExtractor={(item) => `${item.id}/${item.num}`}
+                renderItem={({ item, index }) =>
+                    <CouponSelectCard
+                        selected={couponIds !== null && couponIds[index] !== null}
+                        data={item}
+                        onCouponSelect={onCouponSelect}
+                    />
+                }
                 overScrollMode='never'
             />
             <CouponSelectBottomSheet

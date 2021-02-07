@@ -25,8 +25,9 @@ const PaymentPrice: React.FC<PaymentPriceProps> = ({ data }) => {
     const { couponIds, point } = useCouponPoint()
 
     const onCoupon = useCallback(() => {
-        navigate('CouponSelect')
-    }, [])
+        const params = { data }
+        navigate('CouponSelect', params)
+    }, [data])
 
     const onPoint = useCallback(() => {
         const params: PointSelectScreenProps = { data }
@@ -71,7 +72,7 @@ const PaymentPrice: React.FC<PaymentPriceProps> = ({ data }) => {
                     <View style={styles.couponCotnainer} >
                         <View style={styles.couponInfoContainer} >
                             <BaseText style={styles.couponeText} >쿠폰</BaseText>
-                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>{couponIds && couponIds.length >= 0 ? `${couponIds.length}장 적용` : `전체 todo장, 적용가능 todo장`}</BaseText>
+                            <BaseText style={[styles.couponeText, { color: couponIds && couponIds.length >= 0 ? GRAY : COLOR1 }]}>{couponIds && couponIds.length >= 0 ? `${couponIds.length}장 적용` : `전체 todo장, 적용가능 todo장`}</BaseText>
                         </View>
                         <Pressable onPress={onCoupon} style={styles.couponBtn} >
                             <RightArrowIcon fill={GRAY} />
@@ -80,7 +81,7 @@ const PaymentPrice: React.FC<PaymentPriceProps> = ({ data }) => {
                     <View style={styles.couponCotnainer} >
                         <View style={styles.couponInfoContainer} >
                             <BaseText style={styles.couponeText} >포인트</BaseText>
-                            <BaseText style={[styles.couponeText, { color: COLOR1 }]}>{point === 0 ? `${moneyFormat(data.maxPointPrice)}포인트 사용가능` : `${moneyFormat(point)}포인트 적용`} </BaseText>
+                            <BaseText style={[styles.couponeText, { color: point === 0 ? COLOR1 : GRAY }]}>{point === 0 ? `${moneyFormat(data.maxPointPrice)}포인트 사용가능` : `${moneyFormat(point)}포인트 적용`} </BaseText>
                         </View>
                         <Pressable onPress={onPoint} style={styles.couponBtn} >
                             <RightArrowIcon fill={GRAY} />

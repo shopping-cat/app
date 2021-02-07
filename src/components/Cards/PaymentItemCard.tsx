@@ -7,7 +7,7 @@ import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
 
 
-const PaymentItemCard: React.FC<OrderItem> = ({ item, num, stringOption }) => {
+const PaymentItemCard: React.FC<OrderItem> = ({ item, num, stringOption, optionedPrice, optionedSaledPrice }) => {
     return (
         <View style={styles.container} >
             <View style={styles.rowContainer} >
@@ -25,8 +25,8 @@ const PaymentItemCard: React.FC<OrderItem> = ({ item, num, stringOption }) => {
                     <BaseText numberOfLines={1} >{item.name}</BaseText>
                     {stringOption && <BaseText numberOfLines={1} style={styles.option} >{stringOption}</BaseText>}
                     <View style={styles.priceContainer} >
-                        {item.salePrice !== item.price && <BaseText style={styles.price} >{moneyFormat(item.price * num)}원</BaseText>}
-                        <BaseText style={styles.salePrice} >{moneyFormat(item.salePrice * num)}원</BaseText>
+                        {optionedSaledPrice !== optionedPrice && <BaseText style={styles.price} >{moneyFormat(optionedPrice * num)}원</BaseText>}
+                        <BaseText style={styles.salePrice} >{moneyFormat(optionedSaledPrice * num)}원</BaseText>
                         <BaseText style={styles.number} >{num}개</BaseText>
                     </View>
                 </View>
