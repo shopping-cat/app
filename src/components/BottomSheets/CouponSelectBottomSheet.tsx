@@ -2,11 +2,12 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { HEIGHT, LIGHT_GRAY } from '../../constants/styles'
+import { Coupon } from '../../graphql/order'
 import CouponSelectSheetCard from '../Cards/CouponSelectSheetCard'
 import BottomSheet from './BottomSheet'
 
 interface CouponSelectBottomSheetProps {
-    list: any[]
+    list: Coupon[]
     onSelect: (index: number) => void
     visible: boolean
     onClose: () => void
@@ -40,7 +41,7 @@ const CouponSelectBottomSheet: React.FC<CouponSelectBottomSheetProps> = ({ list,
                 <FlatList
                     ref={flatlistRef}
                     data={list}
-                    renderItem={({ index }) => <CouponSelectSheetCard onPress={() => onPress(index)} />}
+                    renderItem={({ item, index }) => <CouponSelectSheetCard data={item} onPress={() => onPress(index)} />}
                     style={[styles.flatlist, { height: HEIGHT * 0.7 }]}
                     overScrollMode='never'
                     ListFooterComponent={<View style={{ height: bottom }} />}

@@ -44,7 +44,9 @@ export const ORDER_CALCULATE = gql`
         }
         orderItemsCoupons {
             orderItemId
-            coupon {
+            coupons {
+                id
+                image
                 salePrice
                 salePercent
                 name
@@ -88,17 +90,19 @@ export interface OrderItem {
 }
 
 export interface Coupon {
+    id: string
+    image: string
+    name: string
+    period: Date
     salePrice: number | null
     salePercent: number | null
-    name: string
     minItemPrice: number | null
     maxSalePrice: number | null
-    period: Date
 }
 
 export interface OrderItemsCoupons {
     orderItemId: ID
-    coupon: Coupon[]
+    coupons: Coupon[]
 }
 
 export interface OrderCalculate {

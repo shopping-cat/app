@@ -18,7 +18,7 @@ const CouponSelectCard: React.FC<CouponSelectCardProps> = ({ onCouponSelect, dat
 
     const onPress = useCallback(() => {
         onCouponSelect(data.id)
-    }, [selected, data])
+    }, [data, onCouponSelect])
 
     return (
         <View style={styles.container} >
@@ -29,7 +29,7 @@ const CouponSelectCard: React.FC<CouponSelectCardProps> = ({ onCouponSelect, dat
             <View style={styles.column} >
                 <BaseText  >{data.item.name}</BaseText>
                 {data.stringOption && <BaseText style={styles.itemOption} >{data.stringOption}</BaseText>}
-                <BaseText style={styles.itemPrice} >{moneyFormat(data.item.salePrice)}원</BaseText>
+                <BaseText style={styles.itemPrice} >{moneyFormat(data.optionedSaledPrice)}원</BaseText>
                 <View style={styles.line} />
                 {selected && <BaseText style={styles.salePrice} >{moneyFormat(-3900)}원</BaseText>}
                 <BorderyButton

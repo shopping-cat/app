@@ -7,7 +7,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
 import { ID } from '../../constants/types'
-import { OrderCalculate } from '../../graphql/order'
+import { Coupon, OrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
 
 interface CouponSelectScreenProps {
@@ -18,7 +18,7 @@ const CouponSelectScreen = () => {
 
     const { params } = useRoute<Route<'CouponSelect', CouponSelectScreenProps>>()
     const { couponIds, setCouponIds } = useCouponPoint()
-    const [list, setList] = useState<any[]>([])
+    const [list, setList] = useState<Coupon[]>([])
     const [visible, setVisible] = useState(false)
 
     const data = []
@@ -29,9 +29,15 @@ const CouponSelectScreen = () => {
     }
 
     const onCouponSelect = useCallback((id: ID) => {
-        setList([])
+        const temp = params.data.orderItemsCoupons.filter(v => v.orderItemId === id)
+        console.log(temp)
+        if (temp.length === 1) {
+            setList(temp[0].coupons)
+        } else {
+            setList([])
+        }
         setVisible(true)
-    }, [])
+    }, [params])
 
     const onCouponSelected = useCallback((index: number) => {
         console.log(index)
