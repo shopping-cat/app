@@ -41,7 +41,7 @@ const CouponSelectBottomSheet: React.FC<CouponSelectBottomSheetProps> = ({ list,
                 <FlatList
                     ref={flatlistRef}
                     data={list}
-                    renderItem={({ item, index }) => <CouponSelectSheetCard data={item} onPress={() => onPress(item.id)} />}
+                    renderItem={({ item }) => <CouponSelectSheetCard data={item} onPress={() => onPress(item.id)} />}
                     style={[styles.flatlist, { height: HEIGHT * 0.7 }]}
                     overScrollMode='never'
                     ListFooterComponent={<View style={{ height: bottom }} />}

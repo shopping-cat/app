@@ -22,7 +22,10 @@ const CouponSelectSheetCard: React.FC<CouponSelectSheetCardProps> = ({ onPress, 
                 style={styles.image}
             />
             <View style={styles.column} >
-                <BaseText style={styles.sale} >{data.salePrice ? moneyFormat(data.salePrice) + '원' : data.salePercent + '%'}</BaseText>
+                <View style={styles.row} >
+                    <BaseText style={styles.sale} >{data.salePrice ? moneyFormat(data.salePrice) + '원' : data.salePercent + '%'}</BaseText>
+                    {data.maxSalePrice && <BaseText style={styles.maxSalePrice} >(최대 {moneyFormat(data.maxSalePrice)}원 까지)</BaseText>}
+                </View>
                 <BaseText style={styles.name} >{data.name}</BaseText>
                 <BaseText style={[styles.period, { color: GRAY || COLOR1 }]} >{dayjs(data.period).format('YYYY.MM.DD')} 까지</BaseText>
             </View>
@@ -48,9 +51,17 @@ const styles = StyleSheet.create({
         height: 64,
         justifyContent: 'space-between'
     },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
     sale: {
         fontSize: 18,
         color: COLOR2
+    },
+    maxSalePrice: {
+        color: GRAY,
+        marginLeft: 4
     },
     name: {
     },
