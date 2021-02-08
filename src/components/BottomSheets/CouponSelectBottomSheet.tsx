@@ -8,7 +8,7 @@ import BottomSheet from './BottomSheet'
 
 interface CouponSelectBottomSheetProps {
     list: Coupon[]
-    onSelect: (index: number) => void
+    onSelect: (id: string) => void
     visible: boolean
     onClose: () => void
 }
@@ -23,10 +23,10 @@ const CouponSelectBottomSheet: React.FC<CouponSelectBottomSheetProps> = ({ list,
         if (visible) flatlistRef.current?.scrollToOffset({ offset: 0, animated: false })
     }, [visible])
 
-    const onPress = useCallback((index: number) => {
-        onSelect(index)
+    const onPress = useCallback((id: string) => {
+        onSelect(id)
         onClose()
-    }, [])
+    }, [onSelect])
 
     return (
         <BottomSheet
@@ -41,7 +41,7 @@ const CouponSelectBottomSheet: React.FC<CouponSelectBottomSheetProps> = ({ list,
                 <FlatList
                     ref={flatlistRef}
                     data={list}
-                    renderItem={({ item, index }) => <CouponSelectSheetCard data={item} onPress={() => onPress(index)} />}
+                    renderItem={({ item, index }) => <CouponSelectSheetCard data={item} onPress={() => onPress(item.id)} />}
                     style={[styles.flatlist, { height: HEIGHT * 0.7 }]}
                     overScrollMode='never'
                     ListFooterComponent={<View style={{ height: bottom }} />}

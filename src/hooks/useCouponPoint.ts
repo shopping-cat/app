@@ -2,15 +2,19 @@ import { makeVar, useReactiveVar } from "@apollo/client"
 import { useCallback } from "react"
 
 const pointVar = makeVar<number>(0)
-const couponIdsVar = makeVar<null | (string | null)[]>(null)
+interface CouponsVar {
+    orderItemId: number
+    couponId: string
+}
+const couponsVar = makeVar<CouponsVar[]>([])
 
 const useCouponPoint = () => {
 
     const point = useReactiveVar(pointVar)
-    const couponIds = useReactiveVar(couponIdsVar)
+    const coupons = useReactiveVar(couponsVar)
 
     const init = useCallback(() => {
-        couponIdsVar(null)
+        couponsVar([])
         pointVar(0)
     }, [])
 
@@ -18,16 +22,16 @@ const useCouponPoint = () => {
         pointVar(v)
     }, [])
 
-    const setCouponIds = useCallback((v: null | (string | null)[]) => {
-        couponIdsVar(v)
+    const setCoupons = useCallback((v: CouponsVar[]) => {
+        couponsVar(v)
     }, [])
 
     return {
         init,
         point,
-        couponIds,
+        coupons,
         setPoint,
-        setCouponIds
+        setCoupons
     }
 }
 
