@@ -14,6 +14,8 @@ import Accordian from '../../components/ItemOptionAccordian';
 import LinearGradient from 'react-native-linear-gradient';
 import { ItemDetail } from '../../graphql/item';
 import { useAddToCart } from '../../graphql/cartItem';
+import { useNavigation } from '@react-navigation/native';
+import { PaymentScreenProps } from '../PaymentScreen';
 
 
 const MIN_NUMBER = 1
@@ -27,6 +29,7 @@ interface ItemDetailOptionSheetProps {
 
 const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, visible, data }) => {
 
+    const { navigate } = useNavigation()
     const { bottom } = useSafeAreaInsets()
 
     const [options, setOptions] = useState<(number | null)[]>([])
@@ -65,7 +68,6 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
     const onCart = useCallback(async () => {
         if (!isSelectedOption) return
         if (loading) return
-        // TODO
         await addToCart({
             variables: {
                 itemId: data.id,
@@ -73,19 +75,35 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
                 option: data.option ? options.map(v => v || 0) : undefined
             }
         })
-
         onClose()
         setTimeout(() => { init() }, 250)
     }, [isSelectedOption, addToCart, number, loading])
 
-    const onBuy = useCallback(() => {
+    const onBuy = useCallback(async () => {
         if (!isSelectedOption) return
         // TODO
+        try {
+            const { data: result } = await addToCart({
+                variables: {
+                    itemId: data.id,
+                    number,
+                    option: data.option ? options.map(v => v || 0) : undefined,
+                    isDirectBuy: true
+                }
+            })
+            if (!result) throw new Error
+            const params: PaymentScreenProps = {
+                cartItemIds: [result.addToCart.id]
+            }
+            navigate('Payment', params)
 
+        } catch (error) {
+            console.error(error)
+        }
 
         onClose()
         setTimeout(() => { init() }, 250)
-    }, [isSelectedOption])
+    }, [isSelectedOption, addToCart, number, loading])
 
     const numberIncrease = useCallback(() => {
         if (number === MAX_NUMBER) return

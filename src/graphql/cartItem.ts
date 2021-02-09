@@ -71,8 +71,8 @@ export const useCartItems = (options?: QueryHookOptions<CartItemsData, CartItems
 
 // MUTATION/ADD_TO_CART 장바구니에 담기
 export const ADD_TO_CART = gql`
-  mutation ($itemId:Int!, $number: Int!, $option: [Int]) {
-    addToCart(itemId:$itemId, number:$number, option:$option) {
+  mutation ($itemId:Int!, $number: Int!, $option: [Int], $isDirectBuy: Boolean) {
+    addToCart(itemId:$itemId, number:$number, option:$option, isDirectBuy:$isDirectBuy) {
       id
       itemId
       option
@@ -102,6 +102,7 @@ interface AddToCartVars {
   itemId: number
   number: number
   option?: number[]
+  isDirectBuy?: boolean
 }
 
 export const useAddToCart = () => createMutationHook<AddToCartData, AddToCartVars>(ADD_TO_CART, {
