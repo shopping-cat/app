@@ -1,7 +1,9 @@
 import { gql, QueryHookOptions, useApolloClient } from "@apollo/client";
 import { ID, ItemState } from "../constants/types";
+import { client } from "../lib/apollo";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { ItemReview } from "./itemReview";
+import { RECENT_SEARCH_KEYWORDS } from "./user";
 
 // QUERY/ITEM
 export const ITEM = gql`
@@ -122,7 +124,7 @@ interface FilteredItemsVars {
   limit?: number
 }
 export const useFilteredItems = (options?: QueryHookOptions<FilteredItemsData, FilteredItemsVars>) => createQueryHook<FilteredItemsData, FilteredItemsVars>(FILTERED_ITEMS, {
-  ...options,
+  ...options
 })
 
 export const RECOMMENDED_ITEMS = gql`

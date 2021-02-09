@@ -1,5 +1,6 @@
+import { useApolloClient } from '@apollo/client'
 import { Route, useRoute } from '@react-navigation/native'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import BaseText from '../../components/BaseText'
@@ -15,7 +16,7 @@ import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import UpFab from '../../components/UpFab'
 import { GRAY } from '../../constants/styles'
 import { useFilteredItems } from '../../graphql/item'
-import { useSearch } from '../../graphql/search'
+import { RECENT_SEARCH_KEYWORDS } from '../../graphql/user'
 import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
 
@@ -34,6 +35,8 @@ const SearchDetailScreen = () => {
     const flatlistRef = useRef<FlatList>(null)
 
     // data
+    const client = useApolloClient()
+    const [recentSearchKeywordsFetched, setRecentSearchKeywordsFetched] = useState(false)
     const { params } = useRoute<Route<'SearchDetail', RouteParams>>()
     const [category, setCategory] = useState('전체')
     const [sortIndex, setSortIndex] = useState(0)
@@ -45,7 +48,13 @@ const SearchDetailScreen = () => {
     const { onRefresh, refreshing } = useRefreshing(refetch)
     const [sortSheetVisible, setSortSheetVisible] = useState(false)
 
-
+    useEffect(() => { // 첫 로딩 후에
+        if (loading) return
+        if (recentSearchKeywordsFetched) return
+        // recent keyword 업데이트
+        client.query({ query: RECENT_SEARCH_KEYWORDS, fetchPolicy: 'network-only' })
+            .then(() => setRecentSearchKeywordsFetched(true))
+    }, [loading])
 
     const onSort = useCallback(() => {
         setSortSheetVisible(true)

@@ -137,3 +137,60 @@ interface UpdateDeliveryInfoVars {
 export const useUpdateDeliveryInfo = (options?: MutationHookOptions<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>) => createMutationHook<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>(UPDATE_DELIVERY_INFO, {
   ...options
 })
+
+
+
+// QUERY/RECENT_SEARCH_KEYWORDS
+export const RECENT_SEARCH_KEYWORDS = gql`
+  query {
+    iUser {
+      id
+      recentSearchKeywords {
+        id
+        keyword
+      }
+    }
+  }
+`
+export interface RecentSearchKeyword {
+  id: number
+  keyword: string
+}
+interface RecentSearchKeywordsData {
+  iUser: {
+    id: number,
+    recentSearchKeywords: RecentSearchKeyword[]
+  }
+}
+interface RecentSearchKeywordsVars {
+
+}
+export const useRecentSearchKeywords = (options?: QueryHookOptions) => createQueryHook<RecentSearchKeywordsData, RecentSearchKeywordsVars>(RECENT_SEARCH_KEYWORDS, {
+  ...options
+})
+
+// QUERY/REMOVE_ALL_SEARCH_KEYWORDS
+export const REMOVE_ALL_SEARCH_KEYWORDS = gql`
+  mutation {
+    removeAllSearchKeywords {
+      id
+      recentSearchKeywords {
+        id
+        keyword
+      }
+    }
+  }
+`
+
+interface RemoveAllSearchKeywordsData {
+  removeAllSearchKeywords: {
+    id: number,
+    recentSearchKeywords: RecentSearchKeyword[]
+  }
+}
+interface RemoveAllSearchKeywordsVars {
+
+}
+export const useRemoveAllSearchKeywords = (options?: MutationHookOptions) => createMutationHook<RemoveAllSearchKeywordsData, RemoveAllSearchKeywordsVars>(REMOVE_ALL_SEARCH_KEYWORDS, {
+  ...options
+})
