@@ -4,11 +4,12 @@ import { createQueryHook } from "../lib/createApolloHook"
 
 // QUERY/ORDER_CALCULATE
 export const ORDER_CALCULATE = gql`
-  query ($cartItemIds:[Int]!, $couponIds:[String], $point: Int!){
-    orderCalculate(cartItemIds:$cartItemIds, couponIds:$couponIds, point:$point) {
+query ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!){
+    orderCalculate(cartItemIds:$cartItemIds, coupons:$coupons, point:$point) {
         user {
             id
             point
+            couponNum
             deliveryInfo {
                 id
                 name
@@ -109,6 +110,7 @@ export interface OrderCalculate {
     user: {
         id: ID
         point: number
+        couponNum: number
         deliveryInfo: {
             id: number
             name: string
@@ -137,12 +139,17 @@ export interface OrderCalculate {
     maxPointPrice: number
 }
 
+export interface OrderCalculateCouponVar {
+    orderItemId: number
+    couponId: string
+}
+
 interface OrderCalculateData {
     orderCalculate: OrderCalculate
 }
 interface OrderCalculateVars {
     cartItemIds: number[]
-    couponIds: (string | null)[] | null
+    coupons: OrderCalculateCouponVar[]
     point: number
 }
 export const useOrderCalculate = (options?: QueryHookOptions<OrderCalculateData, OrderCalculateVars>) => createQueryHook<OrderCalculateData, OrderCalculateVars>(ORDER_CALCULATE, {

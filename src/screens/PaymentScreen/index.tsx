@@ -38,12 +38,12 @@ const PaymentScreen = () => {
     const [bank, setBank] = useState(BANKS[0]) //무통장입금 은행
     const [bankSheetVisible, setBankSheetVisible] = useState(false)
 
-    const { couponIds, point, init, setPoint } = useCouponPoint()
+    const { coupons, point, init, setPoint } = useCouponPoint()
 
     const { data, loading } = useOrderCalculate({
         variables: {
             cartItemIds: params.cartItemIds,
-            couponIds,
+            coupons,
             point
         },
         fetchPolicy: 'network-only',
@@ -54,7 +54,7 @@ const PaymentScreen = () => {
         init()
     }, [])
 
-    useEffect(() => {
+    useEffect(() => { // 포인트를 먼저 선택하고 쿠폰을 고르면 최소 결제 금액 보다 아래로 갈수 있기 때문에 처리
         if (!data) return
         if (data.orderCalculate.maxPointPrice < point) setPoint(data.orderCalculate.maxPointPrice)
     }, [data?.orderCalculate.maxPointPrice])
@@ -100,7 +100,7 @@ const PaymentScreen = () => {
                 {data && <ScrollView
                     ref={scrollViewRef}
                     overScrollMode='never'
-                    showsVerticalScrollIndicator
+                    showsVerticalScrollIndicator={false}
                 >
                     <PaymentItemInfo data={data.orderCalculate} />
                     <PaymentAddressInfo data={data.orderCalculate} />

@@ -4,7 +4,7 @@ import { Animated, Pressable, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
-import { COLOR1, GRAY, SPRING_CONFIG, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { COLOR1, COLOR2, GRAY, SPRING_CONFIG, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { OrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
 import moneyFormat from '../../lib/moneyFormat'
@@ -22,7 +22,12 @@ const PaymentPrice: React.FC<PaymentPriceProps> = ({ data }) => {
     const [animation] = useState(new Animated.Value(1))
     const [contentsHeight, setContentsHeight] = useState(0)
 
-    const { couponIds, point } = useCouponPoint()
+    const { coupons, point } = useCouponPoint()
+    // 중복 제거된 쿠폰 id 리스트
+    const couponIds: string[] = []
+    data.orderItemsCoupons.forEach(v => v.coupons.forEach(v => couponIds.push(v.id)))
+    const deduplicatedCouponIds = Array.from(new Set(couponIds))
+
 
     const onCoupon = useCallback(() => {
         const params = { data }
@@ -72,7 +77,7 @@ const PaymentPrice: React.FC<PaymentPriceProps> = ({ data }) => {
                     <View style={styles.couponCotnainer} >
                         <View style={styles.couponInfoContainer} >
                             <BaseText style={styles.couponeText} >쿠폰</BaseText>
-                            <BaseText style={[styles.couponeText, { color: couponIds && couponIds.length >= 0 ? GRAY : COLOR1 }]}>{couponIds && couponIds.length >= 0 ? `${couponIds.length}장 적용` : `전체 todo장, 적용가능 todo장`}</BaseText>
+                            <BaseText style={[styles.couponeText, { color: coupons.length > 0 ? GRAY : COLOR1 }]}>{coupons.length > 0 ? `${coupons.length}장 적용` : `전체 ${data.user.couponNum}장, 적용가능 ${deduplicatedCouponIds.length}장`}</BaseText>
                         </View>
                         <Pressable onPress={onCoupon} style={styles.couponBtn} >
                             <RightArrowIcon fill={GRAY} />
@@ -97,7 +102,7 @@ const PaymentPrice: React.FC<PaymentPriceProps> = ({ data }) => {
                         <BaseText style={styles.pricesPrice} >{moneyFormat(data.totalDeliveryPrice)}원</BaseText>
                     </View>
                     {data.totalExtraDeliveryPrice > 0 && <View style={styles.pricesContainer} >
-                        <BaseText style={styles.pricesTitle} >도서산간지역 추가 배송비</BaseText>
+                        <BaseText style={[styles.pricesTitle, { color: COLOR2 }]} >도서산간지역 추가 배송비</BaseText>
                         <BaseText style={styles.pricesPrice} >{moneyFormat(data.totalExtraDeliveryPrice)}원</BaseText>
                     </View>}
                     <View style={styles.pricesContainer} >

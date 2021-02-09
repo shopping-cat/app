@@ -1,12 +1,9 @@
 import { makeVar, useReactiveVar } from "@apollo/client"
 import { useCallback } from "react"
+import { OrderCalculateCouponVar } from '../graphql/order'
 
 const pointVar = makeVar<number>(0)
-interface CouponsVar {
-    orderItemId: number
-    couponId: string
-}
-const couponsVar = makeVar<CouponsVar[]>([])
+const couponsVar = makeVar<OrderCalculateCouponVar[]>([])
 
 const useCouponPoint = () => {
 
@@ -22,7 +19,7 @@ const useCouponPoint = () => {
         pointVar(v)
     }, [])
 
-    const setCoupons = useCallback((v: CouponsVar[]) => {
+    const setCoupons = useCallback((v: OrderCalculateCouponVar[]) => {
         couponsVar(v)
     }, [])
 
