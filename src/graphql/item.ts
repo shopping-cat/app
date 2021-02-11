@@ -223,7 +223,11 @@ export const LIKE_ITEM = gql`
 `
 
 interface LikeItemData {
-  likeItem: boolean
+  likeItem: {
+    id: ID
+    isILiked: boolean
+    likeNum: number
+  }
 }
 interface LikeItemVars {
   itemId: ID

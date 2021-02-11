@@ -1,6 +1,6 @@
-import { gql, QueryHookOptions } from "@apollo/client";
+import { gql, MutationHookOptions, QueryHookOptions } from "@apollo/client";
 import { ID, RecommendState } from "../constants/types";
-import { createQueryHook } from "../lib/createApolloHook";
+import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
 
 // QUERY/ITEM_REVIEWS
@@ -49,5 +49,31 @@ interface ItemReviewsVars {
     limit?: number
 }
 export const useItemReviews = (options?: QueryHookOptions<ItemReviewsData, ItemReviewsVars>) => createQueryHook<ItemReviewsData, ItemReviewsVars>(ITEM_REVIEWS, {
+    ...options,
+})
+
+
+// QUERY/ITEM_REVIEW_RECOMMEND
+export const ITEM_REVIEW_RECOMMEND = gql`
+  mutation ($itemReviewId: Int!, $recommendState:String!){
+    itemReviewRecommend(itemReviewId:$itemReviewId, recommendState:$recommendState) {
+        id
+        likeNum
+        recommendState
+    }
+  }
+`
+interface ItemReviewRecommendData {
+    itemReviewRecommend: {
+        id: number
+        likeNum: number
+        recommendState: RecommendState
+    }
+}
+interface ItemReviewRecommendVars {
+    itemReviewId: number
+    recommendState: RecommendState
+}
+export const useItemReviewRecommend = (options?: MutationHookOptions<ItemReviewRecommendData, ItemReviewRecommendVars>) => createMutationHook<ItemReviewRecommendData, ItemReviewRecommendVars>(ITEM_REVIEW_RECOMMEND, {
     ...options,
 })

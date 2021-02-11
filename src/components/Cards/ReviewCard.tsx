@@ -4,7 +4,7 @@ import { FlatList, Image, Pressable, StyleSheet, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import { RecommendState } from '../../constants/types'
-import { ItemReview } from '../../graphql/itemReview'
+import { ItemReview, useItemReviewRecommend } from '../../graphql/itemReview'
 import dateFormat from '../../lib/dateFormat'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
@@ -20,13 +20,24 @@ interface ReviewCardProps {
 const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, content, createdAt, id, imageUrls, itemNameOption, likeNum, rate, recommendState: prevRecommendState, user }) => {
 
     const { navigate } = useNavigation()
+    const [itemReviewRecommend] = useItemReviewRecommend()
     const [recommendState, setRecommendState] = useState<RecommendState>(prevRecommendState)
+    const [firstLoading, setFirstLoading] = useState(true)
     const isLiked = recommendState === 'liked'
     const isUnliked = recommendState === 'unliked'
 
 
     useEffect(() => { // recommendState와 서버 동기화
-
+        if (firstLoading) {
+            setFirstLoading(false)
+            return
+        }
+        itemReviewRecommend({
+            variables: {
+                itemReviewId: id,
+                recommendState
+            }
+        })
     }, [recommendState])
 
     const onLike = useCallback(() => {
