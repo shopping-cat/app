@@ -1,4 +1,4 @@
-import { gql, QueryHookOptions, useApolloClient } from "@apollo/client";
+import { gql, MutationHookOptions, QueryHookOptions, useApolloClient } from "@apollo/client";
 import { ID, ItemState } from "../constants/types";
 import { client } from "../lib/apollo";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
@@ -208,6 +208,28 @@ interface ShopItemsVars {
   limit?: number
 }
 export const useShopItems = (options?: QueryHookOptions<ShopItemsData, ShopItemsVars>) => createQueryHook<ShopItemsData, ShopItemsVars>(SHOP_ITEMS, {
+  ...options,
+})
+
+
+export const LIKE_ITEM = gql`
+  mutation ($itemId:Int!, $like:Boolean!){
+    likeItem(itemId:$itemId, like:$like) {
+      id
+      isILiked
+      likeNum
+    }
+  }
+`
+
+interface LikeItemData {
+  likeItem: boolean
+}
+interface LikeItemVars {
+  itemId: ID
+  like: boolean
+}
+export const useLikeItem = (options?: MutationHookOptions<LikeItemData, LikeItemVars>) => createMutationHook<LikeItemData, LikeItemVars>(LIKE_ITEM, {
   ...options,
 })
 

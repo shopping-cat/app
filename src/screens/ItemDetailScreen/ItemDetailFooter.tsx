@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseText from '../../components/BaseText'
 import TouchableScale from '../../components/Buttons/TouchableScale'
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import { ItemDetail } from '../../graphql/item'
+import { ItemDetail, useLikeItem } from '../../graphql/item'
 import numberToKoreanUnit from '../../lib/numberToKoreanUnit'
 
 
@@ -16,9 +16,20 @@ interface ItemDetailFooter {
 
 const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy, data }) => {
 
-    const [liked, setLiked] = useState(false)
+    const [likeItem] = useLikeItem()
+    const [firstLoadinglikeNum] = useState(data.likeNum)
+    const [firstLoadingLiked] = useState(data.isILiked)
+    const [liked, setLiked] = useState(data.isILiked)
+
+    const currentLikedNum = firstLoadinglikeNum + (firstLoadingLiked === liked ? 0 : liked ? 1 : -1)
 
     const onLike = useCallback(() => {
+        likeItem({
+            variables: {
+                itemId: data.id,
+                like: !liked
+            }
+        })
         setLiked(!liked)
     }, [liked])
 
@@ -37,7 +48,7 @@ const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy, data }) => {
                     ? <Icon name='heart' size={24} color={COLOR1} />
                     : <Icon name='heart-outline' size={24} color={GRAY} />
                 }
-                <BaseText style={[styles.likeNumText, { color: liked ? COLOR1 : GRAY }]} >{numberToKoreanUnit(data.likeNum)}</BaseText>
+                <BaseText style={[styles.likeNumText, { color: liked ? COLOR1 : GRAY }]} >{numberToKoreanUnit(currentLikedNum)}</BaseText>
             </TouchableScale>
             <TouchableScale
                 onPress={onBigBuy}
