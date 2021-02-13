@@ -48,13 +48,13 @@ const ZzimScreenSelectModeFooter: React.FC<ZzimScreenSelectModeFooterProps> = ({
                 <Icon name='check-circle-outline' color='#fff' size={24} />
                 <BaseText style={styles.label} >전체선택</BaseText>
             </Pressable>
-            <Pressable
+            {/* <Pressable
                 onPress={onCart}
                 style={styles.btn}
             >
                 <Icon name='cart-outline' color='#fff' size={24} />
                 <BaseText style={styles.label} >담기</BaseText>
-            </Pressable>
+            </Pressable> */}
             <Pressable
                 onPress={onDelete}
                 style={styles.btn}

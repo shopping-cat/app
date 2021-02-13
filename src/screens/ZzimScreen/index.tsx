@@ -18,7 +18,9 @@ const ZzimScreen = () => {
     const [category, setCategory] = useState('전체')
     const { data, loading, fetchMore, refetch } = useZzimItems({ variables: { category } })
     const { onRefresh, refreshing } = useRefreshing(refetch)
-    const { isSelectMode, onSelectMode, onSelect, selectList, onClose } = useZzimFooter(data?.zzimItems || [])
+    const filteredItems = data ? data.zzimItems.filter(v => v.isILiked) : []
+    const { isSelectMode, onSelectMode, onSelect, selectList, onClose } = useZzimFooter(filteredItems)
+
 
 
     useEffect(() => {
@@ -38,7 +40,7 @@ const ZzimScreen = () => {
 
 
     const goUp = useCallback(() => {
-        flatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
+        flatlistRef.current?.scrollToOffset({ offset: 0 })
     }, [])
 
     return (
@@ -53,16 +55,16 @@ const ZzimScreen = () => {
                 <FlatList
                     ref={flatlistRef}
                     refreshing={refreshing}
-                    onRefresh={onRefresh}
+                    onRefresh={!isSelectMode ? onRefresh : undefined}
                     onEndReached={() => fetchMore({
-                        variables: { offset: data?.zzimItems.length }
+                        variables: { offset: filteredItems.length, limit: 3 }
                     })}
                     overScrollMode='never'
                     showsVerticalScrollIndicator={false}
                     numColumns={3}
                     columnWrapperStyle={styles.columnWrapperStyle}
                     style={styles.flatlist}
-                    data={loading ? makeIdArray(9) : data?.zzimItems.filter(v => v.isILiked)}
+                    data={loading ? makeIdArray(9) : filteredItems}
                     renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> :
                         <ZzimItemCard
                             {...item}

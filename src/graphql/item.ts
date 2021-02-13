@@ -181,7 +181,7 @@ interface ZzimItemsVars {
   category?: string
 }
 export const useZzimItems = (options?: QueryHookOptions<ZzimItemsData, ZzimItemsVars>) => createQueryHook<ZzimItemsData, ZzimItemsVars>(ZZIM_ITEMS, {
-  ...options,
+  ...options
 })
 
 export const SHOP_ITEMS = gql`
@@ -229,7 +229,7 @@ interface LikeItemData {
     id: ID
     isILiked: boolean
     likeNum: number
-  }
+  }[]
 }
 interface LikeItemVars {
   itemId: ID
@@ -238,4 +238,30 @@ interface LikeItemVars {
 export const useLikeItem = (options?: MutationHookOptions<LikeItemData, LikeItemVars>) => createMutationHook<LikeItemData, LikeItemVars>(LIKE_ITEM, {
   ...options,
 })
+
+
+export const UNLIKE_ITEMS = gql`
+  mutation ($itemIds: [Int!]!){
+    unlikeItems(itemIds:$itemIds) {
+      id
+      isILiked
+      likeNum
+    }
+  }
+`
+
+interface UnlikeItemsData {
+  unlikeItems: {
+    id: ID
+    isILiked: boolean
+    likeNum: number
+  }
+}
+interface UnlikeItemsVars {
+  itemIds: ID[]
+}
+export const useUnlikeItems = (options?: MutationHookOptions<UnlikeItemsData, UnlikeItemsVars>) => createMutationHook<UnlikeItemsData, UnlikeItemsVars>(UNLIKE_ITEMS, {
+  ...options,
+})
+
 

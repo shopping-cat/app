@@ -1,24 +1,39 @@
 import { makeVar, useReactiveVar } from "@apollo/client"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { ID } from "../constants/types"
-import { Item } from "../graphql/item"
+import { Item, useUnlikeItems } from "../graphql/item"
 
+let zzimItemData: Item[] = []
 const isSelectModeVar = makeVar<boolean>(false)
 const selectListVar = makeVar<ID[]>([])
 
 const useZzimFooter = (data?: Item[]) => {
+
     const isSelectMode = useReactiveVar(isSelectModeVar)
     const selectList = useReactiveVar(selectListVar)
 
-    const onSelectAll = useCallback(() => {
+    const [unlikeItems, { loading }] = useUnlikeItems()
+
+
+    useEffect(() => {
         if (!data) return
-        selectListVar(data.map(v => v.id))
+        zzimItemData = data
     }, [data])
 
+    const onSelectAll = useCallback(() => {
+        selectListVar(zzimItemData.map(v => v.id))
+    }, [zzimItemData])
+
     const onDelete = useCallback(() => {
+        if (loading) return
         isSelectModeVar(false)
-        // TODO
-    }, [selectList])
+        if (selectList.length === 0) return
+        unlikeItems({
+            variables: {
+                itemIds: selectList
+            }
+        })
+    }, [selectList, loading])
 
     const onCart = useCallback(() => {
         isSelectModeVar(false)
