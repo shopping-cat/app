@@ -100,6 +100,7 @@ export const FILTERED_ITEMS = gql`
       isNew
       isILiked
     }
+    filteredItemsCount(category:$category, keyword:$keyword)
   }
 `
 export interface Item {
@@ -115,6 +116,7 @@ export interface Item {
 }
 interface FilteredItemsData {
   filteredItems: Item[]
+  filteredItemsCount: number
 }
 interface FilteredItemsVars {
   category?: string

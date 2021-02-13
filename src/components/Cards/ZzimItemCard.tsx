@@ -3,17 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, COLOR2, LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import { ID } from '../../constants/types'
+import { Item } from '../../graphql/item'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
 import CheckIcon from '../Svgs/CheckIcon'
 
-const dummyMainImage = 'https://undark.org/wp-content/uploads/2020/02/GettyImages-1199242002-1-scaled.jpg'
-const isFreeDelivery = true
-const isNew = true
-const itemName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const isILiked = true
-const sale = 25
-const salePrice = 75600
 
 const width = (WIDTH - 64) / 3
 
@@ -25,13 +19,13 @@ interface ZzimItemCardProps {
     id: ID
 }
 
-const ZzimItemCard: React.FC<ZzimItemCardProps> = ({ isSelectMode, onSelectMode, onSelect, id, isSelected }) => {
+const ZzimItemCard: React.FC<ZzimItemCardProps & Item> = ({ isSelectMode, onSelectMode, onSelect, id, isSelected, mainImage, isNew, isFreeDelivery, sale, salePrice, isILiked, name, state }) => {
 
     const { navigate } = useNavigation()
 
     const onPress = useCallback(() => {
         if (isSelectMode) onSelect(id)
-        else navigate('ItemDetail', {})
+        else navigate('ItemDetail', { id })
     }, [id, isSelectMode, onSelect])
 
     const onLongPress = useCallback(() => {
@@ -45,11 +39,14 @@ const ZzimItemCard: React.FC<ZzimItemCardProps> = ({ isSelectMode, onSelectMode,
             onPress={onPress}
             style={styles.container}
         >
-            <View style={styles.imageContainer} >
+            <View>
                 <Image
-                    source={{ uri: dummyMainImage }}
+                    source={{ uri: mainImage }}
                     style={styles.image}
                 />
+                {state !== 'sale' && <View style={styles.itemStateCotnainer} >
+                    <BaseText style={styles.itemState} >{state === 'noStock' ? '재고없음' : '판매중지'}</BaseText>
+                </View>}
                 {isSelectMode &&
                     <View style={[styles.selectModeView, { backgroundColor: isSelected ? COLOR1 + '88' : undefined }]} >
                         <View style={[styles.selectModeToggle, { backgroundColor: isSelected ? COLOR1 : LIGHT_GRAY }]} >
@@ -72,10 +69,10 @@ const ZzimItemCard: React.FC<ZzimItemCardProps> = ({ isSelectMode, onSelectMode,
                     }
                 </View>
             }
-            <BaseText numberOfLines={2} style={styles.name} >{itemName}</BaseText>
+            <BaseText numberOfLines={2} style={styles.name} >{name}</BaseText>
             <View style={styles.priceContainer} >
-                {sale && <BaseText style={styles.sale} >{sale}%</BaseText>}
-                <BaseText >{moneyFormat(salePrice)}</BaseText>
+                {sale !== 0 && <BaseText style={styles.sale} >{sale}%</BaseText>}
+                <BaseText>{moneyFormat(salePrice)}</BaseText>
                 <BaseText style={styles.priceUnit} >원</BaseText>
             </View>
         </Pressable>
@@ -90,40 +87,28 @@ const styles = StyleSheet.create({
         marginBottom: 24,
         marginHorizontal: 8
     },
-    imageContainer: {
-        marginBottom: 8,
-        borderRadius: 8,
-        width,
-        height: width,
-        overflow: 'hidden',
-    },
     image: {
         width,
         height: width,
         borderRadius: 8,
+        marginBottom: 8
+    },
+    itemStateCotnainer: {
+        position: 'absolute',
+        width,
+        height: width,
+        borderRadius: 8,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    itemState: {
+        color: '#fff',
     },
     likedIcon: {
         position: 'absolute',
         bottom: 8 + 4,
         right: 4
-    },
-    selectModeView: {
-        width,
-        height: width,
-        borderRadius: 8,
-        position: 'absolute',
-    },
-    selectModeToggle: {
-        width: 24,
-        height: 24,
-        borderRadius: 12,
-        borderWidth: 2,
-        borderColor: '#fff',
-        position: 'absolute',
-        right: 6,
-        bottom: 6,
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     optionContainer: {
         flexDirection: 'row',
@@ -168,5 +153,23 @@ const styles = StyleSheet.create({
         fontSize: 10,
         marginLeft: 1,
         marginBottom: 1
-    }
+    },
+    selectModeView: {
+        width,
+        height: width,
+        borderRadius: 8,
+        position: 'absolute',
+    },
+    selectModeToggle: {
+        width: 24,
+        height: 24,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: '#fff',
+        position: 'absolute',
+        right: 6,
+        bottom: 6,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
 })

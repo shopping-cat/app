@@ -28,8 +28,6 @@ interface RouteParams {
 type Sort = '인기순' | '최신순' | '저가순' | '고가순'
 const SORT_LIST: Sort[] = ['인기순', '최신순', '저가순', '고가순']
 
-const dummySearchResultNum = 320
-
 const SearchDetailScreen = () => {
 
     const flatlistRef = useRef<FlatList>(null)
@@ -83,7 +81,7 @@ const SearchDetailScreen = () => {
                         onPress={onSort}
                         style={styles.sortBtnContainer}
                     >
-                        <BaseText style={styles.sortText} >전체 {dummySearchResultNum}건</BaseText>
+                        <BaseText style={styles.sortText} >전체{data && ` ${data.filteredItemsCount}건`}</BaseText>
                         <View style={styles.sortContainer} >
                             <BaseText style={styles.sortText}>{orderBy}</BaseText>
                             <DownArrowIcon />

@@ -18,8 +18,6 @@ import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
 
 
-const dummySearchResultNum = 1042
-
 const CategoryScreen = () => {
 
 
@@ -61,7 +59,7 @@ const CategoryScreen = () => {
                         onPress={onSort}
                         style={styles.sortBtnContainer}
                     >
-                        <BaseText style={styles.sortText} >전체 {dummySearchResultNum}건</BaseText>
+                        <BaseText style={styles.sortText} >전체{data && ` ${data.filteredItemsCount}건`}</BaseText>
                         <View style={styles.sortContainer} >
                             <BaseText style={styles.sortText}>{SORT_LIST[sortIndex]}</BaseText>
                             <DownArrowIcon />

@@ -22,7 +22,6 @@ const ZzimScreen = () => {
 
 
     useEffect(() => {
-        // setParams({ isSelectMode }) // navigation params에 동기화
         let backHandler: NativeEventSubscription
         if (isSelectMode) {
             // 안드로이드 뒤로가기 버튼 클릭시 select mode 종료
@@ -63,7 +62,7 @@ const ZzimScreen = () => {
                     numColumns={3}
                     columnWrapperStyle={styles.columnWrapperStyle}
                     style={styles.flatlist}
-                    data={loading ? makeIdArray(9) : data?.zzimItems}
+                    data={loading ? makeIdArray(9) : data?.zzimItems.filter(v => v.isILiked)}
                     renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> :
                         <ZzimItemCard
                             {...item}
