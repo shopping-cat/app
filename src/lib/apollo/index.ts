@@ -3,9 +3,10 @@ import auth from '@react-native-firebase/auth'
 import { setContext } from '@apollo/client/link/context';
 import { GRAPHQL_SERVER_URL } from '../../../env'
 import cache from './cache'
+import { createUploadLink } from 'apollo-upload-client';
 
 
-const httpLink = createHttpLink({
+const httpLink = createUploadLink({
     uri: GRAPHQL_SERVER_URL,
     credentials: 'include', // 쿠키를 위한 용도
 })

@@ -1,27 +1,31 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker, { Image as ImageFile } from 'react-native-image-crop-picker';
 import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import UnderLineInput from '../../components/UnderLineInput'
+import { useIUser, useUpdateUserProfile } from '../../graphql/user';
 import useInput from '../../hooks/useInput'
+import generateRNFile from '../../lib/generateRNFile';
 
-const dummyImage = 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_283/5-2-%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg'
-const dummyName = '다니엘'
 
 const UserInfoProfileModifyScreen = () => {
 
     const { goBack } = useNavigation()
-    const [image, setImage] = useState(dummyImage)
-    const [name, onChangeName] = useInput(dummyName)
+
+    const { data } = useIUser()
+    const [updateUserProfile, { loading }] = useUpdateUserProfile()
+
+    const [image, setImage] = useState<ImageFile | null>(null)
+    const [name, onChangeName] = useInput(data?.iUser.name || '')
 
     const active = name.length > 0
 
     const onImage = useCallback(async () => {
         try {
-            const { path } = await ImagePicker.openPicker({
+            const image = await ImagePicker.openPicker({
                 width: 512,
                 height: 512,
                 cropping: true,
@@ -31,28 +35,40 @@ const UserInfoProfileModifyScreen = () => {
                 loadingLabelText: '불러오는중',
                 cropperChooseText: '완료'
             })
-            if (!path) return
-            setImage(path)
+            setImage(image)
         } catch (error) {
-
+            console.error(error)
         }
     }, [])
 
-    const onSave = useCallback(() => {
+    const onSave = useCallback(async () => {
         if (!active) return
-        goBack()
-    }, [active])
+        if (loading) return
+        try {
+            const file = image ? generateRNFile(image.path) : null
+            console.log(file)
+            await updateUserProfile({
+                variables: {
+                    name,
+                    photo: file
+                }
+            })
+            goBack()
+        } catch (error) {
+            console.error(error)
+        }
+    }, [active, name, image, loading])
 
     return (
         <ScreenLayout>
-            <DefaultHeader title='프로필' />
+            <DefaultHeader title='프로필' disableBtns />
             <View style={styles.container} >
                 <Pressable
                     onPress={onImage}
                 >
                     <Image
                         style={styles.image}
-                        source={{ uri: image }}
+                        source={{ uri: image?.path || data?.iUser.photo }}
                     />
                 </Pressable>
                 <UnderLineInput
@@ -67,6 +83,7 @@ const UserInfoProfileModifyScreen = () => {
                 active={active}
                 text='저장'
                 onPress={onSave}
+                loading={loading}
             />
         </ScreenLayout>
     )

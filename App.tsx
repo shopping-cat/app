@@ -9,7 +9,7 @@ import { client } from './src/lib/apollo';
 import Navigation from './src/screens';
 
 //@ts-ignore
-enableFlipperApolloDevtools(client)
+__DEV__ && enableFlipperApolloDevtools(client)
 
 
 const App = () => {

@@ -7,30 +7,19 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../constants/styles'
+import { useIUser } from '../../graphql/user'
 import useAuth from '../../hooks/useAuth'
 
-const dummyImage = 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_283/5-2-%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg'
-const dummyEmail = 'shoppingcat@gmail.com'
-const dummyDeliveryInfo = {
-    address: '부상 기장군 기장읍 백동길 24-4',
-    addressDetail: '신림아파트 102호 1202호',
-    phone: '01023958153',
-    name: '홍길동',
-    postCode: '46076'
-}
-const dummyRefundAccount = {
-    name: '홍길동',
-    accountNumber: '0294109249022',
-    bank: '농협'
-}
+
 
 const UserInfoScreen = () => {
 
     const { navigate } = useNavigation()
     const { logout } = useAuth()
+    const { data } = useIUser()
 
-    const deliveryInfo = `${dummyDeliveryInfo.name} ${dummyDeliveryInfo.phone}\n${dummyDeliveryInfo.address}\n${dummyDeliveryInfo.addressDetail}`
-    const refundAccountInfo = `${dummyRefundAccount.name} | ${dummyRefundAccount.bank} ${dummyRefundAccount.accountNumber}`
+    const deliveryInfo = `${data?.iUser.deliveryInfo.name} ${data?.iUser.deliveryInfo.phone}\n${data?.iUser.deliveryInfo.address}\n${data?.iUser.deliveryInfo.addressDetail}`
+    const refundAccountInfo = `${data?.iUser.refundBankAccount.ownerName} | ${data?.iUser.refundBankAccount.bankName} ${data?.iUser.refundBankAccount.accountNumber}`
 
     return (
         <ScreenLayout>
@@ -42,7 +31,7 @@ const UserInfoScreen = () => {
                 >
                     <Image
                         style={styles.image}
-                        source={{ uri: dummyImage }}
+                        source={{ uri: data?.iUser.photo }}
                     />
                     <View style={styles.imageBadge} >
                         <Icon name='pencil' size={14} color={COLOR1} />
@@ -51,7 +40,7 @@ const UserInfoScreen = () => {
                 <View style={styles.contentContainer} >
                     <View style={styles.contentLeftContainer} >
                         <BaseText style={styles.title} >이메일</BaseText>
-                        <BaseText style={styles.content} >{dummyEmail}</BaseText>
+                        <BaseText style={styles.content} >{data?.iUser.userDetail.email}</BaseText>
                     </View>
                 </View>
                 <Pressable

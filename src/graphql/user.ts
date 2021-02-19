@@ -1,4 +1,6 @@
 import { gql, MutationHookOptions, QueryHookOptions, useApolloClient } from "@apollo/client";
+import { ReactNativeFile } from "apollo-upload-client";
+import { Image } from "react-native-image-crop-picker";
 import { ID } from "../constants/types";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
@@ -21,6 +23,12 @@ export const I_USER = gql`
   query {
     iUser {
       id
+      name
+      photo
+      notificationNum
+      userDetail {
+        email
+      }
       refundBankAccount {
         id
         ownerName
@@ -40,7 +48,13 @@ export const I_USER = gql`
 `
 interface IUserData {
   iUser: {
-    id: number,
+    id: number
+    name: string
+    photo: string
+    notificationNum: number
+    userDetail: {
+      email: string
+    }
     refundBankAccount: {
       id: ID
       ownerName: string
@@ -137,6 +151,32 @@ interface UpdateDeliveryInfoVars {
 export const useUpdateDeliveryInfo = (options?: MutationHookOptions<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>) => createMutationHook<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>(UPDATE_DELIVERY_INFO, {
   ...options
 })
+
+
+export const UPDATE_USER_PROFILE = gql`
+  mutation ($name: String, $photo: Upload) {
+    updateUserProfile(name: $name, photo: $photo) {
+      id
+      photo
+      name
+    }
+  }
+`
+interface UpdateUserProfileData {
+  updateUserProfile: {
+    id: number
+    photo: string
+    name: string
+  }
+}
+interface UpdateUserProfileVars {
+  photo: ReactNativeFile | null
+  name: string | null
+}
+export const useUpdateUserProfile = (options?: MutationHookOptions<UpdateUserProfileData, UpdateUserProfileVars>) => createMutationHook<UpdateUserProfileData, UpdateUserProfileVars>(UPDATE_USER_PROFILE, {
+  ...options
+})
+
 
 
 

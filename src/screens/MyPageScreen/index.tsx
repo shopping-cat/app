@@ -12,16 +12,15 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
 import ThinLine from '../../components/ThinLine'
 import { COLOR2, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { useIUser } from '../../graphql/user'
 
-const dummyImage = 'https://s3.ap-northeast-2.amazonaws.com/elasticbeanstalk-ap-northeast-2-176213403491/media/magazine_img/magazine_283/5-2-%EC%8D%B8%EB%84%A4%EC%9D%BC.jpg'
-const dummyName = '다니엘'
-const dummyNotificationNum = 20
 const dummyVersion = '1.2.5'
 const dummyNewVersion = '1.2.5'
 
 const MyPageScreen = () => {
 
     const { navigate } = useNavigation()
+    const { data } = useIUser()
 
     const onUserInfo = useCallback(() => {
         navigate('UserInfo')
@@ -60,9 +59,9 @@ const MyPageScreen = () => {
                     >
                         <Image
                             style={styles.userImage}
-                            source={{ uri: dummyImage }}
+                            source={{ uri: data?.iUser.photo }}
                         />
-                        <BaseText style={styles.userName} >{dummyName}</BaseText>
+                        <BaseText style={styles.userName} >{data?.iUser.name}</BaseText>
                         <RightArrowIcon fill={LIGHT_GRAY} />
                     </Pressable>
                     <Pressable
@@ -70,8 +69,8 @@ const MyPageScreen = () => {
                         style={styles.notificationBtn}
                     >
                         <IonIcon name='notifications-outline' size={20} color={'#000'} />
-                        {dummyNotificationNum > 0 && <View style={styles.notificationBadge} >
-                            <BaseText style={styles.notificationBadgeText} >{dummyNotificationNum > 9 ? 9 : dummyNotificationNum}</BaseText>
+                        {data && data.iUser.notificationNum > 0 && <View style={styles.notificationBadge} >
+                            <BaseText style={styles.notificationBadgeText} >{data.iUser.notificationNum > 9 ? 9 : data.iUser.notificationNum}</BaseText>
                         </View>}
                     </Pressable>
                 </View>
