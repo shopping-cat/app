@@ -12,7 +12,7 @@ const ReviewScreen = () => {
 
     const tabScrollViewRef = useRef<ScrollView>(null)
 
-    const { data, fetchMore, loading } = useMyReviews()
+    const { data, fetchMore, loading } = useMyReviews({ fetchPolicy: 'network-only' })
 
     const [tabIndex, setTabIndex] = useState(0)
     const [scrollX] = useState(new Animated.Value(0))

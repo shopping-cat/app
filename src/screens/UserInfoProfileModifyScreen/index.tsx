@@ -8,7 +8,7 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import UnderLineInput from '../../components/UnderLineInput'
 import { useIUser, useUpdateUserProfile } from '../../graphql/user';
 import useInput from '../../hooks/useInput'
-import generateRNFile from '../../lib/generateRNFile';
+import generateImageToRNFile from '../../lib/generateRNFile';
 
 
 const UserInfoProfileModifyScreen = () => {
@@ -45,7 +45,7 @@ const UserInfoProfileModifyScreen = () => {
         if (!active) return
         if (loading) return
         try {
-            const file = image ? generateRNFile(image.path) : null
+            const file = image ? generateImageToRNFile(image.path, 'userProfile') : null
             console.log(file)
             await updateUserProfile({
                 variables: {

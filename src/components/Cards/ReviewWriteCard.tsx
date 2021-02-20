@@ -1,21 +1,31 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { CreateableItemReview } from '../../graphql/itemReview'
 import dateFormat from '../../lib/dateFormat'
+import { ReviewPostScreenProps } from '../../screens/ReviewPostScreen'
 import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
 import BaseText from '../BaseText'
 import RateStars from '../RateStars'
 
 
-const ReviewWirteCard: React.FC<CreateableItemReview> = ({ id, item, deliveryCompletionDate }) => {
+const ReviewWirteCard: React.FC<CreateableItemReview> = ({ id, item, deliveryCompletionDate, stringOptionNum }) => {
 
     const { navigate } = useNavigation()
 
+    const onPress = useCallback(() => {
+        const params: ReviewPostScreenProps = {
+            orderId: id,
+            name: item.name,
+            option: stringOptionNum
+        }
+        navigate('ReviewPost', params)
+    }, [id, item, stringOptionNum])
+
     return (
         <Pressable
-            onPress={() => navigate('ReviewPost', { id })}
+            onPress={onPress}
             style={styles.container}
         >
             <Image

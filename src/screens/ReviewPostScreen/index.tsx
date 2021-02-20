@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseText, { baseTextStyle } from '../../components/BaseText'
@@ -10,29 +10,49 @@ import RateStars from '../../components/RateStars'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
+import { useCreateItemReview } from '../../graphql/itemReview'
+import { CreateItemReviewImage } from '../../graphql/itemReviewImage'
 import useInput from '../../hooks/useInput'
 
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워 (옵션 : 해먹 | 3개)'
+export interface ReviewPostScreenProps {
+    orderId: number
+    name: string
+    option: string | null
+}
 
 const ReviewPostScreen = () => {
 
+    const { params } = useRoute<Route<'ReviewPost', ReviewPostScreenProps>>()
     const { goBack } = useNavigation()
 
     const [rate, setRate] = useState(0)
-    const [images, setImages] = useState<string[]>([])
+    const [images, setImages] = useState<CreateItemReviewImage[]>([])
     const [isImageUploading, setIsImageUploading] = useState(false)
     const [content, onChangeContent] = useInput()
 
-    const active = rate !== 0
+    const [createItemReview, { loading }] = useCreateItemReview()
 
-    const onSubmit = useCallback(() => {
-        if (isImageUploading || !active) return
-        goBack()
-    }, [active, isImageUploading, rate, images, content])
+    const active = rate !== 0
+    const title = params.name + (params.option ? ` (옵션 : ${params.option})` : '')
+
 
     const onRate = useCallback((rate: number) => {
         setRate(rate)
     }, [])
+
+    const onSubmit = useCallback(async () => {
+        if (isImageUploading || !active || loading) return
+        await createItemReview({
+            variables: {
+                content,
+                orderId: params.orderId,
+                rate,
+                imageIds: images.map(v => v.id)
+            }
+        })
+        goBack()
+    }, [active, isImageUploading, rate, images, content, loading, params])
+
 
     return (
         <ScreenLayout disableStatusbarHeight >
@@ -50,7 +70,7 @@ const ReviewPostScreen = () => {
                 >
                     <View style={styles.box} >
                         <BaseText style={styles.label} >구매한 상품</BaseText>
-                        <BaseText style={styles.name} >{dummyName}</BaseText>
+                        <BaseText style={styles.name} >{title}</BaseText>
                     </View>
                     <View style={styles.box} >
                         <BaseText style={styles.label} >상품 평점</BaseText>
@@ -89,6 +109,7 @@ const ReviewPostScreen = () => {
                 active={active}
                 onPress={onSubmit}
                 text='등록하기'
+                loading={loading}
             />
         </ScreenLayout>
     )
