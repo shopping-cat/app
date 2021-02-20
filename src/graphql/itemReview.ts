@@ -53,6 +53,46 @@ export const useItemReviews = (options?: QueryHookOptions<ItemReviewsData, ItemR
 })
 
 
+// QUERY/MY_REVIEWS
+export const MY_REVIEWS = gql`
+  query ($createableItemReviewsOffset:Int, $createableItemReviewsLimit:Int){
+    createableItemReviews(offset:$createableItemReviewsOffset, limit:$createableItemReviewsLimit) {
+        id
+        deliveryCompletionDate
+        stringOptionNum
+        item {
+            id
+            name
+            mainImage
+        }
+    }
+  }
+`
+
+export interface CreateableItemReview {
+    id: number
+    deliveryCompletionDate: Date
+    stringOptionNum: number
+    item: {
+        id: number
+        name: string
+        mainImage: string
+        itemNameOption: string
+    }
+}
+
+interface MyReviewsData {
+    createableItemReviews: CreateableItemReview[]
+}
+interface MyReviewsVars {
+    createableItemReviewsOffset?: number
+    createableItemReviewsLimit?: number
+}
+export const useMyReviews = (options?: QueryHookOptions<MyReviewsData, MyReviewsVars>) => createQueryHook<MyReviewsData, MyReviewsVars>(MY_REVIEWS, {
+    ...options,
+})
+
+
 // QUERY/ITEM_REVIEW_RECOMMEND
 export const ITEM_REVIEW_RECOMMEND = gql`
   mutation ($itemReviewId: Int!, $recommendState:String!){

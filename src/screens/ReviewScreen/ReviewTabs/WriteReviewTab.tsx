@@ -1,18 +1,27 @@
 import React from 'react'
 import { FlatList, StyleSheet } from 'react-native'
-import ReviewWriteCard from '../../../components/Cards/ReviewWriteCard'
+import ReviewWriteCard, { ReviewWriteCardSkeleton } from '../../../components/Cards/ReviewWriteCard'
 import { WIDTH } from '../../../constants/styles'
+import { CreateableItemReview } from '../../../graphql/itemReview'
+import makeIdArray from '../../../lib/makeIdArray'
 
-const dummyData = Array(20).fill({}).map((_, i) => ({ id: i.toString() }))
+interface WriteReviewTabProps {
+    data?: CreateableItemReview[]
+    loading: boolean
+    fetchMore: () => void
+}
 
-const WriteReviewTab = () => {
+const WriteReviewTab: React.FC<WriteReviewTabProps> = ({ data, fetchMore, loading }) => {
+
     return (
         <FlatList
             style={styles.container}
-            data={dummyData}
+            onEndReached={fetchMore}
+            onEndReachedThreshold={0.4}
             overScrollMode='never'
             showsVerticalScrollIndicator={false}
-            renderItem={() => <ReviewWriteCard />}
+            data={loading ? makeIdArray(6) as CreateableItemReview[] : data}
+            renderItem={({ item }) => loading ? <ReviewWriteCardSkeleton /> : <ReviewWriteCard {...item} />}
         />
     )
 }

@@ -4,13 +4,15 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import TabSelector from '../../components/TabSelector'
 import { WIDTH } from '../../constants/styles'
+import { useMyReviews } from '../../graphql/itemReview'
 import MyReviewTab from './ReviewTabs/MyReviewTab'
 import WriteReviewTab from './ReviewTabs/WriteReviewTab'
 
 const ReviewScreen = () => {
 
-
     const tabScrollViewRef = useRef<ScrollView>(null)
+
+    const { data, fetchMore, loading } = useMyReviews()
 
     const [tabIndex, setTabIndex] = useState(0)
     const [scrollX] = useState(new Animated.Value(0))
@@ -18,6 +20,7 @@ const ReviewScreen = () => {
     const onTabSelectorPress = useCallback((index: number) => {
         tabScrollViewRef.current?.scrollTo({ animated: true, x: WIDTH * index })
     }, [])
+
 
     return (
         <ScreenLayout>
@@ -45,7 +48,13 @@ const ReviewScreen = () => {
                 )}
                 showsHorizontalScrollIndicator={false}
             >
-                <WriteReviewTab />
+                <WriteReviewTab
+                    fetchMore={() => fetchMore({
+                        variables: { createableItemReviewsOffset: data?.createableItemReviews.length }
+                    })}
+                    loading={loading}
+                    data={data?.createableItemReviews}
+                />
                 <MyReviewTab />
             </Animated.ScrollView>
         </ScreenLayout>
