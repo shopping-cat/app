@@ -36,6 +36,7 @@ const ReviewWirteCard: React.FC<CreateableItemReview> = ({ id, item, deliveryCom
                 <BaseText>{item.name}</BaseText>
                 <BaseText style={styles.date} >배송완료일 {dateFormat(deliveryCompletionDate)}</BaseText>
                 <RateStars
+                    onRate={onPress}
                     rate={0}
                     emptyColor={VERY_LIGHT_GRAY}
                     starSize={24}

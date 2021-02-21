@@ -55,7 +55,12 @@ const ReviewScreen = () => {
                     loading={loading}
                     data={data?.createableItemReviews}
                 />
-                <MyReviewTab />
+                <MyReviewTab
+                    fetchMore={() => fetchMore({
+                        variables: { myItemReviewsOffset: data?.myItemReviews.length }
+                    })}
+                    data={data?.myItemReviews}
+                />
             </Animated.ScrollView>
         </ScreenLayout>
     )

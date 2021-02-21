@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseText, { baseTextStyle } from '../../components/BaseText'
@@ -10,33 +10,41 @@ import RateStars from '../../components/RateStars'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
+import { MyItemReview, useUpdateItemReview } from '../../graphql/itemReview'
 import useInput from '../../hooks/useInput'
 
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워 (옵션 : 해먹 | 3개)'
-const dummyRate = 4
-const dummyReviewImages = ['https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b', 'https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b', 'https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b', 'https://gdimg.gmarket.co.kr/674434951/still/600?ver=1575534345', 'https://cf.shopee.ph/file/9b4e0ba85bc77f437258106ae4e3c54b']
-const dummyContent = '빠른 배송! 조립은 30분 정도 걸린 것 같아요 여자 혼자 가능합니다 원목 상태나 마무리 상태도 너무 좋아요 우리집 텐텐 통통이 너무 좋아합니다! 저희집 천장이 낮아서 캣폴 설치되는 상품이 많이없어서 정말 한참을 찾다가 그린웨일을 알게 되었는데 상담도 잘 해주시고 설치 방법도 잘 설명해주셨어요! 너무 감사합니다!'
+
 
 const ReviewModifyScreen = () => {
 
+    const { params } = useRoute<Route<'ReviewModify', MyItemReview>>()
     const { goBack } = useNavigation()
 
-    const [rate, setRate] = useState(0)
-    const [images, setImages] = useState<string[]>([])
+    const [rate, setRate] = useState(params.rate)
+    const [images, setImages] = useState(params.images)
     const [isImageUploading, setIsImageUploading] = useState(false)
-    const [content, onChangeContent, setContent] = useInput()
+    const [content, onChangeContent] = useInput(params.content)
+
+    const [updateItemReview, { loading }] = useUpdateItemReview()
 
     const active = rate !== 0
+    const title = params.item.name + (params.order.stringOptionNum ? ` (옵션 : ${params.order.stringOptionNum})` : '')
 
-    useEffect(() => {
-        setRate(dummyRate)
-        setImages(dummyReviewImages)
-        setContent(dummyContent)
-    }, [])
-
-    const onSubmit = useCallback(() => {
-        if (isImageUploading || !active) return
-        goBack()
+    const onSubmit = useCallback(async () => {
+        try {
+            if (isImageUploading || !active || loading) return
+            await updateItemReview({
+                variables: {
+                    id: params.id,
+                    imageIds: images.map(v => v.id),
+                    content,
+                    rate
+                }
+            })
+            goBack()
+        } catch (error) {
+            console.error(error)
+        }
     }, [active, isImageUploading, rate, images, content])
 
     const onRate = useCallback((rate: number) => {
@@ -59,7 +67,7 @@ const ReviewModifyScreen = () => {
                 >
                     <View style={styles.box} >
                         <BaseText style={styles.label} >구매한 상품</BaseText>
-                        <BaseText style={styles.name} >{dummyName}</BaseText>
+                        <BaseText style={styles.name} >{title}</BaseText>
                     </View>
                     <View style={styles.box} >
                         <BaseText style={styles.label} >상품 평점</BaseText>
@@ -97,6 +105,7 @@ const ReviewModifyScreen = () => {
             <ButtonFooter
                 active={active}
                 onPress={onSubmit}
+                loading={loading}
                 text='수정 완료'
             />
         </ScreenLayout>

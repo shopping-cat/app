@@ -1,18 +1,30 @@
 import React from 'react'
-import { FlatList, StyleSheet } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ReviewMyCard from '../../../components/Cards/ReviewMyCard'
 import { WIDTH } from '../../../constants/styles'
+import { MyItemReview } from '../../../graphql/itemReview'
 
-const dummyData = Array(20).fill({}).map((_, i) => ({ id: i.toString() }))
+interface MyReviewTabProps {
+    data?: MyItemReview[]
+    fetchMore: () => void
+}
 
-const MyReviewTab = () => {
+const MyReviewTab: React.FC<MyReviewTabProps> = ({ fetchMore, data }) => {
+
+    const { bottom } = useSafeAreaInsets()
+
     return (
         <FlatList
             style={styles.container}
-            data={dummyData}
             overScrollMode='never'
+            onEndReached={fetchMore}
+            onEndReachedThreshold={0.4}
             showsVerticalScrollIndicator={false}
-            renderItem={() => <ReviewMyCard />}
+            keyExtractor={(item) => item.id.toString()}
+            data={data}
+            renderItem={({ item }) => <ReviewMyCard {...item} />}
+            ListFooterComponent={<View style={{ height: bottom }} />}
         />
     )
 }

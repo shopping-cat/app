@@ -41,16 +41,20 @@ const ReviewPostScreen = () => {
     }, [])
 
     const onSubmit = useCallback(async () => {
-        if (isImageUploading || !active || loading) return
-        await createItemReview({
-            variables: {
-                content,
-                orderId: params.orderId,
-                rate,
-                imageIds: images.map(v => v.id)
-            }
-        })
-        goBack()
+        try {
+            if (isImageUploading || !active || loading) return
+            await createItemReview({
+                variables: {
+                    content,
+                    orderId: params.orderId,
+                    rate,
+                    imageIds: images.map(v => v.id)
+                }
+            })
+            goBack()
+        } catch (error) {
+            console.error(error)
+        }
     }, [active, isImageUploading, rate, images, content, loading, params])
 
 

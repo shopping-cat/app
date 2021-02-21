@@ -1,5 +1,6 @@
 import React from 'react'
-import { FlatList, StyleSheet } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ReviewWriteCard, { ReviewWriteCardSkeleton } from '../../../components/Cards/ReviewWriteCard'
 import { WIDTH } from '../../../constants/styles'
 import { CreateableItemReview } from '../../../graphql/itemReview'
@@ -13,6 +14,8 @@ interface WriteReviewTabProps {
 
 const WriteReviewTab: React.FC<WriteReviewTabProps> = ({ data, fetchMore, loading }) => {
 
+    const { bottom } = useSafeAreaInsets()
+
     return (
         <FlatList
             style={styles.container}
@@ -20,8 +23,10 @@ const WriteReviewTab: React.FC<WriteReviewTabProps> = ({ data, fetchMore, loadin
             onEndReachedThreshold={0.4}
             overScrollMode='never'
             showsVerticalScrollIndicator={false}
+            keyExtractor={(item) => item.id.toString()}
             data={loading ? makeIdArray(6) as CreateableItemReview[] : data}
             renderItem={({ item }) => loading ? <ReviewWriteCardSkeleton /> : <ReviewWriteCard {...item} />}
+            ListFooterComponent={<View style={{ height: bottom }} />}
         />
     )
 }

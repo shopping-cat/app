@@ -36,8 +36,8 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ images, setImages, setL
         try {
             if (loading) return
             const { path } = await ImageCropPicker.openPicker({
-                // cropping: true,
-                // freeStyleCropEnabled: true,
+                cropping: true,
+                freeStyleCropEnabled: true,
                 cropperCancelText: '취소',
                 loadingLabelText: '불러오는중',
                 cropperChooseText: '완료',
@@ -79,6 +79,7 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ images, setImages, setL
             overScrollMode='never'
             showsHorizontalScrollIndicator={false}
             data={images}
+            keyExtractor={(item) => item.id.toString()}
             renderItem={({ item, index }) =>
                 <Pressable onPress={() => onImagePress(index)} >
                     <Image source={{ uri: item.uri }} style={styles.image} />

@@ -25,7 +25,7 @@ export const ITEM_REVIEWS = gql`
 `
 export interface ItemReview {
     id: ID
-    createdAt: string
+    createdAt: Date
     likeNum: number
     rate: number
     content: string
@@ -55,7 +55,7 @@ export const useItemReviews = (options?: QueryHookOptions<ItemReviewsData, ItemR
 
 // QUERY/MY_REVIEWS
 export const MY_REVIEWS = gql`
-  query ($createableItemReviewsOffset:Int, $createableItemReviewsLimit:Int){
+  query ($createableItemReviewsOffset:Int, $createableItemReviewsLimit:Int, $myItemReviewsOffset:Int, $myItemReviewsLimit:Int){
     createableItemReviews(offset:$createableItemReviewsOffset, limit:$createableItemReviewsLimit) {
         id
         deliveryCompletionDate
@@ -64,6 +64,24 @@ export const MY_REVIEWS = gql`
             id
             name
             mainImage
+        }
+    }
+    myItemReviews(offset:$myItemReviewsOffset, limit:$myItemReviewsLimit) {
+        id
+        createdAt
+        rate
+        content
+        images {
+            id
+            uri
+        }
+        item {
+            id
+            name
+        }
+        order {
+            id
+            stringOptionNum
         }
     }
   }
@@ -80,12 +98,34 @@ export interface CreateableItemReview {
     }
 }
 
+export interface MyItemReview {
+    id: number
+    createdAt: Date
+    rate: number
+    content: string
+    images: {
+        id: number
+        uri: string
+    }[]
+    item: {
+        id: number
+        name: string
+    }
+    order: {
+        id: number
+        stringOptionNum: string
+    }
+}
+
 interface MyReviewsData {
     createableItemReviews: CreateableItemReview[]
+    myItemReviews: MyItemReview[]
 }
 interface MyReviewsVars {
     createableItemReviewsOffset?: number
     createableItemReviewsLimit?: number
+    myItemReviewsOffset?: number
+    myItemReviewsLimit?: number
 }
 export const useMyReviews = (options?: QueryHookOptions<MyReviewsData, MyReviewsVars>) => createQueryHook<MyReviewsData, MyReviewsVars>(MY_REVIEWS, {
     ...options,
@@ -119,7 +159,7 @@ export const useItemReviewRecommend = (options?: MutationHookOptions<ItemReviewR
 
 // MUTATION/CREATE_ITEM_REVIEW
 export const CREATE_ITEM_REVIEW = gql`
-  mutation ($orderId:Int!, $rate:Int!, $content:String!, $imageIds: [Int!]){
+  mutation ($orderId:Int!, $rate:Int!, $content:String!, $imageIds: [Int!]!){
     createItemReview(orderId:$orderId, rate:$rate, content:$content, imageIds:$imageIds) {
         id
     }
@@ -134,11 +174,46 @@ interface CreateItemReviewVars {
     orderId: number
     rate: number
     content: string
-    imageIds: number[] | null
+    imageIds: number[]
 }
 export const useCreateItemReview = (options?: MutationHookOptions<CreateItemReviewData, CreateItemReviewVars>) => createMutationHook<CreateItemReviewData, CreateItemReviewVars>(CREATE_ITEM_REVIEW, {
     ...options,
     update: () => {
         //TODO
     }
+})
+
+// MUTATION/UPDATE_ITEM_REVIEW
+export const UPDATE_ITEM_REVIEW = gql`
+  mutation ($id:Int! $rate:Int!, $content:String!, $imageIds: [Int!]!){
+    updateItemReview(id:$id, rate:$rate, content:$content, imageIds:$imageIds) {
+        id
+        rate
+        content
+        images {
+            id
+            uri
+        }
+    }
+  }
+`
+interface UpdateItemReviewData {
+    updateItemReview: {
+        id: number
+        rate: number
+        content: string
+        images: {
+            id: number
+            uri: string
+        }[]
+    }
+}
+interface UpdateItemReviewVars {
+    id: number
+    rate: number
+    content: string
+    imageIds: number[]
+}
+export const useUpdateItemReview = (options?: MutationHookOptions<UpdateItemReviewData, UpdateItemReviewVars>) => createMutationHook<UpdateItemReviewData, UpdateItemReviewVars>(UPDATE_ITEM_REVIEW, {
+    ...options
 })
