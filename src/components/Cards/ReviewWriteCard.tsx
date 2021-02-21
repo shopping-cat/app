@@ -18,7 +18,7 @@ const ReviewWirteCard: React.FC<CreateableItemReview> = ({ id, item, deliveryCom
         const params: ReviewPostScreenProps = {
             orderId: id,
             name: item.name,
-            option: stringOptionNum
+            option: stringOptionNum,
         }
         navigate('ReviewPost', params)
     }, [id, item, stringOptionNum])

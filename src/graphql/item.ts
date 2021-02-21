@@ -29,9 +29,16 @@ export const ITEM = gql`
         likeNum
         rate
         content
-        itemNameOption
         imageUrls
         recommendState
+        item {
+            id
+            name
+        }
+        order {
+            id
+            stringOptionNum
+        }
         user {
             id
             name

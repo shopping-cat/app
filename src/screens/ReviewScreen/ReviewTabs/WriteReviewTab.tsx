@@ -25,7 +25,7 @@ const WriteReviewTab: React.FC<WriteReviewTabProps> = ({ data, fetchMore, loadin
             showsVerticalScrollIndicator={false}
             keyExtractor={(item) => item.id.toString()}
             data={loading ? makeIdArray(6) as CreateableItemReview[] : data}
-            renderItem={({ item }) => loading ? <ReviewWriteCardSkeleton /> : <ReviewWriteCard {...item} />}
+            renderItem={({ item }) => loading ? <ReviewWriteCardSkeleton /> : <ReviewWriteCard  {...item} />}
             ListFooterComponent={<View style={{ height: bottom }} />}
         />
     )

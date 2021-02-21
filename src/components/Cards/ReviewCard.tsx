@@ -17,7 +17,7 @@ interface ReviewCardProps {
 }
 
 
-const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, content, createdAt, id, imageUrls, itemNameOption, likeNum, rate, recommendState: prevRecommendState, user }) => {
+const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, item, content, createdAt, id, imageUrls, order, likeNum, rate, recommendState: prevRecommendState, user }) => {
 
     const { navigate } = useNavigation()
     const [itemReviewRecommend] = useItemReviewRecommend()
@@ -25,6 +25,8 @@ const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, 
     const [firstLoading, setFirstLoading] = useState(true)
     const isLiked = recommendState === 'liked'
     const isUnliked = recommendState === 'unliked'
+
+    const title = item.name + (order.stringOptionNum ? ` (옵션 : ${order.stringOptionNum})` : '')
 
 
     useEffect(() => { // recommendState와 서버 동기화
@@ -77,8 +79,8 @@ const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, 
                 </View>
                 <BaseText style={styles.date} >{dateFormat(createdAt)}</BaseText>
             </View>
-            <BaseText style={styles.option} >{itemNameOption}</BaseText>
-            {scrollViewEnable && <View style={styles.reviewImagesContainer} >
+            <BaseText style={styles.option} >{title}</BaseText>
+            {scrollViewEnable && imageUrls.length !== 0 && <View style={styles.reviewImagesContainer} >
                 <FlatList
                     horizontal
                     data={imageUrls}
@@ -98,7 +100,7 @@ const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, 
                     }
                 />
             </View>}
-            {!scrollViewEnable &&
+            {!scrollViewEnable && imageUrls.length !== 0 &&
                 <View style={styles.androidReviewImagesContainer} >
                     {imageUrls.map((item, index) =>
                         <Pressable
@@ -113,7 +115,7 @@ const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, 
                     )}
                 </View>
             }
-            <BaseText style={styles.content} >{content}</BaseText>
+            {!!content && <BaseText style={styles.content} >{content}</BaseText>}
             <BaseText style={styles.reviewRecommendNum} >{moneyFormat(likeNum)}명에게 도움됐습니다</BaseText>
             <View style={styles.recommendContainer} >
                 <Pressable
@@ -152,17 +154,21 @@ export const ReviewCardSkeleton = () => {
                 <View style={styles.userInfoContainer} >
                     <View style={styles.userProfileImage} />
                     <View>
-                        <View style={{ width: 100, height: 24, borderRadius: 6 }} />
-                        <View style={{ width: 60, height: 24, borderRadius: 6, marginTop: 16 }} />
+                        <View style={{ width: 100, height: 16, borderRadius: 6 }} />
+                        <View style={{ width: 60, height: 16, borderRadius: 6, marginTop: 16 }} />
                     </View>
                 </View>
                 <View style={{ flexDirection: 'row', marginTop: 16 }} >
                     <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
                     <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
                     <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
+                    <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
+                    <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
+                    <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
+                    <View style={{ width: 56, height: 56, marginRight: 4, marginTop: 4 }} />
                 </View>
-                <View style={{ width: '70%', height: 24, borderRadius: 6, marginTop: 16 }} />
-                <View style={{ width: '50%', height: 24, borderRadius: 6, marginTop: 16 }} />
+                <View style={{ width: '70%', height: 16, borderRadius: 6, marginTop: 16 }} />
+                <View style={{ width: '50%', height: 16, borderRadius: 6, marginTop: 16 }} />
             </View >
         </BaseSkeletonPlaceHolder>
     )
@@ -178,7 +184,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexWrap: 'wrap',
         flexDirection: 'row',
-        marginTop: 16
+        marginBottom: 16
     },
     userInfoContainer: {
         width: '100%',
@@ -211,12 +217,12 @@ const styles = StyleSheet.create({
     },
     content: {
         lineHeight: 20,
-        marginTop: 16
+        marginBottom: 16
     },
     reviewRecommendNum: {
         fontSize: 12,
         color: GRAY,
-        marginTop: 24,
+        marginTop: 8,
         marginBottom: 16,
     },
     recommendContainer: {

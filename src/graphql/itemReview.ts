@@ -1,5 +1,6 @@
 import { gql, MutationHookOptions, QueryHookOptions } from "@apollo/client";
 import { ID, RecommendState } from "../constants/types";
+import { client } from "../lib/apollo";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
 
@@ -12,9 +13,16 @@ export const ITEM_REVIEWS = gql`
         likeNum
         rate
         content
-        itemNameOption
         imageUrls
         recommendState
+        item {
+            id
+            name
+        }
+        order {
+            id
+            stringOptionNum
+        }
         user {
             id
             name
@@ -29,9 +37,16 @@ export interface ItemReview {
     likeNum: number
     rate: number
     content: string
-    itemNameOption: string
     imageUrls: string[]
     recommendState: RecommendState
+    item: {
+        id: number
+        name: string
+    }
+    order: {
+        id: number
+        stringOptionNum: string | null
+    }
     user: {
         id: string
         name: string
@@ -162,13 +177,26 @@ export const CREATE_ITEM_REVIEW = gql`
   mutation ($orderId:Int!, $rate:Int!, $content:String!, $imageIds: [Int!]!){
     createItemReview(orderId:$orderId, rate:$rate, content:$content, imageIds:$imageIds) {
         id
+        createdAt
+        rate
+        content
+        images {
+            id
+            uri
+        }
+        item {
+            id
+            name
+        }
+        order {
+            id
+            stringOptionNum
+        }
     }
   }
 `
 interface CreateItemReviewData {
-    createItemReview: {
-        id: number
-    }
+    createItemReview: MyItemReview
 }
 interface CreateItemReviewVars {
     orderId: number
@@ -178,8 +206,30 @@ interface CreateItemReviewVars {
 }
 export const useCreateItemReview = (options?: MutationHookOptions<CreateItemReviewData, CreateItemReviewVars>) => createMutationHook<CreateItemReviewData, CreateItemReviewVars>(CREATE_ITEM_REVIEW, {
     ...options,
-    update: () => {
-        //TODO
+    update: (cache, { data }) => {
+        cache.modify({
+            fields: {
+                myItemReviews(existingRefs = []) {
+                    if (!data) return [existingRefs]
+                    const newRefs = cache.writeFragment({
+                        data: data.createItemReview,
+                        fragment: gql`
+                            fragment newItemReview on itemReview {
+                                id
+                            }
+                        `
+                    })
+                    // 이미 있는 id가 있다면 그냥 유지
+                    if (existingRefs.filter((v: any) => v.__ref === newRefs?.__ref).length > 0) {
+                        return existingRefs
+                    }
+                    return [newRefs, ...existingRefs]
+                },
+                createableItemReviews(existingRefs, { readField }) {
+                    return existingRefs.filter((ref: any) => data?.createItemReview.order.id !== (Number(readField('id', ref))))
+                }
+            }
+        })
     }
 })
 
