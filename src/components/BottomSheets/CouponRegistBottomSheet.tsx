@@ -10,9 +10,10 @@ interface CouponRegistBottomSheetProps {
     onRegist: (code: string) => void
     visible: boolean
     onClose: () => void
+    loading: boolean
 }
 
-const CouponRegistBottomSheet: React.FC<CouponRegistBottomSheetProps> = ({ onClose, onRegist, visible }) => {
+const CouponRegistBottomSheet: React.FC<CouponRegistBottomSheetProps> = ({ onClose, onRegist, visible, loading }) => {
 
     const inputRef = useRef<TextInput>(null)
     const [code, onChangeCode, _, onClearCode] = useInput('')
@@ -27,7 +28,6 @@ const CouponRegistBottomSheet: React.FC<CouponRegistBottomSheetProps> = ({ onClo
 
     const onPress = useCallback(() => {
         onRegist(code)
-        onClose()
     }, [code])
 
     return (
@@ -55,6 +55,7 @@ const CouponRegistBottomSheet: React.FC<CouponRegistBottomSheetProps> = ({ onClo
                         onPress={onPress}
                         text='등록하기'
                         disableTopLine
+                        loading={loading}
                     />
                 </View>
             }

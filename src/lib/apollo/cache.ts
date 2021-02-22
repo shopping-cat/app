@@ -12,6 +12,7 @@ export default new InMemoryCache({
                 shopItems: offsetLimitPagination(['orderBy', 'shopId']),
                 createableItemReviews: offsetLimitPagination(),
                 myItemReviews: offsetLimitPagination(),
+                coupons: offsetLimitPagination(),
                 zzimItems: {
                     keyArgs: ['category'],
                     merge: function (existing, incoming, _a) {

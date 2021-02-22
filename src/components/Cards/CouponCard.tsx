@@ -1,19 +1,15 @@
 import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { Coupon } from '../../graphql/coupon'
+import dateFormat from '../../lib/dateFormat'
 import moneyFormat from '../../lib/moneyFormat'
+import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
 import BaseText from '../BaseText'
 
-const image = 'https://i.guim.co.uk/img/media/7d04c4cb7510a4bd9a8bec449f53425aeccee895/289_287_1442_866/master/1442.jpg?width=1200&height=900&quality=85&auto=format&fit=crop&s=6b7cb2d2ab7847fb0623d2757c1260ba'
-const name = '리뷰 작성 쿠폰'
-const salePercent = 10
-const salePrice = 10000
-const period = '15일 남음' // 오늘 만료 예정 처리
-const minItemPrice = 2000
-const maxSalePrice = 10000
 
 
-const CouponCard = () => {
+const CouponCard: React.FC<Coupon> = ({ image, maxSalePrice, minItemPrice, name, period, salePercent, salePrice }) => {
     return (
         <View style={styles.container} >
             <Image
@@ -24,7 +20,7 @@ const CouponCard = () => {
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.sale} >{salePercent || moneyFormat(salePrice || 0)}{salePercent ? '%' : '원'}</BaseText>
                     <BaseText>{name}</BaseText>
-                    <BaseText style={[styles.period, { color: false ? COLOR1 : GRAY }]}>{period}</BaseText>
+                    <BaseText style={[styles.period, { color: false ? COLOR1 : GRAY }]}>{dateFormat(period)}</BaseText>
                 </View>
                 {(minItemPrice || maxSalePrice) &&
                     <BaseText style={styles.noti} >
@@ -37,6 +33,20 @@ const CouponCard = () => {
 }
 
 export default CouponCard
+
+export const CouponCardSkeleton = () => {
+    return (
+        <BaseSkeletonPlaceHolder>
+            <View style={styles.container} >
+                <View style={styles.image} />
+                <View style={styles.right} >
+                    <View style={{ width: '50%', height: 16, borderRadius: 6 }} />
+                    <View style={{ width: '35%', height: 16, borderRadius: 6, marginTop: 16 }} />
+                </View>
+            </View>
+        </BaseSkeletonPlaceHolder>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
