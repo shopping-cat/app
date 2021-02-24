@@ -4,9 +4,11 @@ import BaseText from '../../components/BaseText'
 import ThinLine from '../../components/ThinLine'
 import { COLOR2 } from '../../constants/styles'
 
-const errorMessage = '통장에 잔액이 부족합니다'
+interface PaymentResultErrorProps {
+    message: string
+}
 
-const PaymentResultError = () => {
+const PaymentResultError: React.FC<PaymentResultErrorProps> = ({ message }) => {
     return (
         <>
             <View style={styles.cotnainer} >
@@ -15,7 +17,7 @@ const PaymentResultError = () => {
             <ThinLine />
             <BaseText style={styles.errorTitle} >에러 매세지</BaseText>
             <View style={styles.errorMessageContainerd} >
-                <BaseText style={styles.errorMessage} >{errorMessage}</BaseText>
+                <BaseText style={styles.errorMessage} >{message}</BaseText>
             </View>
         </>
     )

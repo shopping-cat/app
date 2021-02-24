@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import ButtonFooter from '../../components/ButtonFooter'
@@ -12,12 +12,17 @@ import PaymentResultPayment from './PaymentResultPayment'
 import PaymentResultSuccess from './PaymentResultSuccess'
 import PaymentResultDeliveryMemo from './PaymentResultDeliveryMemo'
 
-const isSuccess = true
 const isDepositWithoutBankbook = true
+
+export interface PaymentResultScreenProps {
+    errorMessage?: string
+}
 
 const PaymentResultScreen = () => {
 
+    const { params } = useRoute<Route<'PaymentResult', PaymentResultScreenProps>>()
     const { navigate } = useNavigation()
+
 
     const onPress = useCallback(() => {
         navigate('Home')
@@ -27,8 +32,8 @@ const PaymentResultScreen = () => {
         <ScreenLayout>
             <DefaultHeader title='주문/결제' disableBtns />
             <ScrollView>
-                {!isSuccess && <PaymentResultError />}
-                {isSuccess && <>
+                {!!params.errorMessage && <PaymentResultError message={params.errorMessage} />}
+                {!params.errorMessage && <>
                     <PaymentResultSuccess />
                     {isDepositWithoutBankbook && <PaymentResultDepositWithoutBankbook />}
                     <PaymentResultAddress />

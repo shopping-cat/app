@@ -51,6 +51,7 @@ import RefundResultScreen from './RefundResultScreen';
 import ExchangeScreen from './ExchangeScreen';
 import ExchangeDetailScreen from './ExchangeDetailScreen';
 import ExchangeResultScreen from './ExchangeResultScreen';
+import PGScreen from './PGScreen'
 
 
 const Stack = createStackNavigator()
@@ -203,6 +204,7 @@ const Navigation = () => {
                 <Stack.Screen name='Exchange' component={ExchangeScreen} />
                 <Stack.Screen name='ExchangeDetail' component={ExchangeDetailScreen} />
                 <Stack.Screen name='ExchangeResult' component={ExchangeResultScreen} />
+                <Stack.Screen name='PG' component={PGScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

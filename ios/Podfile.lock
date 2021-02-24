@@ -144,6 +144,8 @@ PODS:
   - GoogleUtilities/Reachability (7.1.1):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.5.0)
+  - IamportReactNative (1.6.2):
+    - React
   - JWT (3.0.0-beta.12):
     - Base64 (~> 1.1.2)
   - kakao-login (2.10.1):
@@ -492,6 +494,7 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.54.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - IamportReactNative (from `../node_modules/iamport-react-native`)
   - "kakao-login (from `../node_modules/@react-native-seoul/kakao-login`)"
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -589,6 +592,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  IamportReactNative:
+    :path: "../node_modules/iamport-react-native"
   kakao-login:
     :path: "../node_modules/@react-native-seoul/kakao-login"
   RCTRequired:
@@ -702,6 +707,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 116c84c4bdeb76be2a7a46de51244368f9794eab
   GoogleUtilities: 3dc4ff0d5e4840e2fa8eef0889620e8c33d4218c
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  IamportReactNative: 74830d27d0070f554eafa5c21029f32c2a862bc7
   JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   kakao-login: 7111f3ee3231418c4bcd310d273651a637a46eac
   KakaoOpenSDK: 7a7b728491fc199bf2186fec5bbf2c70ba14f474

@@ -6,10 +6,12 @@ import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
-import { IS_IOS } from '../../constants/values'
+import { BANKS, CASH_RECEIPT_TYPE, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS } from '../../constants/values'
 import { useOrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
+import useInput from '../../hooks/useInput'
 import moneyFormat from '../../lib/moneyFormat'
+import { PGScreenProps } from '../PGScreen'
 import PaymentAddressInfo from './PaymentAddressInfo'
 import PaymentItemInfo from './PaymentItemInfo'
 import PaymentMethod from './PaymentMethod'
@@ -18,8 +20,7 @@ import PaymentRefundAccount from './PaymentRefundAccount'
 import PaymentSkeleton from './PaymentSkeleton'
 import PaymnetDepositWithoutBankbook from './PaymnetDepositWithoutBankbook'
 
-const PAY_METHODS = ['카드결제', '무통장입금', '휴대폰결제']
-const BANKS = ['우체국 (123124-2-4124-12)', '농협 (12353-512525-512)', '우리 (15025-125251-25125)', '우채국 (25125-2512-12-2)', '우체국 (123124-2-4124-12)', '농협 (12353-512525-512)', '우리 (15025-125251-25125)', '우채국 (25125-2512-12-2)']
+
 
 export interface PaymentScreenProps {
     cartItemIds: number[]
@@ -28,15 +29,18 @@ export interface PaymentScreenProps {
 const PaymentScreen = () => {
 
     const { params } = useRoute<Route<'Payment', PaymentScreenProps>>()
-    const { navigate, dispatch } = useNavigation()
+    const { dispatch } = useNavigation()
 
     const scrollViewRef = useRef<ScrollView>(null)
 
     const [method, setMethod] = useState(PAY_METHODS[0])
     const [methodSheetVisible, setMethodSheetVisible] = useState(false)
-
-    const [bank, setBank] = useState(BANKS[0]) //무통장입금 은행
+    // 무통장 입금
     const [bankSheetVisible, setBankSheetVisible] = useState(false)
+    const [bank, setBank] = useState<string | null>(null) //무통장입금
+    const [cashReceiptName, onChangeCashReceiptName] = useInput('')
+    const [cashReceiptType, setCashReceiptType] = useState(CASH_RECEIPT_TYPES[0])
+    const [cashReceiptNumber, onChangeCashReceiptNumber] = useInput('', true)
 
     const { coupons, point, init, setPoint } = useCouponPoint()
 
@@ -50,6 +54,8 @@ const PaymentScreen = () => {
         nextFetchPolicy: 'cache-and-network'
     })
 
+    const active = data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '무통장입금' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true)
+
     useEffect(() => {
         init()
     }, [])
@@ -60,10 +66,20 @@ const PaymentScreen = () => {
     }, [data?.orderCalculate.maxPointPrice])
 
     const onPayment = useCallback(() => {
-        // navigate('PaymentResult')
-        if (loading) return
-        dispatch(StackActions.replace('PaymentResult'))
-    }, [loading])
+        if (loading || !active || !data) return
+        const pgParams: PGScreenProps = {
+            method,
+            coupons,
+            point,
+            cartItemIds: params.cartItemIds,
+            bank,
+            cashReceiptName,
+            cashReceiptType,
+            cashReceiptNumber,
+            amount: data.orderCalculate.totalPaymentPrice
+        }
+        dispatch(StackActions.replace('PG', pgParams))
+    }, [loading, method, bank, coupons, point, params, active, cashReceiptName, cashReceiptType, cashReceiptNumber, data])
 
     const onMethod = useCallback(() => {
         setMethodSheetVisible(true)
@@ -71,7 +87,6 @@ const PaymentScreen = () => {
 
     const onChangeMethod = useCallback((i: number) => {
         setMethod(PAY_METHODS[i])
-        console.log(i)
         if (i === 1) {
             setTimeout(() => {
                 scrollViewRef.current?.scrollToEnd({ animated: true })
@@ -107,11 +122,20 @@ const PaymentScreen = () => {
                     <PaymentRefundAccount data={data.orderCalculate} />
                     <PaymentPrice data={data.orderCalculate} />
                     <PaymentMethod onMethod={onMethod} method={method} />
-                    {method === '무통장입금' && <PaymnetDepositWithoutBankbook bank={bank} onBank={onBank} />}
+                    {method === '무통장입금' && <PaymnetDepositWithoutBankbook
+                        bank={bank}
+                        onBank={onBank}
+                        cashReceiptName={cashReceiptName}
+                        cashReceiptNumber={cashReceiptNumber}
+                        cashReceiptType={cashReceiptType}
+                        onChangeCashReceiptName={onChangeCashReceiptName}
+                        onChangeReceiptNumber={onChangeCashReceiptNumber}
+                        setCashReceiptType={setCashReceiptType}
+                    />}
                 </ScrollView>}
             </KeyboardAvoidingView>
             {data && <ButtonFooter
-                active
+                active={!!active}
                 onPress={onPayment}
                 text={`${moneyFormat(data.orderCalculate.totalPaymentPrice)}원 결제하기`}
                 loading={loading}

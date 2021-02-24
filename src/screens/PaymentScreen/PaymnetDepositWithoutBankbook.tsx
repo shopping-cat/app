@@ -1,24 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, TextInput, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import { COLOR2, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import useInput from '../../hooks/useInput'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { CASH_RECEIPT_TYPES } from '../../constants/values'
 
-const CASH_RECEIPT_TYPE = ['개인소득공제', '법인지출증빙', '미신청']
+
 
 interface PaymnetDepositWithoutBankbookProps {
+    bank: string | null
+    cashReceiptName: string
+    cashReceiptType: string
+    cashReceiptNumber: string
     onBank: () => void
-    bank: string
+    onChangeCashReceiptName: (t: string) => void
+    setCashReceiptType: (t: string) => void
+    onChangeReceiptNumber: (t: string) => void
 }
 
-const PaymnetDepositWithoutBankbook: React.FC<PaymnetDepositWithoutBankbookProps> = ({ bank, onBank }) => {
+const PaymnetDepositWithoutBankbook: React.FC<PaymnetDepositWithoutBankbookProps> = ({ bank, onBank, cashReceiptNumber, cashReceiptType, onChangeReceiptNumber, setCashReceiptType, cashReceiptName, onChangeCashReceiptName }) => {
 
-    const [name, onChangeName] = useInput('')
-    const [cashReceiptType, setCashReceiptType] = useState(CASH_RECEIPT_TYPE[0])
-    const [phone, onChangePhone] = useInput('')
-    const [businessNumber, onChangeBusinessNumber] = useInput('')
+    useEffect(() => {
+        onChangeReceiptNumber('')
+    }, [cashReceiptType])
 
     return (
         <View style={styles.container} >
@@ -26,13 +32,13 @@ const PaymnetDepositWithoutBankbook: React.FC<PaymnetDepositWithoutBankbookProps
                 onPress={onBank}
                 style={styles.whiteBox}
             >
-                <BaseText style={styles.whiteBoxText} >{bank}</BaseText>
+                <BaseText style={styles.whiteBoxText} >{bank || '은행을 선택해주세요'}</BaseText>
                 <DownArrowIcon fill={GRAY} />
             </Pressable>
             <View style={styles.whiteNameBox} >
                 <TextInput
-                    value={name}
-                    onChangeText={onChangeName}
+                    value={cashReceiptName}
+                    onChangeText={onChangeCashReceiptName}
                     style={styles.whiteBoxText}
                     placeholder='입금자명'
                     placeholderTextColor={LIGHT_GRAY}
@@ -40,7 +46,7 @@ const PaymnetDepositWithoutBankbook: React.FC<PaymnetDepositWithoutBankbookProps
             </View>
             <BaseText style={styles.cashReceipt} >현금영수증 신청</BaseText>
             <View style={styles.cashReceiptSelectorContainer} >
-                {CASH_RECEIPT_TYPE.map(v =>
+                {CASH_RECEIPT_TYPES.map(v =>
                     <Pressable
                         key={v}
                         onPress={() => setCashReceiptType(v)}
@@ -57,8 +63,8 @@ const PaymnetDepositWithoutBankbook: React.FC<PaymnetDepositWithoutBankbookProps
             </View>
             {cashReceiptType === '개인소득공제' && <View style={styles.whiteInputBox} >
                 <TextInput
-                    value={phone}
-                    onChangeText={onChangePhone}
+                    value={cashReceiptNumber}
+                    onChangeText={onChangeReceiptNumber}
                     style={styles.whiteBoxText}
                     placeholder='휴대폰 번호'
                     placeholderTextColor={LIGHT_GRAY}
@@ -67,8 +73,8 @@ const PaymnetDepositWithoutBankbook: React.FC<PaymnetDepositWithoutBankbookProps
             </View>}
             {cashReceiptType === '법인지출증빙' && <View style={styles.whiteInputBox} >
                 <TextInput
-                    value={businessNumber}
-                    onChangeText={onChangeBusinessNumber}
+                    value={cashReceiptNumber}
+                    onChangeText={onChangeReceiptNumber}
                     style={styles.whiteBoxText}
                     placeholder='사업자 번호'
                     placeholderTextColor={LIGHT_GRAY}
