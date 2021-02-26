@@ -6,7 +6,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader';
 import { IAMPORT_CODE } from '../../../env';
 import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import { PaymentResultScreenProps } from '../PaymentResultScreen'
-import { OrderCalculateCouponVar } from '../../graphql/order';
+import { OrderCalculateCouponVar, useOrderDataToPGData } from '../../graphql/order';
 
 export interface PGScreenProps {
     cartItemIds: number[]
@@ -22,12 +22,24 @@ export interface PGScreenProps {
 
 const PGScreen = () => {
 
+    const { dispatch, goBack } = useNavigation()
     const { params } = useRoute<Route<'PG', PGScreenProps>>()
-    const { dispatch } = useNavigation()
+
+    const { data, loading } = useOrderDataToPGData({
+        nextFetchPolicy: 'no-cache',
+        variables: {
+            amount: params.amount,
+            cartItemIds: params.cartItemIds,
+            coupons: params.coupons,
+            point: params.point
+        },
+        onError: () => { goBack() }
+    })
+
 
     const onCallback = useCallback(async (rsp: CallbackRsp) => {
         if (rsp.success) {
-
+            console.log(rsp)
             const params: PaymentResultScreenProps = {
 
             }
@@ -41,23 +53,31 @@ const PGScreen = () => {
         }
     }, [])
 
+
     return (
         <ScreenLayout>
             <DefaultHeader disableBtns disableGoBack title='결제' />
-            <IMP.Payment
+            {loading && <View style={styles.loadingContainer} ><ActivityIndicator /></View>}
+            {(!loading && data) && <IMP.Payment
                 userCode={IAMPORT_CODE}
                 loading={<View style={styles.loadingContainer} ><ActivityIndicator /></View>}
                 data={{
                     pg: 'danal_tpay',
-                    pay_method: 'card',
-                    amount: params.amount,
-                    name: 'test',
                     app_scheme: 'shoppingcat',
+                    pay_method: params.method === '카드결제' ? 'card' : params.method === '무통장입금' ? 'vbank' : 'phone',
+                    merchant_uid: data.orderDataToPGData.uid,
+                    name: data.orderDataToPGData.name,
+                    amount: data.orderDataToPGData.amount,
                     buyer_tel: '01024920492',
-                    merchant_uid: `test_${new Date().getTime()}`,
+                    buyer_name: data.orderDataToPGData.user.name,
+                    buyer_postcode: data.orderDataToPGData.user.deliveryInfo.postCode,
+                    buyer_email: data.orderDataToPGData.user.userDetail.email || undefined,
+                    buyer_addr: data.orderDataToPGData.user.deliveryInfo.address + ' ' + data.orderDataToPGData.user.deliveryInfo.addressDetail,
+                    biz_num: params.method === '무통장입금' ? params.bank || undefined : undefined,
+                    digital: params.method === '휴대폰결제' ? true : undefined
                 }}
                 callback={onCallback}
-            />
+            />}
         </ScreenLayout>
     )
 }

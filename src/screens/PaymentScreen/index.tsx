@@ -29,7 +29,7 @@ export interface PaymentScreenProps {
 const PaymentScreen = () => {
 
     const { params } = useRoute<Route<'Payment', PaymentScreenProps>>()
-    const { dispatch } = useNavigation()
+    const { navigate } = useNavigation()
 
     const scrollViewRef = useRef<ScrollView>(null)
 
@@ -78,7 +78,7 @@ const PaymentScreen = () => {
             cashReceiptNumber,
             amount: data.orderCalculate.totalPaymentPrice
         }
-        dispatch(StackActions.replace('PG', pgParams))
+        navigate('PG', pgParams)
     }, [loading, method, bank, coupons, point, params, active, cashReceiptName, cashReceiptType, cashReceiptNumber, data])
 
     const onMethod = useCallback(() => {
