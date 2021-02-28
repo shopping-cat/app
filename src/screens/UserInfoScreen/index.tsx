@@ -18,8 +18,8 @@ const UserInfoScreen = () => {
     const { logout } = useAuth()
     const { data } = useIUser()
 
-    const deliveryInfo = `${data?.iUser.deliveryInfo.name} ${data?.iUser.deliveryInfo.phone}\n${data?.iUser.deliveryInfo.address}\n${data?.iUser.deliveryInfo.addressDetail}`
-    const refundAccountInfo = `${data?.iUser.refundBankAccount.ownerName} | ${data?.iUser.refundBankAccount.bankName} ${data?.iUser.refundBankAccount.accountNumber}`
+    const deliveryInfo = `${data?.iUser.deliveryInfo?.name} ${data?.iUser.deliveryInfo?.phone}\n${data?.iUser.deliveryInfo?.address}\n${data?.iUser.deliveryInfo?.addressDetail}`
+    const refundAccountInfo = `${data?.iUser.refundBankAccount?.ownerName} | ${data?.iUser.refundBankAccount?.bankName} ${data?.iUser.refundBankAccount?.accountNumber}`
 
     return (
         <ScreenLayout>
@@ -49,7 +49,7 @@ const UserInfoScreen = () => {
                 >
                     <View style={styles.contentLeftContainer} >
                         <BaseText style={styles.title} >배송지 정보</BaseText>
-                        <BaseText style={styles.content} >{deliveryInfo}</BaseText>
+                        <BaseText style={styles.content} >{data?.iUser.deliveryInfo ? deliveryInfo : '입력해주세요'}</BaseText>
                     </View>
                     <View style={styles.contentBtn} >
                         <RightArrowIcon fill={GRAY} />
@@ -61,7 +61,7 @@ const UserInfoScreen = () => {
                 >
                     <View style={styles.contentLeftContainer} >
                         <BaseText style={styles.title} >환불계좌</BaseText>
-                        <BaseText style={styles.content} >{refundAccountInfo}</BaseText>
+                        <BaseText style={styles.content} >{data?.iUser.refundBankAccount ? refundAccountInfo : '입력해주세요'}</BaseText>
                     </View>
                     <View style={styles.contentBtn} >
                         <RightArrowIcon fill={GRAY} />

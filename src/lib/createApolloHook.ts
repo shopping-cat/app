@@ -9,6 +9,7 @@ export const createMutationHook = <Data, Vars>(mutation: DocumentNode, options?:
         onError: (error) => {
             if (__DEV__) console.error(error.message)
             ToastAndroid.show(error?.message || 'Invalid error', ToastAndroid.SHORT)
+            options?.onError && options.onError(error)
         }
     })
 

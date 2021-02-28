@@ -16,6 +16,7 @@ const isDepositWithoutBankbook = true
 
 export interface PaymentResultScreenProps {
     errorMessage?: string
+
 }
 
 const PaymentResultScreen = () => {

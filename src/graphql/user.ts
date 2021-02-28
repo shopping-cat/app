@@ -49,19 +49,19 @@ export const I_USER = gql`
 interface IUserData {
   iUser: {
     id: number
-    name: string
-    photo: string
+    name?: string
+    photo?: string
     notificationNum: number
     userDetail: {
       email: string
     }
-    refundBankAccount: {
+    refundBankAccount?: {
       id: ID
       ownerName: string
       bankName: string
       accountNumber: string
     }
-    deliveryInfo: {
+    deliveryInfo?: {
       id: ID
       postCode: string
       address: string
