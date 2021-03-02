@@ -2,12 +2,11 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { CompletePayment } from '../../graphql/payment'
 import moneyFormat from '../../lib/moneyFormat'
 
-const paymentMethod = '무통장 입금'
-const paymentPrice = 159000
 
-const PaymentResultPayment = () => {
+const PaymentResultPayment: React.FC<CompletePayment> = ({ paymentMethod, totalPrice }) => {
     return (
         <View style={styles.container} >
             <BaseText style={styles.title} >결제</BaseText>
@@ -18,7 +17,7 @@ const PaymentResultPayment = () => {
                 </View>
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >결제 금액</BaseText>
-                    <BaseText style={styles.infoContent} >{moneyFormat(paymentPrice)}원</BaseText>
+                    <BaseText style={styles.infoContent} >{moneyFormat(totalPrice)}원</BaseText>
                 </View>
             </View>
         </View>

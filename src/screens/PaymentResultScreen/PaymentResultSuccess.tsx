@@ -3,15 +3,15 @@ import { StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import ThinLine from '../../components/ThinLine'
 import { GRAY } from '../../constants/styles'
+import { CompletePayment } from '../../graphql/payment'
 
-const orderNumber = '15920593'
 
-const PaymentResultSuccess = () => {
+const PaymentResultSuccess: React.FC<CompletePayment> = ({ id }) => {
     return (
         <>
             <View style={styles.container} >
                 <BaseText style={styles.successTitle} >주문이 완료되었어요!</BaseText>
-                <BaseText style={styles.orderNumber} >주문번호 {orderNumber}</BaseText>
+                <BaseText style={styles.orderNumber} >주문번호 {id}</BaseText>
             </View>
             <ThinLine />
         </>

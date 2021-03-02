@@ -4,13 +4,10 @@ import BaseText from '../../components/BaseText'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import ThinLine from '../../components/ThinLine'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { CompletePayment } from '../../graphql/payment'
 
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지 2'
-const items = Array(3).fill(0).map((_, i) => ({ id: (i + 1).toString() }))
 
-const PaymentResultItems = () => {
+const PaymentResultItems: React.FC<CompletePayment> = ({ orders }) => {
 
     const [open, setOpen] = useState(false)
 
@@ -24,7 +21,7 @@ const PaymentResultItems = () => {
                 onPress={onAccordian}
                 style={styles.titleContainer}
             >
-                <BaseText style={styles.title} >주문 상품({items.length})</BaseText>
+                <BaseText style={styles.title} >주문 상품({orders.length})</BaseText>
                 <View style={{ transform: [{ rotate: open ? '180deg' : '0deg' }] }} >
                     <DownArrowIcon fill='#000' />
                 </View>
@@ -32,15 +29,15 @@ const PaymentResultItems = () => {
             {open &&
                 <View>
                     <ThinLine />
-                    {items.map((v) =>
-                        <View key={v.id} style={styles.itemContainer} >
+                    {orders.map(({ id, item, stringOptionNum }) =>
+                        <View key={id} style={styles.itemContainer} >
                             <Image
                                 style={styles.itemImage}
-                                source={{ uri: dummyImage }}
+                                source={{ uri: item.mainImage }}
                             />
                             <View>
-                                <BaseText>{dummyName}</BaseText>
-                                <BaseText style={styles.itemOption} >{option}</BaseText>
+                                <BaseText>{item.name}</BaseText>
+                                <BaseText style={styles.itemOption} >{stringOptionNum}</BaseText>
                             </View>
                         </View>
                     )}

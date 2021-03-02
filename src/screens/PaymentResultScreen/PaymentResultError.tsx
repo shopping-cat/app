@@ -5,7 +5,7 @@ import ThinLine from '../../components/ThinLine'
 import { COLOR2 } from '../../constants/styles'
 
 interface PaymentResultErrorProps {
-    message: string
+    message?: string | null
 }
 
 const PaymentResultError: React.FC<PaymentResultErrorProps> = ({ message }) => {

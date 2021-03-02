@@ -5,18 +5,16 @@ import BaseText from '../../components/BaseText'
 import BorderyButton from '../../components/Buttons/BorderyButton'
 import { COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
-
-const message = '2020-01-11 23시 34분 까지 입금해 주세요\n시간안에 입금이 안될시에는 주문이 취소됩니다.'
-const price = 159000
-const name = '홍길동'
-const bank = '우체국 1234567-123-42412'
+import { CompletePayment } from '../../graphql/payment';
 
 
-const PaymentResultDepositWithoutBankbook = () => {
+const PaymentResultDepositWithoutBankbook: React.FC<CompletePayment> = ({ vBankDate, vBankName, vBankNum, totalPrice }) => {
+
+    const message = `${vBankDate} 까지 입금해 주세요\n시간안에 입금이 안될시에는 주문이 취소됩니다.` // TODO
 
     const onCopy = useCallback(() => {
-        Clipboard.setString(bank)
-    }, [bank])
+        Clipboard.setString(vBankNum || '')
+    }, [vBankNum])
 
     return (
         <View style={styles.container} >
@@ -27,15 +25,15 @@ const PaymentResultDepositWithoutBankbook = () => {
             <View style={styles.infoContainer} >
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >입금 금액</BaseText>
-                    <BaseText style={styles.infoContent} >{moneyFormat(price)}원</BaseText>
+                    <BaseText style={styles.infoContent} >{moneyFormat(totalPrice)}원</BaseText>
                 </View>
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >입금자 명</BaseText>
-                    <BaseText style={styles.infoContent} >{name}</BaseText>
+                    <BaseText style={styles.infoContent} >{vBankName}</BaseText>
                 </View>
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >입금 은행</BaseText>
-                    <BaseText style={styles.infoContent} >{bank}</BaseText>
+                    <BaseText style={styles.infoContent} >{vBankName} {vBankNum}</BaseText>
                 </View>
                 <BorderyButton style={styles.copyBtn} onPress={onCopy}>계좌 복사</BorderyButton>
             </View>

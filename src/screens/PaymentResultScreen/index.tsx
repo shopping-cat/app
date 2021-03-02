@@ -1,5 +1,5 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
@@ -11,18 +11,26 @@ import PaymentResultItems from './PaymentResultItems'
 import PaymentResultPayment from './PaymentResultPayment'
 import PaymentResultSuccess from './PaymentResultSuccess'
 import PaymentResultDeliveryMemo from './PaymentResultDeliveryMemo'
-
-const isDepositWithoutBankbook = true
-
-export interface PaymentResultScreenProps {
-    errorMessage?: string
-
-}
+import { CallbackRsp } from 'iamport-react-native'
+import { useCompletePayment } from '../../graphql/payment'
+import ActivityIndicatorView from '../../components/ActivityIndicatorView'
+// TODO 제시도
 
 const PaymentResultScreen = () => {
 
-    const { params } = useRoute<Route<'PaymentResult', PaymentResultScreenProps>>()
+    const { params } = useRoute<Route<'PaymentResult', CallbackRsp>>()
     const { navigate } = useNavigation()
+    const [completePayment, { loading, data }] = useCompletePayment({
+        fetchPolicy: 'no-cache',
+        variables: {
+            imp_uid: params.imp_uid || '',
+            merchant_uid: params.merchant_uid || ''
+        }
+    })
+
+    useEffect(() => {
+        completePayment()
+    }, [])
 
 
     const onPress = useCallback(() => {
@@ -32,22 +40,25 @@ const PaymentResultScreen = () => {
     return (
         <ScreenLayout>
             <DefaultHeader title='주문/결제' disableBtns />
-            <ScrollView>
-                {!!params.errorMessage && <PaymentResultError message={params.errorMessage} />}
-                {!params.errorMessage && <>
-                    <PaymentResultSuccess />
-                    {isDepositWithoutBankbook && <PaymentResultDepositWithoutBankbook />}
-                    <PaymentResultAddress />
-                    <PaymentResultDeliveryMemo />
-                    <PaymentResultPayment />
-                    <PaymentResultItems />
-                </>}
-            </ScrollView>
-            <ButtonFooter
-                active
-                text='계속 쇼핑하기'
-                onPress={onPress}
-            />
+            {!data && <ActivityIndicatorView />}
+            {data && <>
+                <ScrollView>
+                    {data.completePayment.state === '결제취소' && <PaymentResultError message={data.completePayment.cancelReason} />}
+                    {(data.completePayment.state === '구매접수' || data.completePayment.state === '입금대기') && <>
+                        <PaymentResultSuccess {...data.completePayment} />
+                        {data.completePayment.state === '입금대기' && <PaymentResultDepositWithoutBankbook {...data.completePayment} />}
+                        <PaymentResultAddress {...data.completePayment} />
+                        <PaymentResultDeliveryMemo {...data.completePayment} />
+                        <PaymentResultPayment {...data.completePayment} />
+                        <PaymentResultItems {...data.completePayment} />
+                    </>}
+                </ScrollView>
+                <ButtonFooter
+                    active
+                    text='계속 쇼핑하기'
+                    onPress={onPress}
+                />
+            </>}
         </ScreenLayout>
     )
 }

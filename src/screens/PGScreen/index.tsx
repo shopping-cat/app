@@ -5,10 +5,9 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout';
 import DefaultHeader from '../../components/Headers/DefaultHeader';
 import { IAMPORT_CODE } from '../../../env';
 import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native';
-import { PaymentResultScreenProps } from '../PaymentResultScreen'
 import { OrderCalculateCouponVar } from '../../graphql/order';
-import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
 import { useCreatePayment } from '../../graphql/payment';
+import ActivityIndicatorView from '../../components/ActivityIndicatorView';
 
 export interface PGScreenProps {
     cartItemIds: number[]
@@ -45,31 +44,18 @@ const PGScreen = () => {
 
 
     const onCallback = useCallback(async (rsp: CallbackRsp) => {
-        if (rsp.success) {
-            console.log(rsp)
-            rsp.imp_uid
-            rsp.merchant_uid
-            const screenParams: PaymentResultScreenProps = {
-
-            }
-            dispatch(StackActions.replace('PaymentResult', screenParams))
-        } else {
-            console.error(rsp.error_msg)
-            const screenParams: PaymentResultScreenProps = {
-                errorMessage: rsp.error_msg
-            }
-            dispatch(StackActions.replace('PaymentResult', screenParams))
-        }
+        dispatch(StackActions.replace('PaymentResult', rsp))
     }, [params])
 
 
     return (
         <ScreenLayout>
             <DefaultHeader disableBtns disableGoBack title='결제' />
-            {(loading || !data) && <View style={styles.loadingContainer} ><ActivityIndicator color={VERY_LIGHT_GRAY} /></View>}
+            {(loading || !data) && <ActivityIndicatorView />}
             {(!loading && data) && <IMP.Payment
                 userCode={IAMPORT_CODE}
-                loading={<View style={styles.loadingContainer} ><ActivityIndicator color={VERY_LIGHT_GRAY} /></View>}
+                loading={<ActivityIndicatorView />}
+                callback={onCallback}
                 data={{
                     pg: 'danal_tpay',
                     app_scheme: 'shoppingcat',
@@ -85,7 +71,6 @@ const PGScreen = () => {
                     biz_num: data.createPayment.paymentMethod === '무통장입금' ? params.bank || undefined : undefined,
                     digital: data.createPayment.paymentMethod === '휴대폰결제' ? true : undefined
                 }}
-                callback={onCallback}
             />}
         </ScreenLayout>
     )
@@ -94,9 +79,4 @@ const PGScreen = () => {
 export default PGScreen
 
 const styles = StyleSheet.create({
-    loadingContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
 })
