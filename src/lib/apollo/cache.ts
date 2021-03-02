@@ -13,6 +13,7 @@ export default new InMemoryCache({
                 createableItemReviews: offsetLimitPagination(),
                 myItemReviews: offsetLimitPagination(),
                 coupons: offsetLimitPagination(),
+                pointReceipts: offsetLimitPagination(),
                 zzimItems: {
                     keyArgs: ['category'],
                     merge: function (existing, incoming, _a) {

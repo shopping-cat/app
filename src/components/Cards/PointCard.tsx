@@ -1,24 +1,34 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { PointReceipt } from '../../graphql/pointReceipt'
+import dateFormat from '../../lib/dateFormat'
 import moneyFormat from '../../lib/moneyFormat'
+import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
 import BaseText from '../BaseText'
 
-const dummyDate = '2020.05.18'
-const dummyTitle = '이벤트 적립'
-const dummyPoint = 1200
-
-const PointCard = () => {
+const PointCard: React.FC<PointReceipt> = ({ createdAt, name, point }) => {
     return (
         <View style={styles.container} >
-            <BaseText style={styles.title} >{dummyTitle}</BaseText>
-            <BaseText style={[styles.point, { color: dummyPoint >= 0 ? COLOR2 : COLOR1 }]} >{moneyFormat(dummyPoint, true)}</BaseText>
-            <BaseText style={styles.date} >{dummyDate}</BaseText>
+            <BaseText style={styles.title} >{name}</BaseText>
+            <BaseText style={[styles.point, { color: point >= 0 ? COLOR2 : COLOR1 }]} >{moneyFormat(point, true)}</BaseText>
+            <BaseText style={styles.date} >{dateFormat(createdAt)}</BaseText>
         </View>
     )
 }
 
 export default PointCard
+
+export const PointCardSkeleton = () => {
+    return (
+        <BaseSkeletonPlaceHolder>
+            <View style={styles.container} >
+                <View style={{ width: '50%', height: 16, borderRadius: 6 }} />
+                <View style={{ width: '35%', height: 16, borderRadius: 6, marginTop: 16 }} />
+            </View>
+        </BaseSkeletonPlaceHolder>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
