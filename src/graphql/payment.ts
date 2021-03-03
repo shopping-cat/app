@@ -1,9 +1,121 @@
-import { gql, MutationHookOptions } from "@apollo/client"
-import { PaymentState } from "../constants/types"
+import { gql, MutationHookOptions, QueryHookOptions } from "@apollo/client"
+import { OrderState, PaymentState } from "../constants/types"
 import { PAY_METHOD } from "../constants/values"
-import { createMutationHook } from "../lib/createApolloHook"
+import { createMutationHook, createQueryHook } from "../lib/createApolloHook"
 import { deleteCartItemsFromCache } from "./cartItem"
 import { OrderCalculateCouponVar } from "./order"
+
+
+// QUERY/PAYMENT
+export const PAYMENT = gql`
+query ($id:String!){
+    payment(id:$id) {
+        id
+        state
+        cancelReason
+        paymentMethod
+        price
+        deliveryPrice
+        extraDeliveryPrice
+        itemSale
+        couponSale
+        pointSale
+        totalPrice
+        address
+        addressName
+        addressPhone
+        deliveryMemo
+        orders {
+            id
+            state
+            itemPrice
+            itemOptionPrice
+            num
+            stringOptionNum
+            item {
+                id
+                mainImage
+                name
+            }
+        }
+    }
+  }
+`
+
+export interface PaymentDetailOrder {
+    id: number
+    state: OrderState
+    itemPrice: number
+    itemOptionPrice: number
+    num: number
+    stringOptionNum: string
+    item: {
+        id: number
+        mainImage: string
+        name: string
+    }
+}
+
+export interface PaymentDetail {
+    id: string
+    state: PaymentState
+    cancelReason: string | null
+    paymentMethod: string
+    price: number
+    deliveryPrice: number
+    extraDeliveryPrice: number
+    itemSale: number
+    couponSale: number
+    pointSale: number
+    totalPrice: number
+    address: string
+    addressName: string
+    addressPhone: string
+    deliveryMemo: string
+    orders: PaymentDetailOrder[]
+}
+
+interface PaymentData {
+    payment: PaymentDetail
+}
+interface PaymentVars {
+    id: string
+}
+export const usePayment = (options?: QueryHookOptions<PaymentData, PaymentVars>) => createQueryHook<PaymentData, PaymentVars>(PAYMENT, {
+    ...options,
+})
+
+
+// QUERY/PAYMENTS
+export const PAYMENTS = gql`
+query ($offset:Int, $limit:Int){
+    payments(offset:$offset, limit:$limit) {
+        id
+        createdAt
+        name
+        state
+    }
+  }
+`
+
+export interface Payment {
+    id: string
+    createAt: Date
+    name: string
+    state: PaymentState
+}
+
+interface PaymentsData {
+    payments: Payment[]
+}
+interface PaymentsVars {
+    offset: number
+    limit: number
+}
+export const usePayments = (options?: QueryHookOptions<PaymentsData, PaymentsVars>) => createQueryHook<PaymentsData, PaymentsVars>(PAYMENTS, {
+    ...options,
+})
+
 
 // MUTATION/CREATE_PAYMENT
 export const CREATE_PAYMENT = gql`

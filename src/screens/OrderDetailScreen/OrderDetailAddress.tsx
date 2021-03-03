@@ -2,19 +2,16 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { PaymentDetail } from '../../graphql/payment'
 
-const name = '홍길동'
-const address = '부산 기장군 기장읍 백길동 14-3, 123동 567호'
-const phone = '010-1234-1512'
-
-const OrderDetailAddress = () => {
+const OrderDetailAddress: React.FC<PaymentDetail> = ({ address, addressName, addressPhone }) => {
     return (
         <View style={styles.container} >
             <BaseText style={styles.title} >배송지</BaseText>
             <View style={styles.infoContainer} >
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >받는분</BaseText>
-                    <BaseText style={styles.infoContent} >{name}</BaseText>
+                    <BaseText style={styles.infoContent} >{addressName}</BaseText>
                 </View>
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >주소</BaseText>
@@ -22,7 +19,7 @@ const OrderDetailAddress = () => {
                 </View>
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >연락처</BaseText>
-                    <BaseText style={styles.infoContent} >{phone}</BaseText>
+                    <BaseText style={styles.infoContent} >{addressPhone}</BaseText>
                 </View>
             </View>
         </View>

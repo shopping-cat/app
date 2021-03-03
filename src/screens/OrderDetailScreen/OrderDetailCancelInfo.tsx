@@ -2,10 +2,9 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { PaymentDetail } from '../../graphql/payment'
 
-const dummyReason = '주문 실수'
-
-const OrderDetailCancelInfo = () => {
+const OrderDetailCancelInfo: React.FC<PaymentDetail> = ({ cancelReason }) => {
 
 
     return (
@@ -13,7 +12,7 @@ const OrderDetailCancelInfo = () => {
             <BaseText style={styles.title} >취소정보</BaseText>
             <View style={styles.labelContentContainer} >
                 <BaseText style={styles.label} >취소사유</BaseText>
-                <BaseText style={styles.content} >{dummyReason}</BaseText>
+                <BaseText style={styles.content} >{cancelReason}</BaseText>
             </View>
         </View>
     )

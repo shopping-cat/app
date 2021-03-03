@@ -2,16 +2,12 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { PaymentDetail } from '../../graphql/payment'
 import moneyFormat from '../../lib/moneyFormat'
 
-const billingWay = '무통장 입금'
-const price = 180000
-const salePrice = 2400
-const couponPrice = 7300
-const pointPrice = 15300
-const totalPrice = price - salePrice - couponPrice - pointPrice
 
-const OrderDetailPaymentInfo = () => {
+
+const OrderDetailPaymentInfo: React.FC<PaymentDetail> = ({ price, paymentMethod, deliveryPrice, extraDeliveryPrice, itemSale, couponSale, pointSale, totalPrice }) => {
 
 
     return (
@@ -19,23 +15,31 @@ const OrderDetailPaymentInfo = () => {
             <BaseText style={styles.title} >결제정보</BaseText>
             <View style={styles.labelContentContainer} >
                 <BaseText style={styles.label} >결제 방법</BaseText>
-                <BaseText style={styles.content} >{billingWay}</BaseText>
+                <BaseText style={styles.content} >{paymentMethod}</BaseText>
             </View>
             <View style={styles.labelContentContainer} >
                 <BaseText style={styles.label} >상품 금액</BaseText>
                 <BaseText style={styles.content} >{moneyFormat(price)}원</BaseText>
             </View>
             <View style={styles.labelContentContainer} >
+                <BaseText style={styles.label} >배송비</BaseText>
+                <BaseText style={styles.content} >{moneyFormat(deliveryPrice)}원</BaseText>
+            </View>
+            {extraDeliveryPrice > 0 && <View style={styles.labelContentContainer} >
+                <BaseText style={styles.label} >추가 배송비</BaseText>
+                <BaseText style={styles.content} >{moneyFormat(extraDeliveryPrice)}원</BaseText>
+            </View>}
+            <View style={styles.labelContentContainer} >
                 <BaseText style={styles.label} >상품 할인</BaseText>
-                <BaseText style={styles.content} >-{moneyFormat(salePrice)}원</BaseText>
+                <BaseText style={styles.content} >-{moneyFormat(itemSale)}원</BaseText>
             </View>
             <View style={styles.labelContentContainer} >
                 <BaseText style={styles.label} >쿠폰 할인</BaseText>
-                <BaseText style={styles.content} >-{moneyFormat(couponPrice)}원</BaseText>
+                <BaseText style={styles.content} >-{moneyFormat(couponSale)}원</BaseText>
             </View>
             <View style={styles.labelContentContainer} >
                 <BaseText style={styles.label} >포인트 할인</BaseText>
-                <BaseText style={styles.content} >-{moneyFormat(pointPrice)}원</BaseText>
+                <BaseText style={styles.content} >-{moneyFormat(pointSale)}원</BaseText>
             </View>
             <View style={styles.labelContentContainer} >
                 <BaseText style={styles.label} >총 결제 금액</BaseText>

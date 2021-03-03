@@ -1,37 +1,35 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
 import { OrderState } from '../../constants/types'
+import { PaymentDetailOrder } from '../../graphql/payment'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
 import BorderyButton from '../Buttons/BorderyButton'
 
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const price = 79000
-const number = 1
-let state: OrderState = '배송완료'
 
-const OrderDetailItemCard = () => {
+
+const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, itemOptionPrice, itemPrice, num, state, stringOptionNum }) => {
 
     const { navigate } = useNavigation()
 
     return (
-        <View style={styles.container} >
+        <Pressable
+            onPress={() => navigate('ItemDetail', { id: item.id })}
+            style={styles.container}
+        >
             <Image
                 style={styles.image}
-                source={{ uri: dummyImage }}
+                source={{ uri: item.mainImage }}
             />
             <View>
-                <BaseText numberOfLines={1} >{dummyName}</BaseText>
-                <BaseText numberOfLines={1} style={styles.option} >{option}</BaseText>
+                <BaseText numberOfLines={1} >{item.name}</BaseText>
+                <BaseText numberOfLines={1} style={styles.option} >{stringOptionNum}</BaseText>
                 <View style={styles.priceContainer} >
-                    <BaseText style={styles.price} >{moneyFormat(price)}원</BaseText>
-                    <BaseText style={styles.number} >{number}개</BaseText>
+                    <BaseText style={styles.price} >{moneyFormat(itemPrice)}원</BaseText>
                 </View>
-                <View style={styles.stateContainer} >
+                {(state !== '구매접수' && state !== '취소처리') && <View style={styles.stateContainer} >
                     {state === '상점취소처리' && <BorderyButton onPress={() => navigate('OrderShopCancelDetail')}>취소처리됨</BorderyButton>}
                     {state === '배송완료' && <>
                         <BorderyButton onPress={() => navigate('Exchange')} >교환하기</BorderyButton>
@@ -41,9 +39,9 @@ const OrderDetailItemCard = () => {
                     {state === '환불중' && <BorderyButton onPress={() => navigate('RefundDetail')}>환불상세</BorderyButton>}
                     {state === '교환처리' && <BorderyButton onPress={() => navigate('ExchangeResult')}>교환처리됨</BorderyButton>}
                     {state === '환불처리' && <BorderyButton onPress={() => navigate('RefundResult')}>환불처리됨</BorderyButton>}
-                </View>
+                </View>}
             </View>
-        </View>
+        </Pressable>
     )
 }
 

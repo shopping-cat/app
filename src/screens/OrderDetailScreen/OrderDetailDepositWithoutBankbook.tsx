@@ -5,7 +5,9 @@ import BaseText from '../../components/BaseText'
 import BorderyButton from '../../components/Buttons/BorderyButton'
 import { COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
+import { PaymentDetail } from '../../graphql/payment';
 
+// TODO
 const message = '2020-01-11 23시 34분 까지 입금해 주세요\n시간안에 입금이 안될시에는 주문이 취소됩니다.'
 const price = 159000
 const name = '홍길동'
@@ -13,7 +15,7 @@ const bank = '우체국 1234567-123-42412'
 const isProcessed = false
 
 
-const OrderDetailDepositWithoutBankbook = () => {
+const OrderDetailDepositWithoutBankbook: React.FC<PaymentDetail> = ({ }) => {
 
     const onCopy = useCallback(() => {
         Clipboard.setString(bank)

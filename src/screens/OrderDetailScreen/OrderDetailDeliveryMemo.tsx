@@ -2,15 +2,15 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import BaseText from '../../components/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { PaymentDetail } from '../../graphql/payment'
 
-const dummyMemo = '문 앞에 놓아주세요'
 
-const OrderDetailDeliveryMemo = () => {
+const OrderDetailDeliveryMemo: React.FC<PaymentDetail> = ({ deliveryMemo }) => {
     return (
         <View style={styles.container} >
             <BaseText style={styles.title} >배송메모</BaseText>
             <View style={styles.labelContentContainer} >
-                <BaseText style={styles.content} >{dummyMemo || '없음'}</BaseText>
+                <BaseText style={styles.content} >{deliveryMemo || '없음'}</BaseText>
             </View>
         </View>
     )
