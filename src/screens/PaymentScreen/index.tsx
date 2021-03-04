@@ -6,7 +6,7 @@ import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
-import { BANKS, CASH_RECEIPT_TYPE, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS } from '../../constants/values'
+import { V_REFUND_BANKS, CASH_RECEIPT_TYPE, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS } from '../../constants/values'
 import { useOrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
 import useInput from '../../hooks/useInput'
@@ -35,9 +35,9 @@ const PaymentScreen = () => {
 
     const [method, setMethod] = useState(PAY_METHODS[0])
     const [methodSheetVisible, setMethodSheetVisible] = useState(false)
-    // 무통장 입금
+    // 가상계좌
     const [bankSheetVisible, setBankSheetVisible] = useState(false)
-    const [bank, setBank] = useState<string | null>(null) //무통장입금
+    const [bank, setBank] = useState<string | null>(null) // 가상계좌
     const [cashReceiptName, onChangeCashReceiptName] = useInput('')
     const [cashReceiptType, setCashReceiptType] = useState(CASH_RECEIPT_TYPES[0])
     const [cashReceiptNumber, onChangeCashReceiptNumber] = useInput('', true)
@@ -54,7 +54,7 @@ const PaymentScreen = () => {
         nextFetchPolicy: 'cache-and-network'
     })
 
-    const active = data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '무통장입금' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true)
+    const active = data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '가상계좌' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true)
 
     useEffect(() => {
         init()
@@ -99,7 +99,7 @@ const PaymentScreen = () => {
     }, [])
 
     const onChangeBank = useCallback((i: number) => {
-        setBank(BANKS[i])
+        setBank(V_REFUND_BANKS[i])
     }, [])
 
     return (
@@ -122,7 +122,7 @@ const PaymentScreen = () => {
                     <PaymentRefundAccount data={data.orderCalculate} />
                     <PaymentPrice data={data.orderCalculate} />
                     <PaymentMethod onMethod={onMethod} method={method} />
-                    {method === '무통장입금' && <PaymnetDepositWithoutBankbook
+                    {method === '가상계좌' && <PaymnetDepositWithoutBankbook
                         bank={bank}
                         onBank={onBank}
                         cashReceiptName={cashReceiptName}
@@ -147,7 +147,7 @@ const PaymentScreen = () => {
                 onSelect={onChangeMethod}
             />
             <SelectBottomSheet
-                list={BANKS}
+                list={V_REFUND_BANKS}
                 visible={bankSheetVisible}
                 onClose={() => setBankSheetVisible(false)}
                 onSelect={onChangeBank}

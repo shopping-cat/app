@@ -18,7 +18,7 @@ const PaymentResultDepositWithoutBankbook: React.FC<CompletePayment> = ({ vBankD
 
     return (
         <View style={styles.container} >
-            <BaseText style={styles.title} >무통장 입금</BaseText>
+            <BaseText style={styles.title} >가상계좌</BaseText>
             <View style={styles.messageContainer} >
                 <BaseText style={styles.message} >{message}</BaseText>
             </View>

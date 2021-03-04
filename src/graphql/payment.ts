@@ -235,3 +235,28 @@ export const useCompletePayment = (options?: MutationHookOptions<CompletePayment
         if (completePayment.state !== '결제취소') deleteCartItemsFromCache(completePayment.orders.map(v => v.cartItemId))
     }
 })
+
+
+// MUTATION/CANCEL_PAYMENT
+export const CANCEL_PAYMENT = gql`
+mutation ($id:String!){
+    cancelPayment(id:$id) {
+        id
+        state
+    }
+  }
+`
+
+
+interface CancelPaymentData {
+    cancelPayment: {
+        id: string
+        state: PaymentState
+    }
+}
+interface CancelPaymentVars {
+    id: string
+}
+export const useCancelPayment = (options?: MutationHookOptions<CancelPaymentData, CancelPaymentVars>) => createMutationHook<CancelPaymentData, CancelPaymentVars>(CANCEL_PAYMENT, {
+    ...options
+})

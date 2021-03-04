@@ -51,6 +51,7 @@ const MyPageScreen = () => {
             <DefaultHeader disableGoBack title='마이페이지' />
             <ScrollView
                 overScrollMode='never'
+                showsVerticalScrollIndicator={false}
             >
                 <View style={styles.userContainer} >
                     <Pressable

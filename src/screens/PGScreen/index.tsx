@@ -59,16 +59,16 @@ const PGScreen = () => {
                 data={{
                     pg: 'danal_tpay',
                     app_scheme: 'shoppingcat',
-                    pay_method: data.createPayment.paymentMethod === '카드결제' ? 'card' : data.createPayment.paymentMethod === '무통장입금' ? 'vbank' : 'phone',
+                    pay_method: data.createPayment.paymentMethod === '카드결제' ? 'card' : data.createPayment.paymentMethod === '가상계좌' ? 'vbank' : 'phone',
                     merchant_uid: data.createPayment.id,
                     name: data.createPayment.name,
                     amount: data.createPayment.totalPrice,
-                    buyer_tel: '01024920492',
+                    buyer_tel: '01024920492', // TODO
                     buyer_name: data.createPayment.user.name,
                     buyer_email: data.createPayment.user.userDetail.email || undefined,
                     buyer_postcode: data.createPayment.postCode,
                     buyer_addr: data.createPayment.address,
-                    biz_num: data.createPayment.paymentMethod === '무통장입금' ? params.bank || undefined : undefined,
+                    biz_num: data.createPayment.paymentMethod === '가상계좌' ? params.bank || undefined : undefined,
                     digital: data.createPayment.paymentMethod === '휴대폰결제' ? true : undefined
                 }}
             />}

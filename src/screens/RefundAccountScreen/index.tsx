@@ -9,12 +9,10 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import { IS_IOS } from '../../constants/values'
+import { IS_IOS, V_REFUND_BANKS } from '../../constants/values'
 import { useIUser, useUpdateRefundBankAccount } from '../../graphql/user'
 import useInput from '../../hooks/useInput'
 
-// TODO
-const dummyBankList = ['농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행', '농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행', '농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행', '농협', '카카오뱅크', '신한은행', '신협', '경기은행', '새마을은행']
 
 const RefundAccountScreen = () => {
 
@@ -116,8 +114,8 @@ const RefundAccountScreen = () => {
             <SelectBottomSheet
                 visible={bankSelectorVisible}
                 onClose={() => setBankSelectorVisible(false)}
-                list={dummyBankList}
-                onSelect={(i) => setBankName(dummyBankList[i])}
+                list={V_REFUND_BANKS}
+                onSelect={(i) => setBankName(V_REFUND_BANKS[i])}
             />
         </ScreenLayout>
     )
