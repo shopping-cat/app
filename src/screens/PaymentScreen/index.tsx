@@ -6,13 +6,14 @@ import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
-import { V_REFUND_BANKS, CASH_RECEIPT_TYPE, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS } from '../../constants/values'
+import { V_REFUND_BANKS, CASH_RECEIPT_TYPE, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS, DELIVERY_MEMOS } from '../../constants/values'
 import { useOrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
 import useInput from '../../hooks/useInput'
 import moneyFormat from '../../lib/moneyFormat'
 import { PGScreenProps } from '../PGScreen'
 import PaymentAddressInfo from './PaymentAddressInfo'
+import PaymentDeliveryMemo from './PaymentDeliveryMemo'
 import PaymentItemInfo from './PaymentItemInfo'
 import PaymentMethod from './PaymentMethod'
 import PaymentPrice from './PaymentPrice'
@@ -41,6 +42,9 @@ const PaymentScreen = () => {
     const [cashReceiptName, onChangeCashReceiptName] = useInput('')
     const [cashReceiptType, setCashReceiptType] = useState(CASH_RECEIPT_TYPES[0])
     const [cashReceiptNumber, onChangeCashReceiptNumber] = useInput('', true)
+    // 배송매모
+    const [deliveryMemo, setDeliveryMemo] = useState(DELIVERY_MEMOS[0])
+    const [deliveryMemoVisible, setDeliveryMemoVisible] = useState(false)
 
     const { coupons, point, init, setPoint } = useCouponPoint()
 
@@ -76,10 +80,11 @@ const PaymentScreen = () => {
             cashReceiptName,
             cashReceiptType,
             cashReceiptNumber,
-            amount: data.orderCalculate.totalPaymentPrice
+            amount: data.orderCalculate.totalPaymentPrice,
+            deliveryMemo
         }
         navigate('PG', pgParams)
-    }, [loading, method, bank, coupons, point, params, active, cashReceiptName, cashReceiptType, cashReceiptNumber, data])
+    }, [loading, method, bank, coupons, point, params, active, cashReceiptName, cashReceiptType, cashReceiptNumber, data, deliveryMemo])
 
     const onMethod = useCallback(() => {
         setMethodSheetVisible(true)
@@ -102,6 +107,10 @@ const PaymentScreen = () => {
         setBank(V_REFUND_BANKS[i])
     }, [])
 
+    const onChangeDeliveryMemo = useCallback((i: number) => {
+        setDeliveryMemo(i === 1 ? '' : DELIVERY_MEMOS[i])
+    }, [])
+
     return (
         <ScreenLayout disableStatusbarHeight >
             <KeyboardAvoidingView
@@ -120,6 +129,11 @@ const PaymentScreen = () => {
                     <PaymentItemInfo data={data.orderCalculate} />
                     <PaymentAddressInfo data={data.orderCalculate} />
                     <PaymentRefundAccount data={data.orderCalculate} />
+                    <PaymentDeliveryMemo
+                        memo={deliveryMemo}
+                        setMemo={t => setDeliveryMemo(t)}
+                        onPress={() => setDeliveryMemoVisible(true)}
+                    />
                     <PaymentPrice data={data.orderCalculate} />
                     <PaymentMethod onMethod={onMethod} method={method} />
                     {method === '가상계좌' && <PaymnetDepositWithoutBankbook
@@ -151,6 +165,12 @@ const PaymentScreen = () => {
                 visible={bankSheetVisible}
                 onClose={() => setBankSheetVisible(false)}
                 onSelect={onChangeBank}
+            />
+            <SelectBottomSheet
+                list={DELIVERY_MEMOS}
+                visible={deliveryMemoVisible}
+                onClose={() => setDeliveryMemoVisible(false)}
+                onSelect={onChangeDeliveryMemo}
             />
         </ScreenLayout>
     )

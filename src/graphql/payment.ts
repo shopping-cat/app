@@ -28,9 +28,7 @@ query ($id:String!){
         orders {
             id
             state
-            itemPrice
-            itemOptionPrice
-            num
+            totalPrice
             stringOptionNum
             item {
                 id
@@ -45,9 +43,7 @@ query ($id:String!){
 export interface PaymentDetailOrder {
     id: number
     state: OrderState
-    itemPrice: number
-    itemOptionPrice: number
-    num: number
+    totalPrice: number
     stringOptionNum: string
     item: {
         id: number
@@ -119,8 +115,8 @@ export const usePayments = (options?: QueryHookOptions<PaymentsData, PaymentsVar
 
 // MUTATION/CREATE_PAYMENT
 export const CREATE_PAYMENT = gql`
-mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amount:Int!, $method: String!){
-    createPayment(cartItemIds:$cartItemIds, coupons:$coupons, point:$point, amount:$amount, method:$method) {
+mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amount:Int!, $method: String!, $deliveryMemo: String!){
+    createPayment(cartItemIds:$cartItemIds, coupons:$coupons, point:$point, amount:$amount, method:$method, deliveryMemo:$deliveryMemo) {
         id
         totalPrice
         name
@@ -159,6 +155,7 @@ interface CreatePaymentVars {
     point: number
     amount: number
     method: string
+    deliveryMemo: string
 }
 export const useCreatePayment = (options?: MutationHookOptions<CreatePaymentData, CreatePaymentVars>) => createMutationHook<CreatePaymentData, CreatePaymentVars>(CREATE_PAYMENT, {
     ...options,
@@ -243,6 +240,11 @@ mutation ($id:String!){
     cancelPayment(id:$id) {
         id
         state
+        cancelReason
+        orders {
+            id
+            state
+        }
     }
   }
 `
@@ -252,6 +254,11 @@ interface CancelPaymentData {
     cancelPayment: {
         id: string
         state: PaymentState
+        cancelReason: string | null
+        orders: {
+            id: number
+            state: OrderState
+        }[]
     }
 }
 interface CancelPaymentVars {

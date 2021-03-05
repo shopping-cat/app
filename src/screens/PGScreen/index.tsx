@@ -19,6 +19,7 @@ export interface PGScreenProps {
     cashReceiptType: string
     cashReceiptNumber: string
     amount: number
+    deliveryMemo: string
 }
 
 const PGScreen = () => {
@@ -33,7 +34,8 @@ const PGScreen = () => {
             cartItemIds: params.cartItemIds,
             coupons: params.coupons,
             point: params.point,
-            method: params.method
+            method: params.method,
+            deliveryMemo: params.deliveryMemo
         },
         onError: () => { goBack() }
     })

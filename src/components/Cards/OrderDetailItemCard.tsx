@@ -2,7 +2,6 @@ import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
-import { OrderState } from '../../constants/types'
 import { PaymentDetailOrder } from '../../graphql/payment'
 import moneyFormat from '../../lib/moneyFormat'
 import BaseText from '../BaseText'
@@ -10,7 +9,7 @@ import BorderyButton from '../Buttons/BorderyButton'
 
 
 
-const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, itemOptionPrice, itemPrice, num, state, stringOptionNum }) => {
+const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, state, stringOptionNum }) => {
 
     const { navigate } = useNavigation()
 
@@ -27,7 +26,7 @@ const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, itemOptionPri
                 <BaseText numberOfLines={1} >{item.name}</BaseText>
                 <BaseText numberOfLines={1} style={styles.option} >{stringOptionNum}</BaseText>
                 <View style={styles.priceContainer} >
-                    <BaseText style={styles.price} >{moneyFormat(itemPrice)}원</BaseText>
+                    <BaseText style={styles.price} >{moneyFormat(totalPrice)}원</BaseText>
                 </View>
                 {(state !== '구매접수' && state !== '취소처리') && <View style={styles.stateContainer} >
                     {state === '상점취소처리' && <BorderyButton onPress={() => navigate('OrderShopCancelDetail')}>취소처리됨</BorderyButton>}

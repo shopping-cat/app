@@ -6,7 +6,7 @@ import { IS_IOS } from '../constants/values'
 const ActivityIndicatorView = () => {
     return (
         <View style={styles.container} >
-            <ActivityIndicator size='small' color={IS_IOS ? GRAY : VERY_LIGHT_GRAY} />
+            <ActivityIndicator size='small' color={IS_IOS ? GRAY : GRAY} />
         </View>
     )
 }
