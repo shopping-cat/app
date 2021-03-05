@@ -52,6 +52,7 @@ import ExchangeScreen from './ExchangeScreen';
 import ExchangeDetailScreen from './ExchangeDetailScreen';
 import ExchangeResultScreen from './ExchangeResultScreen';
 import PGScreen from './PGScreen'
+import Toast from '../components/Toast';
 
 
 const Stack = createStackNavigator()
@@ -216,6 +217,7 @@ const NavigationWrapper = () => {
             <Navigation />
             <CategoryScreenSortSheet />
             <GlobalSelectBottomSheet />
+            <Toast />
         </>
     )
 }
