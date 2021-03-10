@@ -7,20 +7,20 @@ import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import UnderLineInput from '../../components/UnderLineInput'
+import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
 import { useIUser, useUpdateUserProfile } from '../../graphql/user';
 import useInput from '../../hooks/useInput'
 import generateImageToRNFile from '../../lib/generateRNFile';
 
 
-const UserInfoProfileModifyScreen = () => {
+const ProfileRegistScreen = () => {
 
-    const { goBack } = useNavigation()
+    const { reset } = useNavigation()
 
-    const { data } = useIUser()
     const [updateUserProfile, { loading }] = useUpdateUserProfile()
 
     const [image, setImage] = useState<ImageFile | null>(null)
-    const [name, onChangeName] = useInput(data?.iUser.name || '')
+    const [name, onChangeName] = useInput('')
 
     const active = name.length > 0
 
@@ -47,14 +47,16 @@ const UserInfoProfileModifyScreen = () => {
         if (loading) return
         try {
             const file = image ? generateImageToRNFile(image.path, 'userProfile') : null
-            console.log(file)
             await updateUserProfile({
                 variables: {
                     name,
-                    photo: file
+                    photo: file || null
                 }
             })
-            goBack()
+            reset({
+                index: 0,
+                routes: [{ name: 'Tab' }]
+            })
         } catch (error) {
             console.error(error)
         }
@@ -62,18 +64,18 @@ const UserInfoProfileModifyScreen = () => {
 
     return (
         <ScreenLayout>
-            <DefaultHeader title='프로필' disableBtns />
+            <DefaultHeader title='회원정보입력' disableGoBack disableBtns />
             <View style={styles.container} >
                 <Pressable
                     onPress={onImage}
                 >
-                    <Image
+                    {image && <Image
                         style={styles.image}
-                        source={{ uri: image?.path || data?.iUser.photo }}
-                    />
-                    <View style={styles.changeContainer} >
-                        <BaseText style={styles.change} >변경</BaseText>
-                    </View>
+                        source={{ uri: image?.path }}
+                    />}
+                    {!image && <View style={styles.changeContainer} >
+                        <BaseText style={styles.change} >사진을 등록해주세요</BaseText>
+                    </View>}
                 </Pressable>
                 <UnderLineInput
                     value={name}
@@ -85,7 +87,7 @@ const UserInfoProfileModifyScreen = () => {
             </View>
             <ButtonFooter
                 active={active}
-                text='저장'
+                text='다음'
                 onPress={onSave}
                 loading={loading}
             />
@@ -93,7 +95,7 @@ const UserInfoProfileModifyScreen = () => {
     )
 }
 
-export default UserInfoProfileModifyScreen
+export default ProfileRegistScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -108,7 +110,6 @@ const styles = StyleSheet.create({
         marginVertical: 24,
     },
     changeContainer: {
-        position: 'absolute',
         width: 144,
         height: 144,
         borderRadius: 72,
@@ -116,9 +117,9 @@ const styles = StyleSheet.create({
         marginVertical: 24,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: VERY_LIGHT_GRAY,
     },
     change: {
-        color: '#fff'
+        color: GRAY
     }
 })

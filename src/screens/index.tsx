@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import TabNavigationTabBar from '../components/TabNavigationTabBar';
-
+import { useApolloClient } from '@apollo/client';
+import { I_USER, IUserData } from '../graphql/user';
 
 import HomeScreen from './HomeScreen'
 import CategoryScreen from './CategoryScreen';
@@ -53,6 +54,8 @@ import ExchangeDetailScreen from './ExchangeDetailScreen';
 import ExchangeResultScreen from './ExchangeResultScreen';
 import PGScreen from './PGScreen'
 import Toast from '../components/Toast';
+import ProfileRegistScreen from './ProfileRegistScreen';
+
 
 
 const Stack = createStackNavigator()
@@ -124,28 +127,52 @@ const theme: Theme = {
 const Navigation = () => {
 
     const navigationRef = useRef<NavigationContainerRef>(null)
+    const client = useApolloClient()
 
     // 로그인 상태 변경
-    const onAuthStateChanged = (user: any) => {
-        if (user) {
-            console.log('logged in')
-            // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
-            setTimeout(() => {
-                // 중복 네비게이트 방지
-                const route = navigationRef?.current?.getCurrentRoute()
-                if (route?.name === 'Home') return
-                // navigationRef.current?.reset({})
-                navigationRef?.current?.dispatch(StackActions.replace('Tab'))
-            }, 200)
-        } else {
-            console.log('logged out')
-            // timeout 없으면 앱 처음 실행시에 NavigastionContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
-            setTimeout(() => {
-                // 중복 네비게이트 방지
-                const route = navigationRef?.current?.getCurrentRoute()
-                if (route?.name === 'Login') return
-                navigationRef?.current?.dispatch(StackActions.replace('Login'))
-            }, 200)
+    const onAuthStateChanged = async (user: any) => {
+        try {
+            if (user) {
+                console.log('logged in')
+                // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
+                const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
+                if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
+                    setTimeout(() => {
+                        // 중복 네비게이트 방지
+                        const route = navigationRef?.current?.getCurrentRoute()
+                        if (route?.name === 'ProfileRegist') return
+                        navigationRef.current?.reset({
+                            index: 0,
+                            routes: [{ name: 'ProfileRegist' }]
+                        })
+                    }, 200)
+                }
+                else {
+                    setTimeout(() => {
+                        // 중복 네비게이트 방지
+                        const route = navigationRef?.current?.getCurrentRoute()
+                        if (route?.name === 'Home') return
+                        navigationRef.current?.reset({
+                            index: 0,
+                            routes: [{ name: 'Tab' }]
+                        })
+                    }, 200)
+                }
+            } else {
+                console.log('logged out')
+                // timeout 없으면 앱 처음 실행시에 NavigastionContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
+                setTimeout(() => {
+                    // 중복 네비게이트 방지
+                    const route = navigationRef?.current?.getCurrentRoute()
+                    if (route?.name === 'Login') return
+                    navigationRef.current?.reset({
+                        index: 0,
+                        routes: [{ name: 'Login' }]
+                    })
+                }, 200)
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
 
@@ -206,6 +233,7 @@ const Navigation = () => {
                 <Stack.Screen name='ExchangeDetail' component={ExchangeDetailScreen} />
                 <Stack.Screen name='ExchangeResult' component={ExchangeResultScreen} />
                 <Stack.Screen name='PG' component={PGScreen} />
+                <Stack.Screen name='ProfileRegist' component={ProfileRegistScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

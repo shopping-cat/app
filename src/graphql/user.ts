@@ -46,7 +46,7 @@ export const I_USER = gql`
     }
   }
 `
-interface IUserData {
+export interface IUserData {
   iUser: {
     id: number
     name?: string

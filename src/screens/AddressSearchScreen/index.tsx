@@ -26,7 +26,6 @@ const AddressSearchScreen = () => {
     }, [params])
 
     const onError = useCallback(() => {
-        // Toast
         goBack()
     }, [])
 
