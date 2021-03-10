@@ -24,7 +24,7 @@ export interface PGScreenProps {
 
 const PGScreen = () => {
 
-    const { dispatch, goBack } = useNavigation()
+    const { goBack, reset } = useNavigation()
     const { params } = useRoute<Route<'PG', PGScreenProps>>()
 
     const [createPayment, { data, loading }] = useCreatePayment({
@@ -46,7 +46,13 @@ const PGScreen = () => {
 
 
     const onCallback = useCallback(async (rsp: CallbackRsp) => {
-        dispatch(StackActions.replace('PaymentResult', rsp))
+        reset({
+            index: 1,
+            routes: [
+                { name: 'Tab' },
+                { name: 'PaymentResult', params: rsp }
+            ]
+        })
     }, [params])
 
 
