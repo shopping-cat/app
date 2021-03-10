@@ -3,6 +3,8 @@ import React, { useCallback } from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import DeviceInfo from 'react-native-device-info';
+import remoteConfig from '@react-native-firebase/remote-config';
 import BaseText from '../../components/BaseText'
 import LabelUnderLineButton from '../../components/Buttons/LabelUnderLineButton'
 import TouchableScale from '../../components/Buttons/TouchableScale'
@@ -14,13 +16,14 @@ import ThinLine from '../../components/ThinLine'
 import { COLOR2, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 
-const dummyVersion = '1.2.5'
-const dummyNewVersion = '1.2.5'
+
 
 const MyPageScreen = () => {
 
     const { navigate } = useNavigation()
     const { data } = useIUser()
+    const currentVersion = DeviceInfo.getVersion()
+    const newVersion = remoteConfig().getString('app_version')
 
     const onUserInfo = useCallback(() => {
         navigate('UserInfo')
@@ -45,6 +48,7 @@ const MyPageScreen = () => {
     const onVersion = useCallback(() => {
         // 업데이트
     }, [])
+
 
     return (
         <ScreenLayout>
@@ -126,7 +130,7 @@ const MyPageScreen = () => {
                         onPress={() => navigate('OpenSourceLicense')}
                     />
                     <LabelUnderLineButton
-                        label={`현재 버전 ${dummyVersion} (${dummyVersion === dummyNewVersion ? '최신' : '업데이트 필요'})`}
+                        label={`현재 버전 ${currentVersion} (${currentVersion === newVersion ? '최신' : '업데이트 필요'})`}
                         onPress={onVersion}
                         disableArrowRight
                     />

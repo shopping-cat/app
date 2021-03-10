@@ -5,11 +5,29 @@ import { ApolloProvider } from '@apollo/client';
 import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtools'
 import codePush from "react-native-code-push";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import remoteConfig from '@react-native-firebase/remote-config';
 import { client } from './src/lib/apollo';
 import Navigation from './src/screens';
 
 //@ts-ignore
 __DEV__ && enableFlipperApolloDevtools(client)
+
+
+// remote config init
+remoteConfig()
+  .setDefaults({
+    app_version: 'loading',
+  })
+  .then(() => remoteConfig().fetchAndActivate())
+  .then(fetchedRemotely => {
+    if (fetchedRemotely) {
+      console.log('Configs were retrieved from the backend and activated.')
+    } else {
+      console.log(
+        'No configs were fetched from the backend, and the local configs were already activated',
+      )
+    }
+  })
 
 
 const App = () => {
