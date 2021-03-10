@@ -5,12 +5,19 @@ import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { useWithdrawalUser } from '../../graphql/user'
+import useAuth from '../../hooks/useAuth'
 
 const DeleteAccountScreen = () => {
 
-    const onDeleteAccount = useCallback(() => {
+    const [deleteAccount, { loading }] = useWithdrawalUser()
+    const { logout } = useAuth()
 
-    }, [])
+    const onDeleteAccount = useCallback(async () => {
+        if (loading) return
+        await deleteAccount()
+        await logout()
+    }, [loading])
 
     return (
         <ScreenLayout>
@@ -25,6 +32,7 @@ const DeleteAccountScreen = () => {
                 active
                 onPress={onDeleteAccount}
                 text='계정 삭제'
+                loading={loading}
             />
         </ScreenLayout>
     )

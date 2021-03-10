@@ -234,3 +234,24 @@ interface RemoveAllSearchKeywordsVars {
 export const useRemoveAllSearchKeywords = (options?: MutationHookOptions) => createMutationHook<RemoveAllSearchKeywordsData, RemoveAllSearchKeywordsVars>(REMOVE_ALL_SEARCH_KEYWORDS, {
   ...options
 })
+
+// QUERY/WITHDRAWAL_USER
+export const WITHDRAWAL_USER = gql`
+  mutation {
+    withdrawalUser {
+      id
+    }
+  }
+`
+
+interface WithdrawalUserData {
+  withdrawalUser: {
+    id: string,
+  }
+}
+interface WithdrawalUserVars {
+
+}
+export const useWithdrawalUser = (options?: MutationHookOptions) => createMutationHook<WithdrawalUserData, WithdrawalUserVars>(WITHDRAWAL_USER, {
+  ...options
+})
