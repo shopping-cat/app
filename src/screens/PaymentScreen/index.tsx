@@ -6,13 +6,14 @@ import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/StatusBarHeightView'
-import { V_REFUND_BANKS, CASH_RECEIPT_TYPE, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS, DELIVERY_MEMOS } from '../../constants/values'
+import { V_REFUND_BANKS, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS, DELIVERY_MEMOS } from '../../constants/values'
 import { useOrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
 import useInput from '../../hooks/useInput'
 import moneyFormat from '../../lib/moneyFormat'
 import { PGScreenProps } from '../PGScreen'
 import PaymentAddressInfo from './PaymentAddressInfo'
+import PaymentCertification from './PaymentCerification'
 import PaymentDeliveryMemo from './PaymentDeliveryMemo'
 import PaymentItemInfo from './PaymentItemInfo'
 import PaymentMethod from './PaymentMethod'
@@ -127,6 +128,7 @@ const PaymentScreen = () => {
                     showsVerticalScrollIndicator={false}
                 >
                     <PaymentItemInfo data={data.orderCalculate} />
+                    <PaymentCertification data={data.orderCalculate} />
                     <PaymentAddressInfo data={data.orderCalculate} />
                     <PaymentRefundAccount data={data.orderCalculate} />
                     <PaymentDeliveryMemo

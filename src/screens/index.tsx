@@ -55,6 +55,7 @@ import ExchangeResultScreen from './ExchangeResultScreen';
 import PGScreen from './PGScreen'
 import Toast from '../components/Toast';
 import ProfileRegistScreen from './ProfileRegistScreen';
+import UserCertificationScreen from './UserCertificationScreen';
 
 
 
@@ -234,6 +235,7 @@ const Navigation = () => {
                 <Stack.Screen name='ExchangeResult' component={ExchangeResultScreen} />
                 <Stack.Screen name='PG' component={PGScreen} />
                 <Stack.Screen name='ProfileRegist' component={ProfileRegistScreen} />
+                <Stack.Screen name='UserCertification' component={UserCertificationScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

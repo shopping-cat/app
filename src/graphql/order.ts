@@ -13,7 +13,6 @@ query ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!){
             deliveryInfo {
                 id
                 name
-                phone
                 address
                 addressDetail
             }
@@ -22,6 +21,11 @@ query ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!){
                 bankName
                 ownerName
                 accountNumber
+            }
+            certificatedInfo {
+                id
+                name
+                phone
             }
         }
         orderItems {
@@ -114,7 +118,6 @@ export interface OrderCalculate {
         deliveryInfo: {
             id: number
             name: string
-            phone: string
             address: string
             addressDetail: string
         } | null
@@ -123,6 +126,11 @@ export interface OrderCalculate {
             bankName: string
             ownerName: string
             accountNumber: string
+        } | null
+        certificatedInfo: {
+            id: number
+            name: string
+            phone: string
         } | null
     }
     orderItems: OrderItem[]

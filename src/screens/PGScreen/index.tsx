@@ -71,8 +71,8 @@ const PGScreen = () => {
                     merchant_uid: data.createPayment.id,
                     name: data.createPayment.name,
                     amount: data.createPayment.totalPrice,
-                    buyer_tel: '01024920492', // TODO
-                    buyer_name: data.createPayment.user.name,
+                    buyer_tel: data.createPayment.user.certificatedInfo.phone, // TODO
+                    buyer_name: data.createPayment.user.certificatedInfo.name,
                     buyer_email: data.createPayment.user.userDetail.email || undefined,
                     buyer_postcode: data.createPayment.postCode,
                     buyer_addr: data.createPayment.address,

@@ -128,6 +128,11 @@ mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amoun
             userDetail {
                 email
             }
+            certificatedInfo {
+                id
+                name
+                phone
+            }
         } 
     }
   }
@@ -145,6 +150,11 @@ interface CreatePaymentData {
             name: string
             userDetail: {
                 email: string | null
+            }
+            certificatedInfo: {
+                id: number
+                name: string
+                phone: string
             }
         }
     }

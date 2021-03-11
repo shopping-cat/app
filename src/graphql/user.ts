@@ -29,6 +29,11 @@ export const I_USER = gql`
       userDetail {
         email
       }
+      certificatedInfo {
+        id
+        name
+        phone
+      }
       refundBankAccount {
         id
         ownerName
@@ -52,6 +57,11 @@ export interface IUserData {
     name?: string
     photo?: string
     notificationNum: number
+    certificatedInfo?: {
+      id: number
+      name: string
+      phone: string
+    }
     userDetail: {
       email: string
     }

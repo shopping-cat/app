@@ -18,6 +18,7 @@ const UserInfoScreen = () => {
     const { logout } = useAuth()
     const { data } = useIUser()
 
+    const certificatedInfo = `${data?.iUser.certificatedInfo?.name} | ${data?.iUser.certificatedInfo?.phone}`
     const deliveryInfo = `${data?.iUser.deliveryInfo?.name} ${data?.iUser.deliveryInfo?.phone}\n${data?.iUser.deliveryInfo?.address}\n${data?.iUser.deliveryInfo?.addressDetail}`
     const refundAccountInfo = `${data?.iUser.refundBankAccount?.ownerName} | ${data?.iUser.refundBankAccount?.bankName} ${data?.iUser.refundBankAccount?.accountNumber}`
 
@@ -43,6 +44,18 @@ const UserInfoScreen = () => {
                         <BaseText style={styles.content} >{data?.iUser.userDetail.email}</BaseText>
                     </View>
                 </View>
+                <Pressable
+                    onPress={() => navigate('UserCertification')}
+                    style={styles.contentContainer}
+                >
+                    <View style={styles.contentLeftContainer} >
+                        <BaseText style={styles.title} >본인인증</BaseText>
+                        <BaseText style={styles.content} >{data?.iUser.certificatedInfo ? certificatedInfo : '인증해주세요'}</BaseText>
+                    </View>
+                    <View style={styles.contentBtn} >
+                        <RightArrowIcon fill={GRAY} />
+                    </View>
+                </Pressable>
                 <Pressable
                     onPress={() => navigate('Address')}
                     style={styles.contentContainer}
