@@ -13,7 +13,7 @@ import PaymentResultSuccess from './PaymentResultSuccess'
 import PaymentResultDeliveryMemo from './PaymentResultDeliveryMemo'
 import { CallbackRsp } from 'iamport-react-native'
 import { useCompletePayment } from '../../graphql/payment'
-import ActivityIndicatorView from '../../components/ActivityIndicatorView'
+import LoadingView from '../../components/LoadingView'
 // TODO 제시도
 
 const PaymentResultScreen = () => {
@@ -40,7 +40,7 @@ const PaymentResultScreen = () => {
     return (
         <ScreenLayout>
             <DefaultHeader title='주문/결제' disableBtns />
-            {!data && <ActivityIndicatorView />}
+            {!data && <LoadingView />}
             {data && <>
                 <ScrollView>
                     {data.completePayment.state === '결제취소' && <PaymentResultError message={data.completePayment.cancelReason} />}

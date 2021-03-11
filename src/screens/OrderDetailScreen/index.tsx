@@ -13,7 +13,7 @@ import OrderDetailItemInfo from './OrderDetailItemInfo'
 import OrderDetailDeliveryMemo from './OrderDetailDeliveryMemo'
 import OrderDetailPaymentInfo from './OrderDetailPaymentInfo'
 import { useCancelPayment, usePayment } from '../../graphql/payment'
-import ActivityIndicatorView from '../../components/ActivityIndicatorView'
+import LoadingView from '../../components/LoadingView'
 
 export interface OrderDetailScreenProps {
     id: string
@@ -48,7 +48,7 @@ const OrderDetailScreen = () => {
     return (
         <ScreenLayout >
             <DefaultHeader title='주문상세' disableBtns />
-            {loading && <ActivityIndicatorView />}
+            {loading && <LoadingView />}
             {data && <>
                 <ScrollView
                     overScrollMode='never'

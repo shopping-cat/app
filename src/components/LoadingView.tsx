@@ -1,17 +1,18 @@
 import React from 'react'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
-import { GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { GRAY } from '../constants/styles'
 import { IS_IOS } from '../constants/values'
+import TossLoading from './Loading'
 
-const ActivityIndicatorView = () => {
+const LoadingView = () => {
     return (
         <View style={styles.container} >
-            <ActivityIndicator size='small' color={IS_IOS ? GRAY : GRAY} />
+            <TossLoading />
         </View>
     )
 }
 
-export default ActivityIndicatorView
+export default LoadingView
 
 const styles = StyleSheet.create({
     container: {
@@ -20,3 +21,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
+

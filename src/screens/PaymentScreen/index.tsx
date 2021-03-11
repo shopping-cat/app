@@ -1,6 +1,7 @@
 import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet } from 'react-native'
+import LoadingView from '../../components/LoadingView'
 import SelectBottomSheet from '../../components/BottomSheets/SelectBottomSheet'
 import ButtonFooter from '../../components/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
@@ -19,7 +20,6 @@ import PaymentItemInfo from './PaymentItemInfo'
 import PaymentMethod from './PaymentMethod'
 import PaymentPrice from './PaymentPrice'
 import PaymentRefundAccount from './PaymentRefundAccount'
-import PaymentSkeleton from './PaymentSkeleton'
 import PaymnetDepositWithoutBankbook from './PaymnetDepositWithoutBankbook'
 
 
@@ -121,7 +121,7 @@ const PaymentScreen = () => {
             >
                 <StatusBarHeightView />
                 <DefaultHeader title='주문/결제' disableBtns />
-                {!data && <PaymentSkeleton />}
+                {!data && <LoadingView />}
                 {data && <ScrollView
                     ref={scrollViewRef}
                     overScrollMode='never'

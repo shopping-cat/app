@@ -7,7 +7,7 @@ import { IAMPORT_CODE } from '../../../env';
 import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import { OrderCalculateCouponVar } from '../../graphql/order';
 import { useCreatePayment } from '../../graphql/payment';
-import ActivityIndicatorView from '../../components/ActivityIndicatorView';
+import LoadingView from '../../components/LoadingView';
 
 export interface PGScreenProps {
     cartItemIds: number[]
@@ -59,10 +59,10 @@ const PGScreen = () => {
     return (
         <ScreenLayout>
             <DefaultHeader disableBtns disableGoBack title='결제' />
-            {(loading || !data) && <ActivityIndicatorView />}
+            {(loading || !data) && <LoadingView />}
             {(!loading && data) && <IMP.Payment
                 userCode={IAMPORT_CODE}
-                loading={<ActivityIndicatorView />}
+                loading={<LoadingView />}
                 callback={onCallback}
                 data={{
                     pg: 'danal_tpay',

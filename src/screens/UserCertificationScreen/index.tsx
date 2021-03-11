@@ -2,7 +2,7 @@ import IMP, { CallbackRsp } from 'iamport-react-native'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { IAMPORT_CODE } from '../../../env'
-import ActivityIndicatorView from '../../components/ActivityIndicatorView'
+import LoadingView from '../../components/LoadingView'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 
@@ -20,7 +20,7 @@ const UserCertificationScreen = () => {
                 data={{
                     merchant_uid: `${new Date().getTime()}`
                 }}
-                loading={<ActivityIndicatorView />}
+                loading={<LoadingView />}
                 callback={callBack}
             />
         </ScreenLayout>

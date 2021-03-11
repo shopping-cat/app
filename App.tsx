@@ -19,15 +19,6 @@ remoteConfig()
     app_version: 'loading',
   })
   .then(() => remoteConfig().fetchAndActivate())
-  .then(fetchedRemotely => {
-    if (fetchedRemotely) {
-      console.log('Configs were retrieved from the backend and activated.')
-    } else {
-      console.log(
-        'No configs were fetched from the backend, and the local configs were already activated',
-      )
-    }
-  })
 
 
 const App = () => {
