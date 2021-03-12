@@ -10,6 +10,8 @@ import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
 import { useIUser, useUpdateDeliveryInfo } from '../../graphql/user'
 import useInput from '../../hooks/useInput'
+import phoneFormat from '../../lib/phoneFormat'
+import numberFormat from '../../lib/numberFormat'
 
 
 const AddressScreen = () => {
@@ -114,8 +116,8 @@ const AddressScreen = () => {
                             placeholderTextColor={GRAY}
                             placeholder='연락처'
                             keyboardType='number-pad'
-                            value={phone}
-                            onChangeText={onChangePhone}
+                            value={phoneFormat(phone)}
+                            onChangeText={(t) => onChangePhone(numberFormat(t))}
                             style={[styles.text]}
                         />
                         <View style={styles.inputLine} />

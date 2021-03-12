@@ -9,6 +9,7 @@ import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 import useAuth from '../../hooks/useAuth'
+import phoneFormat from '../../lib/phoneFormat'
 
 
 
@@ -18,8 +19,8 @@ const UserInfoScreen = () => {
     const { logout } = useAuth()
     const { data } = useIUser()
 
-    const certificatedInfo = `${data?.iUser.certificatedInfo?.name} | ${data?.iUser.certificatedInfo?.phone}`
-    const deliveryInfo = `${data?.iUser.deliveryInfo?.name} ${data?.iUser.deliveryInfo?.phone}\n${data?.iUser.deliveryInfo?.address}\n${data?.iUser.deliveryInfo?.addressDetail}`
+    const certificatedInfo = `${data?.iUser.certificatedInfo?.name} | ${data?.iUser.certificatedInfo?.phone && phoneFormat(data?.iUser.certificatedInfo?.phone)}`
+    const deliveryInfo = `${data?.iUser.deliveryInfo?.name} ${data?.iUser.deliveryInfo?.phone && phoneFormat(data?.iUser.deliveryInfo?.phone)}\n${data?.iUser.deliveryInfo?.address}\n${data?.iUser.deliveryInfo?.addressDetail}`
     const refundAccountInfo = `${data?.iUser.refundBankAccount?.ownerName} | ${data?.iUser.refundBankAccount?.bankName} ${data?.iUser.refundBankAccount?.accountNumber}`
 
     return (

@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { CompletePayment } from '../../graphql/payment'
+import phoneFormat from '../../lib/phoneFormat'
 
 
 const PaymentResultAddress: React.FC<CompletePayment> = ({ address, addressName, addressPhone }) => {
@@ -20,7 +21,7 @@ const PaymentResultAddress: React.FC<CompletePayment> = ({ address, addressName,
                 </View>
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >연락처</BaseText>
-                    <BaseText style={styles.infoContent} >{addressPhone}</BaseText>
+                    <BaseText style={styles.infoContent} >{phoneFormat(addressPhone)}</BaseText>
                 </View>
             </View>
         </View>

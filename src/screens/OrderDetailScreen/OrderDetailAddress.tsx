@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { PaymentDetail } from '../../graphql/payment'
+import phoneFormat from '../../lib/phoneFormat'
 
 const OrderDetailAddress: React.FC<PaymentDetail> = ({ address, addressName, addressPhone }) => {
     return (
@@ -19,7 +20,7 @@ const OrderDetailAddress: React.FC<PaymentDetail> = ({ address, addressName, add
                 </View>
                 <View style={styles.info} >
                     <BaseText style={styles.infoTitle} >연락처</BaseText>
-                    <BaseText style={styles.infoContent} >{addressPhone}</BaseText>
+                    <BaseText style={styles.infoContent} >{phoneFormat(addressPhone)}</BaseText>
                 </View>
             </View>
         </View>

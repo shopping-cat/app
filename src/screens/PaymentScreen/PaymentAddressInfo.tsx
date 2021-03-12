@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { OrderCalculate } from '../../graphql/order'
+import phoneFormat from '../../lib/phoneFormat'
 import { PointSelectScreenProps } from '../PointSelectScreen'
 
 interface PaymentDeliveryInfoProps {
@@ -31,7 +32,7 @@ const PaymentDeliveryInfo: React.FC<PaymentDeliveryInfoProps> = ({ data }) => {
 
             {data.user.deliveryInfo &&
                 <View>
-                    <BaseText style={styles.info} >{data.user.deliveryInfo.name} {data.user.deliveryInfo.phone}</BaseText>
+                    <BaseText style={styles.info} >{data.user.deliveryInfo.name} | {phoneFormat(data.user.deliveryInfo.phone)}</BaseText>
                     <View style={styles.spac} />
                     <BaseText style={styles.info} >{data.user.deliveryInfo.address}</BaseText>
                     <View style={styles.spac} />
