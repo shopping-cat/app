@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, Pressable, StyleSheet, Text, View } from 'react-native'
-import { WIDTH } from '../constants/styles'
+import { WIDTH } from '../../constants/styles'
 
 interface ImageCarouselProps {
     images: string[]

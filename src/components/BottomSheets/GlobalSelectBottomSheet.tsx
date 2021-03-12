@@ -4,7 +4,7 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LIGHT_GRAY } from '../../constants/styles'
 import useSelectBottomSheet from '../../hooks/useSelectBottomSheet'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import BottomSheet from './BottomSheet'
 
 

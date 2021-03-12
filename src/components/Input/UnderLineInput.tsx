@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native'
-import { GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
-import { baseTextStyle } from './BaseText'
+import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { baseTextStyle } from '../Text/BaseText'
 
 
 const UnderLineInput = React.forwardRef<TextInput, TextInputProps>((props, ref) => {

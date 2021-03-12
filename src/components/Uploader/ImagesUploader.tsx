@@ -6,12 +6,12 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import ImageCropPicker from 'react-native-image-crop-picker'
-import { VERY_LIGHT_GRAY, WIDTH } from '../constants/styles'
-import { MAX_REVIEW_IMAGE_NUMBER } from '../constants/values'
-import { CreateItemReviewImage, useCreateItemReviewImage } from '../graphql/itemReviewImage'
-import useSelectBottomSheet from '../hooks/useSelectBottomSheet'
-import generateImageToRNFile from '../lib/generateRNFile'
-import ImageUploadPlusIcon from './Svgs/ImageUploadPlusIcon'
+import { VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
+import { MAX_REVIEW_IMAGE_NUMBER } from '../../constants/values'
+import { CreateItemReviewImage, useCreateItemReviewImage } from '../../graphql/itemReviewImage'
+import useSelectBottomSheet from '../../hooks/useSelectBottomSheet'
+import generateImageToRNFile from '../../lib/generateRNFile'
+import ImageUploadPlusIcon from '../Svgs/ImageUploadPlusIcon'
 
 interface ImagesUploaderProps {
     images: CreateItemReviewImage[]

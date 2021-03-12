@@ -2,7 +2,7 @@ import React from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1 } from '../../constants/styles'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CartButton from '../Buttons/CartButton'
 
 interface ZzimHeaderProps {

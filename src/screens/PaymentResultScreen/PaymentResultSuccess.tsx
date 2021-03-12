@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../components/BaseText'
-import ThinLine from '../../components/ThinLine'
+import BaseText from '../../components/Text/BaseText'
+import ThinLine from '../../components/View/ThinLine'
 import { GRAY } from '../../constants/styles'
 import { CompletePayment } from '../../graphql/payment'
 

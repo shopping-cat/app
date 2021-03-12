@@ -5,14 +5,14 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DeviceInfo from 'react-native-device-info';
 import remoteConfig from '@react-native-firebase/remote-config';
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import LabelUnderLineButton from '../../components/Buttons/LabelUnderLineButton'
 import TouchableScale from '../../components/Buttons/TouchableScale'
-import CompanyInfo from '../../components/CompanyInfo'
+import CompanyInfo from '../../components/Layouts/CompanyInfo'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
-import ThinLine from '../../components/ThinLine'
+import ThinLine from '../../components/View/ThinLine'
 import { COLOR2, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 

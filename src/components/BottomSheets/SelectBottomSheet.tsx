@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { LIGHT_GRAY } from '../../constants/styles'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CheckIcon from '../Svgs/CheckIcon'
 import BottomSheet from './BottomSheet'
 

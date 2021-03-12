@@ -3,7 +3,7 @@ import React, { useCallback, useEffect } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CartButton from '../Buttons/CartButton'
 import BackArrowIcon from '../Svgs/BackArrowIcon'
 

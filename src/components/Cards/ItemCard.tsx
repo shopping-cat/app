@@ -4,10 +4,10 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import { COLOR1, COLOR2, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import moneyFormat from '../../lib/moneyFormat'
 import { Item } from '../../graphql/item'
-import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder';
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder';
 
 const width = (WIDTH - 48) / 2
 

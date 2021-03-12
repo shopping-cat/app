@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pressable, StyleSheet, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
 import { GRAY } from '../../constants/styles'
 

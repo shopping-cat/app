@@ -1,7 +1,7 @@
 import { NetworkStatus, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../../components/BaseText'
+import BaseText from '../../../components/Text/BaseText'
 import ItemCard, { ItemCardSkeleton } from '../../../components/Cards/ItemCard'
 import { WIDTH } from '../../../constants/styles'
 import { useRecommendedItems } from '../../../graphql/item'

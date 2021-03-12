@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import BaseSkeletonPlaceHolder from '../../components/BaseSkeletonPlaceHolder'
+import BaseSkeletonPlaceHolder from '../../components/Loading/BaseSkeletonPlaceHolder'
 
 const PaymentSkeleton = () => {
     return (

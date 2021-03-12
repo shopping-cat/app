@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import { StyleSheet, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import LabelUnderLineButton from '../../components/Buttons/LabelUnderLineButton'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import ThinLine from '../../components/ThinLine'
+import ThinLine from '../../components/View/ThinLine'
 import { GRAY } from '../../constants/styles'
 
 const dummyNoti = `포인트는 각각 상품마다 상품 가격 비율에 맞게 적용됩니다.

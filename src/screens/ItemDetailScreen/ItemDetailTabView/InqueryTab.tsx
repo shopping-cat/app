@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../../components/BaseText'
+import BaseText from '../../../components/Text/BaseText'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { COLOR1, GRAY, LIGHT_GRAY, WIDTH } from '../../../constants/styles'
 import { ItemDetail } from '../../../graphql/item'

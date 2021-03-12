@@ -1,9 +1,9 @@
 import React from 'react'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { COLOR1, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
-import BaseText from './BaseText'
-import TouchableScale from './Buttons/TouchableScale'
+import { COLOR1, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import BaseText from '../Text/BaseText'
+import TouchableScale from '../Buttons/TouchableScale'
 
 interface ButtonFooterProps {
     text: string

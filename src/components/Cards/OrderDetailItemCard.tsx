@@ -4,7 +4,7 @@ import { Image, Pressable, StyleSheet, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
 import { PaymentDetailOrder } from '../../graphql/payment'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import BorderyButton from '../Buttons/BorderyButton'
 
 

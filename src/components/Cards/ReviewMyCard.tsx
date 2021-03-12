@@ -5,8 +5,8 @@ import { COLOR1, COLOR2, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../
 import { IS_ANDROID, IS_IOS } from '../../constants/values'
 import { MyItemReview } from '../../graphql/itemReview'
 import dateFormat from '../../lib/dateFormat'
-import BaseText from '../BaseText'
-import RateStars from '../RateStars'
+import BaseText from '../Text/BaseText'
+import RateStars from '../Rate/RateStars'
 
 const ReviewMyCard: React.FC<MyItemReview> = (props) => {
 

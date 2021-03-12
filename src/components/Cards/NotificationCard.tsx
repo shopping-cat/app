@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Image, Pressable, StyleSheet } from 'react-native'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 
 const NotificationCard: React.FC<any> = ({ title, content, date, image, checked, type }) => {
 

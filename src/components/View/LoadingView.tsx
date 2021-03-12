@@ -1,8 +1,8 @@
 import React from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import { GRAY } from '../constants/styles'
-import { IS_IOS } from '../constants/values'
-import TossLoading from './Loading'
+import { GRAY } from '../../constants/styles'
+import { IS_IOS } from '../../constants/values'
+import TossLoading from '../Loading/Loading'
 
 const LoadingView = () => {
     return (

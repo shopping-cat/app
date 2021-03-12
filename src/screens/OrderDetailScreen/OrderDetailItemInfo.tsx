@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Animated, Pressable, StyleSheet, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import OrderDetailItemCard from '../../components/Cards/OrderDetailItemCard'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
-import ThinLine from '../../components/ThinLine'
+import ThinLine from '../../components/View/ThinLine'
 import { SPRING_CONFIG, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { PaymentDetail } from '../../graphql/payment'
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { LayoutChangeEvent, Pressable, StyleSheet, Text, View } from 'react-native'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import RightArrowIcon from '../Svgs/RightArrowIcon'
 
 interface LabelUnderLineButtonProps {

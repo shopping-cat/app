@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'

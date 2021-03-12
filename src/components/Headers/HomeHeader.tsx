@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, GRAY, LIGHT_COLOR1 } from '../../constants/styles'
 import BaseButton from '../Buttons/BaseButton'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CartButton from '../Buttons/CartButton'
 
 const HomeHeader = () => {

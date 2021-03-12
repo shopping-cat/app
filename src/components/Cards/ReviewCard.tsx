@@ -7,9 +7,9 @@ import { RecommendState } from '../../constants/types'
 import { ItemReview, useItemReviewRecommend } from '../../graphql/itemReview'
 import dateFormat from '../../lib/dateFormat'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
-import BaseText from '../BaseText'
-import RateStars from '../RateStars'
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
+import BaseText from '../Text/BaseText'
+import RateStars from '../Rate/RateStars'
 
 
 interface ReviewCardProps {

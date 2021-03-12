@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { COLOR2, SPRING_CONFIG } from '../constants/styles'
-import useToast from '../hooks/useToast'
-import BaseText from './BaseText'
+import { COLOR2, SPRING_CONFIG } from '../../constants/styles'
+import useToast from '../../hooks/useToast'
+import BaseText from '../Text/BaseText'
 
 
 const Toast = () => {

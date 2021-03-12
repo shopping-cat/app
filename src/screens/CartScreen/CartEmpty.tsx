@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import TouchableScale from '../../components/Buttons/TouchableScale'
 import { COLOR1, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 

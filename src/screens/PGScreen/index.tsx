@@ -7,7 +7,7 @@ import { IAMPORT_CODE } from '../../../env';
 import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import { OrderCalculateCouponVar } from '../../graphql/order';
 import { useCreatePayment } from '../../graphql/payment';
-import LoadingView from '../../components/LoadingView';
+import LoadingView from '../../components/View/LoadingView';
 
 export interface PGScreenProps {
     cartItemIds: number[]
@@ -58,7 +58,7 @@ const PGScreen = () => {
 
     return (
         <ScreenLayout>
-            <DefaultHeader disableBtns disableGoBack title='결제' />
+            <DefaultHeader disableBtns title='결제' />
             {(loading || !data) && <LoadingView />}
             {(!loading && data) && <IMP.Payment
                 userCode={IAMPORT_CODE}
@@ -71,13 +71,14 @@ const PGScreen = () => {
                     merchant_uid: data.createPayment.id,
                     name: data.createPayment.name,
                     amount: data.createPayment.totalPrice,
-                    buyer_tel: data.createPayment.user.certificatedInfo.phone, // TODO
+                    buyer_tel: data.createPayment.user.certificatedInfo.phone,
                     buyer_name: data.createPayment.user.certificatedInfo.name,
                     buyer_email: data.createPayment.user.userDetail.email || undefined,
                     buyer_postcode: data.createPayment.postCode,
                     buyer_addr: data.createPayment.address,
-                    biz_num: data.createPayment.paymentMethod === '가상계좌' ? params.bank || undefined : undefined,
-                    digital: data.createPayment.paymentMethod === '휴대폰결제' ? true : undefined
+                    digital: false
+                    // biz_num:  // 사업자번호 TODO
+                    // vbank_due: '202103112350' // 가상계좌 만료기간 서버에서 처리하자
                 }}
             />}
         </ScreenLayout>

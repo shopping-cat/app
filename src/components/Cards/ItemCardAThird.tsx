@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { COLOR1, COLOR2, WIDTH } from '../../constants/styles'
 import { Item } from '../../graphql/item'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
-import BaseText from '../BaseText'
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
+import BaseText from '../Text/BaseText'
 
 const width = (WIDTH - 64) / 3
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
-import BaseText from './BaseText'
+import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import BaseText from '../Text/BaseText'
 
 const INFO = `대표이사 남궁현 | 사업자등록번호 000-0000-000
 통신판매중개업 서울 송파-1243

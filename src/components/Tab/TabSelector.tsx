@@ -1,7 +1,7 @@
 import React from 'react'
 import { Animated, Pressable, StyleSheet, View } from 'react-native'
-import { COLOR1, GRAY, VERY_LIGHT_GRAY, WIDTH } from '../constants/styles'
-import BaseText from './BaseText'
+import { COLOR1, GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
+import BaseText from '../Text/BaseText'
 
 interface TabSelectorProps {
     tabIndex: number

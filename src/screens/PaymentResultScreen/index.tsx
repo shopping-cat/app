@@ -1,7 +1,7 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useEffect } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
-import ButtonFooter from '../../components/ButtonFooter'
+import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import PaymentResultAddress from './PaymentResultAddress'
@@ -13,7 +13,7 @@ import PaymentResultSuccess from './PaymentResultSuccess'
 import PaymentResultDeliveryMemo from './PaymentResultDeliveryMemo'
 import { CallbackRsp } from 'iamport-react-native'
 import { useCompletePayment } from '../../graphql/payment'
-import LoadingView from '../../components/LoadingView'
+import LoadingView from '../../components/View/LoadingView'
 // TODO 제시도
 
 const PaymentResultScreen = () => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Animated, View, StyleProp, ViewStyle, Easing, EasingFunction } from 'react-native'
-import { COLOR1 } from '../constants/styles'
+import { COLOR1 } from '../../constants/styles'
 
 
 const size = 8

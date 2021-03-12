@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
-import BaseText, { baseTextStyle } from '../../components/BaseText'
+import BaseText, { baseTextStyle } from '../../components/Text/BaseText'
 import { COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { DELIVERY_MEMOS } from '../../constants/values'
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import BaseText from '../../../components/BaseText'
+import BaseText from '../../../components/Text/BaseText'
 import ItemCard from '../../../components/Cards/ItemCard'
 import { WIDTH } from '../../../constants/styles'
 import { useFilteredItems } from '../../../graphql/item'

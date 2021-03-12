@@ -2,11 +2,11 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
 import ImagePicker, { Image as ImageFile } from 'react-native-image-crop-picker';
-import BaseText from '../../components/BaseText';
-import ButtonFooter from '../../components/ButtonFooter'
+import BaseText from '../../components/Text/BaseText';
+import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import UnderLineInput from '../../components/UnderLineInput'
+import UnderLineInput from '../../components/Input/UnderLineInput'
 import { useIUser, useUpdateUserProfile } from '../../graphql/user';
 import useInput from '../../hooks/useInput'
 import generateImageToRNFile from '../../lib/generateRNFile';

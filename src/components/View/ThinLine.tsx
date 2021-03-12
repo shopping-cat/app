@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { LIGHT_GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
+import { LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 
 const ThinLine = () => <View style={styles.container} />
 

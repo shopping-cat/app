@@ -1,6 +1,6 @@
 import React from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import PointCard, { PointCardSkeleton } from '../../components/Cards/PointCard'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'

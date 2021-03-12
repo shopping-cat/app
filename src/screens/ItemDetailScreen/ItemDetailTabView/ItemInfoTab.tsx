@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
-import BaseText from '../../../components/BaseText';
-import ThinLine from '../../../components/ThinLine';
+import BaseText from '../../../components/Text/BaseText';
+import ThinLine from '../../../components/View/ThinLine';
 import { GRAY, WIDTH } from '../../../constants/styles';
 import { ItemDetail } from '../../../graphql/item';
 

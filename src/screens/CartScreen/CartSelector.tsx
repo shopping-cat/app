@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import BorderyButton from '../../components/Buttons/BorderyButton'
 import CheckBoxToggle from '../../components/Toggle/CheckBoxToggle'
 import { GRAY } from '../../constants/styles'

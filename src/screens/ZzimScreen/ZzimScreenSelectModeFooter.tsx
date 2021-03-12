@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Animated, Pressable, StyleSheet } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import { COLOR1, SPRING_CONFIG } from '../../constants/styles'
 
 interface ZzimScreenSelectModeFooterProps {

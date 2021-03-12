@@ -4,8 +4,8 @@ import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { PointReceipt } from '../../graphql/pointReceipt'
 import dateFormat from '../../lib/dateFormat'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
-import BaseText from '../BaseText'
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
+import BaseText from '../Text/BaseText'
 
 const PointCard: React.FC<PointReceipt> = ({ createdAt, name, point }) => {
     return (

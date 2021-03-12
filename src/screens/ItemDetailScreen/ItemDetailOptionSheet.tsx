@@ -3,14 +3,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import BaseText from '../../components/BaseText';
+import BaseText from '../../components/Text/BaseText';
 import BottomSheet from '../../components/BottomSheets/BottomSheet';
 import TouchableScale from '../../components/Buttons/TouchableScale';
 import NumberCounterMinusIcon from '../../components/Svgs/NumberCounterMinusIcon';
 import NumberCounterPlusIcon from '../../components/Svgs/NumberCounterPlusIcon';
 import { COLOR1, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
 import moneyFormat from '../../lib/moneyFormat';
-import Accordian from '../../components/ItemOptionAccordian';
+import Accordian from '../../components/Accordian/ItemOptionAccordian';
 import LinearGradient from 'react-native-linear-gradient';
 import { ItemDetail } from '../../graphql/item';
 import { useAddToCart } from '../../graphql/cartItem';

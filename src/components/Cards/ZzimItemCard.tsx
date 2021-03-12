@@ -5,7 +5,7 @@ import { COLOR1, COLOR2, LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import { ID } from '../../constants/types'
 import { Item } from '../../graphql/item'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CheckIcon from '../Svgs/CheckIcon'
 
 

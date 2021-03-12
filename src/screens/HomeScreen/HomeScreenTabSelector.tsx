@@ -1,6 +1,6 @@
 import React from 'react'
 import { Animated, Pressable, StyleSheet, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 
 interface HomeScreenTabSelectorProps {

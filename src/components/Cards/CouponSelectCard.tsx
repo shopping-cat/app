@@ -7,7 +7,7 @@ import useCouponPoint from '../../hooks/useCouponPoint'
 import arraySum from '../../lib/arraySum'
 import moneyFormat from '../../lib/moneyFormat'
 import salePrice from '../../lib/salePrice'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import BorderyButton from '../Buttons/BorderyButton'
 
 interface CouponSelectCardProps {

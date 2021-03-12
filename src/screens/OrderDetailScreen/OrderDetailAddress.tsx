@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { PaymentDetail } from '../../graphql/payment'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pressable, StyleSheet, View, ViewProps } from 'react-native'
-import { COLOR1, LIGHT_GRAY } from '../constants/styles'
+import { COLOR1, LIGHT_GRAY } from '../../constants/styles'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 interface RateStarRrops {

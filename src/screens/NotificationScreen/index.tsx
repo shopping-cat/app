@@ -6,7 +6,7 @@
 */
 import React, { useCallback } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import NotificationCard from '../../components/Cards/NotificationCard'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'

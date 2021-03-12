@@ -1,9 +1,9 @@
 import React, { ReactNode, useState } from 'react'
 import { Pressable, StyleProp, StyleSheet, Text, View, ViewProps, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { VERY_LIGHT_GRAY } from '../constants/styles'
-import { SPRING_CONFIG } from '../constants/styles'
-import BaseText from './BaseText'
+import { VERY_LIGHT_GRAY } from '../../constants/styles'
+import { SPRING_CONFIG } from '../../constants/styles'
+import BaseText from '../Text/BaseText'
 
 const { set, cond, block, eq, clockRunning, Clock, spring, startClock, Value, stopClock, greaterThan, call, useCode, sub, not } = Animated
 

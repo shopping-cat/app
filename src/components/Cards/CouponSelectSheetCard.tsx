@@ -4,7 +4,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY } from '../../constants/styles'
 import { Coupon } from '../../graphql/order'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 
 interface CouponSelectSheetCardProps {
     onPress: () => void

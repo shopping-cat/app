@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import TouchableScale from './TouchableScale'
 
 interface BorderyButtonProps {

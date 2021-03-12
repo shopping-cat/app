@@ -5,8 +5,8 @@ import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { OrderDetailScreenProps } from '../../screens/OrderDetailScreen'
 import { Payment } from '../../graphql/payment'
 import dateFormat from '../../lib/dateFormat'
-import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
-import BaseText from '../BaseText'
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
+import BaseText from '../Text/BaseText'
 import BorderyButton from '../Buttons/BorderyButton'
 
 const OrderCard: React.FC<Payment> = ({ id, createAt, name, state }) => {

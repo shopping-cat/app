@@ -4,8 +4,8 @@ import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { Coupon } from '../../graphql/coupon'
 import dateFormat from '../../lib/dateFormat'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
-import BaseText from '../BaseText'
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
+import BaseText from '../Text/BaseText'
 
 
 

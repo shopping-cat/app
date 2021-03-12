@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { OrderCalculate } from '../../graphql/order'
 import { PointSelectScreenProps } from '../PointSelectScreen'

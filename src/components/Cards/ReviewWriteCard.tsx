@@ -5,9 +5,9 @@ import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { CreateableItemReview } from '../../graphql/itemReview'
 import dateFormat from '../../lib/dateFormat'
 import { ReviewPostScreenProps } from '../../screens/ReviewPostScreen'
-import BaseSkeletonPlaceHolder from '../BaseSkeletonPlaceHolder'
-import BaseText from '../BaseText'
-import RateStars from '../RateStars'
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
+import BaseText from '../Text/BaseText'
+import RateStars from '../Rate/RateStars'
 
 
 const ReviewWirteCard: React.FC<CreateableItemReview> = ({ id, item, deliveryCompletionDate, stringOptionNum }) => {

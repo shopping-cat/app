@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Hyperlink from 'react-native-hyperlink'
-import BaseText from '../../../components/BaseText'
+import BaseText from '../../../components/Text/BaseText'
 import { COLOR2, GRAY, WIDTH } from '../../../constants/styles'
 
 const dummyOrderInfos = [

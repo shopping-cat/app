@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Clipboard from '@react-native-community/clipboard';
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import BorderyButton from '../../components/Buttons/BorderyButton'
 import { COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'

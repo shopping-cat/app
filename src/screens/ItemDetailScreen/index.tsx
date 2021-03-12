@@ -2,14 +2,14 @@ import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Animated, LayoutChangeEvent, ScrollView, StatusBar, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import ThinLine from '../../components/ThinLine'
+import ThinLine from '../../components/View/ThinLine'
 import ItemDetailHeader from '../../components/Headers/ItemDetailHeader'
-import ImageCarousel from '../../components/ImageCarousel'
+import ImageCarousel from '../../components/Carousel/ImageCarousel'
 import { STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
 import ItemDetailInfo from './ItemDetailInfo'
 import ItemDetailTabView from './ItemDetailTabView'
 import ItemDetailTabViewNavigator from './ItemDetailTabViewNavigator'
-import UpFab from '../../components/UpFab'
+import UpFab from '../../components/Buttons/UpFab'
 import ItemDetailFooter from './ItemDetailFooter'
 import ItemDetailOptionSheet from './ItemDetailOptionSheet';
 import { ID } from '../../constants/types';

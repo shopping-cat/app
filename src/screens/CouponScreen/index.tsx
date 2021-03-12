@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react'
 import { FlatList, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
-import ButtonFooter from '../../components/ButtonFooter'
+import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import CouponCard, { CouponCardSkeleton } from '../../components/Cards/CouponCard'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import StatusBarHeightView from '../../components/StatusBarHeightView'
+import StatusBarHeightView from '../../components/View/StatusBarHeightView'
 import { IS_IOS } from '../../constants/values'
 import CouponRegistBottomSheet from '../../components/BottomSheets/CouponRegistBottomSheet'
 import { useCoupons, useRegistCoupon } from '../../graphql/coupon'
-import SafeAreaFooterHeightView from '../../components/SafeAreaFooterHeightView'
+import SafeAreaFooterHeightView from '../../components/View/SafeAreaFooterHeightView'
 import makeIdArray from '../../lib/makeIdArray'
 
 

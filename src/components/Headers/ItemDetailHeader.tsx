@@ -6,7 +6,7 @@ import { COLOR1, COLOR1_RGB, COLOR2_RGB, GRAY, GRAY_RGB, STATUSBAR_HEIGHT, WIDTH
 import BackArrowIcon from '../../components/Svgs/BackArrowIcon'
 import CartIcon from '../Svgs/CartIcon'
 import LinearGradient from 'react-native-linear-gradient'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CartButton from '../Buttons/CartButton'
 
 interface ItemDetailHeaderProps {

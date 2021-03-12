@@ -4,7 +4,7 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import TabNavigationTabBar from '../components/TabNavigationTabBar';
+import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
 import { useApolloClient } from '@apollo/client';
 import { I_USER, IUserData } from '../graphql/user';
 
@@ -53,7 +53,7 @@ import ExchangeScreen from './ExchangeScreen';
 import ExchangeDetailScreen from './ExchangeDetailScreen';
 import ExchangeResultScreen from './ExchangeResultScreen';
 import PGScreen from './PGScreen'
-import Toast from '../components/Toast';
+import Toast from '../components/Toast/Toast';
 import ProfileRegistScreen from './ProfileRegistScreen';
 import UserCertificationScreen from './UserCertificationScreen';
 

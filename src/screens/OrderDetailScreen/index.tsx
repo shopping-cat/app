@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { ScrollView, StyleSheet } from 'react-native'
 import { useNavigation, useRoute, Route } from '@react-navigation/native'
-import ButtonFooter from '../../components/ButtonFooter'
+import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { PaymentState } from '../../constants/types'
@@ -13,7 +13,7 @@ import OrderDetailItemInfo from './OrderDetailItemInfo'
 import OrderDetailDeliveryMemo from './OrderDetailDeliveryMemo'
 import OrderDetailPaymentInfo from './OrderDetailPaymentInfo'
 import { useCancelPayment, usePayment } from '../../graphql/payment'
-import LoadingView from '../../components/LoadingView'
+import LoadingView from '../../components/View/LoadingView'
 
 export interface OrderDetailScreenProps {
     id: string

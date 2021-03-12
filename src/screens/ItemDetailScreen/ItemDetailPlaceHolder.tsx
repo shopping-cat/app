@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import BaseSkeletonPlaceHolder from '../../components/BaseSkeletonPlaceHolder'
+import BaseSkeletonPlaceHolder from '../../components/Loading/BaseSkeletonPlaceHolder'
 import { WIDTH } from '../../constants/styles'
 
 const ItemDetailPlaceHolder = () => {

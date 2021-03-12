@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Animated, Pressable, StyleSheet, View } from 'react-native'
 import { COLOR1, COLOR2 } from '../../constants/styles'
 import { useCartItems } from '../../graphql/cartItem'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CartIcon from '../Svgs/CartIcon'
 
 interface CartButtonProps {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import { COLOR2 } from '../../constants/styles'
 
 const failMessage = '기간안에 상품이 반품되지 않음'

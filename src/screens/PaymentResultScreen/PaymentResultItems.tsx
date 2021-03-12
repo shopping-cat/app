@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../components/BaseText'
+import BaseText from '../../components/Text/BaseText'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
-import ThinLine from '../../components/ThinLine'
+import ThinLine from '../../components/View/ThinLine'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { CompletePayment } from '../../graphql/payment'
 

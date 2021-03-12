@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, ViewStyle, Animated } from 'react-native'
-import TouchableScale from './Buttons/TouchableScale'
-import UpArrowIcon from './Svgs/UpArrowIcon'
+import TouchableScale from './TouchableScale'
+import UpArrowIcon from '../Svgs/UpArrowIcon'
 
 interface UpFabProps {
     onPress: () => void

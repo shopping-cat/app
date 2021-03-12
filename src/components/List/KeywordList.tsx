@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { GRAY, LIGHT_GRAY } from '../constants/styles'
-import useSearchKeyword from '../hooks/useSearchKeyword'
-import BaseText from './BaseText'
-import BaseButton from './Buttons/BaseButton'
+import { GRAY, LIGHT_GRAY } from '../../constants/styles'
+import useSearchKeyword from '../../hooks/useSearchKeyword'
+import BaseText from '../Text/BaseText'
+import BaseButton from '../Buttons/BaseButton'
 
 interface KeywordListProps {
     data: string[]

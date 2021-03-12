@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 import BottomSheet from './BottomSheet'
-import ButtonFooter from '../ButtonFooter'
-import UnderLineInput from '../UnderLineInput'
+import ButtonFooter from '../Layouts/ButtonFooter'
+import UnderLineInput from '../Input/UnderLineInput'
 import { LIGHT_GRAY } from '../../constants/styles'
 import useInput from '../../hooks/useInput'
 

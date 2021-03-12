@@ -4,7 +4,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { OrderItem } from '../../graphql/order'
 import moneyFormat from '../../lib/moneyFormat'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 
 
 const PaymentItemCard: React.FC<OrderItem> = ({ item, num, stringOption, optionedPrice, optionedSaledPrice }) => {

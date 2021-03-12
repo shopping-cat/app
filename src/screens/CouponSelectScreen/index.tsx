@@ -6,7 +6,7 @@ import CouponSelectBottomSheet from '../../components/BottomSheets/CouponSelectB
 import CouponSelectCard from '../../components/Cards/CouponSelectCard'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import StatusBarHeightView from '../../components/StatusBarHeightView'
+import StatusBarHeightView from '../../components/View/StatusBarHeightView'
 import { ID } from '../../constants/types'
 import { Coupon, OrderCalculate, OrderItem } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'

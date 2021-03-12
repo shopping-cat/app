@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { STATUSBAR_HEIGHT } from '../constants/styles'
+import { STATUSBAR_HEIGHT } from '../../constants/styles'
 
 const StatusBarHeightView = () => {
     return (

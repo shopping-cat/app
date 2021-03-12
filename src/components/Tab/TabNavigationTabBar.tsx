@@ -2,11 +2,11 @@ import { BottomTabBarOptions, BottomTabBarProps } from '@react-navigation/bottom
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
-import useZzimFooter from '../hooks/useZzimFooter'
-import ZzimScreenSelectModeFooter from '../screens/ZzimScreen/ZzimScreenSelectModeFooter'
-import BaseText from './BaseText'
-import TouchableScale from './Buttons/TouchableScale'
+import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import useZzimFooter from '../../hooks/useZzimFooter'
+import ZzimScreenSelectModeFooter from '../../screens/ZzimScreen/ZzimScreenSelectModeFooter'
+import BaseText from '../Text/BaseText'
+import TouchableScale from '../Buttons/TouchableScale'
 
 const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({ state, navigation, descriptors }) => {
 

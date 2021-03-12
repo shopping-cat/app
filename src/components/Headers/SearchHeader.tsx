@@ -5,7 +5,7 @@ import { COLOR1, GRAY, LIGHT_COLOR1 } from '../../constants/styles'
 import { useNavigation } from '@react-navigation/native'
 import useSearchKeyword from '../../hooks/useSearchKeyword'
 import BackArrowIcon from '../Svgs/BackArrowIcon'
-import BaseText from '../BaseText'
+import BaseText from '../Text/BaseText'
 import CloseIcon from '../Svgs/CloseIcon'
 
 interface SearchHeaderProps {
