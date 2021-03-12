@@ -10,6 +10,7 @@ import { useZzimItems } from '../../graphql/item'
 import useRefreshing from '../../hooks/useRefreshing'
 import useZzimFooter from '../../hooks/useZzimFooter'
 import makeIdArray from '../../lib/makeIdArray'
+import EmptyView from '../../components/View/EmptyView'
 
 const ZzimScreen = () => {
 
@@ -20,7 +21,7 @@ const ZzimScreen = () => {
     const { onRefresh, refreshing } = useRefreshing(refetch)
     const filteredItems = data ? data.zzimItems.filter(v => v.isILiked) : []
     const { isSelectMode, onSelectMode, onSelect, selectList, onClose } = useZzimFooter(filteredItems)
-
+    const isEmpty = data && filteredItems.length === 0
 
 
     useEffect(() => {
@@ -52,30 +53,33 @@ const ZzimScreen = () => {
                     onSelectMode={onSelectMode}
                 />
                 <CategorySelector enable={!isSelectMode} onChange={(c1, c2) => setCategory(c2 || c1 || '전체')} />
-                <FlatList
-                    ref={flatlistRef}
-                    refreshing={refreshing}
-                    onRefresh={!isSelectMode ? onRefresh : undefined}
-                    onEndReached={() => fetchMore({
-                        variables: { offset: filteredItems.length, limit: 3 }
-                    })}
-                    overScrollMode='never'
-                    showsVerticalScrollIndicator={false}
-                    numColumns={3}
-                    columnWrapperStyle={styles.columnWrapperStyle}
-                    style={styles.flatlist}
-                    data={loading ? makeIdArray(9) : filteredItems}
-                    renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> :
-                        <ZzimItemCard
-                            {...item}
-                            isSelectMode={isSelectMode}
-                            onSelect={onSelect}
-                            onSelectMode={onSelectMode}
-                            isSelected={selectList.includes(item.id)}
-                        />
-                    }
-                    ListFooterComponent={<View style={styles.footer} />}
-                />
+                <View style={{ flex: 1 }} >
+                    {isEmpty && <EmptyView />}
+                    <FlatList
+                        ref={flatlistRef}
+                        refreshing={refreshing}
+                        onRefresh={!isSelectMode ? onRefresh : undefined}
+                        onEndReached={() => fetchMore({
+                            variables: { offset: filteredItems.length, limit: 3 }
+                        })}
+                        overScrollMode='never'
+                        showsVerticalScrollIndicator={false}
+                        numColumns={3}
+                        columnWrapperStyle={styles.columnWrapperStyle}
+                        style={styles.flatlist}
+                        data={loading ? makeIdArray(9) : filteredItems}
+                        renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> :
+                            <ZzimItemCard
+                                {...item}
+                                isSelectMode={isSelectMode}
+                                onSelect={onSelect}
+                                onSelectMode={onSelectMode}
+                                isSelected={selectList.includes(item.id)}
+                            />
+                        }
+                        ListFooterComponent={<View style={styles.footer} />}
+                    />
+                </View>
 
                 <UpFab
                     onPress={goUp}

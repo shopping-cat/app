@@ -19,6 +19,7 @@ import { useFilteredItems } from '../../graphql/item'
 import { RECENT_SEARCH_KEYWORDS } from '../../graphql/user'
 import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
+import EmptyView from '../../components/View/EmptyView'
 
 
 interface RouteParams {
@@ -46,6 +47,8 @@ const SearchDetailScreen = () => {
     const { onRefresh, refreshing } = useRefreshing(refetch)
     const [sortSheetVisible, setSortSheetVisible] = useState(false)
 
+    const isEmpty = data && data.filteredItems.length === 0
+
     useEffect(() => { // 첫 로딩 후에
         if (loading) return
         if (recentSearchKeywordsFetched) return
@@ -63,32 +66,35 @@ const SearchDetailScreen = () => {
             <StatusBarHeightView />
             <SearchHeader editable={false} />
             <CategorySelector onChange={(c1, c2) => setCategory(c2 || c1 || '전체')} />
-            <FlatList
-                ref={flatlistRef}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                onEndReached={() => fetchMore({
-                    variables: { offset: data?.filteredItems.length }
-                })}
-                overScrollMode='never'
-                showsVerticalScrollIndicator={false}
-                data={loading ? makeIdArray(12) : data?.filteredItems}
-                renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> : <ItemCardAThird {...item} />}
-                numColumns={3}
-                columnWrapperStyle={styles.flatlistColumnWrapper}
-                ListHeaderComponent={
-                    <Pressable
-                        onPress={onSort}
-                        style={styles.sortBtnContainer}
-                    >
-                        <BaseText style={styles.sortText} >전체{data && ` ${data.filteredItemsCount}건`}</BaseText>
-                        <View style={styles.sortContainer} >
-                            <BaseText style={styles.sortText}>{orderBy}</BaseText>
-                            <DownArrowIcon />
-                        </View>
-                    </Pressable>
-                }
-            />
+            <View style={{ flex: 1 }} >
+                {isEmpty && <EmptyView />}
+                <FlatList
+                    ref={flatlistRef}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    onEndReached={() => fetchMore({
+                        variables: { offset: data?.filteredItems.length }
+                    })}
+                    overScrollMode='never'
+                    showsVerticalScrollIndicator={false}
+                    data={loading ? makeIdArray(12) : data?.filteredItems}
+                    renderItem={({ item }) => loading ? <ItemCardAThirdSkeleton /> : <ItemCardAThird {...item} />}
+                    numColumns={3}
+                    columnWrapperStyle={styles.flatlistColumnWrapper}
+                    ListHeaderComponent={
+                        <Pressable
+                            onPress={onSort}
+                            style={styles.sortBtnContainer}
+                        >
+                            <BaseText style={styles.sortText} >전체{data && ` ${data.filteredItemsCount}건`}</BaseText>
+                            <View style={styles.sortContainer} >
+                                <BaseText style={styles.sortText}>{orderBy}</BaseText>
+                                <DownArrowIcon />
+                            </View>
+                        </Pressable>
+                    }
+                />
+            </View>
             <UpFab
                 onPress={() => flatlistRef.current?.scrollToOffset({ offset: 0 })}
                 animation={false}

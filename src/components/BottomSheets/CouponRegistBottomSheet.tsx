@@ -46,7 +46,7 @@ const CouponRegistBottomSheet: React.FC<CouponRegistBottomSheetProps> = ({ onClo
                             ref={inputRef}
                             value={code}
                             onChangeText={onChangeCode}
-                            placeholder='쿠폰 코드'
+                            placeholder='쿠폰 코드 (-를 포함하여 입력해주세요)'
                             autoFocus={false}
                         />
                     </View>

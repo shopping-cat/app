@@ -16,6 +16,7 @@ import { useItemReviews } from '../../graphql/itemReview'
 import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
 import moneyFormat from '../../lib/moneyFormat'
+import EmptyView from '../../components/View/EmptyView'
 
 const SORT_LIST = ['추천순', '최신순']
 
@@ -42,6 +43,7 @@ const ItemReviewScreen = () => {
     const { bottom } = useSafeAreaInsets()
     const flatlistRef = useRef<FlatList>(null)
     const [visible, setVisible] = useState(false) // 정렬방법 선택 bottom sheet
+    const isEmpty = data && data.itemReviews.length === 0
 
 
     const onSort = useCallback(() => {
@@ -56,42 +58,45 @@ const ItemReviewScreen = () => {
     return (
         <ScreenLayout>
             <DefaultHeader title='리뷰' />
-            <FlatList
-                ref={flatlistRef}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                onEndReached={() => fetchMore({ variables: { offset: data?.itemReviews.length } })}
-                onEndReachedThreshold={0.4}
-                overScrollMode='never'
-                showsVerticalScrollIndicator={false}
-                keyExtractor={({ id }) => id.toString()}
-                data={loading ? makeIdArray(3) : data?.itemReviews}
-                renderItem={({ item }) => loading ? <ReviewCardSkeleton /> : <ReviewCard scrollViewEnable {...item} />}
-                ListHeaderComponent={
-                    <>
-                        <View style={styles.rateContainer} >
-                            <RateStars
-                                rate={params.averageRate}
-                                spacing={6}
-                                starSize={24}
-                                emptyColor={VERY_LIGHT_GRAY}
-                            />
-                            <BaseText style={styles.rate} >{params.averageRate}</BaseText>
-                        </View>
-                        <Pressable
-                            onPress={onSort}
-                            style={styles.reviewNumSortContainer}
-                        >
-                            <BaseText style={styles.reviewNum} >{moneyFormat(params.reviewNum)}개의 리뷰</BaseText>
-                            <View style={styles.sortContainer} >
-                                <BaseText style={styles.sort} >{sort}</BaseText>
-                                <DownArrowIcon />
+            <View style={{ flex: 1 }} >
+                {isEmpty && <EmptyView />}
+                <FlatList
+                    ref={flatlistRef}
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    onEndReached={() => fetchMore({ variables: { offset: data?.itemReviews.length } })}
+                    onEndReachedThreshold={0.4}
+                    overScrollMode='never'
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={({ id }) => id.toString()}
+                    data={loading ? makeIdArray(3) : data?.itemReviews}
+                    renderItem={({ item }) => loading ? <ReviewCardSkeleton /> : <ReviewCard scrollViewEnable {...item} />}
+                    ListHeaderComponent={
+                        <>
+                            <View style={styles.rateContainer} >
+                                <RateStars
+                                    rate={params.averageRate}
+                                    spacing={6}
+                                    starSize={24}
+                                    emptyColor={VERY_LIGHT_GRAY}
+                                />
+                                <BaseText style={styles.rate} >{params.averageRate}</BaseText>
                             </View>
-                        </Pressable>
-                    </>
-                }
-                ListFooterComponent={<View style={{ height: bottom + 48 + 32 }} />}
-            />
+                            <Pressable
+                                onPress={onSort}
+                                style={styles.reviewNumSortContainer}
+                            >
+                                <BaseText style={styles.reviewNum} >{moneyFormat(params.reviewNum)}개의 리뷰</BaseText>
+                                <View style={styles.sortContainer} >
+                                    <BaseText style={styles.sort} >{sort}</BaseText>
+                                    <DownArrowIcon />
+                                </View>
+                            </Pressable>
+                        </>
+                    }
+                    ListFooterComponent={<View style={{ height: bottom + 48 + 32 }} />}
+                />
+            </View>
             <UpFab
                 style={{ marginBottom: bottom, zIndex: 0 }}
                 onPress={onFab}

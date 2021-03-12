@@ -8,8 +8,8 @@ import StatusBarHeightView from '../../components/View/StatusBarHeightView'
 import { IS_IOS } from '../../constants/values'
 import CouponRegistBottomSheet from '../../components/BottomSheets/CouponRegistBottomSheet'
 import { useCoupons, useRegistCoupon } from '../../graphql/coupon'
-import SafeAreaFooterHeightView from '../../components/View/SafeAreaFooterHeightView'
 import makeIdArray from '../../lib/makeIdArray'
+import EmptyView from '../../components/View/EmptyView'
 
 
 const CouponScreen = () => {
@@ -18,6 +18,7 @@ const CouponScreen = () => {
     // DATA
     const { data, loading, fetchMore, refetch } = useCoupons({ fetchPolicy: 'network-only' })
     const [registCoupon, { loading: registLoading }] = useRegistCoupon()
+    const isEmpty = data && data.coupons.length === 0
 
     const onCouponRegist = useCallback(async (code: string) => {
         try {
@@ -43,16 +44,19 @@ const CouponScreen = () => {
                 <View style={{ flex: 1 }} >
                     <StatusBarHeightView />
                     <DefaultHeader title='쿠폰' disableBtns />
-                    <FlatList
-                        showsVerticalScrollIndicator={false}
-                        onEndReached={() => fetchMore({
-                            variables: { offset: data?.coupons.length }
-                        })}
-                        onEndReachedThreshold={0.4}
-                        overScrollMode='never'
-                        data={loading ? makeIdArray(8, true) : data?.coupons as any}
-                        renderItem={({ item }) => loading ? <CouponCardSkeleton /> : <CouponCard {...item} />}
-                    />
+                    <View style={{ flex: 1 }} >
+                        {isEmpty && <EmptyView />}
+                        <FlatList
+                            showsVerticalScrollIndicator={false}
+                            onEndReached={() => fetchMore({
+                                variables: { offset: data?.coupons.length }
+                            })}
+                            onEndReachedThreshold={0.4}
+                            overScrollMode='never'
+                            data={loading ? makeIdArray(8, true) : data?.coupons as any}
+                            renderItem={({ item }) => loading ? <CouponCardSkeleton /> : <CouponCard {...item} />}
+                        />
+                    </View>
                     <ButtonFooter
                         active
                         onPress={() => setCouponRegistBottomSheetVisible(true)}
