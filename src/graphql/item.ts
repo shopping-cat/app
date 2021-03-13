@@ -45,7 +45,7 @@ export const ITEM = gql`
             photo
         }
       }
-      partner {
+      shop {
         id
         shopName
       }
@@ -78,7 +78,7 @@ export interface ItemDetail {
   rate: number
   reviewNum: number
   bestItemReviews: ItemReview[]
-  partner: {
+  shop: {
     id: ID
     shopName: string
   }

@@ -9,7 +9,7 @@ import moneyFormat from '../../lib/moneyFormat'
 import { ItemDetail } from '../../graphql/item'
 
 
-const ItemDetailInfo: React.FC<ItemDetail> = ({ id, partner, name, sale, salePrice, price, rate, reviewNum }) => {
+const ItemDetailInfo: React.FC<ItemDetail> = ({ id, shop, name, sale, salePrice, price, rate, reviewNum }) => {
 
     const { navigate } = useNavigation()
 
@@ -19,7 +19,7 @@ const ItemDetailInfo: React.FC<ItemDetail> = ({ id, partner, name, sale, salePri
     }, [])
 
     const onShop = useCallback(() => {
-        navigate('ShopDetail', { id: partner.id })
+        navigate('ShopDetail', { id: shop.id })
     }, [])
 
     return (
@@ -35,7 +35,7 @@ const ItemDetailInfo: React.FC<ItemDetail> = ({ id, partner, name, sale, salePri
                 style={styles.shopInfoContainer}
             >
                 <Icon name='storefront-outline' color={COLOR2} size={16} />
-                <BaseText style={styles.shopName} >{partner.shopName}</BaseText>
+                <BaseText style={styles.shopName} >{shop.shopName}</BaseText>
             </Pressable>
 
             <BaseText style={styles.title} >{name}</BaseText>

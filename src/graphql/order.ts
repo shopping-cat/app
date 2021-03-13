@@ -42,7 +42,7 @@ query ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!){
                 price
                 salePrice
                 isFreeDelivery
-                partner {
+                shop {
                 id
                 shopName
                 }
@@ -88,7 +88,7 @@ export interface OrderItem {
         price: number
         salePrice: number
         isFreeDelivery: boolean
-        partner: {
+        shop: {
             id: ID
             shopName: string
         }

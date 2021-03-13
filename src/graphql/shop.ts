@@ -2,10 +2,10 @@ import { gql, QueryHookOptions } from "@apollo/client"
 import { ID } from "../constants/types"
 import { createQueryHook } from "../lib/createApolloHook"
 
-// QUERY/PARTNER
-export const PARTNER = gql`
+// QUERY/SHOP
+export const SHOP = gql`
   query ($id:Int!){
-    partner(id:$id) {
+    shop(id:$id) {
         id
         shopName
         shopImage
@@ -15,8 +15,8 @@ export const PARTNER = gql`
     }
   }
 `
-interface PartnerData {
-    partner: {
+interface ShopData {
+    shop: {
         id: ID
         shopName: string
         shopImage: string
@@ -25,9 +25,9 @@ interface PartnerData {
         itemNum: number
     }
 }
-interface PartnerVars {
+interface ShopVars {
     id: ID
 }
-export const usePartner = (options?: QueryHookOptions<PartnerData, PartnerVars>) => createQueryHook<PartnerData, PartnerVars>(PARTNER, {
+export const useShop = (options?: QueryHookOptions<ShopData, ShopVars>) => createQueryHook<ShopData, ShopVars>(SHOP, {
     ...options,
 })

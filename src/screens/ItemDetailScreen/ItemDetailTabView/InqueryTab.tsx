@@ -6,12 +6,12 @@ import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { COLOR1, GRAY, LIGHT_GRAY, WIDTH } from '../../../constants/styles'
 import { ItemDetail } from '../../../graphql/item'
 
-const InqueryTab: React.FC<ItemDetail> = ({ partner }) => {
+const InqueryTab: React.FC<ItemDetail> = ({ shop }) => {
 
     const { navigate } = useNavigation()
 
     const onChat = useCallback(() => {
-        navigate('ShopChat', { name: partner.shopName })
+        navigate('ShopChat', { name: shop.shopName })
     }, [])
 
     return (

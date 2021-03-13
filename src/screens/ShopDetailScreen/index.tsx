@@ -16,7 +16,7 @@ import UpFab from '../../components/Buttons/UpFab'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { ID } from '../../constants/types'
 import { useShopItems } from '../../graphql/item'
-import { usePartner } from '../../graphql/partner'
+import { useShop } from '../../graphql/shop'
 import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
 import ShopDetailSkeleton from './ShopDetailSkeleton'
@@ -42,7 +42,7 @@ const ShopDetailScreen = () => {
 
     // DATA
     const { params } = useRoute<Route<'ShopDetail', ShopDetailScreenProps>>()
-    const { data: shopData } = usePartner({ variables: { id: params.id } })
+    const { data: shopData } = useShop({ variables: { id: params.id } })
     const { data, fetchMore, loading, refetch } = useShopItems({
         variables: {
             shopId: params.id,
@@ -56,7 +56,7 @@ const ShopDetailScreen = () => {
     }, [])
 
     const onChat = useCallback(() => {
-        navigate('ShopChat', { name: shopData?.partner.shopName, id: params.id })
+        navigate('ShopChat', { name: shopData?.shop.shopName, id: params.id })
     }, [shopData, params])
 
     const onScroll = useCallback(({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -90,18 +90,18 @@ const ShopDetailScreen = () => {
                             <View style={styles.shopInfoContianer} >
                                 <View style={styles.shopInfoContainerLeft} >
                                     <Image
-                                        source={{ uri: shopData.partner.shopImage }}
+                                        source={{ uri: shopData.shop.shopImage }}
                                         style={styles.image}
                                     />
                                     <View >
-                                        <BaseText style={styles.shopName} >{shopData.partner.shopName}</BaseText>
+                                        <BaseText style={styles.shopName} >{shopData.shop.shopName}</BaseText>
                                         <View style={styles.rateContainer} >
                                             <RateStars
-                                                rate={shopData.partner.rate}
+                                                rate={shopData.shop.rate}
                                                 spacing={3.5}
                                                 emptyColor={VERY_LIGHT_GRAY}
                                             />
-                                            <BaseText style={styles.rate}>{shopData.partner.rate} ({shopData.partner.rateNum})</BaseText>
+                                            <BaseText style={styles.rate}>{shopData.shop.rate} ({shopData.shop.rateNum})</BaseText>
                                         </View>
                                     </View>
                                 </View>
@@ -114,7 +114,7 @@ const ShopDetailScreen = () => {
                                 onPress={onSort}
                                 style={styles.sortBtnContainer}
                             >
-                                <BaseText style={styles.sortText} >전체 {shopData.partner.itemNum}건</BaseText>
+                                <BaseText style={styles.sortText} >전체 {shopData.shop.itemNum}건</BaseText>
                                 <View style={styles.sortContainer} >
                                     <BaseText style={styles.sortText}>{sort}</BaseText>
                                     <DownArrowIcon />

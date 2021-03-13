@@ -59,7 +59,7 @@ const PaymentScreen = () => {
         nextFetchPolicy: 'cache-and-network'
     })
 
-    const active = data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '가상계좌' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true)
+    const active = data?.orderCalculate.user.certificatedInfo && data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '가상계좌' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true)
 
     useEffect(() => {
         init()

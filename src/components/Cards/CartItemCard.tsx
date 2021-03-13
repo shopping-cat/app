@@ -25,7 +25,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelec
     }, [data])
 
     const onShop = useCallback(() => {
-        navigate('ShopDetail', { id: data.item.partner.id })
+        navigate('ShopDetail', { id: data.item.shop.id })
     }, [data])
 
     return (
@@ -48,7 +48,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelec
 
                 <View>
                     <Pressable onPress={onShop} >
-                        <BaseText style={styles.shopName} >{data.item.partner.shopName}</BaseText>
+                        <BaseText style={styles.shopName} >{data.item.shop.shopName}</BaseText>
                     </Pressable>
                     <Pressable onPress={onShop} >
                         <BaseText numberOfLines={1} >{data.item.name}</BaseText>

@@ -22,7 +22,7 @@ export const CART_ITEMS = gql`
         price
         salePrice
         deliveryPrice
-        partner {
+        shop {
           id
           shopName
         }
@@ -51,7 +51,7 @@ export interface CartItem {
     price: number
     salePrice: number
     deliveryPrice: number
-    partner: {
+    shop: {
       id: ID
       shopName: string
     }
@@ -86,7 +86,7 @@ export const ADD_TO_CART = gql`
         price
         salePrice
         deliveryPrice
-        partner {
+        shop {
           id
           shopName
         }

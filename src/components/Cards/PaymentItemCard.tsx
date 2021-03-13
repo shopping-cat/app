@@ -21,7 +21,7 @@ const PaymentItemCard: React.FC<OrderItem> = ({ item, num, stringOption, optione
                     </View>}
                 </View>
                 <View >
-                    <BaseText style={styles.shopName} >{item.partner.shopName}</BaseText>
+                    <BaseText style={styles.shopName} >{item.shop.shopName}</BaseText>
                     <BaseText numberOfLines={1} >{item.name}</BaseText>
                     {stringOption && <BaseText numberOfLines={1} style={styles.option} >{stringOption}</BaseText>}
                     <View style={styles.priceContainer} >

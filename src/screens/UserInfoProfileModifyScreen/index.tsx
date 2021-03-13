@@ -78,7 +78,7 @@ const UserInfoProfileModifyScreen = () => {
                 <UnderLineInput
                     value={name}
                     onChangeText={onChangeName}
-                    placeholder='이름을 입력해주세요'
+                    placeholder='닉네임을 입력해주세요'
                     maxLength={20}
                     numberOfLines={1}
                 />
