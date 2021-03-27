@@ -44,8 +44,8 @@ const ZzimItemCard: React.FC<ZzimItemCardProps & Item> = ({ isSelectMode, onSele
                     source={{ uri: mainImage }}
                     style={styles.image}
                 />
-                {state !== 'sale' && <View style={styles.itemStateCotnainer} >
-                    <BaseText style={styles.itemState} >{state === 'noStock' ? '재고없음' : '판매중지'}</BaseText>
+                {state !== '판매중' && <View style={styles.itemStateCotnainer} >
+                    <BaseText style={styles.itemState} >{state}</BaseText>
                 </View>}
                 {isSelectMode &&
                     <View style={[styles.selectModeView, { backgroundColor: isSelected ? COLOR1 + '88' : undefined }]} >

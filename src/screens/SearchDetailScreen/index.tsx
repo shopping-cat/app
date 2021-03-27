@@ -20,6 +20,7 @@ import { RECENT_SEARCH_KEYWORDS } from '../../graphql/user'
 import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
 import EmptyView from '../../components/View/EmptyView'
+import useCategory from '../../hooks/useCategory'
 
 
 interface RouteParams {
@@ -37,10 +38,10 @@ const SearchDetailScreen = () => {
     const client = useApolloClient()
     const [recentSearchKeywordsFetched, setRecentSearchKeywordsFetched] = useState(false)
     const { params } = useRoute<Route<'SearchDetail', RouteParams>>()
-    const [category, setCategory] = useState('전체')
+    const { category1, category2, onChangeCategory } = useCategory()
     const [sortIndex, setSortIndex] = useState(0)
     const orderBy = SORT_LIST[sortIndex]
-    const { data, refetch, fetchMore, loading } = useFilteredItems({ variables: { orderBy, category, keyword: params.keyword } })
+    const { data, refetch, fetchMore, loading } = useFilteredItems({ variables: { orderBy, category1, category2, keyword: params.keyword } })
 
     // ui
     const { bottom } = useSafeAreaInsets()
@@ -65,7 +66,7 @@ const SearchDetailScreen = () => {
         <ScreenLayout disableStatusbarHeight >
             <StatusBarHeightView />
             <SearchHeader editable={false} />
-            <CategorySelector onChange={(c1, c2) => setCategory(c2 || c1 || '전체')} />
+            <CategorySelector onChange={onChangeCategory} />
             <View style={{ flex: 1 }} >
                 {isEmpty && <EmptyView />}
                 <FlatList

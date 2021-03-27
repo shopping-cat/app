@@ -6,7 +6,7 @@ export default new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
-                filteredItems: offsetLimitPagination(['category', 'keyword', 'orderBy']),
+                filteredItems: offsetLimitPagination(['category1', 'category2', 'keyword', 'orderBy']),
                 recommendedItems: offsetLimitPagination(),
                 itemReviews: offsetLimitPagination(['itemId', 'orderBy']),
                 shopItems: offsetLimitPagination(['orderBy', 'shopId']),
@@ -16,7 +16,7 @@ export default new InMemoryCache({
                 pointReceipts: offsetLimitPagination(),
                 payments: offsetLimitPagination(),
                 zzimItems: {
-                    keyArgs: ['category'],
+                    keyArgs: ['category1', 'category2'],
                     merge: function (existing, incoming, _a) {
                         var args = _a.args;
                         var merged = existing ? existing.slice(0) : [];

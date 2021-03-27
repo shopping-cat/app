@@ -17,7 +17,8 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
     const { data, refetch, fetchMore, loading } = useFilteredItems({
         variables: {
             orderBy: '인기순',
-            category: category2 || category1 || '전체',
+            category1,
+            category2
         }
     })
     const { onRefresh, refreshing } = useRefreshing(refetch)

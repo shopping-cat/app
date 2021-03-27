@@ -29,8 +29,8 @@ const ItemCardAThird: React.FC<Item> = ({ id, isFreeDelivery, isILiked, isNew, m
                     style={styles.image}
                 />
                 {isILiked && <Icon style={styles.likedIcon} name='heart' size={16} color={COLOR1} />}
-                {state !== 'sale' && <View style={styles.itemStateCotnainer} >
-                    <BaseText style={styles.itemState} >{state === 'noStock' ? '재고없음' : '판매중지'}</BaseText>
+                {state !== '판매중' && <View style={styles.itemStateCotnainer} >
+                    <BaseText style={styles.itemState} >{state}</BaseText>
                 </View>}
             </View>
             {(isNew || isFreeDelivery) &&

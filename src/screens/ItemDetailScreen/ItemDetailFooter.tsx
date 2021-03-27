@@ -34,7 +34,7 @@ const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy, data }) => {
     }, [liked])
 
     const onBigBuy = useCallback(() => {
-        if (data.state !== 'sale') return
+        if (data.state !== '판매중') return
         onBuy()
     }, [onBuy])
 
@@ -52,11 +52,11 @@ const ItemDetailFooter: React.FC<ItemDetailFooter> = ({ onBuy, data }) => {
             </TouchableScale>
             <TouchableScale
                 onPress={onBigBuy}
-                style={[styles.bigBuyContainer, { backgroundColor: data.state === 'sale' ? COLOR1 : LIGHT_GRAY }]}
+                style={[styles.bigBuyContainer, { backgroundColor: data.state === '판매중' ? COLOR1 : LIGHT_GRAY }]}
                 contianerStyle={styles.bigBuyTouchableContainer}
                 targetScale={0.9}
             >
-                <BaseText style={styles.bigBuyText} >{data.state === 'sale' ? '구매하기' : data.state === 'noStock' ? '재고없음' : '판매중지'}</BaseText>
+                <BaseText style={styles.bigBuyText} >{data.state === '판매중' ? '구매하기' : data.state}</BaseText>
             </TouchableScale>
         </View>
     )

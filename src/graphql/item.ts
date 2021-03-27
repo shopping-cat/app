@@ -1,5 +1,5 @@
 import { gql, MutationHookOptions, QueryHookOptions, useApolloClient } from "@apollo/client";
-import { ID, ItemState } from "../constants/types";
+import { Category, ID, ItemState } from "../constants/types";
 import { client } from "../lib/apollo";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 import { ItemReview } from "./itemReview";
@@ -95,8 +95,8 @@ export const useItem = (options?: QueryHookOptions<ItemData, ItemVars>) => creat
 
 // QUERY/FILTERED_ITEMS
 export const FILTERED_ITEMS = gql`
-  query ($category: String, $keyword: String, $orderBy: String, $offset:Int, $limit:Int){
-    filteredItems(category:$category, keyword:$keyword, orderBy:$orderBy, offset:$offset, limit:$limit) {
+  query ($category1: String,$category2: String, $keyword: String, $orderBy: String, $offset:Int, $limit:Int){
+    filteredItems(category1:$category1, category2:$category2,keyword:$keyword, orderBy:$orderBy, offset:$offset, limit:$limit) {
       id
       salePrice
       state
@@ -107,7 +107,7 @@ export const FILTERED_ITEMS = gql`
       isNew
       isILiked
     }
-    filteredItemsCount(category:$category, keyword:$keyword)
+    filteredItemsCount(category1:$category1, category2:$category2, keyword:$keyword)
   }
 `
 export interface Item {
@@ -126,7 +126,8 @@ interface FilteredItemsData {
   filteredItemsCount: number
 }
 interface FilteredItemsVars {
-  category?: string
+  category1?: string | null
+  category2?: string | null
   keyword?: string
   orderBy?: string
   offset?: number
@@ -164,8 +165,8 @@ export const useRecommendedItems = (options?: QueryHookOptions<RecommendedItemsD
 })
 
 export const ZZIM_ITEMS = gql`
-  query ($category: String,$offset:Int, $limit:Int){
-    zzimItems(category:$category,offset:$offset, limit:$limit) {
+  query ($category1: String,$category2: String,$offset:Int, $limit:Int){
+    zzimItems(category1:$category1, category2:$category2,offset:$offset, limit:$limit) {
       id
       salePrice
       state
@@ -185,7 +186,8 @@ interface ZzimItemsData {
 interface ZzimItemsVars {
   offset?: number
   limit?: number
-  category?: string
+  category1?: Category
+  category2?: Category
 }
 export const useZzimItems = (options?: QueryHookOptions<ZzimItemsData, ZzimItemsVars>) => createQueryHook<ZzimItemsData, ZzimItemsVars>(ZZIM_ITEMS, {
   ...options

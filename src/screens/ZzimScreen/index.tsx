@@ -11,13 +11,14 @@ import useRefreshing from '../../hooks/useRefreshing'
 import useZzimFooter from '../../hooks/useZzimFooter'
 import makeIdArray from '../../lib/makeIdArray'
 import EmptyView from '../../components/View/EmptyView'
+import useCategory from '../../hooks/useCategory'
 
 const ZzimScreen = () => {
 
     const flatlistRef = useRef<FlatList>(null)
 
-    const [category, setCategory] = useState('전체')
-    const { data, loading, fetchMore, refetch } = useZzimItems({ variables: { category } })
+    const { category1, category2, onChangeCategory } = useCategory()
+    const { data, loading, fetchMore, refetch } = useZzimItems({ variables: { category1, category2 } })
     const { onRefresh, refreshing } = useRefreshing(refetch)
     const filteredItems = data ? data.zzimItems.filter(v => v.isILiked) : []
     const { isSelectMode, onSelectMode, onSelect, selectList, onClose } = useZzimFooter(filteredItems)
@@ -52,7 +53,7 @@ const ZzimScreen = () => {
                     onComplete={onClose}
                     onSelectMode={onSelectMode}
                 />
-                <CategorySelector enable={!isSelectMode} onChange={(c1, c2) => setCategory(c2 || c1 || '전체')} />
+                <CategorySelector enable={!isSelectMode} onChange={onChangeCategory} />
                 <View style={{ flex: 1 }} >
                     {isEmpty && <EmptyView />}
                     <FlatList

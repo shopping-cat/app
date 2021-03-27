@@ -16,6 +16,7 @@ import { useFilteredItems } from '../../graphql/item'
 import useCategorySortSheet from '../../hooks/useCategorySortSheet'
 import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
+import useCategory from '../../hooks/useCategory'
 
 
 const CategoryScreen = () => {
@@ -24,9 +25,9 @@ const CategoryScreen = () => {
     const flatlistRef = useRef<FlatList>(null)
     const { bottom } = useSafeAreaInsets()
 
-    const [category, setCategory] = useState('전체')
+    const { category1, category2, onChangeCategory } = useCategory()
     const { SORT_LIST, open, sortIndex } = useCategorySortSheet()
-    const { data, loading, fetchMore, refetch } = useFilteredItems({ variables: { category, orderBy: SORT_LIST[sortIndex] } })
+    const { data, loading, fetchMore, refetch } = useFilteredItems({ variables: { category1, category2, orderBy: SORT_LIST[sortIndex] } })
     const { onRefresh, refreshing } = useRefreshing(refetch)
 
 
@@ -40,7 +41,7 @@ const CategoryScreen = () => {
         <ScreenLayout disableStatusbarHeight >
             <StatusBarHeightView />
             <DefaultHeader underLine={false} disableGoBack title='카테고리' />
-            <CategorySelector onChange={(c1, c2) => setCategory(c2 || c1 || '전체')} />
+            <CategorySelector onChange={onChangeCategory} />
             <FlatList
                 ref={flatlistRef}
                 refreshing={refreshing}
