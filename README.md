@@ -1,6 +1,10 @@
 # app
 쇼핑냥이 앱
 
+## 버그
+- 로그인이 안될때
+- > env.ts에 서버 주소 확인
+
 ## .gitignore
 - env.ts
 - android/app/shoppingcat-user-app.keystore

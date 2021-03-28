@@ -2,14 +2,10 @@ import { MutationHookOptions, useMutation, QueryHookOptions, useQuery, ApolloErr
 import { DocumentNode } from "graphql"
 import { toastMessageVar } from "../hooks/useToast"
 
-const ERROR_SIMBOL = 'ERRORMESSAGE@'
 
 const errorLogger = (error: ApolloError) => {
     if (__DEV__) console.log(error.message)
-    let errorMessage = ''
-    if (error.message.substr(0, ERROR_SIMBOL.length) === ERROR_SIMBOL) errorMessage = error.message.substr(ERROR_SIMBOL.length)
-    else errorMessage = '알 수 없는 오류'
-    toastMessageVar(errorMessage)
+    toastMessageVar(error.message)
 }
 
 export const createMutationHook = <Data, Vars>(mutation: DocumentNode, options?: MutationHookOptions<Data, Vars>) =>
