@@ -137,40 +137,29 @@ const Navigation = () => {
                 console.log('logged in')
                 // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
                 const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
+                const route = navigationRef?.current?.getCurrentRoute()
                 if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
-                    setTimeout(() => {
-                        // 중복 네비게이트 방지
-                        const route = navigationRef?.current?.getCurrentRoute()
-                        if (route?.name === 'ProfileRegist') return
-                        navigationRef.current?.reset({
-                            index: 0,
-                            routes: [{ name: 'ProfileRegist' }]
-                        })
-                    }, 200)
+                    if (route?.name === 'ProfileRegist') return
+                    navigationRef.current?.reset({
+                        index: 0,
+                        routes: [{ name: 'ProfileRegist' }]
+                    })
                 }
                 else {
-                    setTimeout(() => {
-                        // 중복 네비게이트 방지
-                        const route = navigationRef?.current?.getCurrentRoute()
-                        if (route?.name === 'Home') return
-                        navigationRef.current?.reset({
-                            index: 0,
-                            routes: [{ name: 'Tab' }]
-                        })
-                    }, 200)
+                    if (route?.name === 'Home') return
+                    navigationRef.current?.reset({
+                        index: 0,
+                        routes: [{ name: 'Tab' }]
+                    })
                 }
             } else {
                 console.log('logged out')
-                // timeout 없으면 앱 처음 실행시에 NavigastionContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
-                setTimeout(() => {
-                    // 중복 네비게이트 방지
-                    const route = navigationRef?.current?.getCurrentRoute()
-                    if (route?.name === 'Login') return
-                    navigationRef.current?.reset({
-                        index: 0,
-                        routes: [{ name: 'Login' }]
-                    })
-                }, 200)
+                const route = navigationRef?.current?.getCurrentRoute()
+                if (route?.name === 'Login') return
+                navigationRef.current?.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' }]
+                })
             }
         } catch (error) {
             console.error(error)
