@@ -29,7 +29,7 @@ const OrderDetailScreen = () => {
     })
     const [cancelPayment, { loading: cancelLoading }] = useCancelPayment()
 
-    const onButtonFooter = useCallback(() => {
+    const onButtonFooter = useCallback(async () => {
         if (!data) return
         if (cancelLoading) return
         const state = data.payment.state
@@ -37,7 +37,7 @@ const OrderDetailScreen = () => {
         if (state === '오류처리') return // 작동 안함
         if (state === '정상처리') navigate('OrderCancelGuide')
         if (state === '구매접수') { // 주문 취소
-            cancelPayment({
+            await cancelPayment({
                 variables: { id: data.payment.id }
             })
         }

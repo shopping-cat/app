@@ -1,6 +1,6 @@
 import { gql, QueryHookOptions } from "@apollo/client"
 import { ID } from "../constants/types"
-import { createQueryHook } from "../lib/createApolloHook"
+import { createMutationHookTest, createQueryHook, createQueryHookTest } from "../lib/createApolloHook"
 
 // QUERY/ORDER_CALCULATE
 export const ORDER_CALCULATE = gql`
@@ -166,5 +166,80 @@ export const useOrderCalculate = (options?: QueryHookOptions<OrderCalculateData,
     ...options,
 })
 
+const ORDER = gql`
+query ($id:Int!) {
+    order (id:$id) {
+        id
+        stringOptionNum
+        totalPrice
+        reason
+        reasonDetail
+        refundPrice
+        refundPoint
+        refundMethod
+        expectationRefundPrice
+        expectationRefundPoint
+        expectationRefundMethod
+        item {
+            id
+            name
+            mainImage
+            shop {
+                id
+                refundInfo
+                exchangeInfo
+            }
+        }
+    }
+}
+`
 
+interface OrderData {
+    order: {
+        id: number
+        stringOptionNum: string
+        totalPrice: number
+        reason: string
+        reasonDetail: string
+        refundPrice: number
+        refundPoint: number
+        refundMethod: string
+        expectationRefundPrice: number
+        expectationRefundPoint: number
+        expectationRefundMethod: number
+        item: {
+            id: number
+            name: string
+            mainImage: string
+            shop: {
+                id: number
+                refundInfo: string
+                exchangeInfo: string
+            }
+        }
+    }
+}
+interface OrderVars {
+    id: number
+}
+export const useOrder = createQueryHookTest<OrderData, OrderVars>(ORDER)
 
+const REFUND_ORDER = gql`
+mutation ($input:RefundOrderInput!) {
+    refundOrder (input:$input) {
+        id
+        state
+        reason
+        reasonDetail
+    }
+}
+`
+interface RefundOrderData { }
+interface RefundOrderVars {
+    input: {
+        id: number
+        reason: string
+        reasonDetail: string
+    }
+}
+export const useRefundOrder = createMutationHookTest<RefundOrderData, RefundOrderVars>(REFUND_ORDER)

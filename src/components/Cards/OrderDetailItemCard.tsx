@@ -9,19 +9,18 @@ import BorderyButton from '../Buttons/BorderyButton'
 
 
 
-const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, state, stringOptionNum }) => {
+const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, state, stringOptionNum, id }) => {
 
     const { navigate } = useNavigation()
 
     return (
-        <Pressable
-            onPress={() => navigate('ItemDetail', { id: item.id })}
-            style={styles.container}
-        >
-            <Image
-                style={styles.image}
-                source={{ uri: item.mainImage }}
-            />
+        <View style={styles.container}>
+            <Pressable onPress={() => navigate('ItemDetail', { id: item.id })} >
+                <Image
+                    style={styles.image}
+                    source={{ uri: item.mainImage }}
+                />
+            </Pressable>
             <View>
                 <BaseText numberOfLines={1} >{item.name}</BaseText>
                 <BaseText numberOfLines={1} style={styles.option} >{stringOptionNum}</BaseText>
@@ -29,18 +28,18 @@ const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, s
                     <BaseText style={styles.price} >{moneyFormat(totalPrice)}원</BaseText>
                 </View>
                 {(state !== '구매접수' && state !== '취소처리') && <View style={styles.stateContainer} >
-                    {state === '상점취소처리' && <BorderyButton onPress={() => navigate('OrderShopCancelDetail')}>취소처리됨</BorderyButton>}
+                    {state === '상점취소처리' && <BorderyButton onPress={() => navigate('OrderShopCancelDetail', { id })}>취소처리됨</BorderyButton>}
                     {state === '배송완료' && <>
-                        <BorderyButton onPress={() => navigate('Exchange')} >교환하기</BorderyButton>
-                        <BorderyButton style={{ marginLeft: 16 }} onPress={() => navigate('Refund')}>환불하기</BorderyButton>
+                        <BorderyButton onPress={() => navigate('Exchange', { id })} >교환하기</BorderyButton>
+                        <BorderyButton style={{ marginLeft: 16 }} onPress={() => navigate('Refund', { id })}>환불하기</BorderyButton>
                     </>}
-                    {state === '교환중' && <BorderyButton onPress={() => navigate('ExchangeDetail')}>교환상세</BorderyButton>}
-                    {state === '환불중' && <BorderyButton onPress={() => navigate('RefundDetail')}>환불상세</BorderyButton>}
-                    {state === '교환처리' && <BorderyButton onPress={() => navigate('ExchangeResult')}>교환처리됨</BorderyButton>}
-                    {state === '환불처리' && <BorderyButton onPress={() => navigate('RefundResult')}>환불처리됨</BorderyButton>}
+                    {state === '교환중' && <BorderyButton onPress={() => navigate('ExchangeDetail', { id })}>교환상세</BorderyButton>}
+                    {state === '환불중' && <BorderyButton onPress={() => navigate('RefundDetail', { id })}>환불상세</BorderyButton>}
+                    {state === '교환처리' && <BorderyButton onPress={() => navigate('ExchangeResult', { id })}>교환처리됨</BorderyButton>}
+                    {state === '환불처리' && <BorderyButton onPress={() => navigate('RefundResult', { id })}>환불처리됨</BorderyButton>}
                 </View>}
             </View>
-        </Pressable>
+        </View>
     )
 }
 

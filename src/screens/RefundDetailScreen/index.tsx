@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
@@ -7,50 +7,45 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
+import { useOrder } from '../../graphql/order'
+import LoadingView from '../../components/View/LoadingView'
 
-const dummyHowToRefund = '서울시 강남구 송파 타워 1층 53호로 주문번호 (153520)와 휴대폰 번호를 동봉해서 보내주시면 됩니다. 금액은 반품이 확인된 이후에 진행 됩니다.'
-const dummyRefundReason = '상품 문제'
-const dummyRefundReasonDetail = '이미지와 내용물이 다름'
-const dummyPrice = 55300
-const dummyRefundPrice = 51000
-const dummyRefundWay = '결제취소'
-const dummyRefundPoint = 1500
-
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const price = 79000
-const number = 1
+interface RefundDetailScreenProps {
+    id: number // orderId
+}
 
 const RefundDetailScreen = () => {
 
+
+    const { params } = useRoute<Route<'RefundDetail', RefundDetailScreenProps>>()
+    const { data } = useOrder({ variables: { id: params.id } })
     const { goBack } = useNavigation()
 
     return (
         <ScreenLayout>
             <DefaultHeader title='환불상세' disableBtns />
-            <ScrollView
+            {!data && <LoadingView />}
+            {data && <ScrollView
                 style={styles.container}
                 overScrollMode='never'
             >
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >환불/반품 방법</BaseText>
-                    <BaseText style={styles.content} >{dummyHowToRefund}</BaseText>
+                    <BaseText style={styles.content} >{data.order.item.shop.refundInfo}</BaseText>
                 </View>
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >상품 정보</BaseText>
                     <View style={styles.itemContainer} >
                         <Image
-                            source={{ uri: dummyImage }}
+                            source={{ uri: data.order.item.mainImage }}
                             style={styles.itemImage}
                         />
                         <View>
-                            <BaseText numberOfLines={1} >{dummyName}</BaseText>
-                            <BaseText style={styles.itemOption} numberOfLines={1} >{option}</BaseText>
+                            <BaseText numberOfLines={1} >{data.order.item.name}</BaseText>
+                            <BaseText style={styles.itemOption} numberOfLines={1} >{data.order.stringOptionNum}</BaseText>
                             <View style={styles.itemPriceContainer} >
-                                <BaseText style={styles.itemPrice}  >{moneyFormat(price)}원</BaseText>
-                                <BaseText style={styles.itemNumber} >{number}개</BaseText>
+                                <BaseText style={styles.itemPrice}  >{moneyFormat(data.order.totalPrice)}원</BaseText>
                             </View>
                         </View>
                     </View>
@@ -58,36 +53,36 @@ const RefundDetailScreen = () => {
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >환불 사유</BaseText>
-                    <BaseText style={styles.content} >{dummyRefundReason}</BaseText>
+                    <BaseText style={styles.content} >{data.order.reason}</BaseText>
                 </View>
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >상세 사유</BaseText>
-                    <BaseText style={styles.content} >{dummyRefundReasonDetail}</BaseText>
+                    <BaseText style={styles.content} >{data.order.reasonDetail}</BaseText>
                 </View>
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >환불 정보</BaseText>
                     <View style={[styles.labelContainer, { marginBottom: 0 }]} >
                         <BaseText style={styles.label} >상품 결제 금액</BaseText>
-                        <BaseText  >{moneyFormat(dummyPrice)}원</BaseText>
+                        <BaseText  >{moneyFormat(data.order.totalPrice)}원</BaseText>
                     </View>
                 </View>
 
                 <View style={[styles.labelContainer, { marginTop: 24 }]} >
                     <BaseText style={styles.label} >예상 환불금액</BaseText>
-                    <BaseText style={{ color: COLOR1 }} >{moneyFormat(dummyRefundPrice)}원</BaseText>
-                </View>
-                <View style={styles.labelContainer} >
-                    <BaseText style={styles.label} >예상 환불수단</BaseText>
-                    <BaseText  >{dummyRefundWay}</BaseText>
+                    <BaseText style={{ color: COLOR1 }} >{moneyFormat(data.order.expectationRefundPrice)}원</BaseText>
                 </View>
                 <View style={styles.labelContainer} >
                     <BaseText style={styles.label} >예상 환불 포인트</BaseText>
-                    <BaseText  >{moneyFormat(dummyRefundPoint)}포인트</BaseText>
+                    <BaseText  >{moneyFormat(data.order.expectationRefundPoint)}포인트</BaseText>
+                </View>
+                <View style={styles.labelContainer} >
+                    <BaseText style={styles.label} >예상 환불수단</BaseText>
+                    <BaseText  >{data.order.expectationRefundMethod}</BaseText>
                 </View>
 
-            </ScrollView>
+            </ScrollView>}
             <ButtonFooter
                 active
                 text='돌아가기'

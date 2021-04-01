@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
@@ -6,82 +6,77 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
 import RefundResultFail from './RefundResultFail'
+import { useOrder } from '../../graphql/order'
+import { Route, useRoute } from '@react-navigation/core'
+import LoadingView from '../../components/View/LoadingView'
 
-const isFail = false
 
-const dummyRefundReason = '상품 문제'
-const dummyRefundReasonDetail = '이미지와 내용물이 다름'
-const dummyPrice = 55300
-const dummyRefundPrice = 51000
-const dummyRefundWay = '결제취소'
-const dummyRefundPoint = 1500
-
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const price = 79000
-const number = 1
-
+interface RefundResultScreenProps {
+    id: number
+}
 
 const RefundResultScreen = () => {
+
+    const { params } = useRoute<Route<'RefundResult', RefundResultScreenProps>>()
+    const { data } = useOrder({ variables: { id: params.id }, fetchPolicy: 'network-only' })
+
+
     return (
         <ScreenLayout>
             <DefaultHeader title='환불결과' disableBtns />
-            {isFail && <RefundResultFail />}
-            {!isFail &&
-                <ScrollView style={styles.container} >
+            {/* {isFail && <RefundResultFail />} */}
+            {!data && <LoadingView />}
+            {data && <ScrollView style={styles.container} >
 
-                    <View style={styles.infoContainer} >
-                        <BaseText style={styles.title} >상품 정보</BaseText>
-                        <View style={styles.itemContainer} >
-                            <Image
-                                source={{ uri: dummyImage }}
-                                style={styles.itemImage}
-                            />
-                            <View>
-                                <BaseText numberOfLines={1} >{dummyName}</BaseText>
-                                <BaseText style={styles.itemOption} numberOfLines={1} >{option}</BaseText>
-                                <View style={styles.itemPriceContainer} >
-                                    <BaseText style={styles.itemPrice}  >{moneyFormat(price)}원</BaseText>
-                                    <BaseText style={styles.itemNumber} >{number}개</BaseText>
-                                </View>
+                <View style={styles.infoContainer} >
+                    <BaseText style={styles.title} >상품 정보</BaseText>
+                    <View style={styles.itemContainer} >
+                        <Image
+                            source={{ uri: data.order.item.mainImage }}
+                            style={styles.itemImage}
+                        />
+                        <View>
+                            <BaseText numberOfLines={1} >{data.order.item.name}</BaseText>
+                            <BaseText style={styles.itemOption} numberOfLines={1} >{data.order.stringOptionNum}</BaseText>
+                            <View style={styles.itemPriceContainer} >
+                                <BaseText style={styles.itemPrice}  >{moneyFormat(data.order.totalPrice)}원</BaseText>
                             </View>
                         </View>
                     </View>
+                </View>
 
-                    <View style={styles.infoContainer} >
-                        <BaseText style={styles.title} >환불 사유</BaseText>
-                        <BaseText style={styles.content} >{dummyRefundReason}</BaseText>
-                    </View>
+                <View style={styles.infoContainer} >
+                    <BaseText style={styles.title} >환불 사유</BaseText>
+                    <BaseText style={styles.content} >{data.order.reason}</BaseText>
+                </View>
 
-                    <View style={styles.infoContainer} >
-                        <BaseText style={styles.title} >상세 사유</BaseText>
-                        <BaseText style={styles.content} >{dummyRefundReasonDetail}</BaseText>
-                    </View>
+                <View style={styles.infoContainer} >
+                    <BaseText style={styles.title} >상세 사유</BaseText>
+                    <BaseText style={styles.content} >{data.order.reasonDetail}</BaseText>
+                </View>
 
-                    <View style={styles.infoContainer} >
-                        <BaseText style={styles.title} >환불 정보</BaseText>
-                        <View style={[styles.labelContainer, { marginBottom: 0 }]} >
-                            <BaseText style={styles.label} >상품 결제 금액</BaseText>
-                            <BaseText  >{moneyFormat(dummyPrice)}원</BaseText>
-                        </View>
+                <View style={styles.infoContainer} >
+                    <BaseText style={styles.title} >환불 정보</BaseText>
+                    <View style={[styles.labelContainer, { marginBottom: 0 }]} >
+                        <BaseText style={styles.label} >상품 결제 금액</BaseText>
+                        <BaseText  >{moneyFormat(data.order.totalPrice)}원</BaseText>
                     </View>
+                </View>
 
-                    <View style={[styles.labelContainer, { marginTop: 24 }]} >
-                        <BaseText style={styles.label} >총 환불금액</BaseText>
-                        <BaseText style={{ color: COLOR1 }} >{moneyFormat(dummyRefundPrice)}원</BaseText>
-                    </View>
-                    <View style={styles.labelContainer} >
-                        <BaseText style={styles.label} >환불수단</BaseText>
-                        <BaseText  >{dummyRefundWay}</BaseText>
-                    </View>
-                    <View style={styles.labelContainer} >
-                        <BaseText style={styles.label} >환불 포인트</BaseText>
-                        <BaseText  >{moneyFormat(dummyRefundPoint)}포인트</BaseText>
-                    </View>
+                <View style={[styles.labelContainer, { marginTop: 24 }]} >
+                    <BaseText style={styles.label} >총 환불금액</BaseText>
+                    <BaseText style={{ color: COLOR1 }} >{moneyFormat(data.order.refundPrice)}원</BaseText>
+                </View>
+                <View style={styles.labelContainer} >
+                    <BaseText style={styles.label} >환불 포인트</BaseText>
+                    <BaseText  >{moneyFormat(data.order.refundPoint)}포인트</BaseText>
+                </View>
+                <View style={styles.labelContainer} >
+                    <BaseText style={styles.label} >환불수단</BaseText>
+                    <BaseText  >{data.order.refundMethod}</BaseText>
+                </View>
 
-                </ScrollView>
-            }
+            </ScrollView>}
         </ScreenLayout>
     )
 }
