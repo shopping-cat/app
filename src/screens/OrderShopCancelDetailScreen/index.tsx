@@ -1,30 +1,27 @@
-import React, { useEffect } from 'react'
+import { useRoute } from '@react-navigation/core'
+import { Route } from '@react-navigation/routers'
+import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import BaseText from '../../components/Text/BaseText'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
-import moneyFormat from '../../lib/moneyFormat'
-import RefundResultFail from './RefundResultFail'
-import { useOrder } from '../../graphql/order'
-import { Route, useRoute } from '@react-navigation/core'
+import BaseText from '../../components/Text/BaseText'
 import LoadingView from '../../components/View/LoadingView'
+import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { useOrder } from '../../graphql/order'
+import moneyFormat from '../../lib/moneyFormat'
 
-
-interface RefundResultScreenProps {
+interface OrderShopCancelDetailScreenProps {
     id: number
 }
 
-const RefundResultScreen = () => {
+const OrderShopCancelDetailScreen = () => {
 
-    const { params } = useRoute<Route<'RefundResult', RefundResultScreenProps>>()
+    const { params } = useRoute<Route<'RefundResult', OrderShopCancelDetailScreenProps>>()
     const { data } = useOrder({ variables: { id: params.id } })
-
 
     return (
         <ScreenLayout>
-            <DefaultHeader title='환불결과' disableBtns />
-            {/* {isFail && <RefundResultFail />} */}
+            <DefaultHeader title='상점취소처리' disableBtns />
             {!data && <LoadingView />}
             {data && <ScrollView style={styles.container} >
 
@@ -46,13 +43,8 @@ const RefundResultScreen = () => {
                 </View>
 
                 <View style={styles.infoContainer} >
-                    <BaseText style={styles.title} >환불 사유</BaseText>
+                    <BaseText style={styles.title} >주문취소 사유</BaseText>
                     <BaseText style={styles.content} >{data.order.reason}</BaseText>
-                </View>
-
-                <View style={styles.infoContainer} >
-                    <BaseText style={styles.title} >상세 사유</BaseText>
-                    <BaseText style={styles.content} >{data.order.reasonDetail || '없음'}</BaseText>
                 </View>
 
                 <View style={styles.infoContainer} >
@@ -81,7 +73,7 @@ const RefundResultScreen = () => {
     )
 }
 
-export default RefundResultScreen
+export default OrderShopCancelDetailScreen
 
 const styles = StyleSheet.create({
     container: {
