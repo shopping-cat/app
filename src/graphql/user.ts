@@ -1,6 +1,5 @@
 import { gql, MutationHookOptions, QueryHookOptions, useApolloClient } from "@apollo/client";
 import { ReactNativeFile } from "apollo-upload-client";
-import { Image } from "react-native-image-crop-picker";
 import { ID } from "../constants/types";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
@@ -84,9 +83,7 @@ export interface IUserData {
 interface IUserVars {
 
 }
-export const useIUser = (options?: QueryHookOptions) => createQueryHook<IUserData, IUserVars>(I_USER, {
-  ...options
-})
+export const useIUser = createQueryHook<IUserData, IUserVars>(I_USER)
 
 // MUTATION/UPDATE_REFUND_BANK_ACCOUNT
 export const UPDATE_REFUND_BANK_ACCOUNT = gql`
@@ -118,9 +115,7 @@ interface UpdateRefundBankAccountVars {
   bankName: string
   accountNumber: string
 }
-export const useUpdateRefundBankAccount = (options?: MutationHookOptions<UpdateRefundBankAccountData, UpdateRefundBankAccountVars>) => createMutationHook<UpdateRefundBankAccountData, UpdateRefundBankAccountVars>(UPDATE_REFUND_BANK_ACCOUNT, {
-  ...options
-})
+export const useUpdateRefundBankAccount = createMutationHook<UpdateRefundBankAccountData, UpdateRefundBankAccountVars>(UPDATE_REFUND_BANK_ACCOUNT)
 
 // MUTATION/UPDATE_DELIVERY_INFO
 export const UPDATE_DELIVERY_INFO = gql`
@@ -158,9 +153,7 @@ interface UpdateDeliveryInfoVars {
   name: string
   phone: string
 }
-export const useUpdateDeliveryInfo = (options?: MutationHookOptions<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>) => createMutationHook<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>(UPDATE_DELIVERY_INFO, {
-  ...options
-})
+export const useUpdateDeliveryInfo = createMutationHook<UpdateDeliveryInfoData, UpdateDeliveryInfoVars>(UPDATE_DELIVERY_INFO)
 
 
 export const UPDATE_USER_PROFILE = gql`
@@ -183,9 +176,7 @@ interface UpdateUserProfileVars {
   photo: ReactNativeFile | null
   name: string | null
 }
-export const useUpdateUserProfile = (options?: MutationHookOptions<UpdateUserProfileData, UpdateUserProfileVars>) => createMutationHook<UpdateUserProfileData, UpdateUserProfileVars>(UPDATE_USER_PROFILE, {
-  ...options
-})
+export const useUpdateUserProfile = createMutationHook<UpdateUserProfileData, UpdateUserProfileVars>(UPDATE_USER_PROFILE)
 
 
 
@@ -215,9 +206,7 @@ interface RecentSearchKeywordsData {
 interface RecentSearchKeywordsVars {
 
 }
-export const useRecentSearchKeywords = (options?: QueryHookOptions) => createQueryHook<RecentSearchKeywordsData, RecentSearchKeywordsVars>(RECENT_SEARCH_KEYWORDS, {
-  ...options
-})
+export const useRecentSearchKeywords = createQueryHook<RecentSearchKeywordsData, RecentSearchKeywordsVars>(RECENT_SEARCH_KEYWORDS)
 
 // QUERY/REMOVE_ALL_SEARCH_KEYWORDS
 export const REMOVE_ALL_SEARCH_KEYWORDS = gql`
@@ -241,9 +230,7 @@ interface RemoveAllSearchKeywordsData {
 interface RemoveAllSearchKeywordsVars {
 
 }
-export const useRemoveAllSearchKeywords = (options?: MutationHookOptions) => createMutationHook<RemoveAllSearchKeywordsData, RemoveAllSearchKeywordsVars>(REMOVE_ALL_SEARCH_KEYWORDS, {
-  ...options
-})
+export const useRemoveAllSearchKeywords = createMutationHook<RemoveAllSearchKeywordsData, RemoveAllSearchKeywordsVars>(REMOVE_ALL_SEARCH_KEYWORDS)
 
 // QUERY/WITHDRAWAL_USER
 export const WITHDRAWAL_USER = gql`
@@ -262,6 +249,4 @@ interface WithdrawalUserData {
 interface WithdrawalUserVars {
 
 }
-export const useWithdrawalUser = (options?: MutationHookOptions) => createMutationHook<WithdrawalUserData, WithdrawalUserVars>(WITHDRAWAL_USER, {
-  ...options
-})
+export const useWithdrawalUser = createMutationHook<WithdrawalUserData, WithdrawalUserVars>(WITHDRAWAL_USER)

@@ -28,6 +28,4 @@ interface ShopData {
 interface ShopVars {
     id: ID
 }
-export const useShop = (options?: QueryHookOptions<ShopData, ShopVars>) => createQueryHook<ShopData, ShopVars>(SHOP, {
-    ...options,
-})
+export const useShop = createQueryHook<ShopData, ShopVars>(SHOP)

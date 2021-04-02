@@ -77,9 +77,7 @@ interface PaymentData {
 interface PaymentVars {
     id: string
 }
-export const usePayment = (options?: QueryHookOptions<PaymentData, PaymentVars>) => createQueryHook<PaymentData, PaymentVars>(PAYMENT, {
-    ...options,
-})
+export const usePayment = createQueryHook<PaymentData, PaymentVars>(PAYMENT)
 
 
 // QUERY/PAYMENTS
@@ -108,9 +106,7 @@ interface PaymentsVars {
     offset: number
     limit: number
 }
-export const usePayments = (options?: QueryHookOptions<PaymentsData, PaymentsVars>) => createQueryHook<PaymentsData, PaymentsVars>(PAYMENTS, {
-    ...options,
-})
+export const usePayments = createQueryHook<PaymentsData, PaymentsVars>(PAYMENTS)
 
 
 // MUTATION/CREATE_PAYMENT
@@ -167,9 +163,7 @@ interface CreatePaymentVars {
     method: string
     deliveryMemo: string
 }
-export const useCreatePayment = (options?: MutationHookOptions<CreatePaymentData, CreatePaymentVars>) => createMutationHook<CreatePaymentData, CreatePaymentVars>(CREATE_PAYMENT, {
-    ...options,
-})
+export const useCreatePayment = createMutationHook<CreatePaymentData, CreatePaymentVars>(CREATE_PAYMENT)
 
 
 // MUTATION/COMPLETE_PAYMENT
@@ -236,8 +230,7 @@ interface CompletePaymentVars {
     imp_uid: string
     merchant_uid: string
 }
-export const useCompletePayment = (options?: MutationHookOptions<CompletePaymentData, CompletePaymentVars>) => createMutationHook<CompletePaymentData, CompletePaymentVars>(COMPLETE_PAYMENT, {
-    ...options,
+export const useCompletePayment = createMutationHook<CompletePaymentData, CompletePaymentVars>(COMPLETE_PAYMENT, {
     onCompleted: ({ completePayment }) => {
         if (completePayment.state !== '결제취소') deleteCartItemsFromCache(completePayment.orders.map(v => v.cartItemId))
     }
@@ -274,6 +267,4 @@ interface CancelPaymentData {
 interface CancelPaymentVars {
     id: string
 }
-export const useCancelPayment = (options?: MutationHookOptions<CancelPaymentData, CancelPaymentVars>) => createMutationHook<CancelPaymentData, CancelPaymentVars>(CANCEL_PAYMENT, {
-    ...options
-})
+export const useCancelPayment = createMutationHook<CancelPaymentData, CancelPaymentVars>(CANCEL_PAYMENT)

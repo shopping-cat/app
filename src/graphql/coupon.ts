@@ -33,9 +33,7 @@ interface CouponsVars {
     offset?: number
     limit?: number
 }
-export const useCoupons = (options?: QueryHookOptions<CouponsData, CouponsVars>) => createQueryHook<CouponsData, CouponsVars>(COUPONS, {
-    ...options,
-})
+export const useCoupons = createQueryHook<CouponsData, CouponsVars>(COUPONS)
 
 // MUTATION/REGIST_COUPON
 export const REGIST_COUPON = gql`
@@ -54,6 +52,4 @@ interface RegistCouponData {
 interface RegistCouponVars {
     couponId: string
 }
-export const useRegistCoupon = (options?: MutationHookOptions<RegistCouponData, RegistCouponVars>) => createMutationHook<RegistCouponData, RegistCouponVars>(REGIST_COUPON, {
-    ...options,
-})
+export const useRegistCoupon = createMutationHook<RegistCouponData, RegistCouponVars>(REGIST_COUPON)

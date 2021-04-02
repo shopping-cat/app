@@ -63,9 +63,7 @@ interface ItemReviewsVars {
     offset?: number
     limit?: number
 }
-export const useItemReviews = (options?: QueryHookOptions<ItemReviewsData, ItemReviewsVars>) => createQueryHook<ItemReviewsData, ItemReviewsVars>(ITEM_REVIEWS, {
-    ...options,
-})
+export const useItemReviews = createQueryHook<ItemReviewsData, ItemReviewsVars>(ITEM_REVIEWS)
 
 
 // QUERY/MY_REVIEWS
@@ -142,9 +140,7 @@ interface MyReviewsVars {
     myItemReviewsOffset?: number
     myItemReviewsLimit?: number
 }
-export const useMyReviews = (options?: QueryHookOptions<MyReviewsData, MyReviewsVars>) => createQueryHook<MyReviewsData, MyReviewsVars>(MY_REVIEWS, {
-    ...options,
-})
+export const useMyReviews = createQueryHook<MyReviewsData, MyReviewsVars>(MY_REVIEWS)
 
 
 // MUTATION/ITEM_REVIEW_RECOMMEND
@@ -168,9 +164,7 @@ interface ItemReviewRecommendVars {
     itemReviewId: number
     recommendState: RecommendState
 }
-export const useItemReviewRecommend = (options?: MutationHookOptions<ItemReviewRecommendData, ItemReviewRecommendVars>) => createMutationHook<ItemReviewRecommendData, ItemReviewRecommendVars>(ITEM_REVIEW_RECOMMEND, {
-    ...options,
-})
+export const useItemReviewRecommend = createMutationHook<ItemReviewRecommendData, ItemReviewRecommendVars>(ITEM_REVIEW_RECOMMEND)
 
 // MUTATION/CREATE_ITEM_REVIEW
 export const CREATE_ITEM_REVIEW = gql`
@@ -204,8 +198,7 @@ interface CreateItemReviewVars {
     content: string
     imageIds: number[]
 }
-export const useCreateItemReview = (options?: MutationHookOptions<CreateItemReviewData, CreateItemReviewVars>) => createMutationHook<CreateItemReviewData, CreateItemReviewVars>(CREATE_ITEM_REVIEW, {
-    ...options,
+export const useCreateItemReview = createMutationHook<CreateItemReviewData, CreateItemReviewVars>(CREATE_ITEM_REVIEW, {
     update: (cache, { data }) => {
         cache.modify({
             fields: {
@@ -264,6 +257,4 @@ interface UpdateItemReviewVars {
     content: string
     imageIds: number[]
 }
-export const useUpdateItemReview = (options?: MutationHookOptions<UpdateItemReviewData, UpdateItemReviewVars>) => createMutationHook<UpdateItemReviewData, UpdateItemReviewVars>(UPDATE_ITEM_REVIEW, {
-    ...options
-})
+export const useUpdateItemReview = createMutationHook<UpdateItemReviewData, UpdateItemReviewVars>(UPDATE_ITEM_REVIEW)

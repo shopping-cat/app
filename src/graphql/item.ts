@@ -89,9 +89,7 @@ interface ItemData {
 interface ItemVars {
   id: ID
 }
-export const useItem = (options?: QueryHookOptions<ItemData, ItemVars>) => createQueryHook<ItemData, ItemVars>(ITEM, {
-  ...options,
-})
+export const useItem = createQueryHook<ItemData, ItemVars>(ITEM)
 
 // QUERY/FILTERED_ITEMS
 export const FILTERED_ITEMS = gql`
@@ -133,9 +131,7 @@ interface FilteredItemsVars {
   offset?: number
   limit?: number
 }
-export const useFilteredItems = (options?: QueryHookOptions<FilteredItemsData, FilteredItemsVars>) => createQueryHook<FilteredItemsData, FilteredItemsVars>(FILTERED_ITEMS, {
-  ...options
-})
+export const useFilteredItems = createQueryHook<FilteredItemsData, FilteredItemsVars>(FILTERED_ITEMS)
 
 export const RECOMMENDED_ITEMS = gql`
   query ($offset:Int, $limit:Int){
@@ -160,9 +156,7 @@ interface RecommendedItemsVars {
   offset?: number
   limit?: number
 }
-export const useRecommendedItems = (options?: QueryHookOptions<RecommendedItemsData, RecommendedItemsVars>) => createQueryHook<RecommendedItemsData, RecommendedItemsVars>(RECOMMENDED_ITEMS, {
-  ...options,
-})
+export const useRecommendedItems = createQueryHook<RecommendedItemsData, RecommendedItemsVars>(RECOMMENDED_ITEMS)
 
 export const ZZIM_ITEMS = gql`
   query ($category1: String,$category2: String,$offset:Int, $limit:Int){
@@ -189,9 +183,7 @@ interface ZzimItemsVars {
   category1?: Category
   category2?: Category
 }
-export const useZzimItems = (options?: QueryHookOptions<ZzimItemsData, ZzimItemsVars>) => createQueryHook<ZzimItemsData, ZzimItemsVars>(ZZIM_ITEMS, {
-  ...options
-})
+export const useZzimItems = createQueryHook<ZzimItemsData, ZzimItemsVars>(ZZIM_ITEMS)
 
 export const SHOP_ITEMS = gql`
   query ($shopId: Int!, $orderBy:String $offset:Int, $limit:Int){
@@ -218,9 +210,7 @@ interface ShopItemsVars {
   offset?: number
   limit?: number
 }
-export const useShopItems = (options?: QueryHookOptions<ShopItemsData, ShopItemsVars>) => createQueryHook<ShopItemsData, ShopItemsVars>(SHOP_ITEMS, {
-  ...options,
-})
+export const useShopItems = createQueryHook<ShopItemsData, ShopItemsVars>(SHOP_ITEMS)
 
 
 export const LIKE_ITEM = gql`
@@ -244,9 +234,7 @@ interface LikeItemVars {
   itemId: ID
   like: boolean
 }
-export const useLikeItem = (options?: MutationHookOptions<LikeItemData, LikeItemVars>) => createMutationHook<LikeItemData, LikeItemVars>(LIKE_ITEM, {
-  ...options,
-})
+export const useLikeItem = createMutationHook<LikeItemData, LikeItemVars>(LIKE_ITEM)
 
 
 export const UNLIKE_ITEMS = gql`
@@ -269,8 +257,6 @@ interface UnlikeItemsData {
 interface UnlikeItemsVars {
   itemIds: ID[]
 }
-export const useUnlikeItems = (options?: MutationHookOptions<UnlikeItemsData, UnlikeItemsVars>) => createMutationHook<UnlikeItemsData, UnlikeItemsVars>(UNLIKE_ITEMS, {
-  ...options,
-})
+export const useUnlikeItems = createMutationHook<UnlikeItemsData, UnlikeItemsVars>(UNLIKE_ITEMS)
 
 

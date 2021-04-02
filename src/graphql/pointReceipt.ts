@@ -33,6 +33,4 @@ interface PointReceiptsVars {
     offset?: number
     limit?: number
 }
-export const usePointReceipts = (options?: QueryHookOptions<PointReceiptsData, PointReceiptsVars>) => createQueryHook<PointReceiptsData, PointReceiptsVars>(POINT_RECEIPTS, {
-    ...options,
-})
+export const usePointReceipts = createQueryHook<PointReceiptsData, PointReceiptsVars>(POINT_RECEIPTS)

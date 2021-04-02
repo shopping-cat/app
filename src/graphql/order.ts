@@ -1,6 +1,6 @@
 import { gql, QueryHookOptions } from "@apollo/client"
 import { ID } from "../constants/types"
-import { createMutationHookTest, createQueryHook, createQueryHookTest } from "../lib/createApolloHook"
+import { createMutationHook, createQueryHook, } from "../lib/createApolloHook"
 
 // QUERY/ORDER_CALCULATE
 export const ORDER_CALCULATE = gql`
@@ -162,9 +162,7 @@ interface OrderCalculateVars {
     coupons: OrderCalculateCouponVar[]
     point: number
 }
-export const useOrderCalculate = (options?: QueryHookOptions<OrderCalculateData, OrderCalculateVars>) => createQueryHook<OrderCalculateData, OrderCalculateVars>(ORDER_CALCULATE, {
-    ...options,
-})
+export const useOrderCalculate = createQueryHook<OrderCalculateData, OrderCalculateVars>(ORDER_CALCULATE)
 
 const ORDER = gql`
 query ($id:Int!) {
@@ -222,7 +220,7 @@ interface OrderData {
 interface OrderVars {
     id: number
 }
-export const useOrder = createQueryHookTest<OrderData, OrderVars>(ORDER)
+export const useOrder = createQueryHook<OrderData, OrderVars>(ORDER)
 
 const REFUND_ORDER = gql`
 mutation ($input:RefundOrderInput!) {
@@ -242,7 +240,7 @@ interface RefundOrderVars {
         reasonDetail: string
     }
 }
-export const useRefundOrder = createMutationHookTest<RefundOrderData, RefundOrderVars>(REFUND_ORDER)
+export const useRefundOrder = createMutationHook<RefundOrderData, RefundOrderVars>(REFUND_ORDER)
 
 
 const EXCHANGE_ORDER = gql`
@@ -263,4 +261,4 @@ interface ExchangeOrderVars {
         reasonDetail: string
     }
 }
-export const useExchangeOrder = createMutationHookTest<ExchangeOrderData, ExchangeOrderVars>(EXCHANGE_ORDER)
+export const useExchangeOrder = createMutationHook<ExchangeOrderData, ExchangeOrderVars>(EXCHANGE_ORDER)

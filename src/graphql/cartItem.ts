@@ -65,9 +65,7 @@ export interface CartItemsData {
 interface CartItemsVars {
 
 }
-export const useCartItems = (options?: QueryHookOptions<CartItemsData, CartItemsVars>) => createQueryHook<CartItemsData, CartItemsVars>(CART_ITEMS, {
-  ...options,
-})
+export const useCartItems = createQueryHook<CartItemsData, CartItemsVars>(CART_ITEMS)
 
 // MUTATION/ADD_TO_CART 장바구니에 담기
 export const ADD_TO_CART = gql`
@@ -105,7 +103,7 @@ interface AddToCartVars {
   isDirectBuy?: boolean
 }
 
-export const useAddToCart = () => createMutationHook<AddToCartData, AddToCartVars>(ADD_TO_CART, {
+export const useAddToCart = createMutationHook<AddToCartData, AddToCartVars>(ADD_TO_CART, {
   update: (cache, { data }) => {
     cache.modify({
       fields: {
@@ -145,9 +143,7 @@ interface DeleteCartItemsVars {
   itemIds: number[]
 }
 
-export const useDeleteCartItems = () => createMutationHook<DeleteCartItemsData, DeleteCartItemsVars>(DELETE_CART_ITEMS, {
-
-})
+export const useDeleteCartItems = createMutationHook<DeleteCartItemsData, DeleteCartItemsVars>(DELETE_CART_ITEMS)
 
 export const deleteCartItemsFromCache = (ids: number[]) => {
   cache.modify({

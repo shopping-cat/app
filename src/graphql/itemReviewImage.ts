@@ -23,6 +23,4 @@ interface CreateItemReviewImageData {
 interface CreateItemReviewImageVars {
     image: ReactNativeFile
 }
-export const useCreateItemReviewImage = (options?: MutationHookOptions<CreateItemReviewImageData, CreateItemReviewImageVars>) => createMutationHook<CreateItemReviewImageData, CreateItemReviewImageVars>(CREATE_ITEM_REVIEW_IMAGE, {
-    ...options
-})
+export const useCreateItemReviewImage = createMutationHook<CreateItemReviewImageData, CreateItemReviewImageVars>(CREATE_ITEM_REVIEW_IMAGE)
