@@ -63,7 +63,7 @@ const ItemDetailTabView = React.forwardRef<ScrollView, ItemDetailTabViewProps>((
             </View>
             <View style={{ width: WIDTH }} >
                 <View style={{ position: 'absolute' }} onLayout={({ nativeEvent }) => onLayout(nativeEvent.layout.height, 2)}  >
-                    <OrderInfoTab />
+                    <OrderInfoTab {...data} />
                 </View>
             </View>
             <View style={{ width: WIDTH }} >

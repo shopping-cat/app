@@ -22,6 +22,8 @@ export const ITEM = gql`
       imageUrls
       isILiked
       rate
+      deliveryPrice
+      extraDeliveryPrice
       reviewNum
       bestItemReviews {
         id
@@ -60,6 +62,8 @@ export interface ItemDetail {
   price: number
   sale: number
   salePrice: number
+  deliveryPrice: number
+  extraDeliveryPrice: number
   option?: {
     data: {
       optionGroupName: string
