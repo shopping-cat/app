@@ -4,6 +4,55 @@ import { client } from "../lib/apollo";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
 
+
+export const ITEM_REVIEW = gql`
+  query ($id:Int!){
+    itemReview(id:$id) {
+        id
+        createdAt
+        rate
+        content
+        images {
+            id 
+            uri
+        }
+        item {
+            id
+            name
+        }
+        order {
+            id
+            stringOptionNum
+        }
+    }
+  }
+`
+
+interface ItemReviewData {
+    itemReview: {
+        id: number
+        createdAt: Date
+        rate: number
+        content: string
+        images: {
+            id: number
+            uri: string
+        }[]
+        item: {
+            id: number
+            name: string
+        }
+        order: {
+            id: number
+            stringOptionNum: string
+        }
+    }
+}
+interface ItemReviewVars {
+    id: number
+}
+export const useItemReview = createQueryHook<ItemReviewData, ItemReviewVars>(ITEM_REVIEW)
+
 // QUERY/ITEM_REVIEWS
 export const ITEM_REVIEWS = gql`
   query ($itemId: Int!, $orderBy: String!, $offset:Int, $limit:Int){
@@ -185,6 +234,10 @@ export const CREATE_ITEM_REVIEW = gql`
         order {
             id
             stringOptionNum
+            state
+            review {
+                id
+            }
         }
     }
   }

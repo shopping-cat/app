@@ -30,6 +30,9 @@ query ($id:String!){
             state
             totalPrice
             stringOptionNum
+            itemReview {
+                id
+            }
             item {
                 id
                 mainImage
@@ -45,6 +48,9 @@ export interface PaymentDetailOrder {
     state: OrderState
     totalPrice: number
     stringOptionNum: string
+    itemReview: {
+        id: number
+    } | null
     item: {
         id: number
         mainImage: string

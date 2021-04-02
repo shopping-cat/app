@@ -19,7 +19,7 @@ const ReviewMyCard: React.FC<MyItemReview> = (props) => {
     }, [images])
 
     const onModify = useCallback(() => {
-        navigate('ReviewModify', props)
+        navigate('ReviewModify', { id })
     }, [props])
 
 

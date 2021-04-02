@@ -1,6 +1,6 @@
 import { useApolloClient } from '@apollo/client'
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseText, { baseTextStyle } from '../../components/Text/BaseText'
 import ButtonFooter from '../../components/Layouts/ButtonFooter'
@@ -15,17 +15,17 @@ import { MY_REVIEWS, useCreateItemReview } from '../../graphql/itemReview'
 import { CreateItemReviewImage } from '../../graphql/itemReviewImage'
 import useInput from '../../hooks/useInput'
 import asyncDelay from '../../lib/asyncDelay'
+import { useOrder } from '../../graphql/order'
 
 export interface ReviewPostScreenProps {
     orderId: number
-    name: string
-    option: string | null
 }
 
 const ReviewPostScreen = () => {
 
     const { params } = useRoute<Route<'ReviewPost', ReviewPostScreenProps>>()
     const { goBack } = useNavigation()
+    const { data } = useOrder({ variables: { id: params.orderId } })
 
     const [rate, setRate] = useState(0)
     const [images, setImages] = useState<CreateItemReviewImage[]>([])
@@ -35,7 +35,7 @@ const ReviewPostScreen = () => {
     const [createItemReview, { loading }] = useCreateItemReview()
 
     const active = rate !== 0
-    const title = params.name + (params.option ? ` (옵션 : ${params.option})` : '')
+    const title = !data ? '로딩중...' : data?.order.item.name + (data?.order.stringOptionNum ? ` (옵션 : ${data.order.stringOptionNum})` : '')
 
 
     const onRate = useCallback((rate: number) => {

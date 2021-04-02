@@ -10,26 +10,38 @@ import RateStars from '../../components/Rate/RateStars'
 import StatusBarHeightView from '../../components/View/StatusBarHeightView'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { IS_IOS } from '../../constants/values'
-import { MyItemReview, useUpdateItemReview } from '../../graphql/itemReview'
+import { useItemReview, useUpdateItemReview } from '../../graphql/itemReview'
 import useInput from '../../hooks/useInput'
-import asyncDelay from '../../lib/asyncDelay'
+import { CreateItemReviewImage } from '../../graphql/itemReviewImage'
+import LoadingView from '../../components/View/LoadingView'
 
-
+interface ReviewModifyScreenProps {
+    id: number // itemReviewId
+}
 
 const ReviewModifyScreen = () => {
 
-    const { params } = useRoute<Route<'ReviewModify', MyItemReview>>()
+    const { params } = useRoute<Route<'ReviewModify', ReviewModifyScreenProps>>()
     const { goBack } = useNavigation()
 
-    const [rate, setRate] = useState(params.rate)
-    const [images, setImages] = useState(params.images)
+    const { data } = useItemReview({ variables: { id: params.id } })
+
+    const [rate, setRate] = useState(0)
+    const [images, setImages] = useState<CreateItemReviewImage[]>([])
     const [isImageUploading, setIsImageUploading] = useState(false)
-    const [content, onChangeContent] = useInput(params.content)
+    const [content, onChangeContent, setContent] = useInput('')
 
     const [updateItemReview, { loading }] = useUpdateItemReview()
 
     const active = rate !== 0
-    const title = params.item.name + (params.order.stringOptionNum ? ` (옵션 : ${params.order.stringOptionNum})` : '')
+    const title = data?.itemReview.item.name + (data?.itemReview.order.stringOptionNum ? ` (옵션 : ${data.itemReview.order.stringOptionNum})` : '')
+
+    useEffect(() => {
+        if (!data) return
+        setRate(data.itemReview.rate)
+        setImages(data.itemReview.images)
+        setContent(data.itemReview.content)
+    }, [data])
 
     const onSubmit = useCallback(async () => {
         try {
@@ -61,7 +73,8 @@ const ReviewModifyScreen = () => {
             >
                 <StatusBarHeightView />
                 <DefaultHeader title='리뷰 수정' disableBtns />
-                <ScrollView
+                {!data && <LoadingView />}
+                {data && <ScrollView
                     overScrollMode='never'
                     showsVerticalScrollIndicator={false}
                     style={styles.container}
@@ -101,7 +114,7 @@ const ReviewModifyScreen = () => {
                         />
                     </View>
                     <View style={styles.paddingBottom} />
-                </ScrollView>
+                </ScrollView>}
             </KeyboardAvoidingView>
             <ButtonFooter
                 active={active}
