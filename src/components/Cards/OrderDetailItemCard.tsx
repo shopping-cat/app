@@ -29,6 +29,7 @@ const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, s
                 </View>
                 {(state !== '구매접수' && state !== '취소처리') && <View style={styles.stateContainer} >
                     {state === '상점취소처리' && <BorderyButton onPress={() => navigate('OrderShopCancelDetail', { id })}>취소처리됨</BorderyButton>}
+                    {state === '배송중' && <BorderyButton onPress={() => navigate('DeliveryDetail', { id })}>배송조회</BorderyButton>}
                     {state === '배송완료' && <>
                         <BorderyButton onPress={() => navigate('Exchange', { id })} >교환하기</BorderyButton>
                         <BorderyButton style={{ marginLeft: 16 }} onPress={() => navigate('Refund', { id })}>환불하기</BorderyButton>

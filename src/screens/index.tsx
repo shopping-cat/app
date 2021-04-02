@@ -57,6 +57,7 @@ import Toast from '../components/Toast/Toast';
 import ProfileRegistScreen from './ProfileRegistScreen';
 import UserCertificationScreen from './UserCertificationScreen';
 import OrderShopCancelDetailScreen from './OrderShopCancelDetailScreen';
+import DeliveryDetailScreen from './DeliveryDetailScreen';
 
 
 
@@ -224,6 +225,7 @@ const Navigation = () => {
                 <Stack.Screen name='ExchangeDetail' component={ExchangeDetailScreen} />
                 <Stack.Screen name='ExchangeResult' component={ExchangeResultScreen} />
                 <Stack.Screen name='OrderShopCancelDetail' component={OrderShopCancelDetailScreen} />
+                <Stack.Screen name='DeliveryDetail' component={DeliveryDetailScreen} />
                 <Stack.Screen name='PG' component={PGScreen} />
                 <Stack.Screen name='ProfileRegist' component={ProfileRegistScreen} />
                 <Stack.Screen name='UserCertification' component={UserCertificationScreen} />
