@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
@@ -7,46 +7,44 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
+import { useOrder } from '../../graphql/order'
+import LoadingView from '../../components/View/LoadingView'
 
-const dummyHowToExchange = '서울시 강남구 송파 타워 1층 53호로 주문번호 (153520)와 휴대폰 번호를 동봉해서 보내주시면 됩니다. 금액은 반품이 확인된 이후에 진행 됩니다.'
-const dummyExchangeReason = '상품 문제'
-const dummyExchangeReasonDetail = '이미지와 내용물이 다름'
-
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const price = 79000
-const number = 1
+interface ExchangeDetailScreenProps {
+    id: number
+}
 
 const ExchangeDetailScreen = () => {
 
+    const { params } = useRoute<Route<'ExchangeDetail', ExchangeDetailScreenProps>>()
+    const { data } = useOrder({ variables: { id: params.id } })
     const { goBack } = useNavigation()
 
     return (
         <ScreenLayout>
             <DefaultHeader title='교환상세' disableBtns />
-            <ScrollView
+            {!data && <LoadingView />}
+            {data && <ScrollView
                 style={styles.container}
                 overScrollMode='never'
             >
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >교환 방법</BaseText>
-                    <BaseText style={styles.content} >{dummyHowToExchange}</BaseText>
+                    <BaseText style={styles.content} >{data.order.item.shop.exchangeInfo}</BaseText>
                 </View>
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >상품 정보</BaseText>
                     <View style={styles.itemContainer} >
                         <Image
-                            source={{ uri: dummyImage }}
+                            source={{ uri: data.order.item.mainImage }}
                             style={styles.itemImage}
                         />
                         <View>
-                            <BaseText numberOfLines={1} >{dummyName}</BaseText>
-                            <BaseText style={styles.itemOption} numberOfLines={1} >{option}</BaseText>
+                            <BaseText numberOfLines={1} >{data.order.item.name}</BaseText>
+                            <BaseText style={styles.itemOption} numberOfLines={1} >{data.order.stringOptionNum}</BaseText>
                             <View style={styles.itemPriceContainer} >
-                                <BaseText style={styles.itemPrice}  >{moneyFormat(price)}원</BaseText>
-                                <BaseText style={styles.itemNumber} >{number}개</BaseText>
+                                <BaseText style={styles.itemPrice}  >{moneyFormat(data.order.totalPrice)}원</BaseText>
                             </View>
                         </View>
                     </View>
@@ -54,15 +52,15 @@ const ExchangeDetailScreen = () => {
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >교환 사유</BaseText>
-                    <BaseText style={styles.content} >{dummyExchangeReason}</BaseText>
+                    <BaseText style={styles.content} >{data.order.reason}</BaseText>
                 </View>
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >상세 사유</BaseText>
-                    <BaseText style={styles.content} >{dummyExchangeReasonDetail}</BaseText>
+                    <BaseText style={styles.content} >{data.order.reasonDetail || '없음'}</BaseText>
                 </View>
 
-            </ScrollView>
+            </ScrollView>}
             <ButtonFooter
                 active
                 text='돌아가기'

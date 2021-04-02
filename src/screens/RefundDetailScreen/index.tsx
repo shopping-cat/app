@@ -58,7 +58,7 @@ const RefundDetailScreen = () => {
 
                 <View style={styles.infoContainer} >
                     <BaseText style={styles.title} >상세 사유</BaseText>
-                    <BaseText style={styles.content} >{data.order.reasonDetail}</BaseText>
+                    <BaseText style={styles.content} >{data.order.reasonDetail || '없음'}</BaseText>
                 </View>
 
                 <View style={styles.infoContainer} >

@@ -1,4 +1,4 @@
-import { StackActions, useNavigation } from '@react-navigation/native'
+import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { Image, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native'
 import BaseText, { baseTextStyle } from '../../components/Text/BaseText'
@@ -12,26 +12,40 @@ import { IS_IOS, EXCHANGE_REASON } from '../../constants/values'
 import useInput from '../../hooks/useInput'
 import useSelectBottomSheet from '../../hooks/useSelectBottomSheet'
 import moneyFormat from '../../lib/moneyFormat'
+import { useOrder, useExchangeOrder } from '../../graphql/order'
+import ItemInfoSkeleton from '../../components/Skeleton/ItemInfoSkeleton'
 
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const price = 79000
-const number = 1
+interface ExchangeScreenProps {
+    id: number
+}
 
 const ExchangeScreen = () => {
 
     const { dispatch } = useNavigation()
+    const { params } = useRoute<Route<'Exchange', ExchangeScreenProps>>()
     const { open } = useSelectBottomSheet()
 
+    const { data } = useOrder({ variables: { id: params.id } })
+    const [exchangeOrder, { loading }] = useExchangeOrder()
     const [reason, setReason] = useState<string | null>(null)
     const [reasonDetail, onChangeReasonDetail] = useInput()
     const active = !!reason
 
-    const onSubmit = useCallback(() => {
+    const onSubmit = useCallback(async () => {
         if (!active) return
-        dispatch(StackActions.replace('ExchangeDetail'))
-    }, [active])
+        if (!reason) return
+        if (loading) return
+        await exchangeOrder({
+            variables: {
+                input: {
+                    id: params.id,
+                    reason,
+                    reasonDetail
+                }
+            }
+        })
+        dispatch(StackActions.replace('ExchangeDetail', params))
+    }, [active, params, reason, reasonDetail, loading])
 
     const onReason = useCallback(() => {
         open(
@@ -50,21 +64,22 @@ const ExchangeScreen = () => {
             >
                 <ScrollView>
                     <DefaultHeader title='교환하기' disableBtns />
-                    <View style={styles.itemContainer} >
-                        <Image
-                            source={{ uri: dummyImage }}
-                            style={styles.itemImage}
-                        />
-                        <View>
-                            <BaseText numberOfLines={1} >{dummyName}</BaseText>
-                            <BaseText style={styles.itemOption} numberOfLines={1} >{option}</BaseText>
-                            <View style={styles.itemPriceContainer} >
-                                <BaseText style={styles.itemPrice}  >{moneyFormat(price)}원</BaseText>
-                                <BaseText style={styles.itemNumber} >{number}개</BaseText>
+                    {data
+                        ? <View style={styles.itemContainer} >
+                            <Image
+                                source={{ uri: data.order.item.mainImage }}
+                                style={styles.itemImage}
+                            />
+                            <View>
+                                <BaseText numberOfLines={1} >{data.order.item.name}</BaseText>
+                                <BaseText style={styles.itemOption} numberOfLines={1} >{data.order.stringOptionNum}</BaseText>
+                                <View style={styles.itemPriceContainer} >
+                                    <BaseText style={styles.itemPrice}  >{moneyFormat(data.order.totalPrice)}원</BaseText>
+                                </View>
                             </View>
                         </View>
-                    </View>
-
+                        : <ItemInfoSkeleton />
+                    }
                     <View style={styles.reasonContainer} >
                         <Pressable
                             onPress={onReason}
@@ -90,6 +105,7 @@ const ExchangeScreen = () => {
                 active={active}
                 text='교환 신청'
                 onPress={onSubmit}
+                loading={loading}
             />
         </ScreenLayout>
     )

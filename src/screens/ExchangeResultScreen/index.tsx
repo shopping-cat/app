@@ -6,57 +6,55 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
 import ExchangeResultFail from './ExchangeResultFail'
+import { Route, useRoute } from '@react-navigation/core'
+import { useOrder } from '../../graphql/order'
+import LoadingView from '../../components/View/LoadingView'
 
-const isFail = false
+// const isFail = false
 
-const dummyExchangeReason = '상품 문제'
-const dummyExchangeReasonDetail = '이미지와 내용물이 다름'
-
-const dummyImage = 'https://image.hanssem.com/hsimg/gds/368/760/760474_A1.jpg'
-const dummyName = '딱해먹 고양이 구름다리 벽걸이 캣타워'
-const option = '해먹 | 베이지'
-const price = 79000
-const number = 1
-
+interface ExchangeResultScreenProps {
+    id: number
+}
 
 const ExchangeResultScreen = () => {
+
+    const { params } = useRoute<Route<'ExchangeResult', ExchangeResultScreenProps>>()
+    const { data } = useOrder({ variables: { id: params.id } })
+
     return (
         <ScreenLayout>
             <DefaultHeader title='교환결과' disableBtns />
-            {isFail && <ExchangeResultFail />}
-            {!isFail &&
-                <ScrollView style={styles.container} >
+            {!data && <LoadingView />}
+            {data && <ScrollView style={styles.container} >
 
-                    <View style={styles.infoContainer} >
-                        <BaseText style={styles.title} >상품 정보</BaseText>
-                        <View style={styles.itemContainer} >
-                            <Image
-                                source={{ uri: dummyImage }}
-                                style={styles.itemImage}
-                            />
-                            <View>
-                                <BaseText numberOfLines={1} >{dummyName}</BaseText>
-                                <BaseText style={styles.itemOption} numberOfLines={1} >{option}</BaseText>
-                                <View style={styles.itemPriceContainer} >
-                                    <BaseText style={styles.itemPrice}  >{moneyFormat(price)}원</BaseText>
-                                    <BaseText style={styles.itemNumber} >{number}개</BaseText>
-                                </View>
+                <View style={styles.infoContainer} >
+                    <BaseText style={styles.title} >상품 정보</BaseText>
+                    <View style={styles.itemContainer} >
+                        <Image
+                            source={{ uri: data.order.item.mainImage }}
+                            style={styles.itemImage}
+                        />
+                        <View>
+                            <BaseText numberOfLines={1} >{data.order.item.name}</BaseText>
+                            <BaseText style={styles.itemOption} numberOfLines={1} >{data.order.stringOptionNum}</BaseText>
+                            <View style={styles.itemPriceContainer} >
+                                <BaseText style={styles.itemPrice}  >{moneyFormat(data.order.totalPrice)}원</BaseText>
                             </View>
                         </View>
                     </View>
+                </View>
 
-                    <View style={styles.infoContainer} >
-                        <BaseText style={styles.title} >교환 사유</BaseText>
-                        <BaseText style={styles.content} >{dummyExchangeReason}</BaseText>
-                    </View>
+                <View style={styles.infoContainer} >
+                    <BaseText style={styles.title} >교환 사유</BaseText>
+                    <BaseText style={styles.content} >{data.order.reason}</BaseText>
+                </View>
 
-                    <View style={styles.infoContainer} >
-                        <BaseText style={styles.title} >상세 사유</BaseText>
-                        <BaseText style={styles.content} >{dummyExchangeReasonDetail}</BaseText>
-                    </View>
+                <View style={styles.infoContainer} >
+                    <BaseText style={styles.title} >상세 사유</BaseText>
+                    <BaseText style={styles.content} >{data.order.reasonDetail || '없음'}</BaseText>
+                </View>
 
-                </ScrollView>
-            }
+            </ScrollView>}
         </ScreenLayout>
     )
 }

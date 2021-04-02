@@ -243,3 +243,24 @@ interface RefundOrderVars {
     }
 }
 export const useRefundOrder = createMutationHookTest<RefundOrderData, RefundOrderVars>(REFUND_ORDER)
+
+
+const EXCHANGE_ORDER = gql`
+mutation ($input:ExchangeOrderInput!) {
+    exchangeOrder (input:$input) {
+        id
+        state
+        reason
+        reasonDetail
+    }
+}
+`
+interface ExchangeOrderData { }
+interface ExchangeOrderVars {
+    input: {
+        id: number
+        reason: string
+        reasonDetail: string
+    }
+}
+export const useExchangeOrder = createMutationHookTest<ExchangeOrderData, ExchangeOrderVars>(EXCHANGE_ORDER)

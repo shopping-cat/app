@@ -35,6 +35,7 @@ const RefundScreen = () => {
     const onSubmit = useCallback(async () => {
         if (!active) return
         if (!reason) return
+        if (loading) return
         await refundOrder({
             variables: {
                 input: {
@@ -45,7 +46,7 @@ const RefundScreen = () => {
             }
         })
         dispatch(StackActions.replace('RefundDetail', params))
-    }, [active, params, reason, reasonDetail])
+    }, [active, params, reason, reasonDetail, loading])
 
     const onReason = useCallback(() => {
         open(
