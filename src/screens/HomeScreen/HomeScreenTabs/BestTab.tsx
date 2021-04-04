@@ -1,19 +1,18 @@
 import React from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import ItemCard, { ItemCardSkeleton } from '../../../components/Cards/ItemCard'
+import CategorySelector from '../../../components/Layouts/CategorySelector'
 import { WIDTH } from '../../../constants/styles'
 import { Category } from '../../../constants/types'
 import { useFilteredItems } from '../../../graphql/item'
+import useCategory from '../../../hooks/useCategory'
 import useRefreshing from '../../../hooks/useRefreshing'
 import makeIdArray from '../../../lib/makeIdArray'
 
-interface BsetTabProps {
-    category1: Category
-    category2: Category
-}
 
-const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2 }, ref) => {
+const BestTab = React.forwardRef<FlatList>(({ }, ref) => {
 
+    const { category1, category2, onChangeCategory } = useCategory()
     const { data, refetch, fetchMore, loading } = useFilteredItems({
         variables: {
             orderBy: '인기순',
@@ -26,7 +25,6 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
 
     return (
         <View style={{ flex: 1 }} >
-            <View style={styles.marginTop} />
             <FlatList
                 ref={ref}
                 refreshing={refreshing}
@@ -42,7 +40,9 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
                 style={styles.container}
                 data={loading ? makeIdArray(6) : data?.filteredItems}
                 renderItem={({ item }) => loading ? <ItemCardSkeleton /> : <ItemCard {...item} />}
-                ListHeaderComponent={<View style={styles.paddingTop} />}
+                ListHeaderComponent={<View style={styles.headerContainer} >
+                    <CategorySelector onChange={onChangeCategory} />
+                </View>}
             />
         </View>
     )
@@ -51,12 +51,6 @@ const BestTab = React.forwardRef<FlatList, BsetTabProps>(({ category1, category2
 export default BestTab
 
 const styles = StyleSheet.create({
-    marginTop: {
-        height: 48
-    },
-    paddingTop: {
-        height: 24,
-    },
     container: {
         width: WIDTH,
         flex: 1,

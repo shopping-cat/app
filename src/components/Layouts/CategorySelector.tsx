@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { Category } from '../../constants/types'
 import BaseText from '../Text/BaseText'

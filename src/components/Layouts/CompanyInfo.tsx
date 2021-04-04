@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { GRAY, VERY_LIGHT_GRAY, WIDTH } from '../../constants/styles'
 import BaseText from '../Text/BaseText'
 
 const INFO = `대표이사 남궁현 | 사업자등록번호 000-0000-000
@@ -23,7 +23,7 @@ export default CompanyInfo
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: WIDTH,
         paddingVertical: 24,
         paddingHorizontal: 16,
         backgroundColor: VERY_LIGHT_GRAY

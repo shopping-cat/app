@@ -137,30 +137,37 @@ interface FilteredItemsVars {
 }
 export const useFilteredItems = createQueryHook<FilteredItemsData, FilteredItemsVars>(FILTERED_ITEMS)
 
-export const RECOMMENDED_ITEMS = gql`
-  query ($offset:Int, $limit:Int){
-    recommendedItems(offset:$offset, limit:$limit) {
-      id
-      salePrice
-      state
-      mainImage
-      name
-      sale
-      isFreeDelivery
-      isNew
-      isILiked
+export const HOME_ITEMS = gql`
+  query {
+    homeItems {
+      type
+      title
+      items {
+        id
+        salePrice
+        state
+        mainImage
+        name
+        sale
+        isFreeDelivery
+        isNew
+        isILiked
+      }
     }
   }
 `
 
-interface RecommendedItemsData {
-  recommendedItems: Item[]
+export interface HomeItem {
+  type: string
+  title: string
+  items: Item[]
 }
-interface RecommendedItemsVars {
-  offset?: number
-  limit?: number
+
+interface HomeItemsData {
+  homeItems: HomeItem[]
 }
-export const useRecommendedItems = createQueryHook<RecommendedItemsData, RecommendedItemsVars>(RECOMMENDED_ITEMS)
+interface HomeItemsVars { }
+export const useHomeItems = createQueryHook<HomeItemsData, HomeItemsVars>(HOME_ITEMS)
 
 export const ZZIM_ITEMS = gql`
   query ($category1: String,$category2: String,$offset:Int, $limit:Int){

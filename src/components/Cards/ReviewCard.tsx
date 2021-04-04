@@ -136,9 +136,10 @@ const ReviewCard: React.FC<ItemReview & ReviewCardProps> = ({ scrollViewEnable, 
                 >
                     <Icon name='thumb-down-outline' color={isUnliked ? '#fff' : GRAY} size={24} />
                 </Pressable>
-                <Pressable style={styles.report} onPress={onReport} >
+                {/* TODO */}
+                {/* <Pressable style={styles.report} onPress={onReport} >
                     <BaseText style={styles.report} >신고하기</BaseText>
-                </Pressable>
+                </Pressable> */}
             </View>
             <View style={styles.endLine} />
         </View >
