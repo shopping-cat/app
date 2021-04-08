@@ -58,6 +58,7 @@ import ProfileRegistScreen from './ProfileRegistScreen';
 import UserCertificationScreen from './UserCertificationScreen';
 import OrderShopCancelDetailScreen from './OrderShopCancelDetailScreen';
 import DeliveryDetailScreen from './DeliveryDetailScreen';
+import EventDetailScreen from './EventDetailScreen';
 
 
 
@@ -229,6 +230,7 @@ const Navigation = () => {
                 <Stack.Screen name='PG' component={PGScreen} />
                 <Stack.Screen name='ProfileRegist' component={ProfileRegistScreen} />
                 <Stack.Screen name='UserCertification' component={UserCertificationScreen} />
+                <Stack.Screen name='EventDetail' component={EventDetailScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -21,7 +21,7 @@ const HomeTab = React.forwardRef<FlatList>((_, ref) => {
             showsVerticalScrollIndicator={false}
             data={loading ? makeIdArray(2) : data?.homeItems}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => <HomeItemCard {...item} loading={loading} />}
+            renderItem={({ item, index }) => <HomeItemCard {...item} loading={loading} index={index} />}
             ListHeaderComponent={<BannerCarousel />}
             ListFooterComponent={<CompanyInfo />}
             ListFooterComponentStyle={{ marginTop: 24 }}

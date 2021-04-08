@@ -1,27 +1,62 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { useCallback, useRef, useState } from 'react'
-import { Animated, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/core'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Animated, Image, Pressable, StyleSheet, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { WIDTH } from '../../constants/styles'
+import { useEvents } from '../../graphql/event'
+import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
 
 const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView)
 
-const dummyImages = [
-    'https://pgnqdrjultom1827145.cdn.ntruss.com/img/49/4f/494f75b2c002eca57fd311ca9821a045c15fb13155b02af0012218854c01c5aa_v1.jpg',
-    'https://cdn.joongboo.com/news/photo/202011/2020111601000663600025391.jpg',
-    'https://lh3.googleusercontent.com/proxy/kgwum04RrjL-V36FOu84keRCwNtGhWChOuVs6EKT4-9f3udAeBXBaz5pZSpD4fA0nQOFr4Qa67VfoOoMo9vYBYNEvrGew679-cSA7XC-xDWZBVXJDga0efJoXOszvCGt'
-]
 
 const BannerCarousel = () => {
 
     const scrollViewRef = useRef<ScrollView>(null)
     const { navigate } = useNavigation()
+    const isFocused = useIsFocused()
     const [scrollX] = useState(new Animated.Value(0))
+    const [intervalId, setIntervalId] = useState<null | number>(null)
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [isDrag, setIsDrag] = useState(false)
+    const { data } = useEvents()
 
-    const onScrollEndDrag = useCallback(() => { // infinity scroll
-        scrollViewRef.current?.scrollTo({ animated: false, x: (currentIndex + dummyImages.length) * WIDTH })
-    }, [currentIndex, dummyImages])
+    const startAutoScroll = () => {
+        if (!data) return
+        if (intervalId) stopAutoScroll()
+
+        const id = setInterval(() => {
+            console.log('123')
+            scrollViewRef.current?.scrollTo({ animated: true, x: (((currentIndex + 1) % data.events.length) + data.events.length) * WIDTH })
+        }, 2500)
+        setIntervalId(Number(id))
+    }
+
+    const stopAutoScroll = () => {
+        if (!intervalId) return
+        clearTimeout(intervalId)
+    }
+
+    const onScrollEnd = useCallback(() => { // infinity scroll
+        if (!data) return
+        scrollViewRef.current?.scrollTo({ animated: false, x: (currentIndex + data.events.length) * WIDTH })
+    }, [currentIndex, data, startAutoScroll])
+
+    useEffect(() => {
+        if (!isFocused) return stopAutoScroll()
+        if (isDrag) return stopAutoScroll()
+        if (!data) return
+        startAutoScroll()
+        return stopAutoScroll()
+    }, [data, currentIndex, isDrag, isFocused])
+
+
+    if (!data) return ( // loading
+        <BaseSkeletonPlaceHolder>
+            <View style={styles.container} />
+        </BaseSkeletonPlaceHolder>
+    )
+
+    if (data.events.length === 0) return null
 
     return (
         <View style={styles.container} >
@@ -36,26 +71,29 @@ const BannerCarousel = () => {
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                     {
                         //@ts-ignore
-                        listener: ({ nativeEvent }) => setCurrentIndex(Math.round(nativeEvent.contentOffset.x / WIDTH) % dummyImages.length),
+                        listener: ({ nativeEvent }) => setCurrentIndex(Math.round(nativeEvent.contentOffset.x / WIDTH) % data.events.length),
                         useNativeDriver: true
                     }
                 )}
-                onMomentumScrollEnd={onScrollEndDrag}
+                contentOffset={{ x: data.events.length * WIDTH, y: 0 }}
+                onScrollBeginDrag={() => setIsDrag(true)}
+                onScrollEndDrag={() => setIsDrag(false)}
+                onMomentumScrollEnd={onScrollEnd}
             >
-                {[...dummyImages, ...dummyImages, ...dummyImages].map((item, index) =>
+                {[...data.events, ...data.events, ...data.events].map((item, index) =>
                     <Pressable
-                        onPress={() => navigate('EventDetail')}
-                        key={index}
+                        onPress={() => navigate('EventDetail', { id: item.id })}
+                        key={index.toString()}
                     >
                         <Image
                             style={styles.image}
-                            source={{ uri: item }}
+                            source={{ uri: item.bannerImage }}
                         />
                     </Pressable>
                 )}
             </AnimatedScrollView>
             <View style={styles.indicatorContainer} >
-                {dummyImages.map((_, i) =>
+                {data.events.map((_, i) =>
                     <View key={i.toString()} style={[styles.dot, { opacity: i === currentIndex ? 1 : 0.5 }]} />
                 )}
             </View>

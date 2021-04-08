@@ -7,14 +7,19 @@ import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
 import BaseText from '../Text/BaseText'
 import ItemCardASecondAndHalf, { ItemCardASecondAndHalfSkeleton } from './ItemCardASecondAndHalf'
 
+const width = (WIDTH - 48) / 2.5
 
+interface HomeItemCardProps {
+    loading: boolean
+    index: number
+}
 
-const HomeItemCard: React.FC<HomeItem & { loading: boolean }> = ({ loading, items, title, type }) => {
+const HomeItemCard: React.FC<HomeItem & HomeItemCardProps> = ({ loading, items, title, type, index }) => {
 
     if (loading) return <HomeItemCardSkeleton />
 
     return (
-        <View style={styles.container} >
+        <View style={[styles.container, { marginTop: index === 0 ? 24 : 32 }]} >
             <BaseText style={styles.title} >{title}</BaseText>
             <FlatList
                 horizontal
@@ -23,7 +28,7 @@ const HomeItemCard: React.FC<HomeItem & { loading: boolean }> = ({ loading, item
                 overScrollMode='never'
                 keyExtractor={(item) => item.id.toString()}
                 data={items}
-                renderItem={({ item }) => <ItemCardASecondAndHalf {...item} />}
+                renderItem={({ item }) => <ItemCardASecondAndHalf  {...item} />}
                 ListFooterComponent={<View style={{ width: 16 }} />}
             />
         </View>
@@ -36,20 +41,45 @@ const HomeItemCardSkeleton = () => {
     return (
         <View style={styles.container} >
             <BaseSkeletonPlaceHolder>
-                <View style={{ width: '40%', height: 28, borderRadius: 8, marginLeft: 16, marginBottom: 24 }} />
+                <View style={{ width: '40%', height: 28, borderRadius: 8, marginLeft: 16, marginBottom: 24, marginTop: 24 }} />
+                <View style={{ flexDirection: 'row' }} >
+                    <View style={{ width, marginLeft: 16 }} >
+                        <View style={{
+                            width,
+                            height: width,
+                            borderRadius: 8,
+                            marginBottom: 8
+                        }} />
+                        <View style={{ width, height: 32, borderRadius: 8 }} />
+                    </View>
+                    <View style={{ width, marginLeft: 16 }} >
+                        <View style={{
+                            width,
+                            height: width,
+                            borderRadius: 8,
+                            marginBottom: 8
+                        }} />
+                        <View style={{ width, height: 32, borderRadius: 8 }} />
+                    </View>
+                    <View style={{ width, marginLeft: 16 }} >
+                        <View style={{
+                            width,
+                            height: width,
+                            borderRadius: 8,
+                            marginBottom: 8
+                        }} />
+                        <View style={{ width, height: 32, borderRadius: 8 }} />
+                    </View>
+
+                </View>
             </BaseSkeletonPlaceHolder>
-            <View style={{ flexDirection: 'row' }} >
-                <ItemCardASecondAndHalfSkeleton />
-                <ItemCardASecondAndHalfSkeleton />
-                <ItemCardASecondAndHalfSkeleton />
-            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 24
+
     },
     title: {
         fontSize: 20,
