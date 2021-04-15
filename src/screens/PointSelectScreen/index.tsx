@@ -1,7 +1,7 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import BaseText from '../../components/Text/BaseText'
+import BaseText, { baseTextStyle } from '../../components/Text/BaseText'
 import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import BorderyButton from '../../components/Buttons/BorderyButton'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
@@ -52,7 +52,7 @@ const PointSelectScreen = () => {
                     <TextInput
                         placeholderTextColor={GRAY}
                         placeholder={`${moneyFormat(maxPoint)}포인트 사용가능`}
-                        style={styles.inputText}
+                        style={[styles.inputText, baseTextStyle]}
                         value={pointTemp === 0 ? '' : pointTemp.toString()}
                         keyboardType='number-pad'
                         onChangeText={onChangeText}
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginHorizontal: 16,
         padding: 0,
-        fontFamily: 'BMJUA',
         flex: 1
     }
 })

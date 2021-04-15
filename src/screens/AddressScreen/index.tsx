@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import BaseText from '../../components/Text/BaseText'
+import BaseText, { baseTextStyle } from '../../components/Text/BaseText'
 import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
@@ -172,9 +172,9 @@ const styles = StyleSheet.create({
         left: 16
     },
     text: {
+        ...baseTextStyle,
         fontSize: 16,
         marginHorizontal: 16,
         padding: 0,
-        fontFamily: 'BMJUA'
     }
 })

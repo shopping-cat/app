@@ -14,7 +14,8 @@ export default BaseText
 
 const styles = StyleSheet.create({
     baseStyle: {
-        fontFamily: 'BMJUA'
+        fontFamily: 'BMJUA',
+        color: '#000'
     }
 })
 export const baseTextStyle = styles.baseStyle

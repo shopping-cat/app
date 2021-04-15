@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, TextInput, View } from 'react-native'
-import BaseText from '../../components/Text/BaseText'
+import BaseText, { baseTextStyle } from '../../components/Text/BaseText'
 import DownArrowIcon from '../../components/Svgs/DownArrowIcon'
 import { COLOR2, GRAY, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import useInput from '../../hooks/useInput'

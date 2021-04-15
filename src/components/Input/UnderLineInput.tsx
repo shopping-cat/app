@@ -29,5 +29,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textInput: {
+        color: "#000"
     }
 })
