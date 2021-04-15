@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { Pressable, StyleProp, StyleSheet, Text, View, ViewProps, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { VERY_LIGHT_GRAY } from '../../constants/styles'
@@ -52,6 +52,10 @@ const Accordian: React.FC<AccordianProps> = ({ selectedTitle, title, contents, o
     const [titleHeight, setTitleHeight] = useState(0)
     const [contentsHeight, setContentsHeight] = useState(0)
 
+    useEffect(() => {
+        console.log(contentsHeight)
+    }, [contentsHeight])
+
     useCode(() => block([
         cond(
             open,
@@ -94,7 +98,7 @@ const Accordian: React.FC<AccordianProps> = ({ selectedTitle, title, contents, o
             </Pressable>
             <View
                 style={[styles.contentsContainer]}
-                onLayout={({ nativeEvent }) => setContentsHeight(nativeEvent.layout.height)}
+                onLayout={({ nativeEvent }) => contentsHeight === 0 && setContentsHeight(nativeEvent.layout.height)}
             >
                 {contents.map(({ left, right }, index) =>
                     <Pressable

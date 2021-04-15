@@ -5,9 +5,9 @@
 #import <React/RCTRootView.h>
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
 #import <React/RCTLinkingManager.h>
-#import <AppCenterReactNative.h>
-#import <AppCenterReactNativeAnalytics.h>
-#import <AppCenterReactNativeCrashes.h>
+// #import <AppCenterReactNative.h>
+// #import <AppCenterReactNativeAnalytics.h>
+// #import <AppCenterReactNativeCrashes.h>
 #import <CodePush/CodePush.h>
 #import <Firebase.h>
 #if RCT_DEV
@@ -44,9 +44,9 @@ static void InitializeFlipper(UIApplication *application) {
     [FIRApp configure];
   }
   
-  [AppCenterReactNative register];
-  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
-  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
+  // [AppCenterReactNative register];
+  // [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
+  // [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
   
   
   [KOSession sharedSession].automaticPeriodicRefresh = YES;

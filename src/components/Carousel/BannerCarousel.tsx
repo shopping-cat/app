@@ -25,7 +25,6 @@ const BannerCarousel = () => {
         if (intervalId) stopAutoScroll()
 
         const id = setInterval(() => {
-            console.log('123')
             scrollViewRef.current?.scrollTo({ animated: true, x: (((currentIndex + 1) % data.events.length) + data.events.length) * WIDTH })
         }, 2500)
         setIntervalId(Number(id))

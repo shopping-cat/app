@@ -1,22 +1,4 @@
 PODS:
-  - appcenter-analytics (3.1.2):
-    - AppCenter/Analytics
-    - AppCenterReactNativeShared
-    - React
-  - appcenter-core (3.1.2):
-    - AppCenterReactNativeShared
-    - React
-  - appcenter-crashes (3.1.2):
-    - AppCenter/Crashes
-    - AppCenterReactNativeShared
-    - React
-  - AppCenter/Analytics (4.1.1):
-    - AppCenter/Core
-  - AppCenter/Core (4.1.1)
-  - AppCenter/Crashes (4.1.1):
-    - AppCenter/Core
-  - AppCenterReactNativeShared (4.1.0):
-    - AppCenter/Core (= 4.1.1)
   - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
@@ -50,22 +32,22 @@ PODS:
     - FBSDKShareKit/Share (= 7.1.1)
   - FBSDKShareKit/Share (7.1.1):
     - FBSDKCoreKit (~> 7.1.1)
-  - Firebase/Auth (7.6.0):
+  - Firebase/Auth (7.9.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 7.6.0)
-  - Firebase/CoreOnly (7.6.0):
-    - FirebaseCore (= 7.6.0)
-  - Firebase/RemoteConfig (7.6.0):
+    - FirebaseAuth (~> 7.9.0)
+  - Firebase/CoreOnly (7.9.0):
+    - FirebaseCore (= 7.9.0)
+  - Firebase/RemoteConfig (7.9.0):
     - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 7.6.0)
+    - FirebaseRemoteConfig (~> 7.9.0)
   - FirebaseABTesting (7.10.0):
     - FirebaseCore (~> 7.0)
-  - FirebaseAuth (7.6.0):
+  - FirebaseAuth (7.9.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GTMSessionFetcher/Core (~> 1.4)
-  - FirebaseCore (7.6.0):
+  - FirebaseCore (7.9.0):
     - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
@@ -79,7 +61,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseRemoteConfig (7.6.0):
+  - FirebaseRemoteConfig (7.9.0):
     - FirebaseABTesting (~> 7.0)
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
@@ -462,23 +444,21 @@ PODS:
     - React-perflogger (= 0.64.0)
   - RNAppleAuthentication (2.1.1):
     - React-Core
-  - RNCAsyncStorage (1.12.1):
-    - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
   - RNDeviceInfo (7.4.0):
     - React-Core
-  - RNFBApp (10.8.1):
-    - Firebase/CoreOnly (~> 7.6.0)
+  - RNFBApp (11.2.0):
+    - Firebase/CoreOnly (= 7.9.0)
     - React-Core
-  - RNFBAuth (10.8.1):
-    - Firebase/Auth (~> 7.6.0)
+  - RNFBAuth (11.2.0):
+    - Firebase/Auth (= 7.9.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (10.8.1):
-    - Firebase/RemoteConfig (~> 7.6.0)
+  - RNFBRemoteConfig (11.2.0):
+    - Firebase/RemoteConfig (= 7.9.0)
     - React-Core
     - RNFBApp
   - RNGestureHandler (1.10.3):
@@ -507,9 +487,6 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
-  - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
-  - appcenter-core (from `../node_modules/appcenter/ios`)
-  - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
@@ -566,7 +543,6 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
-  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -583,8 +559,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - AppCenter
-    - AppCenterReactNativeShared
     - Base64
     - boost-for-react-native
     - CocoaAsyncSocket
@@ -619,12 +593,6 @@ SPEC REPOS:
     - YogaKit
 
 EXTERNAL SOURCES:
-  appcenter-analytics:
-    :path: "../node_modules/appcenter-analytics/ios"
-  appcenter-core:
-    :path: "../node_modules/appcenter/ios"
-  appcenter-crashes:
-    :path: "../node_modules/appcenter-crashes/ios"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
   CodePush:
@@ -695,8 +663,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
-  RNCAsyncStorage:
-    :path: "../node_modules/@react-native-community/async-storage"
   RNCClipboard:
     :path: "../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
@@ -725,11 +691,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  AppCenter: cd53e3ed3563cc720bcb806c9731a12389b40d44
-  appcenter-analytics: 86931681ba39a34856727e415d39e7d4693ad7fe
-  appcenter-core: 1cca3f4d1f01e820710dc82e14ad2b4806a4f907
-  appcenter-crashes: 5da5dca952c3d1a3eea2d596748d94ec0412fbd1
-  AppCenterReactNativeShared: 2d5a53b6cbd2fe7f63f0033e9f0a40757a4eacf5
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
@@ -741,13 +702,13 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: b46507dc8b8cefed31d644e74d7cc30e2a715ef8
   FBSDKLoginKit: 1a61d79e2b25e2fc0d03dccab1e34b38bbdf2546
   FBSDKShareKit: 00a055c1999b099596e00212dd1c0600c6697019
-  Firebase: e1e089d9aac215a52442583f818ab61de3c4581b
+  Firebase: d8bd6bd34b4c7ed57bfdd056c66ff5adcdde53ab
   FirebaseABTesting: 457bc058cf6de8bcffc6fd9a2a4c933b24bfc264
-  FirebaseAuth: 0a1df88dc32569db509e6269c3e4bf2a168e8ae8
-  FirebaseCore: 0a43b7f1c5b36f3358cd703011ca4c7e0df55870
+  FirebaseAuth: 20625f04fdd213995249a82375b3dab39b1c136c
+  FirebaseCore: 0798738ad1ae0fda67e17c7b9081241c431c6859
   FirebaseCoreDiagnostics: 5662a3823ffcc0acbaa9a21ba5ed302fac634705
   FirebaseInstallations: bf2ec8dbf36ff4c91af6b9a003d15855757680c1
-  FirebaseRemoteConfig: f805089c5c383c17d68bcc0799d8a3622f9ae28f
+  FirebaseRemoteConfig: ad9b7af6a1308d8dd26787b1702ce9e7d609d22e
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: f7a3caafbd74bda4827954fd7a6e000e36355489
@@ -794,13 +755,12 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: cad74a1eaa53ee6e7a3620231939d8fe2c6afcf0
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
   RNAppleAuthentication: f4cc93d710f1337f66550d04d84bf47553bc0eae
-  RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
-  RNFBApp: 02bde3edecf2e9694b908a5d3504e03449980f20
-  RNFBAuth: 16f2b91bf53f398d83a15cff0dd52225967c1d78
-  RNFBRemoteConfig: 1adf37593b23dfec015a48016cd26982257889ba
+  RNFBApp: d9ab9f2e63c70a9974294bb44c749b728cd4028f
+  RNFBAuth: 73ef569faa4618624313fbc969dfaba66bb6d0ed
+  RNFBRemoteConfig: b8817825c9bf4df921ff7065f10ed8c4a531634b
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
