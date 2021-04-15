@@ -61,8 +61,9 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-/env.ts
 
 #
-**/google-services.json
+env.ts
+android/app/shoppingcat-user-app.keystore
+android/app/google-services.json
 ios/GoogleService-Info.plist
