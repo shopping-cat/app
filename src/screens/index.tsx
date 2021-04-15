@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
 import { useApolloClient } from '@apollo/client';
 import { I_USER, IUserData } from '../graphql/user';
+import SplashScreen from 'react-native-splash-screen'
 
 import HomeScreen from './HomeScreen'
 import CategoryScreen from './CategoryScreen';
@@ -141,6 +142,7 @@ const Navigation = () => {
                 // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
                 const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
                 const route = navigationRef?.current?.getCurrentRoute()
+                setTimeout(() => { SplashScreen.hide() }, 500)
                 if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
                     if (route?.name === 'ProfileRegist') return
                     navigationRef.current?.reset({
@@ -157,6 +159,7 @@ const Navigation = () => {
                 }
             } else {
                 console.log('logged out')
+                setTimeout(() => { SplashScreen.hide() }, 500)
                 const route = navigationRef?.current?.getCurrentRoute()
                 if (route?.name === 'Login') return
                 navigationRef.current?.reset({
