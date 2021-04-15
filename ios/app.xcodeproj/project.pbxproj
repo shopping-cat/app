@@ -13,6 +13,7 @@
 		31F5F764751857EBAE990130 /* libPods-app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 953C4AC4C69D7B4334BCE7CB /* libPods-app.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D23D2173253EDA4500B27677 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23D2172253EDA4500B27677 /* File.swift */; };
+		D2D3E03A26284FB300B1CB45 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D2D3E03926284FB300B1CB45 /* logo.png */; };
 		D2E3795E258348F900A1CCB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E3795D258348F900A1CCB3 /* GoogleService-Info.plist */; };
 		D2E3F90725872C0E002E1B4C /* BMJUA.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2E3F90625872C0E002E1B4C /* BMJUA.ttf */; };
 		D2E727BB254FE10B007F3FF8 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E727BA254FE10B007F3FF8 /* AppCenter-Config.plist */; };
@@ -41,6 +42,7 @@
 		D23D2172253EDA4500B27677 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = File.swift; path = app/File.swift; sourceTree = "<group>"; };
 		D247CF3E257F9E2A00E2529F /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = app.entitlements; path = app/app.entitlements; sourceTree = "<group>"; };
 		D2ADCDCF254021D200121DBF /* libkakao-login.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libkakao-login.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2D3E03926284FB300B1CB45 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		D2E3795D258348F900A1CCB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D2E3F90625872C0E002E1B4C /* BMJUA.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BMJUA.ttf; sourceTree = "<group>"; };
 		D2E727BA254FE10B007F3FF8 /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				D2D3E03926284FB300B1CB45 /* logo.png */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -242,6 +245,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				D2E3795E258348F900A1CCB3 /* GoogleService-Info.plist in Resources */,
+				D2D3E03A26284FB300B1CB45 /* logo.png in Resources */,
 				D2E3F90725872C0E002E1B4C /* BMJUA.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				D2E727BB254FE10B007F3FF8 /* AppCenter-Config.plist in Resources */,

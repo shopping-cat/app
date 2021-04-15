@@ -10,6 +10,7 @@
 // #import <AppCenterReactNativeCrashes.h>
 #import <CodePush/CodePush.h>
 #import <Firebase.h>
+#import "RNSplashScreen.h"
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
@@ -75,6 +76,7 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [RNSplashScreen show];  
   return YES;
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
