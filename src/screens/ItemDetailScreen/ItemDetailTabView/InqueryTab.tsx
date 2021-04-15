@@ -1,18 +1,31 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../../components/Text/BaseText'
 import RightArrowIcon from '../../../components/Svgs/RightArrowIcon'
 import { COLOR1, GRAY, LIGHT_GRAY, WIDTH } from '../../../constants/styles'
 import { ItemDetail } from '../../../graphql/item'
+import useSelectBottomSheet from '../../../hooks/useSelectBottomSheet'
 
 const InqueryTab: React.FC<ItemDetail> = ({ shop }) => {
 
-    const { navigate } = useNavigation()
+    const { open } = useSelectBottomSheet()
 
     const onChat = useCallback(() => {
-        navigate('ShopChat', { name: shop.shopName })
-    }, [])
+        const list: { title: string, callback: () => void }[] = []
+        if (shop.kakaoLink) list.push({
+            title: '카카오톡으로 문의하기',
+            callback: () => Linking.openURL(shop.kakaoLink || '')
+        })
+        if (shop.csPhone) list.push({
+            title: '전화로 문의하기',
+            callback: () => Linking.openURL(`tel:${shop.csPhone}`)
+        })
+        open(
+            list.map(v => v.title),
+            (i) => list[i].callback()
+        )
+    }, [shop])
 
     return (
         <View style={styles.container} >
@@ -36,7 +49,7 @@ const InqueryTab: React.FC<ItemDetail> = ({ shop }) => {
                 style={styles.chattingBtn}
                 onPress={onChat}
             >
-                <BaseText style={styles.chattingBtnText} >채팅으로 문의하기</BaseText>
+                <BaseText style={styles.chattingBtnText} >문의하기</BaseText>
                 <RightArrowIcon fill='#fff' />
             </Pressable>
         </View>

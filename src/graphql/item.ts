@@ -50,6 +50,8 @@ export const ITEM = gql`
       shop {
         id
         shopName
+        kakaoLink
+        csPhone
       }
     }
   }
@@ -85,6 +87,8 @@ export interface ItemDetail {
   shop: {
     id: ID
     shopName: string
+    kakaoLink?: string
+    csPhone?: string
   }
 }
 interface ItemData {

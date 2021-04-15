@@ -1,6 +1,6 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
 import React, { useCallback, useRef, useState } from 'react'
-import { FlatList, Pressable, StyleSheet, Image, View, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
+import { FlatList, Pressable, StyleSheet, Image, View, NativeSyntheticEvent, NativeScrollEvent, Linking } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseText from '../../components/Text/BaseText'
@@ -20,6 +20,7 @@ import { useShop } from '../../graphql/shop'
 import useRefreshing from '../../hooks/useRefreshing'
 import makeIdArray from '../../lib/makeIdArray'
 import ShopDetailSkeleton from './ShopDetailSkeleton'
+import useSelectBottomSheet from '../../hooks/useSelectBottomSheet'
 
 type Sort = '인기순' | '최신순'
 const SORT_LIST: Sort[] = ['인기순', '최신순']
@@ -35,6 +36,7 @@ const ShopDetailScreen = () => {
     const { navigate } = useNavigation()
     const flatlistRef = useRef<FlatList>(null)
     const { bottom } = useSafeAreaInsets()
+    const { open } = useSelectBottomSheet()
     const [sortIndex, setSortIndex] = useState(0)
     const sort = SORT_LIST[sortIndex]
     const [sortSheetVisible, setSortSheetVisible] = useState(false)
@@ -55,9 +57,23 @@ const ShopDetailScreen = () => {
         setSortSheetVisible(true)
     }, [])
 
+
     const onChat = useCallback(() => {
-        navigate('ShopChat', { name: shopData?.shop.shopName, id: params.id })
-    }, [shopData, params])
+        if (!shopData) return
+        const list: { title: string, callback: () => void }[] = []
+        if (shopData.shop.kakaoLink) list.push({
+            title: '카카오톡으로 문의하기',
+            callback: () => Linking.openURL(shopData.shop.kakaoLink || '')
+        })
+        if (shopData.shop.csPhone) list.push({
+            title: '전화로 문의하기',
+            callback: () => Linking.openURL(`tel:${shopData.shop.csPhone}`)
+        })
+        open(
+            list.map(v => v.title),
+            (i) => list[i].callback()
+        )
+    }, [shopData])
 
     const onScroll = useCallback(({ nativeEvent }: NativeSyntheticEvent<NativeScrollEvent>) => {
         setHeaderUnderline(nativeEvent.contentOffset.y > 14)

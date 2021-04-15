@@ -52,10 +52,6 @@ const Accordian: React.FC<AccordianProps> = ({ selectedTitle, title, contents, o
     const [titleHeight, setTitleHeight] = useState(0)
     const [contentsHeight, setContentsHeight] = useState(0)
 
-    useEffect(() => {
-        console.log(contentsHeight)
-    }, [contentsHeight])
-
     useCode(() => block([
         cond(
             open,

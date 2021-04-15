@@ -16,13 +16,19 @@ import { useOrder, useRefundOrder } from '../../graphql/order'
 import ItemInfoSkeleton from '../../components/Skeleton/ItemInfoSkeleton'
 
 
+const INFO = `
+
+교환/환불 가능 여부는 [해당 상품 상세페이지 > 주문정보 탭]을 확인하여 주시기 바랍니다.
+
+정확한 확인을 원하시면 [해당 상품 상세페이지 > 문의 탭]을 통해 먼저 문의해보실 수 있습니다.`
+
 interface RefundScreenProps {
     id: number
 }
 
 const RefundScreen = () => {
 
-    const { dispatch } = useNavigation()
+    const { dispatch, navigate } = useNavigation()
     const { params } = useRoute<Route<'Refund', RefundScreenProps>>()
     const { open } = useSelectBottomSheet()
 
@@ -66,7 +72,7 @@ const RefundScreen = () => {
                 <ScrollView>
                     <DefaultHeader title='환불하기' disableBtns />
                     {data
-                        ? <View style={styles.itemContainer} >
+                        ? <Pressable onPress={() => navigate('ItemDetail', { id: data.order.item.id })} style={styles.itemContainer} >
                             <Image
                                 source={{ uri: data.order.item.mainImage }}
                                 style={styles.itemImage}
@@ -79,7 +85,7 @@ const RefundScreen = () => {
 
                                 </View>
                             </View>
-                        </View>
+                        </Pressable>
                         : <ItemInfoSkeleton />
                     }
 
@@ -96,7 +102,7 @@ const RefundScreen = () => {
                         value={reasonDetail}
                         onChangeText={onChangeReasonDetail}
                         placeholderTextColor={GRAY}
-                        placeholder='상세사유를 적어주세요'
+                        placeholder={'상세사유를 적어주세요' + INFO}
                         multiline
                         maxLength={1000}
                         style={[baseTextStyle, styles.input]}
@@ -173,5 +179,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 0,
         marginVertical: 24,
+        lineHeight: 20,
+        textAlignVertical: 'top'
     }
 })
