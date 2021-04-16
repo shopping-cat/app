@@ -272,3 +272,29 @@ interface ExchangeOrderVars {
     }
 }
 export const useExchangeOrder = createMutationHook<ExchangeOrderData, ExchangeOrderVars>(EXCHANGE_ORDER)
+
+
+
+const REFUND_CANCEL_ORDER = gql`
+mutation ($id:Int!) {
+    refundCancelOrder (id:$id) {
+        id
+        state
+    }
+}
+`
+interface RefundCancelOrderData { }
+interface RefundCancelOrderVars { id: number }
+export const useRefundCancelOrder = createMutationHook<RefundCancelOrderData, RefundCancelOrderVars>(REFUND_CANCEL_ORDER)
+
+const EXCHANGE_CANCEL_ORDER = gql`
+mutation ($id:Int!) {
+    exchangeCancelOrder (id:$id) {
+        id
+        state
+    }
+}
+`
+interface ExchangeCancelOrderData { }
+interface ExchangeCancelOrderVars { id: number }
+export const useExchangeCancelOrder = createMutationHook<ExchangeCancelOrderData, ExchangeCancelOrderVars>(EXCHANGE_CANCEL_ORDER)

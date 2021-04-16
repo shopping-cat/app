@@ -1,5 +1,5 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import ButtonFooter from '../../components/Layouts/ButtonFooter'
@@ -7,7 +7,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
-import { useOrder } from '../../graphql/order'
+import { useOrder, useRefundCancelOrder } from '../../graphql/order'
 import LoadingView from '../../components/View/LoadingView'
 
 interface RefundDetailScreenProps {
@@ -19,7 +19,16 @@ const RefundDetailScreen = () => {
 
     const { params } = useRoute<Route<'RefundDetail', RefundDetailScreenProps>>()
     const { data } = useOrder({ variables: { id: params.id } })
+    const [refundCancelOrder, { loading }] = useRefundCancelOrder()
     const { goBack } = useNavigation()
+
+
+    const onCancel = useCallback(async () => {
+        if (!data) return
+        await refundCancelOrder({ variables: { id: data.order.id } })
+        goBack()
+    }, [data])
+
 
     return (
         <ScreenLayout>
@@ -85,8 +94,9 @@ const RefundDetailScreen = () => {
             </ScrollView>}
             <ButtonFooter
                 active
-                text='돌아가기'
-                onPress={goBack}
+                text='환불 요청 취소'
+                loading={loading}
+                onPress={onCancel}
             />
         </ScreenLayout>
     )

@@ -1,5 +1,5 @@
 import { Route, useNavigation, useRoute } from '@react-navigation/native'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, ScrollView, StyleSheet, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import ButtonFooter from '../../components/Layouts/ButtonFooter'
@@ -7,7 +7,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
-import { useOrder } from '../../graphql/order'
+import { useExchangeCancelOrder, useOrder } from '../../graphql/order'
 import LoadingView from '../../components/View/LoadingView'
 
 interface ExchangeDetailScreenProps {
@@ -18,7 +18,14 @@ const ExchangeDetailScreen = () => {
 
     const { params } = useRoute<Route<'ExchangeDetail', ExchangeDetailScreenProps>>()
     const { data } = useOrder({ variables: { id: params.id } })
+    const [exchangeCancelOrder, { loading }] = useExchangeCancelOrder()
     const { goBack } = useNavigation()
+
+    const onCancel = useCallback(async () => {
+        if (!data) return
+        await exchangeCancelOrder({ variables: { id: data.order.id } })
+        goBack()
+    }, [data])
 
     return (
         <ScreenLayout>
@@ -63,8 +70,9 @@ const ExchangeDetailScreen = () => {
             </ScrollView>}
             <ButtonFooter
                 active
-                text='돌아가기'
-                onPress={goBack}
+                text='교환 요청 취소'
+                onPress={onCancel}
+                loading={loading}
             />
         </ScreenLayout>
     )
