@@ -3,30 +3,9 @@ import { Pressable, StyleSheet, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { COLOR1, COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { Category } from '../../constants/types'
+import { CATEGORY } from '../../constants/values'
 import BaseText from '../Text/BaseText'
 
-const dummyCategory = [
-    {
-        category: '사료',
-        detailCategory: ['건식사료', '주식캔', '츄르', '기타']
-    },
-    {
-        category: '간식',
-        detailCategory: ['간식캔', '간식파우치', '건조', '스낵', '수제간식', '영양제']
-    },
-    {
-        category: '장난감',
-        detailCategory: ['낚시대', '레이져', '인형']
-    },
-    {
-        category: '용품',
-        detailCategory: ['울타리', '칫솔/치약', '화장실', '스크래쳐', '정수기', '모래', '미용']
-    },
-    {
-        category: '기타',
-        detailCategory: null
-    }
-]
 
 interface CategorySelectorProps {
     initCategory1?: string
@@ -78,7 +57,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, init
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     overScrollMode='never'
-                    data={dummyCategory.map(v => v.category)}
+                    data={CATEGORY.map(v => v.category)}
                     keyExtractor={(item, index) => item + index}
                     nestedScrollEnabled
                     renderItem={({ item }) =>
@@ -95,7 +74,7 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ initCategory1, init
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 overScrollMode='never'
-                data={dummyCategory.filter(({ category }) => category === category1)[0].detailCategory}
+                data={CATEGORY.filter(({ category }) => category === category1)[0].detailCategory}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) =>
                     <CategoryContainer
@@ -120,7 +99,7 @@ interface CategoryContainerProps {
 }
 
 const CategoryContainer: React.FC<CategoryContainerProps> = ({ category, onPress, color }) => {
-    return <Pressable onPress={() => onPress && onPress(category)} >
+    return <Pressable style={styles.categoryContainer} onPress={() => onPress && onPress(category)} >
         <BaseText style={[styles.category, { color }]} >{category}</BaseText>
     </Pressable>
 }
@@ -139,10 +118,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     flatlist: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
     category: {
         fontSize: 16,
         marginRight: 16
+    },
+    categoryContainer: {
+        height: 47,
+        justifyContent: 'center'
     }
 })
