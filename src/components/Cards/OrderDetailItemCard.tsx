@@ -27,11 +27,14 @@ const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, s
                 <View style={styles.priceContainer} >
                     <BaseText style={styles.price} >{moneyFormat(totalPrice)}원</BaseText>
                 </View>
-                {(state !== '구매접수' && state !== '취소처리' && state !== '구매확정') && <View style={styles.stateContainer} >
+                {(state !== '구매접수' && state !== '취소처리') && <View style={styles.stateContainer} >
                     {state === '상점취소처리' && <BorderyButton onPress={() => navigate('OrderShopCancelDetail', { id })}>취소처리됨</BorderyButton>}
                     {state === '배송중' && <BorderyButton onPress={() => navigate('DeliveryDetail', { id })}>배송조회</BorderyButton>}
                     {state === '배송완료' && <>
-                        <BorderyButton onPress={() => navigate('ReviewPost', { orderId: id })} >리뷰작성</BorderyButton>
+                        {itemReview
+                            ? <BorderyButton onPress={() => navigate('ReviewModify', { id: itemReview.id })}>리뷰수정</BorderyButton>
+                            : <BorderyButton onPress={() => navigate('ReviewPost', { orderId: id })} >리뷰작성</BorderyButton>
+                        }
                         <BorderyButton style={{ marginLeft: 16 }} onPress={() => navigate('Exchange', { id })} >교환하기</BorderyButton>
                         <BorderyButton style={{ marginLeft: 16 }} onPress={() => navigate('Refund', { id })}>환불하기</BorderyButton>
                     </>}
@@ -39,9 +42,12 @@ const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, s
                     {state === '환불중' && <BorderyButton onPress={() => navigate('RefundDetail', { id })}>환불상세</BorderyButton>}
                     {state === '교환처리' && <BorderyButton onPress={() => navigate('ExchangeResult', { id })}>교환처리됨</BorderyButton>}
                     {state === '환불처리' && <BorderyButton onPress={() => navigate('RefundResult', { id })}>환불처리됨</BorderyButton>}
-                </View>}
-                {itemReview && <View style={styles.stateContainer} >
-                    <BorderyButton onPress={() => navigate('ReviewModify', { id: itemReview.id })}>리뷰수정</BorderyButton>
+                    {state === '구매확정' && <>
+                        {itemReview
+                            ? <BorderyButton onPress={() => navigate('ReviewModify', { id: itemReview.id })}>리뷰수정</BorderyButton>
+                            : <BorderyButton onPress={() => navigate('ReviewPost', { orderId: id })} >리뷰작성</BorderyButton>
+                        }
+                    </>}
                 </View>}
             </View>
         </View>

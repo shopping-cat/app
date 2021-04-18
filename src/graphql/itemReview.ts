@@ -235,7 +235,7 @@ export const CREATE_ITEM_REVIEW = gql`
             id
             stringOptionNum
             state
-            review {
+            itemReview {
                 id
             }
         }

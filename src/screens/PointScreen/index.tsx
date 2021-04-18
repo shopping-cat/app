@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import PointCard, { PointCardSkeleton } from '../../components/Cards/PointCard'

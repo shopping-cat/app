@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { ScrollView, StyleSheet } from 'react-native'
+import { Alert, ScrollView, StyleSheet } from 'react-native'
 import { useNavigation, useRoute, Route } from '@react-navigation/native'
 import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
@@ -37,9 +37,16 @@ const OrderDetailScreen = () => {
         if (state === '오류처리') return // 작동 안함
         if (state === '정상처리') navigate('OrderCancelGuide')
         if (state === '구매접수') { // 주문 취소
-            await cancelPayment({
-                variables: { id: data.payment.id }
-            })
+            Alert.alert('주문취소', '정말 취소하시겠습니까?', [
+                {
+                    text: '아니요',
+                    style: 'cancel'
+                },
+                {
+                    onPress: () => cancelPayment({ variables: { id: data.payment.id } }),
+                    text: '네'
+                }
+            ])
         }
     }, [data, cancelPayment, cancelLoading])
 
