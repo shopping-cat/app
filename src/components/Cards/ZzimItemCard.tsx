@@ -48,7 +48,7 @@ const ZzimItemCard: React.FC<ZzimItemCardProps & Item> = ({ isSelectMode, onSele
                     <BaseText style={styles.itemState} >{state}</BaseText>
                 </View>}
                 {isSelectMode &&
-                    <View style={[styles.selectModeView, { backgroundColor: isSelected ? COLOR1 + '88' : undefined }]} >
+                    <View style={[styles.selectModeView, { backgroundColor: isSelected ? COLOR1 + '88' : 'rgba(0 ,0, 0, 0)' }]} >
                         <View style={[styles.selectModeToggle, { backgroundColor: isSelected ? COLOR1 : LIGHT_GRAY }]} >
                             <CheckIcon fill='#fff' />
                         </View>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
         width,
         height: width,
         borderRadius: 8,
-        position: 'absolute',
+        position: 'absolute'
     },
     selectModeToggle: {
         width: 24,

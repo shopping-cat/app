@@ -28,7 +28,7 @@ const ZzimHeader: React.FC<ZzimHeaderProps> = ({ isSelectMode, onComplete, onSel
                     <BaseText style={styles.completeText} >완료</BaseText>
                 </Pressable>
                 : <>
-                    <Pressable onPress={onSelectMode} style={styles.btn} >
+                    <Pressable onPress={() => onSelectMode()} style={styles.btn} >
                         <Icon name='pencil-outline' size={24} color={COLOR1} />
                     </Pressable>
                     <CartButton />
