@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
-import { useApolloClient } from '@apollo/client';
-import { I_USER, IUserData } from '../graphql/user';
 import SplashScreen from 'react-native-splash-screen'
+import messaging from '@react-native-firebase/messaging';
+import { useApolloClient } from '@apollo/client';
+import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
+import { I_USER, IUserData, useUpdateFcmToken } from '../graphql/user';
 
 import HomeScreen from './HomeScreen'
 import CategoryScreen from './CategoryScreen';
@@ -134,9 +135,13 @@ const Navigation = () => {
     const navigationRef = useRef<NavigationContainerRef>(null)
     const client = useApolloClient()
 
+    const [updateFcmToken] = useUpdateFcmToken()
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+
     // 로그인 상태 변경
     const onAuthStateChanged = async (user: any) => {
         try {
+            setIsLoggedIn(!!user)
             if (user) {
                 console.log('logged in')
                 // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
@@ -177,6 +182,22 @@ const Navigation = () => {
         const listner = auth().onAuthStateChanged(onAuthStateChanged)
         return listner
     }, [])
+
+    const fcmInit = async () => {
+        await messaging().requestPermission()
+        const token = await messaging().getToken()
+        await updateFcmToken({ variables: { token } })
+    }
+
+    const fcmRefresh = async (token: string) => {
+        await updateFcmToken({ variables: { token } })
+    }
+
+    useEffect(() => {
+        if (!isLoggedIn) return
+        fcmInit()
+        return messaging().onTokenRefresh(fcmRefresh)
+    }, [isLoggedIn])
 
     return (
         <NavigationContainer

@@ -32,22 +32,25 @@ PODS:
     - FBSDKShareKit/Share (= 7.1.1)
   - FBSDKShareKit/Share (7.1.1):
     - FBSDKCoreKit (~> 7.1.1)
-  - Firebase/Auth (7.9.0):
+  - Firebase/Auth (7.10.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 7.9.0)
-  - Firebase/CoreOnly (7.9.0):
-    - FirebaseCore (= 7.9.0)
-  - Firebase/RemoteConfig (7.9.0):
+    - FirebaseAuth (~> 7.10.0)
+  - Firebase/CoreOnly (7.10.0):
+    - FirebaseCore (= 7.10.0)
+  - Firebase/Messaging (7.10.0):
     - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 7.9.0)
+    - FirebaseMessaging (~> 7.10.0)
+  - Firebase/RemoteConfig (7.10.0):
+    - Firebase/CoreOnly
+    - FirebaseRemoteConfig (~> 7.10.0)
   - FirebaseABTesting (7.10.0):
     - FirebaseCore (~> 7.0)
-  - FirebaseAuth (7.9.0):
+  - FirebaseAuth (7.10.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GTMSessionFetcher/Core (~> 1.4)
-  - FirebaseCore (7.9.0):
+  - FirebaseCore (7.10.0):
     - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
@@ -61,7 +64,19 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseRemoteConfig (7.9.0):
+  - FirebaseInstanceID (7.10.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
+  - FirebaseMessaging (7.10.0):
+    - FirebaseCore (~> 7.0)
+    - FirebaseInstanceID (~> 7.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
+    - GoogleUtilities/Environment (~> 7.0)
+    - GoogleUtilities/Reachability (~> 7.0)
+    - GoogleUtilities/UserDefaults (~> 7.0)
+  - FirebaseRemoteConfig (7.10.0):
     - FirebaseABTesting (~> 7.0)
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
@@ -452,15 +467,19 @@ PODS:
     - React
   - RNDeviceInfo (7.4.0):
     - React-Core
-  - RNFBApp (11.2.0):
-    - Firebase/CoreOnly (= 7.9.0)
+  - RNFBApp (11.3.1):
+    - Firebase/CoreOnly (= 7.10.0)
     - React-Core
-  - RNFBAuth (11.2.0):
-    - Firebase/Auth (= 7.9.0)
+  - RNFBAuth (11.3.1):
+    - Firebase/Auth (= 7.10.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (11.2.0):
-    - Firebase/RemoteConfig (= 7.9.0)
+  - RNFBMessaging (11.3.1):
+    - Firebase/Messaging (= 7.10.0)
+    - React-Core
+    - RNFBApp
+  - RNFBRemoteConfig (11.3.1):
+    - Firebase/RemoteConfig (= 7.10.0)
     - React-Core
     - RNFBApp
   - RNGestureHandler (1.10.3):
@@ -478,7 +497,7 @@ PODS:
     - React-Core
   - RNScreens (2.18.1):
     - React-Core
-  - RNSVG (12.1.0):
+  - RNSVG (12.1.1):
     - React
   - RNVectorIcons (7.1.0):
     - React
@@ -551,6 +570,7 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBRemoteConfig (from `../node_modules/@react-native-firebase/remote-config`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
@@ -574,6 +594,8 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
+    - FirebaseInstanceID
+    - FirebaseMessaging
     - FirebaseRemoteConfig
     - Flipper
     - Flipper-DoubleConversion
@@ -678,6 +700,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
     :path: "../node_modules/@react-native-firebase/auth"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNFBRemoteConfig:
     :path: "../node_modules/@react-native-firebase/remote-config"
   RNGestureHandler:
@@ -707,13 +731,15 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: b46507dc8b8cefed31d644e74d7cc30e2a715ef8
   FBSDKLoginKit: 1a61d79e2b25e2fc0d03dccab1e34b38bbdf2546
   FBSDKShareKit: 00a055c1999b099596e00212dd1c0600c6697019
-  Firebase: d8bd6bd34b4c7ed57bfdd056c66ff5adcdde53ab
+  Firebase: fffddd0bab8677d07376538365faa93ff3889b39
   FirebaseABTesting: 457bc058cf6de8bcffc6fd9a2a4c933b24bfc264
-  FirebaseAuth: 20625f04fdd213995249a82375b3dab39b1c136c
-  FirebaseCore: 0798738ad1ae0fda67e17c7b9081241c431c6859
+  FirebaseAuth: 675f2c4eb4426e7c58a78a89965a6530e7863535
+  FirebaseCore: ec566d917b2195fc2610aeb148dae99f57a788f9
   FirebaseCoreDiagnostics: 5662a3823ffcc0acbaa9a21ba5ed302fac634705
   FirebaseInstallations: bf2ec8dbf36ff4c91af6b9a003d15855757680c1
-  FirebaseRemoteConfig: ad9b7af6a1308d8dd26787b1702ce9e7d609d22e
+  FirebaseInstanceID: 5ad92c898e1328b66e8dd58811964d6fe4d334c3
+  FirebaseMessaging: 76b3058cef7f339cf10db196e03bbbb2165fb5d7
+  FirebaseRemoteConfig: 2841e353accfe688150781deebeb245e3fe16c2f
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: f7a3caafbd74bda4827954fd7a6e000e36355489
@@ -764,14 +790,15 @@ SPEC CHECKSUMS:
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
-  RNFBApp: d9ab9f2e63c70a9974294bb44c749b728cd4028f
-  RNFBAuth: 73ef569faa4618624313fbc969dfaba66bb6d0ed
-  RNFBRemoteConfig: b8817825c9bf4df921ff7065f10ed8c4a531634b
+  RNFBApp: 3b002b58041b71034efd09ae7394af65a58df1e4
+  RNFBAuth: 729c71a497af14240652f90a447ad33aa2180193
+  RNFBMessaging: 9445f07d4ffb0bf149daa230ed5f5e52c5edd14b
+  RNFBRemoteConfig: 756df2d60c681829fda27e7662bc2f70569a34ee
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNReanimated: 514a11da3a2bcc6c3dfd9de32b38e2b9bf101926
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
-  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38

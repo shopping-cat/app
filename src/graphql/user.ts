@@ -1,6 +1,7 @@
 import { gql, MutationHookOptions, QueryHookOptions, useApolloClient } from "@apollo/client";
 import { ReactNativeFile } from "apollo-upload-client";
 import { ID } from "../constants/types";
+import { client } from "../lib/apollo";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
 
@@ -250,3 +251,18 @@ interface WithdrawalUserVars {
 
 }
 export const useWithdrawalUser = createMutationHook<WithdrawalUserData, WithdrawalUserVars>(WITHDRAWAL_USER)
+
+
+export const UPDATE_FCM_TOKEN = gql`
+  mutation($token: String!) {
+    updateFcmToken(token:$token) {
+      id
+    }
+  }
+`
+
+interface UpdateFcmTokenData { }
+export interface UpdateFcmTokenVars {
+  token: string
+}
+export const useUpdateFcmToken = createMutationHook<UpdateFcmTokenData, UpdateFcmTokenVars>(UPDATE_FCM_TOKEN)

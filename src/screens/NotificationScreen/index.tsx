@@ -1,10 +1,10 @@
 /*
-알림 종류 별 인터렉션
+알림 종류 별 액션
 - 리뷰작성 요청 -> 리뷰 페이지로 이동
 - title & content -> 반응 없음       예) 환불실패, 환불완료
 - 이벤트 -> TODO
 */
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import NotificationCard from '../../components/Cards/NotificationCard'
@@ -12,6 +12,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import CheckBoxToggle from '../../components/Toggle/CheckBoxToggle'
 import { GRAY } from '../../constants/styles'
+import messaging from '@react-native-firebase/messaging';
 
 const dummyData = [
     {
@@ -20,7 +21,7 @@ const dummyData = [
         content: '최근 구매하신 딱해먹 고양이 구름다리 벽걸이 캣타워 상품에 대한 리뷰를 작성해 주세요',
         date: '2020.05.18',
         image: 'https://lh3.googleusercontent.com/proxy/Fvmy5aju8Ad7Ns1FD5eav6OP34NSxMOPgupmWw7ANLN0muqT_92RO7As9n3FCUdBRgELc4ynBnieiV9xZKeu7dKY9EtWhX9uqCwOceKip1zMh2_6JzI',
-        checked: false,
+        checked: true,
         type: 'review'
     },
     {
@@ -47,12 +48,16 @@ const dummyData = [
         content: '사유가 적당하지 않아서 환불 실패되었습니다',
         date: '2020.05.18',
         image: null,
-        checked: false,
+        checked: true,
         type: 'none'
     }
 ]
 
 const NotificationScreen = () => {
+
+    useEffect(() => {
+        messaging().requestPermission()
+    }, [])
 
     const onPushagree = useCallback(() => {
 

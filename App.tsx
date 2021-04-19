@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { ApolloProvider } from '@apollo/client';
 // import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtools'
@@ -8,6 +8,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { client } from './src/lib/apollo';
 import Navigation from './src/screens';
+
+
 
 //@ts-ignore
 // __DEV__ && enableFlipperApolloDevtools(client)
@@ -22,6 +24,7 @@ remoteConfig()
 
 
 const App = () => {
+
   return (
     <>
       <ApolloProvider client={client}>
