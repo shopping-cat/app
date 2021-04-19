@@ -2,9 +2,11 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
 import { Image, Pressable, StyleSheet } from 'react-native'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { Notification } from '../../graphql/notification'
+import dateFormat from '../../lib/dateFormat'
 import BaseText from '../Text/BaseText'
 
-const NotificationCard: React.FC<any> = ({ title, content, date, image, type }) => {
+const NotificationCard: React.FC<Notification> = ({ title, content, createdAt, image, type }) => {
 
     const { navigate } = useNavigation()
 
@@ -18,7 +20,7 @@ const NotificationCard: React.FC<any> = ({ title, content, date, image, type }) 
             style={[styles.container, { backgroundColor: true ? '#fff' : VERY_LIGHT_GRAY }]}
         >
             <BaseText style={styles.title} >{title}</BaseText>
-            <BaseText style={styles.date} >{date}</BaseText>
+            <BaseText style={styles.date} >{dateFormat(createdAt)}</BaseText>
             <BaseText style={styles.content} >{content}</BaseText>
             {image && <Image
                 source={{ uri: image }}

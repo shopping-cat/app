@@ -266,3 +266,19 @@ export interface UpdateFcmTokenVars {
   token: string
 }
 export const useUpdateFcmToken = createMutationHook<UpdateFcmTokenData, UpdateFcmTokenVars>(UPDATE_FCM_TOKEN)
+
+
+export const UPDATE_EVNET_MESSAGE_ALLOW = gql`
+  mutation($allow: Boolean!) {
+    updateEventMessageAllow(allow:$allow) {
+      id
+      eventMessageAllow
+    }
+  }
+`
+
+interface UpdateEventMessageAllowData { }
+export interface UpdateEventMessageAllowVars {
+  allow: boolean
+}
+export const useUpdateEventMessageAllow = createMutationHook<UpdateEventMessageAllowData, UpdateEventMessageAllowVars>(UPDATE_EVNET_MESSAGE_ALLOW)

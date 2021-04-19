@@ -5,7 +5,7 @@ import CheckIcon from '../Svgs/CheckIcon'
 
 interface CheckBoxToggleProps {
     active: boolean
-    onPress: () => void
+    onPress?: () => void
 }
 
 const CheckBoxToggle: React.FC<CheckBoxToggleProps> = ({ active, onPress }) => {

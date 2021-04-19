@@ -15,6 +15,7 @@ export default new InMemoryCache({
                 coupons: offsetLimitPagination(),
                 pointReceipts: offsetLimitPagination(),
                 payments: offsetLimitPagination(),
+                notifications: offsetLimitPagination(),
                 zzimItems: {
                     keyArgs: ['category1', 'category2'],
                     merge: function (existing, incoming, _a) {
