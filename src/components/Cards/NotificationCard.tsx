@@ -6,7 +6,7 @@ import { Notification } from '../../graphql/notification'
 import dateFormat from '../../lib/dateFormat'
 import BaseText from '../Text/BaseText'
 
-const NotificationCard: React.FC<Notification> = ({ title, content, createdAt, image, type }) => {
+const NotificationCard: React.FC<Notification> = ({ title, content, createdAt, image, type, checked }) => {
 
     const { navigate } = useNavigation()
 
@@ -17,7 +17,7 @@ const NotificationCard: React.FC<Notification> = ({ title, content, createdAt, i
     return (
         <Pressable
             onPress={onPress}
-            style={[styles.container, { backgroundColor: true ? '#fff' : VERY_LIGHT_GRAY }]}
+            style={[styles.container, { backgroundColor: checked ? '#fff' : VERY_LIGHT_GRAY }]}
         >
             <BaseText style={styles.title} >{title}</BaseText>
             <BaseText style={styles.date} >{dateFormat(createdAt)}</BaseText>
@@ -35,12 +35,10 @@ export default NotificationCard
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        padding: 16,
-        borderTopColor: VERY_LIGHT_GRAY,
-        borderTopWidth: 1
+        paddingHorizontal: 16,
+        paddingVertical: 24
     },
     title: {
-        fontSize: 16,
         marginBottom: 16
     },
     date: {

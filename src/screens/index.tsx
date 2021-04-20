@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SplashScreen from 'react-native-splash-screen'
-import messaging from '@react-native-firebase/messaging';
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { useApolloClient } from '@apollo/client';
 import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
 import { I_USER, IUserData, useUpdateFcmToken } from '../graphql/user';
@@ -61,6 +61,7 @@ import UserCertificationScreen from './UserCertificationScreen';
 import OrderShopCancelDetailScreen from './OrderShopCancelDetailScreen';
 import DeliveryDetailScreen from './DeliveryDetailScreen';
 import EventDetailScreen from './EventDetailScreen';
+import useToast from '../hooks/useToast';
 
 
 
@@ -130,21 +131,25 @@ const theme: Theme = {
     }
 }
 
+let loading = false
+
 const Navigation = () => {
 
     const navigationRef = useRef<NavigationContainerRef>(null)
     const client = useApolloClient()
 
+    const { show } = useToast()
     const [updateFcmToken] = useUpdateFcmToken()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     // 로그인 상태 변경
     const onAuthStateChanged = async (user: any) => {
         try {
+            if (loading) return
+            loading = true
             setIsLoggedIn(!!user)
             if (user) {
                 console.log('logged in')
-                // timeout 없으면 앱 처음 실행시에 NavigationContainer가 생성이 안되있어서 오류남 (가능하다면 수정 바람)
                 const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
                 const route = navigationRef?.current?.getCurrentRoute()
                 setTimeout(() => { SplashScreen.hide() }, 500)
@@ -157,10 +162,18 @@ const Navigation = () => {
                 }
                 else {
                     if (route?.name === 'Home') return
-                    navigationRef.current?.reset({
-                        index: 0,
-                        routes: [{ name: 'Tab' }]
-                    })
+                    const initialNotification = await messaging().getInitialNotification()
+                    if (initialNotification) {
+                        navigationRef.current?.reset({
+                            index: 1,
+                            routes: [{ name: 'Tab' }, { name: 'Notification' }]
+                        })
+                    } else {
+                        navigationRef.current?.reset({
+                            index: 0,
+                            routes: [{ name: 'Tab' }]
+                        })
+                    }
                 }
             } else {
                 console.log('logged out')
@@ -172,8 +185,10 @@ const Navigation = () => {
                     routes: [{ name: 'Login' }]
                 })
             }
+            loading = false
         } catch (error) {
             console.error(error)
+            loading = false
         }
     }
 
@@ -193,11 +208,24 @@ const Navigation = () => {
         await updateFcmToken({ variables: { token } })
     }
 
+    // fcm token listner
     useEffect(() => {
         if (!isLoggedIn) return
         fcmInit()
         return messaging().onTokenRefresh(fcmRefresh)
     }, [isLoggedIn])
+
+    const onMessage = async (message: FirebaseMessagingTypes.RemoteMessage) => {
+        if (message.notification?.title) {
+            await client.query({ query: I_USER, fetchPolicy: 'network-only', })
+            show(message.notification.title + '\n\n자세한 내용은 알림을 확인해주세요')
+        }
+    }
+
+    useEffect(() => {
+        const unsubscribe = messaging().onMessage(onMessage)
+        return unsubscribe
+    }, [])
 
     return (
         <NavigationContainer

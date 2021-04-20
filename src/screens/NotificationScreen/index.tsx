@@ -15,17 +15,24 @@ import { GRAY } from '../../constants/styles'
 import messaging from '@react-native-firebase/messaging';
 import { useNotifications } from '../../graphql/notification'
 import LoadingView from '../../components/View/LoadingView'
-import { useUpdateEventMessageAllow } from '../../graphql/user'
+import { I_USER, useUpdateEventMessageAllow } from '../../graphql/user'
+import { useApolloClient } from '@apollo/client'
 
 
 const NotificationScreen = () => {
 
-    const { data, loading, fetchMore } = useNotifications({ fetchPolicy: 'network-only' })
+    const client = useApolloClient()
+    const { data, loading, fetchMore } = useNotifications({ fetchPolicy: 'network-only', nextFetchPolicy: 'cache-only' })
     const [updateEventMessageAllow] = useUpdateEventMessageAllow()
 
     useEffect(() => {
         messaging().requestPermission()
     }, [])
+
+    useEffect(() => {
+        if (loading) return
+        client.query({ query: I_USER, fetchPolicy: 'network-only' })
+    }, [loading])
 
     const onMessageAllow = useCallback(async () => {
         if (!data) return

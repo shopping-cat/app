@@ -3,40 +3,43 @@ import { createQueryHook } from "../lib/createApolloHook"
 
 export const NOTIFICATIONS = gql`
   query ($offset:Int, $limit:Int){
-    iUser {
-        id
-        eventMessageAllow
-    }
     notifications(offset:$offset, limit:$limit) {
       id
       createdAt
       image
       title
       content
+      checked
       type
       params
+    }
+    iUser {
+        id
+        eventMessageAllow
     }
   }
 `
 
 export interface Notification {
-    id: number
-    createdAt: Date
-    image?: string
-    title: string
-    content: string
-    type: string
-    params?: { data: any }
+  id: number
+  createdAt: Date
+  image?: string
+  title: string
+  content: string
+  checked: boolean
+  type: string
+  params?: { data: any }
 }
 
 interface NotificationsData {
-    iUser: {
-        eventMessageAllow: boolean
-    }
-    notifications: Notification[]
+  iUser: {
+    eventMessageAllow: boolean
+    notificationNum: number
+  }
+  notifications: Notification[]
 }
 interface NotificationsVars {
-    offset?: number
-    limit?: number
+  offset?: number
+  limit?: number
 }
 export const useNotifications = createQueryHook<NotificationsData, NotificationsVars>(NOTIFICATIONS)
