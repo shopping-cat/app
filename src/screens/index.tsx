@@ -62,6 +62,7 @@ import OrderShopCancelDetailScreen from './OrderShopCancelDetailScreen';
 import DeliveryDetailScreen from './DeliveryDetailScreen';
 import EventDetailScreen from './EventDetailScreen';
 import useToast from '../hooks/useToast';
+import ConfirmBottomSheet from '../components/BottomSheets/ConfirmBottomSheet';
 
 
 
@@ -294,6 +295,7 @@ const NavigationWrapper = () => {
             <Navigation />
             <CategoryScreenSortSheet />
             <GlobalSelectBottomSheet />
+            <ConfirmBottomSheet />
             <Toast />
         </>
     )

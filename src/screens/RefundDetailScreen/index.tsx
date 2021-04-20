@@ -9,6 +9,8 @@ import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import moneyFormat from '../../lib/moneyFormat'
 import { useOrder, useRefundCancelOrder } from '../../graphql/order'
 import LoadingView from '../../components/View/LoadingView'
+import useConfirm from '../../hooks/useConfirm'
+import StatusBarHeightView from '../../components/View/StatusBarHeightView'
 
 interface RefundDetailScreenProps {
     id: number // orderId
@@ -21,17 +23,26 @@ const RefundDetailScreen = () => {
     const { data } = useOrder({ variables: { id: params.id } })
     const [refundCancelOrder, { loading }] = useRefundCancelOrder()
     const { goBack } = useNavigation()
+    const { show } = useConfirm()
 
 
     const onCancel = useCallback(async () => {
         if (!data) return
-        await refundCancelOrder({ variables: { id: data.order.id } })
-        goBack()
+        show(
+            '환불 취소',
+            '정말 환불 취소 하시겠습니까?',
+            async () => {
+                await refundCancelOrder({ variables: { id: data.order.id } })
+                goBack()
+            }
+        )
+
     }, [data])
 
 
     return (
-        <ScreenLayout>
+        <ScreenLayout disableStatusbarHeight >
+            <StatusBarHeightView />
             <DefaultHeader title='환불상세' disableBtns />
             {!data && <LoadingView />}
             {data && <ScrollView
