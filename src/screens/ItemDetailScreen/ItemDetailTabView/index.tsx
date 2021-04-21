@@ -29,11 +29,15 @@ const ItemDetailTabView = React.forwardRef<ScrollView, ItemDetailTabViewProps>((
     }, [heights])
 
     useEffect(() => {
-        Animated.timing(height, {
-            toValue: heights[tabViewIndex] < minHeight ? minHeight : heights[tabViewIndex],
-            duration: 500,
-            useNativeDriver: false
-        }).start()
+        if (tabViewIndex === 0) {
+            height.setValue(heights[tabViewIndex] < minHeight ? minHeight : heights[tabViewIndex])
+        } else {
+            Animated.timing(height, {
+                toValue: heights[tabViewIndex] < minHeight ? minHeight : heights[tabViewIndex],
+                duration: 500,
+                useNativeDriver: false
+            }).start()
+        }
     }, [tabViewIndex, heights])
 
     return (
@@ -53,7 +57,7 @@ const ItemDetailTabView = React.forwardRef<ScrollView, ItemDetailTabViewProps>((
         >
             <View style={{ width: WIDTH }} >
                 <View style={{ position: 'absolute' }} onLayout={({ nativeEvent }) => onLayout(nativeEvent.layout.height, 0)} >
-                    <ItemInfoTab {...data} />
+                    <ItemInfoTab {...data} index={tabViewIndex} />
                 </View>
             </View>
             <View style={{ width: WIDTH }} >

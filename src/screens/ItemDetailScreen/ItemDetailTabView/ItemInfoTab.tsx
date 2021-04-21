@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import WebView, { WebViewMessageEvent } from 'react-native-webview';
 import BaseText from '../../../components/Text/BaseText';
@@ -26,8 +26,9 @@ const generateHtml = (content: string) => `
 </html>
 `
 
-const ItemInfoTab: React.FC<ItemDetail> = ({ html, requireInformation }) => {
+const ItemInfoTab: React.FC<ItemDetail & { index: number }> = ({ html, requireInformation, index }) => {
 
+    const ref = useRef<WebView>(null)
     const [height, setHeight] = useState(10000)
 
     const onWebViewMessage = useCallback((event: WebViewMessageEvent) => {
@@ -37,6 +38,7 @@ const ItemInfoTab: React.FC<ItemDetail> = ({ html, requireInformation }) => {
     return (
         <View style={styles.container} >
             <WebView
+                ref={ref}
                 source={{ html: generateHtml(html) }}
                 style={[styles.webview, { height }]}
                 onMessage={onWebViewMessage}
@@ -46,6 +48,7 @@ const ItemInfoTab: React.FC<ItemDetail> = ({ html, requireInformation }) => {
                 startInLoadingState={true}
                 scrollEnabled={false}
             />
+            <View style={[styles.wrapper, { height }]} />
             <ThinLine />
             <View style={styles.baseInfoContainer} >
                 <BaseText style={styles.baseInfoTitle} >필수표기정보</BaseText>
@@ -70,6 +73,12 @@ const styles = StyleSheet.create({
     webview: {
         width: WIDTH - 32,
         marginVertical: 16
+    },
+    wrapper: {
+        position: 'absolute',
+        width: '100%',
+        marginTop: 16,
+        backgroundColor: 'rgba(0, 0, 0, 0)'
     },
     baseInfoContainer: {
         width: '100%',
