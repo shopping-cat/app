@@ -7,18 +7,27 @@ import { APPLE_COLOR, FACEBOOK_COLOR, KAKAO_COLOR } from '../../constants/styles
 import { IS_IOS } from '../../constants/values'
 import appleAuth from '@invertase/react-native-apple-authentication'
 import TouchableScale from '../../components/Buttons/TouchableScale'
+import ScreenLayout from '../../components/Layouts/ScreenLayout'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
 const LoginScreen = () => {
 
+    const { bottom } = useSafeAreaInsets()
     const { kakaoLogin, facebookLogin, appleLogin } = useAuth()
 
     return (
-        <View style={styles.container} >
+        <ScreenLayout>
+
+            <Image
+                style={styles.logo}
+                source={require('../../assets/logo_background_white.png')}
+                resizeMode='contain'
+            />
             <View style={{ flex: 1 }} >
 
             </View>
-            <View style={styles.snsContainer}  >
+            <View style={[styles.snsContainer, { marginBottom: 56 + bottom }]}  >
                 <TouchableScale
                     onPress={kakaoLogin}
                     style={[styles.snsBtn, { backgroundColor: KAKAO_COLOR }]}
@@ -28,7 +37,6 @@ const LoginScreen = () => {
                         source={require('../../assets/kakaotalk.png')}
                         resizeMode='contain'
                     />
-                    <BaseText style={{ color: '#000' }} >카카오톡으로 로그인</BaseText>
                 </TouchableScale>
                 <TouchableScale
                     onPress={facebookLogin}
@@ -39,9 +47,8 @@ const LoginScreen = () => {
                         source={require('../../assets/facebook.png')}
                         resizeMode='contain'
                     />
-                    <BaseText style={{ color: '#fff' }} >페이스북으로 로그인</BaseText>
                 </TouchableScale>
-                {IS_IOS && appleAuth.isSupported && <BaseButton
+                {IS_IOS && appleAuth.isSupported && <TouchableScale
                     onPress={appleLogin}
                     style={[styles.snsBtn, { backgroundColor: APPLE_COLOR }]}
                 >
@@ -50,35 +57,35 @@ const LoginScreen = () => {
                         source={require('../../assets/apple.png')}
                         resizeMode='contain'
                     />
-                    <BaseText style={{ color: '#fff' }} >애플로 로그인</BaseText>
-                </BaseButton>}
+                </TouchableScale>}
             </View>
-        </View>
+        </ScreenLayout>
     )
 }
 
 export default LoginScreen
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    logo: {
+        width: 128,
+        height: 128,
+        alignSelf: 'center',
+        marginTop: 96
     },
     snsContainer: {
-        alignItems: 'flex-start'
+        flexDirection: 'row',
+        alignSelf: 'center'
     },
     snsBtn: {
-        marginLeft: 16,
-        paddingHorizontal: 24,
+        marginHorizontal: 12,
         height: 56,
+        width: 56,
         borderRadius: 28,
-        flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 24,
-        overflow: 'hidden'
+        justifyContent: 'center'
     },
     snsIcon: {
         width: 24,
-        height: 24,
-        marginRight: 24
+        height: 24
     }
 })
