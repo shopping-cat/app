@@ -1,28 +1,41 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { Image, Pressable, StyleSheet, View } from 'react-native'
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import ImagePicker, { Image as ImageFile } from 'react-native-image-crop-picker';
 import BaseText from '../../components/Text/BaseText';
 import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import UnderLineInput from '../../components/Input/UnderLineInput'
-import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
-import { useIUser, useUpdateUserProfile } from '../../graphql/user';
+import { COLOR2, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles';
+import { useRegistUserProfile } from '../../graphql/user';
 import useInput from '../../hooks/useInput'
 import generateImageToRNFile from '../../lib/generateRNFile';
+import UnderLineText from '../../components/Text/UnderLineText';
+import CheckBoxToggle from '../../components/Toggle/CheckBoxToggle';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const ProfileRegistScreen = () => {
 
-    const { reset } = useNavigation()
+    const { reset, navigate } = useNavigation()
 
-    const [updateUserProfile, { loading }] = useUpdateUserProfile()
+    const [registUserProfile, { loading }] = useRegistUserProfile()
 
     const [image, setImage] = useState<ImageFile | null>(null)
     const [name, onChangeName] = useInput('')
 
-    const active = name.length > 0
+    const [termsOfServiceAllow, setTermsOfServiceAllow] = useState(false)
+    const [privacyPolicyAllow, setPrivacyPolicyAllow] = useState(false)
+    const [eventMessageAllow, setEventMessageAllow] = useState(false)
+
+    const active = name.length > 0 && termsOfServiceAllow && privacyPolicyAllow
+
+    const onAllAllow = useCallback(() => {
+        setTermsOfServiceAllow(true)
+        setPrivacyPolicyAllow(true)
+        setEventMessageAllow(true)
+    }, [])
 
     const onImage = useCallback(async () => {
         try {
@@ -47,10 +60,13 @@ const ProfileRegistScreen = () => {
         if (loading) return
         try {
             const file = image ? generateImageToRNFile(image.path, 'userProfile') : null
-            await updateUserProfile({
+            await registUserProfile({
                 variables: {
-                    name,
-                    photo: file || null
+                    input: {
+                        name,
+                        photo: file,
+                        eventMessageAllow
+                    }
                 }
             })
             reset({
@@ -60,12 +76,12 @@ const ProfileRegistScreen = () => {
         } catch (error) {
             console.error(error)
         }
-    }, [active, name, image, loading])
+    }, [active, name, image, loading, eventMessageAllow])
 
     return (
         <ScreenLayout>
             <DefaultHeader title='회원정보입력' disableGoBack disableBtns />
-            <View style={styles.container} >
+            <View style={styles.container}  >
                 <Pressable
                     onPress={onImage}
                 >
@@ -84,6 +100,64 @@ const ProfileRegistScreen = () => {
                     maxLength={20}
                     numberOfLines={1}
                 />
+
+                <View style={{ flex: 1 }} />
+
+                <View style={styles.agreementContainer} >
+                    <View style={styles.agreement} >
+                        <CheckBoxToggle active={termsOfServiceAllow && privacyPolicyAllow && eventMessageAllow} onPress={onAllAllow} />
+                        <UnderLineText style={{ marginLeft: 16 }} >모두 동의</UnderLineText>
+                    </View>
+
+                    <View style={styles.agreement} >
+                        <CheckBoxToggle
+                            active={termsOfServiceAllow}
+                            onPress={() => setTermsOfServiceAllow(v => !v)}
+                        />
+                        <UnderLineText
+                            onPress={() => setTermsOfServiceAllow(v => !v)}
+                            textStyle={styles.agreementContent}
+                            style={{ marginLeft: 16 }}
+                        >
+                            {'(필수) 서비스 이용약관에 동의합니다.'}
+                        </UnderLineText>
+                        <TouchableOpacity onPress={() => navigate('AgreeMent')} >
+                            <BaseText style={styles.agreementDetail} >본문보기</BaseText>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.agreement} >
+                        <CheckBoxToggle
+                            active={privacyPolicyAllow}
+                            onPress={() => setPrivacyPolicyAllow(v => !v)}
+                        />
+                        <UnderLineText
+                            onPress={() => setPrivacyPolicyAllow(v => !v)}
+                            textStyle={styles.agreementContent}
+                            style={{ marginLeft: 16 }}
+                        >
+                            {'(필수) 개인정보 수집 및 이용에 동의합니다.'}
+                        </UnderLineText>
+                        <TouchableOpacity onPress={() => navigate('PrivacyPolicy')} >
+                            <BaseText style={styles.agreementDetail} >본문보기</BaseText>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.agreement} >
+                        <CheckBoxToggle
+                            active={eventMessageAllow}
+                            onPress={() => setEventMessageAllow(v => !v)}
+                        />
+                        <UnderLineText
+                            onPress={() => setEventMessageAllow(v => !v)}
+                            textStyle={styles.agreementContent}
+                            style={{ marginLeft: 16 }}
+                        >
+                            {'(선택) 이벤트/마케팅 푸시 알림 수신'}
+                        </UnderLineText>
+                    </View>
+                </View>
+
             </View>
             <ButtonFooter
                 active={active}
@@ -121,5 +195,22 @@ const styles = StyleSheet.create({
     },
     change: {
         color: GRAY
+    },
+    agreementContainer: {
+        paddingHorizontal: 16,
+        marginBottom: 32
+    },
+    agreement: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    agreementContent: {
+        color: GRAY,
+        fontSize: 12
+    },
+    agreementDetail: {
+        fontSize: 12,
+        color: COLOR2,
+        marginLeft: 8
     }
 })

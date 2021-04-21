@@ -15,7 +15,7 @@ export const NOTIFICATIONS = gql`
     }
     iUser {
         id
-        eventMessageAllow
+        eventMessageAllowDate
     }
   }
 `
@@ -33,7 +33,7 @@ export interface Notification {
 
 interface NotificationsData {
   iUser: {
-    eventMessageAllow: boolean
+    eventMessageAllowDate: boolean
     notificationNum: number
   }
   notifications: Notification[]

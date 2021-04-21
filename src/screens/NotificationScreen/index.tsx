@@ -36,7 +36,7 @@ const NotificationScreen = () => {
 
     const onMessageAllow = useCallback(async () => {
         if (!data) return
-        await updateEventMessageAllow({ variables: { allow: !data.iUser.eventMessageAllow } })
+        await updateEventMessageAllow({ variables: { allow: !data.iUser.eventMessageAllowDate } })
     }, [data])
 
     return (
@@ -56,7 +56,7 @@ const NotificationScreen = () => {
                     >
                         <CheckBoxToggle
                             onPress={onMessageAllow}
-                            active={data.iUser.eventMessageAllow}
+                            active={!!data.iUser.eventMessageAllowDate}
                         />
                         <BaseText style={styles.pushAgree} >이벤트/마케팅 푸시 알림 수신</BaseText>
                     </Pressable>

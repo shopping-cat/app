@@ -180,6 +180,28 @@ interface UpdateUserProfileVars {
 export const useUpdateUserProfile = createMutationHook<UpdateUserProfileData, UpdateUserProfileVars>(UPDATE_USER_PROFILE)
 
 
+export const REGIST_USER_PROFILE = gql`
+  mutation ($input: RegistUserProfileInput!) {
+    registUserProfile(input:$input) {
+      id
+      photo
+      name
+      eventMessageAllowDate
+      privacyPolicyAllowDate
+      termsOfServiceAllowDate
+    }
+  }
+`
+interface RegistUserProfileData { }
+interface RegistUserProfileVars {
+  input: {
+    photo: ReactNativeFile | null
+    name: string
+    eventMessageAllow: boolean
+  }
+}
+export const useRegistUserProfile = createMutationHook<RegistUserProfileData, RegistUserProfileVars>(REGIST_USER_PROFILE)
+
 
 
 // QUERY/RECENT_SEARCH_KEYWORDS
@@ -272,7 +294,7 @@ export const UPDATE_EVNET_MESSAGE_ALLOW = gql`
   mutation($allow: Boolean!) {
     updateEventMessageAllow(allow:$allow) {
       id
-      eventMessageAllow
+      eventMessageAllowDate
     }
   }
 `
