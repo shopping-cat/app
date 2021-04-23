@@ -4,7 +4,8 @@ export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 export const APPLE_APP_ID = '1564198692'
 export const ANDROID_PACKAGE_NAME = 'com.shoppingcat.userapp'
-// export const ANDROID_PACKAGE_NAME = 'com.whatsapp'
+export const KAKAO_CHANNEL_USER = 'http://pf.kakao.com/_ILHqs/chat'
+export const KAKAO_CHANNEL_SELLERS = 'http://pf.kakao.com/_YcPRs/chat'
 
 export const ITEM_CATEGORYS = ['']
 export const MAX_REVIEW_IMAGE_NUMBER = 9

@@ -1,22 +1,23 @@
 import React, { useCallback } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { Linking, StyleSheet, View } from 'react-native'
 import BaseText from '../../components/Text/BaseText'
 import LabelUnderLineButton from '../../components/Buttons/LabelUnderLineButton'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import ThinLine from '../../components/View/ThinLine'
 import { GRAY } from '../../constants/styles'
+import { KAKAO_CHANNEL_SELLERS, KAKAO_CHANNEL_USER } from '../../constants/values'
 
 const NOTI = `상품관련 문의는 [해당 상품 상세페이지 > 문의 탭]에서 문의 하여 주시기 바랍니다.`
 
 const InqueryScreen = () => {
 
     const onChatting = useCallback(() => {
-        // 채널톡
+        Linking.openURL(KAKAO_CHANNEL_USER)
     }, [])
 
     const onSalesContact = useCallback(() => {
-        // 카카오톡 오픈채팅 으로 연결
+        Linking.openURL(KAKAO_CHANNEL_SELLERS)
     }, [])
 
     return (
@@ -28,7 +29,7 @@ const InqueryScreen = () => {
                 {NOTI}
             </BaseText>
             <ThinLine />
-            <View style={styles.body} >
+            <View style={[styles.body, { marginTop: 16 }]} >
                 <LabelUnderLineButton
                     label='채팅문의'
                     onPress={onChatting}
