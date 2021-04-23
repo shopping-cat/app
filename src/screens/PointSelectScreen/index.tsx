@@ -12,6 +12,8 @@ import { OrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
 import moneyFormat from '../../lib/moneyFormat'
 
+const NOTI = `부분적으로 환불/취소 하실시 포인트보다 결제하신 금액이 우선적으로 환불됩니다.`
+
 export interface PointSelectScreenProps {
     data: OrderCalculate
 }
@@ -45,7 +47,7 @@ const PointSelectScreen = () => {
             <DefaultHeader title='포인트 선택' disableBtns />
             <View style={styles.body} >
                 <View style={styles.explanationContainer} >
-                    <BaseText style={styles.explanation} >{`포인트는 각각 상품마다 상품 가격 비율에 맞게 적용됩니다.\n부분적으로 환불/취소 하실시 포인트도 부분적으로 환불됩니다.`}</BaseText>
+                    <BaseText style={styles.explanation} >{NOTI}</BaseText>
                 </View>
                 <ThinLine />
                 <View style={styles.inputContainer} >

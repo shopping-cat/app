@@ -14,6 +14,8 @@ import PaymentResultDeliveryMemo from './PaymentResultDeliveryMemo'
 import { CallbackRsp } from 'iamport-react-native'
 import { useCompletePayment } from '../../graphql/payment'
 import LoadingView from '../../components/View/LoadingView'
+import Rate, { AndroidMarket } from 'react-native-rate'
+import { ANDROID_PACKAGE_NAME, APPLE_APP_ID } from '../../constants/values'
 // TODO 제시도
 
 const PaymentResultScreen = () => {
@@ -27,6 +29,21 @@ const PaymentResultScreen = () => {
             merchant_uid: params.merchant_uid || ''
         }
     })
+
+    useEffect(() => {
+        if (!data) return
+        if (data.completePayment.user.paymentNum < 2) return // 3번째 구매부터 요청
+        console.log('requeset')
+        Rate.rate({
+            AppleAppID: APPLE_APP_ID,
+            GooglePackageName: ANDROID_PACKAGE_NAME,
+            openAppStoreIfInAppFails: false,
+            preferredAndroidMarket: AndroidMarket.Google,
+            preferInApp: true
+        }, (success) => {
+            console.log(success)
+        })
+    }, [data])
 
     useEffect(() => {
         completePayment()

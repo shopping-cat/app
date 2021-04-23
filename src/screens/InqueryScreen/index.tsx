@@ -7,8 +7,7 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import ThinLine from '../../components/View/ThinLine'
 import { GRAY } from '../../constants/styles'
 
-const dummyNoti = `포인트는 각각 상품마다 상품 가격 비율에 맞게 적용됩니다.
-부분적으로 환불/취소 하실시 포인트도 부분적으로 환불됩니다.`
+const NOTI = `상품관련 문의는 [해당 상품 상세페이지 > 문의 탭]에서 문의 하여 주시기 바랍니다.`
 
 const InqueryScreen = () => {
 
@@ -26,7 +25,7 @@ const InqueryScreen = () => {
             <BaseText
                 style={styles.noti}
             >
-                {dummyNoti}
+                {NOTI}
             </BaseText>
             <ThinLine />
             <View style={styles.body} >

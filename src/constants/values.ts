@@ -2,6 +2,9 @@ import { Platform } from "react-native";
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
+export const APPLE_APP_ID = '1564198692'
+export const ANDROID_PACKAGE_NAME = 'com.shoppingcat.userapp'
+// export const ANDROID_PACKAGE_NAME = 'com.whatsapp'
 
 export const ITEM_CATEGORYS = ['']
 export const MAX_REVIEW_IMAGE_NUMBER = 9

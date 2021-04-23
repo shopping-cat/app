@@ -189,6 +189,10 @@ mutation ($imp_uid:String!, $merchant_uid:String!){
         vBankName
         totalPrice
         paymentMethod
+        user {
+            id
+            paymentNum
+        }
         orders {
             id
             stringOptionNum
@@ -217,6 +221,10 @@ export interface CompletePayment {
     vBankName: string | null
     totalPrice: number
     paymentMethod: string
+    user: {
+        id: number
+        paymentNum: number
+    }
     orders: {
         id: number
         stringOptionNum: string
