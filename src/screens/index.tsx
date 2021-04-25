@@ -134,6 +134,8 @@ const theme: Theme = {
 
 let loading = false
 
+
+
 const Navigation = () => {
 
     const navigationRef = useRef<NavigationContainerRef>(null)
@@ -163,18 +165,10 @@ const Navigation = () => {
                 }
                 else {
                     if (route?.name === 'Home') return
-                    const initialNotification = await messaging().getInitialNotification()
-                    if (initialNotification) {
-                        navigationRef.current?.reset({
-                            index: 1,
-                            routes: [{ name: 'Tab' }, { name: 'Notification' }]
-                        })
-                    } else {
-                        navigationRef.current?.reset({
-                            index: 0,
-                            routes: [{ name: 'Tab' }]
-                        })
-                    }
+                    navigationRef.current?.reset({
+                        index: 0,
+                        routes: [{ name: 'Tab' }]
+                    })
                 }
             } else {
                 console.log('logged out')
@@ -224,9 +218,19 @@ const Navigation = () => {
         }
     }
 
+    // foreground push listner
     useEffect(() => {
         const unsubscribe = messaging().onMessage(onMessage)
         return unsubscribe
+    }, [])
+
+    // background push listner
+    useEffect(() => {
+        messaging().onNotificationOpenedApp(async remoteMessage => {
+            if (remoteMessage.data?.type === 'notification') {
+                navigationRef.current?.navigate('Notification')
+            }
+        })
     }, [])
 
     return (
