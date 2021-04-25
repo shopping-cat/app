@@ -5,6 +5,7 @@ import { appleAuth } from '@invertase/react-native-apple-authentication';
 import auth from '@react-native-firebase/auth';
 import { useApolloClient } from "@apollo/client";
 import { KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../graphql/user'
+import messaging from '@react-native-firebase/messaging'
 import useToast from "./useToast";
 
 
@@ -85,6 +86,7 @@ const useAuth = () => {
             if (logoutLoading) return
             setLogoutLoading(true)
             console.log('logout start')
+            await messaging().deleteToken()
             await auth().signOut()
         } catch (error) {
             console.log(error)

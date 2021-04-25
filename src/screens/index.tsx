@@ -157,18 +157,26 @@ const Navigation = () => {
                 const route = navigationRef?.current?.getCurrentRoute()
                 setTimeout(() => { SplashScreen.hide() }, 500)
                 if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
-                    if (route?.name === 'ProfileRegist') return
+                    if (route?.name === 'ProfileRegist') return // 중복 네비게이션 방지
                     navigationRef.current?.reset({
                         index: 0,
                         routes: [{ name: 'ProfileRegist' }]
                     })
                 }
                 else {
-                    if (route?.name === 'Home') return
-                    navigationRef.current?.reset({
-                        index: 0,
-                        routes: [{ name: 'Tab' }]
-                    })
+                    if (route?.name === 'Home') return // 중복 네비게이션 방지
+                    const isInitialNotification = await messaging().getInitialNotification() // Android Only ios는 언제나 null
+                    if (isInitialNotification) {
+                        navigationRef.current?.reset({
+                            index: 1,
+                            routes: [{ name: 'Tab' }, { name: 'Notification' }]
+                        })
+                    } else {
+                        navigationRef.current?.reset({
+                            index: 0,
+                            routes: [{ name: 'Tab' }]
+                        })
+                    }
                 }
             } else {
                 console.log('logged out')
@@ -226,6 +234,8 @@ const Navigation = () => {
 
     // background push listner
     useEffect(() => {
+        // 푸시를 눌러서 열었을때 IOS는 백그라운드, QUIT상태 둘다 onNotificationOpendApp이 작동함
+        // 안드로이드는 백그라운드 상태에서만 onNotificationOpendApp이 작동해서 푸시 눌러서 앱 초기 실행할때는 messaging().getInitialNotification() 로 처리해주세요
         messaging().onNotificationOpenedApp(async remoteMessage => {
             if (remoteMessage.data?.type === 'notification') {
                 navigationRef.current?.navigate('Notification')
