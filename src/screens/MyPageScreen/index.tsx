@@ -130,7 +130,7 @@ const MyPageScreen = () => {
                         onPress={() => navigate('OpenSourceLicense')}
                     />
                     <LabelUnderLineButton
-                        label={`현재 버전 ${currentVersion} (${currentVersion === newVersion ? '최신' : '업데이트 필요'})`}
+                        label={`현재 버전${__DEV__ ? ' DEV' : ''} ${currentVersion} (${currentVersion === newVersion ? '최신' : '업데이트 필요'})`}
                         onPress={onVersion}
                         disableArrowRight
                     />

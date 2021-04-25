@@ -188,7 +188,8 @@ const Navigation = () => {
             }
             loading = false
         } catch (error) {
-            console.error(error)
+            // console.error(error)
+            setTimeout(() => { SplashScreen.hide() }, 500)
             loading = false
         }
     }

@@ -43,7 +43,7 @@ PODS:
   - Firebase/RemoteConfig (7.10.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 7.10.0)
-  - FirebaseABTesting (7.10.0):
+  - FirebaseABTesting (7.11.0):
     - FirebaseCore (~> 7.0)
   - FirebaseAuth (7.10.0):
     - FirebaseCore (~> 7.0)
@@ -54,17 +54,17 @@ PODS:
     - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.10.0):
+  - FirebaseCoreDiagnostics (7.11.0):
     - GoogleDataTransport (~> 8.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
     - nanopb (~> 2.30908.0)
-  - FirebaseInstallations (7.10.0):
+  - FirebaseInstallations (7.11.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstanceID (7.10.0):
+  - FirebaseInstanceID (7.11.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -459,7 +459,7 @@ PODS:
     - React-cxxreact (= 0.64.0)
     - React-jsi (= 0.64.0)
     - React-perflogger (= 0.64.0)
-  - RNAppleAuthentication (2.1.1):
+  - RNAppleAuthentication (2.1.2):
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
@@ -467,18 +467,18 @@ PODS:
     - React
   - RNDeviceInfo (7.4.0):
     - React-Core
-  - RNFBApp (11.3.1):
+  - RNFBApp (11.3.3):
     - Firebase/CoreOnly (= 7.10.0)
     - React-Core
-  - RNFBAuth (11.3.1):
+  - RNFBAuth (11.3.3):
     - Firebase/Auth (= 7.10.0)
     - React-Core
     - RNFBApp
-  - RNFBMessaging (11.3.1):
+  - RNFBMessaging (11.3.3):
     - Firebase/Messaging (= 7.10.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (11.3.1):
+  - RNFBRemoteConfig (11.3.3):
     - Firebase/RemoteConfig (= 7.10.0)
     - React-Core
     - RNFBApp
@@ -737,12 +737,12 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 1a61d79e2b25e2fc0d03dccab1e34b38bbdf2546
   FBSDKShareKit: 00a055c1999b099596e00212dd1c0600c6697019
   Firebase: fffddd0bab8677d07376538365faa93ff3889b39
-  FirebaseABTesting: 457bc058cf6de8bcffc6fd9a2a4c933b24bfc264
+  FirebaseABTesting: e66f1f80747792630d9b292966de206d5df9853b
   FirebaseAuth: 675f2c4eb4426e7c58a78a89965a6530e7863535
   FirebaseCore: ec566d917b2195fc2610aeb148dae99f57a788f9
-  FirebaseCoreDiagnostics: 5662a3823ffcc0acbaa9a21ba5ed302fac634705
-  FirebaseInstallations: bf2ec8dbf36ff4c91af6b9a003d15855757680c1
-  FirebaseInstanceID: 5ad92c898e1328b66e8dd58811964d6fe4d334c3
+  FirebaseCoreDiagnostics: 68ad972f99206cef818230f3f3179d52ccfb7f8c
+  FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
+  FirebaseInstanceID: ad5135045a498d7775903efd39762d2cdfa1be27
   FirebaseMessaging: 76b3058cef7f339cf10db196e03bbbb2165fb5d7
   FirebaseRemoteConfig: 2841e353accfe688150781deebeb245e3fe16c2f
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
@@ -791,14 +791,14 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0fd6b21751a33cb72fce1a4a33ab9678416d307a
   React-runtimeexecutor: cad74a1eaa53ee6e7a3620231939d8fe2c6afcf0
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
-  RNAppleAuthentication: f4cc93d710f1337f66550d04d84bf47553bc0eae
+  RNAppleAuthentication: e95bcfbd044013667f35c5ca20ae17d39500c009
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
-  RNFBApp: 3b002b58041b71034efd09ae7394af65a58df1e4
-  RNFBAuth: 729c71a497af14240652f90a447ad33aa2180193
-  RNFBMessaging: 9445f07d4ffb0bf149daa230ed5f5e52c5edd14b
-  RNFBRemoteConfig: 756df2d60c681829fda27e7662bc2f70569a34ee
+  RNFBApp: 8b1b4308daa657b8ea87dbed517e31215f5f1456
+  RNFBAuth: b86ae9875cf59cc895fb0ca7f554390dfed1a44a
+  RNFBMessaging: 851ec0d1a9cb22e80dcf5f5ea57775fe1f78e629
+  RNFBRemoteConfig: 56a32dd0d78e9850f92ccba31b3c0f7a394cef6b
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNRate: 15b861025a7821730761fce7f44561ce7e0b2de0
