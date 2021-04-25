@@ -65,12 +65,15 @@ const useAuth = () => {
             if (loginLoading) return
             setLoginLoading(true)
 
-            const { identityToken } = await appleAuth.performRequest()
+            const { identityToken, nonce } = await appleAuth.performRequest({
+                requestedOperation: appleAuth.Operation.LOGIN,
+                requestedScopes: [appleAuth.Scope.EMAIL]
+            })
             if (!identityToken) throw new Error('Apple Login Fail')
-            console.log(identityToken)
+            console.log('token : ' + identityToken)
 
-            const appleCredential = auth.AppleAuthProvider.credential(identityToken)
-            console.log(appleCredential)
+            const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce)
+            console.log('credential : ' + appleCredential)
             await auth().signInWithCredential(appleCredential)
         } catch (error) {
             console.log(error)

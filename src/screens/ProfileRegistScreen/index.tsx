@@ -60,7 +60,7 @@ const ProfileRegistScreen = () => {
         if (loading) return
         try {
             const file = image ? generateImageToRNFile(image.path, 'userProfile') : null
-            await registUserProfile({
+            const { errors } = await registUserProfile({
                 variables: {
                     input: {
                         name,
@@ -69,6 +69,7 @@ const ProfileRegistScreen = () => {
                     }
                 }
             })
+            if (!!errors) throw new Error
             reset({
                 index: 0,
                 routes: [{ name: 'Tab' }]

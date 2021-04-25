@@ -6,7 +6,7 @@
     "android": "adb devices && react-native run-android",
     "ios": "react-native run-ios",
     "android:release": "adb devices && react-native run-android --variant=release",
-    "ios:device": "react-native run-ios --device '남궁현의 iPhone'",
+    "ios:device": "react-native run-ios --device",
     "ios:release": "react-native run-ios --configuration Release",
     "android:assembleRelease": "cd android && ./gradlew assembleRelease",
     "android:bundleRelease": "cd android && ./gradlew bundleRelease",
