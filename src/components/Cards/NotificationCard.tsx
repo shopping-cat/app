@@ -6,12 +6,13 @@ import { Notification } from '../../graphql/notification'
 import dateFormat from '../../lib/dateFormat'
 import BaseText from '../Text/BaseText'
 
-const NotificationCard: React.FC<Notification> = ({ title, content, createdAt, image, type, checked }) => {
+const NotificationCard: React.FC<Notification> = ({ title, content, createdAt, image, type, checked, params }) => {
 
     const { navigate } = useNavigation()
 
     const onPress = useCallback(() => {
         if (type === 'review') navigate('Review')
+        if (type === 'payment') navigate('OrderDetail', params?.data)
     }, [type])
 
     return (
