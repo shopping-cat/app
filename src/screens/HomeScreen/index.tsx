@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Animated, View, FlatList } from 'react-native'
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Animated, View, FlatList, Linking } from 'react-native'
 import CategorySelector from '../../components/Layouts/CategorySelector'
 import HomeHeader from '../../components/Headers/HomeHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
@@ -10,8 +10,11 @@ import BestTab from './HomeScreenTabs/BestTab'
 import HomeTab from './HomeScreenTabs/HomeTab'
 import NewTab from './HomeScreenTabs/NewTab'
 import HomeScreenTabSelector from './HomeScreenTabSelector'
+import { useNavigation } from '@react-navigation/core'
 
 const HomeScreen = () => {
+
+    const { navigate } = useNavigation()
 
     const scrollViewRef = useRef<ScrollView>(null)
     const homeFlatlistRef = useRef<FlatList>(null)
@@ -30,6 +33,24 @@ const HomeScreen = () => {
         if (tabIndex === 1) bestFlatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
         if (tabIndex === 2) newFlatlistRef.current?.scrollToOffset({ offset: 0, animated: true })
     }, [tabIndex])
+
+    const deepLinking = useCallback(async (url: string | null) => {
+        try {
+            if (!url) return
+            const splitedUrl = url.split('/')
+            const screen = splitedUrl[splitedUrl.length - 2]
+            if (screen !== 'item') return
+            const itemId = splitedUrl[splitedUrl.length - 1]
+            navigate('ItemDetail', { id: Number(itemId) })
+        } catch (error) { }
+    }, [])
+
+    useEffect(() => {
+        // shoppingcat://item/23
+        Linking.getInitialURL().then(url => deepLinking(url))
+        const listner = Linking.addEventListener('url', ({ url }) => deepLinking(url))
+        return listner
+    }, [])
 
 
     return (

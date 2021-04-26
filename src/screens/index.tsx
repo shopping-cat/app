@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions, Theme } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer, NavigationContainerRef, Theme } from '@react-navigation/native';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
@@ -110,18 +110,6 @@ const TabNavigation = () => {
             />
         </Tab.Navigator>
     )
-}
-
-const linking: LinkingOptions = {
-    prefixes: ['shoppingcat://'],
-    config: {
-        screens: {
-            Login: {
-                path: 'item/:id',
-                parse: { id: (id) => id },
-            }
-        }
-    }
 }
 
 const theme: Theme = {
@@ -246,7 +234,6 @@ const Navigation = () => {
     return (
         <NavigationContainer
             ref={navigationRef}
-            linking={linking}
             theme={theme}
         >
             <Stack.Navigator

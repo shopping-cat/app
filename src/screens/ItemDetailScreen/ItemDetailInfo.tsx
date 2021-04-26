@@ -15,7 +15,7 @@ const ItemDetailInfo: React.FC<ItemDetail> = ({ id, shop, name, sale, salePrice,
 
     const onShare = useCallback(() => {
         // TODO
-        Share.share({ message: `shoppingcat://item/${id}` })
+        Share.share({ message: `https://www.shoppingcat.kr/item/${id}` })
     }, [])
 
     const onShop = useCallback(() => {
