@@ -9,7 +9,7 @@ const PrivacyPolicyScreen = () => {
         <ScreenLayout>
             <DefaultHeader title='서비스 이용약관' disableBtns />
             <WebView
-                source={{ uri: 'https://www.shopping-cat.kr/agreement' }}
+                source={{ uri: 'https://www.shoppingcat.kr/agreement' }}
                 style={styles.webview}
             />
         </ScreenLayout>
