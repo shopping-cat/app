@@ -5,12 +5,15 @@ import HomeHeader from '../../components/Headers/HomeHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import UpFab from '../../components/Buttons/UpFab'
 import { STATUSBAR_HEIGHT, WIDTH } from '../../constants/styles'
-import { Category } from '../../constants/types'
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BestTab from './HomeScreenTabs/BestTab'
 import HomeTab from './HomeScreenTabs/HomeTab'
 import NewTab from './HomeScreenTabs/NewTab'
 import HomeScreenTabSelector from './HomeScreenTabSelector'
 import { useNavigation } from '@react-navigation/core'
+import useToast from '../../hooks/useToast'
+import { I_USER, useUpdateFcmToken } from '../../graphql/user'
+import { useApolloClient } from '@apollo/client'
 
 const HomeScreen = () => {
 
@@ -23,6 +26,8 @@ const HomeScreen = () => {
 
     const [tabIndex, setTabIndex] = useState(0)
     const [scrollX] = useState(new Animated.Value(0))
+    const { show } = useToast()
+    const client = useApolloClient()
 
     const onTabSelectorPress = useCallback((index: number) => { // 셀렉터 버튼 클릭시
         scrollViewRef.current?.scrollTo({ animated: true, x: WIDTH * index })
@@ -50,6 +55,39 @@ const HomeScreen = () => {
         Linking.getInitialURL().then(url => deepLinking(url))
         const listner = Linking.addEventListener('url', ({ url }) => deepLinking(url))
         return listner
+    }, [])
+
+
+
+    const onMessage = async (message: FirebaseMessagingTypes.RemoteMessage) => {
+        if (message.notification?.title) {
+            await client.query({ query: I_USER, fetchPolicy: 'network-only', }) // 알림 ui 적용 때문에 사용
+            show(message.notification.title + '\n\n자세한 내용은 알림을 확인해주세요')
+        }
+    }
+
+    // foreground push listner
+    useEffect(() => {
+        const unsubscribe = messaging().onMessage(onMessage)
+        return unsubscribe
+    }, [])
+
+    // background push listner
+    useEffect(() => {
+        // 푸시를 눌러서 열었을때 IOS는 백그라운드, QUIT상태 둘다 onNotificationOpendApp이 작동함
+        // 안드로이드는 백그라운드 상태에서만 onNotificationOpendApp이 작동해서 푸시 눌러서 앱 초기 실행할때는 messaging().getInitialNotification() 로 처리해주세요
+        messaging().onNotificationOpenedApp(async remoteMessage => {
+            if (remoteMessage.data?.type === 'notification') {
+                navigate('Notification')
+            }
+        })
+        // android quit push listner
+        // Android Only ios는 언제나 null
+        // 트리거 형식이라 한번만 작동함
+        messaging().getInitialNotification().then((remoteMessage) => {
+            if (!remoteMessage) return
+            navigate('Notification')
+        })
     }, [])
 
 

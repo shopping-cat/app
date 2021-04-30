@@ -120,67 +120,36 @@ const theme: Theme = {
     }
 }
 
-let loading = false
-
-
 
 const Navigation = () => {
 
     const navigationRef = useRef<NavigationContainerRef>(null)
     const client = useApolloClient()
-
-    const { show } = useToast()
     const [updateFcmToken] = useUpdateFcmToken()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     // 로그인 상태 변경
     const onAuthStateChanged = async (user: any) => {
         try {
-            if (loading) return
-            loading = true
             setIsLoggedIn(!!user)
             if (user) {
                 console.log('logged in')
                 const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
-                const route = navigationRef?.current?.getCurrentRoute()
                 setTimeout(() => { SplashScreen.hide() }, 500)
                 if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
-                    if (route?.name === 'ProfileRegist') return // 중복 네비게이션 방지
-                    navigationRef.current?.reset({
-                        index: 0,
-                        routes: [{ name: 'ProfileRegist' }]
-                    })
+                    navigationRef.current?.reset({ index: 0, routes: [{ name: 'ProfileRegist' }] })
                 }
                 else {
-                    if (route?.name === 'Home') return // 중복 네비게이션 방지
-                    const isInitialNotification = await messaging().getInitialNotification() // Android Only ios는 언제나 null
-                    if (isInitialNotification) {
-                        navigationRef.current?.reset({
-                            index: 1,
-                            routes: [{ name: 'Tab' }, { name: 'Notification' }]
-                        })
-                    } else {
-                        navigationRef.current?.reset({
-                            index: 0,
-                            routes: [{ name: 'Tab' }]
-                        })
-                    }
+                    navigationRef.current?.reset({ index: 0, routes: [{ name: 'Tab' }] })
                 }
             } else {
                 console.log('logged out')
                 setTimeout(() => { SplashScreen.hide() }, 500)
-                const route = navigationRef?.current?.getCurrentRoute()
-                if (route?.name === 'Login') return
-                navigationRef.current?.reset({
-                    index: 0,
-                    routes: [{ name: 'Login' }]
-                })
+                navigationRef.current?.reset({ index: 0, routes: [{ name: 'Login' }] })
             }
-            loading = false
         } catch (error) {
             // console.error(error)
             setTimeout(() => { SplashScreen.hide() }, 500)
-            loading = false
         }
     }
 
@@ -189,6 +158,7 @@ const Navigation = () => {
         const listner = auth().onAuthStateChanged(onAuthStateChanged)
         return listner
     }, [])
+
 
     const fcmInit = async () => {
         await messaging().requestPermission()
@@ -207,29 +177,6 @@ const Navigation = () => {
         return messaging().onTokenRefresh(fcmRefresh)
     }, [isLoggedIn])
 
-    const onMessage = async (message: FirebaseMessagingTypes.RemoteMessage) => {
-        if (message.notification?.title) {
-            await client.query({ query: I_USER, fetchPolicy: 'network-only', })
-            show(message.notification.title + '\n\n자세한 내용은 알림을 확인해주세요')
-        }
-    }
-
-    // foreground push listner
-    useEffect(() => {
-        const unsubscribe = messaging().onMessage(onMessage)
-        return unsubscribe
-    }, [])
-
-    // background push listner
-    useEffect(() => {
-        // 푸시를 눌러서 열었을때 IOS는 백그라운드, QUIT상태 둘다 onNotificationOpendApp이 작동함
-        // 안드로이드는 백그라운드 상태에서만 onNotificationOpendApp이 작동해서 푸시 눌러서 앱 초기 실행할때는 messaging().getInitialNotification() 로 처리해주세요
-        messaging().onNotificationOpenedApp(async remoteMessage => {
-            if (remoteMessage.data?.type === 'notification') {
-                navigationRef.current?.navigate('Notification')
-            }
-        })
-    }, [])
 
     return (
         <NavigationContainer
