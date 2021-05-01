@@ -11,11 +11,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D23BF174263D965B00B0C047 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D23BF173263D965B00B0C047 /* AppCenter-Config.plist */; };
 		D23D2173253EDA4500B27677 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = D23D2172253EDA4500B27677 /* File.swift */; };
 		D2D3E03A26284FB300B1CB45 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D2D3E03926284FB300B1CB45 /* logo.png */; };
 		D2E3795E258348F900A1CCB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E3795D258348F900A1CCB3 /* GoogleService-Info.plist */; };
 		D2E3F90725872C0E002E1B4C /* BMJUA.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2E3F90625872C0E002E1B4C /* BMJUA.ttf */; };
-		D2E727BB254FE10B007F3FF8 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2E727BA254FE10B007F3FF8 /* AppCenter-Config.plist */; };
 		D4604936AE4063813B530BA8 /* libPods-app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB3A050C9D9B1B8503039F6C /* libPods-app.a */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +33,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = app/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AB3A050C9D9B1B8503039F6C /* libPods-app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C20A1524FB5570D8E9AF41D0 /* Pods-app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-app.debug.xcconfig"; path = "Target Support Files/Pods-app/Pods-app.debug.xcconfig"; sourceTree = "<group>"; };
+		D23BF173263D965B00B0C047 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "app/AppCenter-Config.plist"; sourceTree = "<group>"; };
 		D23D2172253EDA4500B27677 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = File.swift; path = app/File.swift; sourceTree = "<group>"; };
 		D25D72922631273800A924EA /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = app.entitlements; path = app/app.entitlements; sourceTree = "<group>"; };
 		D2ADCDCF254021D200121DBF /* libkakao-login.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libkakao-login.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +77,7 @@
 		13B07FAE1A68108700A75B9A /* app */ = {
 			isa = PBXGroup;
 			children = (
+				D23BF173263D965B00B0C047 /* AppCenter-Config.plist */,
 				D25D72922631273800A924EA /* app.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -228,9 +230,9 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				D2E3795E258348F900A1CCB3 /* GoogleService-Info.plist in Resources */,
 				D2D3E03A26284FB300B1CB45 /* logo.png in Resources */,
+				D23BF174263D965B00B0C047 /* AppCenter-Config.plist in Resources */,
 				D2E3F90725872C0E002E1B4C /* BMJUA.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				D2E727BB254FE10B007F3FF8 /* AppCenter-Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

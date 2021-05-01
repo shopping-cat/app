@@ -1,14 +1,26 @@
 PODS:
-  - Base64 (1.1.2)
+  - appcenter-analytics (4.1.0):
+    - AppCenter/Analytics (~> 4.0)
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - appcenter-core (4.1.0):
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - appcenter-crashes (4.1.0):
+    - AppCenter/Crashes (~> 4.0)
+    - AppCenterReactNativeShared (~> 4.0)
+    - React-Core
+  - AppCenter/Analytics (4.1.1):
+    - AppCenter/Core
+  - AppCenter/Core (4.1.1)
+  - AppCenter/Crashes (4.1.1):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (4.1.0):
+    - AppCenter/Core (= 4.1.1)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.6):
     - React
   - CocoaAsyncSocket (7.6.5)
-  - CodePush (6.4.1):
-    - Base64 (~> 1.1)
-    - JWT (~> 3.0.0-beta.12)
-    - React-Core
-    - SSZipArchive (~> 2.2.2)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.64.0)
   - FBReactNativeSpec (0.64.0):
@@ -32,25 +44,25 @@ PODS:
     - FBSDKShareKit/Share (= 7.1.1)
   - FBSDKShareKit/Share (7.1.1):
     - FBSDKCoreKit (~> 7.1.1)
-  - Firebase/Auth (7.10.0):
+  - Firebase/Auth (7.11.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 7.10.0)
-  - Firebase/CoreOnly (7.10.0):
-    - FirebaseCore (= 7.10.0)
-  - Firebase/Messaging (7.10.0):
+    - FirebaseAuth (~> 7.11.0)
+  - Firebase/CoreOnly (7.11.0):
+    - FirebaseCore (= 7.11.0)
+  - Firebase/Messaging (7.11.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 7.10.0)
-  - Firebase/RemoteConfig (7.10.0):
+    - FirebaseMessaging (~> 7.11.0)
+  - Firebase/RemoteConfig (7.11.0):
     - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 7.10.0)
+    - FirebaseRemoteConfig (~> 7.11.0)
   - FirebaseABTesting (7.11.0):
     - FirebaseCore (~> 7.0)
-  - FirebaseAuth (7.10.0):
+  - FirebaseAuth (7.11.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GTMSessionFetcher/Core (~> 1.4)
-  - FirebaseCore (7.10.0):
+  - FirebaseCore (7.11.0):
     - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
@@ -69,14 +81,15 @@ PODS:
     - FirebaseInstallations (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
-  - FirebaseMessaging (7.10.0):
+  - FirebaseMessaging (7.11.0):
     - FirebaseCore (~> 7.0)
+    - FirebaseInstallations (~> 7.0)
     - FirebaseInstanceID (~> 7.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Reachability (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
-  - FirebaseRemoteConfig (7.10.0):
+  - FirebaseRemoteConfig (7.11.0):
     - FirebaseABTesting (~> 7.0)
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
@@ -86,7 +99,7 @@ PODS:
     - Flipper-Folly (~> 2.5)
     - Flipper-RSocket (~> 1.3)
   - Flipper-DoubleConversion (1.1.7)
-  - Flipper-Folly (2.5.1):
+  - Flipper-Folly (2.5.3):
     - boost-for-react-native
     - Flipper-DoubleConversion
     - Flipper-Glog
@@ -133,28 +146,26 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.3.1):
+  - GoogleUtilities/AppDelegateSwizzler (7.4.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.3.1):
+  - GoogleUtilities/Environment (7.4.0):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.3.1):
+  - GoogleUtilities/Logger (7.4.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/Network (7.3.1):
+  - GoogleUtilities/Network (7.4.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.3.1)"
-  - GoogleUtilities/Reachability (7.3.1):
+  - "GoogleUtilities/NSData+zlib (7.4.0)"
+  - GoogleUtilities/Reachability (7.4.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.3.1):
+  - GoogleUtilities/UserDefaults (7.4.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.5.0)
   - IamportReactNative (1.6.3):
     - React
-  - JWT (3.0.0-beta.12):
-    - Base64 (~> 1.1.2)
   - kakao-login (2.10.2):
     - KakaoOpenSDK (~> 1.21.0)
     - React
@@ -393,7 +404,7 @@ PODS:
     - React-Core
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-webview (11.4.2):
+  - react-native-webview (11.4.3):
     - React-Core
   - React-perflogger (0.64.0)
   - React-RCTActionSheet (0.64.0):
@@ -463,23 +474,23 @@ PODS:
     - React-Core
   - RNCClipboard (1.5.1):
     - React-Core
-  - RNCMaskedView (0.1.10):
+  - RNCMaskedView (0.1.11):
     - React
   - RNDeviceInfo (7.4.0):
     - React-Core
-  - RNFBApp (11.3.3):
-    - Firebase/CoreOnly (= 7.10.0)
+  - RNFBApp (11.4.1):
+    - Firebase/CoreOnly (= 7.11.0)
     - React-Core
-  - RNFBAuth (11.3.3):
-    - Firebase/Auth (= 7.10.0)
-    - React-Core
-    - RNFBApp
-  - RNFBMessaging (11.3.3):
-    - Firebase/Messaging (= 7.10.0)
+  - RNFBAuth (11.4.1):
+    - Firebase/Auth (= 7.11.0)
     - React-Core
     - RNFBApp
-  - RNFBRemoteConfig (11.3.3):
-    - Firebase/RemoteConfig (= 7.10.0)
+  - RNFBMessaging (11.4.1):
+    - Firebase/Messaging (= 7.11.0)
+    - React-Core
+    - RNFBApp
+  - RNFBRemoteConfig (11.4.1):
+    - Firebase/RemoteConfig (= 7.11.0)
     - React-Core
     - RNFBApp
   - RNGestureHandler (1.10.3):
@@ -503,37 +514,38 @@ PODS:
     - React
   - RNVectorIcons (7.1.0):
     - React
-  - SSZipArchive (2.2.3)
   - TOCropViewController (2.6.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
+  - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
+  - appcenter-core (from `../node_modules/appcenter/ios`)
+  - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
-  - CodePush (from `../node_modules/react-native-code-push`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
-  - Flipper (~> 0.75.1)
+  - Flipper (= 0.75.1)
   - Flipper-DoubleConversion (= 1.1.7)
-  - Flipper-Folly (~> 2.5)
+  - Flipper-Folly (= 2.5.3)
   - Flipper-Glog (= 0.3.6)
   - Flipper-PeerTalk (~> 0.0.4)
   - Flipper-RSocket (~> 1.3)
-  - FlipperKit (~> 0.75.1)
-  - FlipperKit/Core (~> 0.75.1)
-  - FlipperKit/CppBridge (~> 0.75.1)
-  - FlipperKit/FBCxxFollyDynamicConvert (~> 0.75.1)
-  - FlipperKit/FBDefines (~> 0.75.1)
-  - FlipperKit/FKPortForwarding (~> 0.75.1)
-  - FlipperKit/FlipperKitHighlightOverlay (~> 0.75.1)
-  - FlipperKit/FlipperKitLayoutPlugin (~> 0.75.1)
-  - FlipperKit/FlipperKitLayoutTextSearchable (~> 0.75.1)
-  - FlipperKit/FlipperKitNetworkPlugin (~> 0.75.1)
-  - FlipperKit/FlipperKitReactPlugin (~> 0.75.1)
-  - FlipperKit/FlipperKitUserDefaultsPlugin (~> 0.75.1)
-  - FlipperKit/SKIOSNetworkPlugin (~> 0.75.1)
+  - FlipperKit (= 0.75.1)
+  - FlipperKit/Core (= 0.75.1)
+  - FlipperKit/CppBridge (= 0.75.1)
+  - FlipperKit/FBCxxFollyDynamicConvert (= 0.75.1)
+  - FlipperKit/FBDefines (= 0.75.1)
+  - FlipperKit/FKPortForwarding (= 0.75.1)
+  - FlipperKit/FlipperKitHighlightOverlay (= 0.75.1)
+  - FlipperKit/FlipperKitLayoutPlugin (= 0.75.1)
+  - FlipperKit/FlipperKitLayoutTextSearchable (= 0.75.1)
+  - FlipperKit/FlipperKitNetworkPlugin (= 0.75.1)
+  - FlipperKit/FlipperKitReactPlugin (= 0.75.1)
+  - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.75.1)
+  - FlipperKit/SKIOSNetworkPlugin (= 0.75.1)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - IamportReactNative (from `../node_modules/iamport-react-native`)
   - "kakao-login (from `../node_modules/@react-native-seoul/kakao-login`)"
@@ -585,7 +597,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Base64
+    - AppCenter
+    - AppCenterReactNativeShared
     - boost-for-react-native
     - CocoaAsyncSocket
     - FBSDKCoreKit
@@ -610,21 +623,23 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
-    - JWT
     - KakaoOpenSDK
     - libevent
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
-    - SSZipArchive
     - TOCropViewController
     - YogaKit
 
 EXTERNAL SOURCES:
+  appcenter-analytics:
+    :path: "../node_modules/appcenter-analytics/ios"
+  appcenter-core:
+    :path: "../node_modules/appcenter/ios"
+  appcenter-crashes:
+    :path: "../node_modules/appcenter-crashes/ios"
   BVLinearGradient:
     :path: "../node_modules/react-native-linear-gradient"
-  CodePush:
-    :path: "../node_modules/react-native-code-push"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -725,39 +740,41 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
+  AppCenter: cd53e3ed3563cc720bcb806c9731a12389b40d44
+  appcenter-analytics: aa074250b2cb182d6f7d67d9c236dd4606673ab5
+  appcenter-core: c97920e79eba2321a262d3733cb2a6f1097db539
+  appcenter-crashes: 804ae51c5d1742ce20fdb6a68b3d06208a404ad5
+  AppCenterReactNativeShared: 2d5a53b6cbd2fe7f63f0033e9f0a40757a4eacf5
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  CodePush: 352a7efabd0a7079a1138a5c6f677baedb0dedf9
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 49cbe4b43e445b06bf29199b6ad2057649e4c8f5
   FBReactNativeSpec: 30c4b7bca308123cd154c92b122af5c9188836c4
   FBSDKCoreKit: b46507dc8b8cefed31d644e74d7cc30e2a715ef8
   FBSDKLoginKit: 1a61d79e2b25e2fc0d03dccab1e34b38bbdf2546
   FBSDKShareKit: 00a055c1999b099596e00212dd1c0600c6697019
-  Firebase: fffddd0bab8677d07376538365faa93ff3889b39
+  Firebase: c121feb35e4126c0b355e3313fa9b487d47319fd
   FirebaseABTesting: e66f1f80747792630d9b292966de206d5df9853b
-  FirebaseAuth: 675f2c4eb4426e7c58a78a89965a6530e7863535
-  FirebaseCore: ec566d917b2195fc2610aeb148dae99f57a788f9
+  FirebaseAuth: 5fe4585c2ed847319f0ea68bd1d82c77e49ff9a0
+  FirebaseCore: 907447d8917a4d3eb0cce2829c5a0ad21d90b432
   FirebaseCoreDiagnostics: 68ad972f99206cef818230f3f3179d52ccfb7f8c
   FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
   FirebaseInstanceID: ad5135045a498d7775903efd39762d2cdfa1be27
-  FirebaseMessaging: 76b3058cef7f339cf10db196e03bbbb2165fb5d7
-  FirebaseRemoteConfig: 2841e353accfe688150781deebeb245e3fe16c2f
+  FirebaseMessaging: 163435fb6db065e3b6228f1e577b10ed2cc506d2
+  FirebaseRemoteConfig: 0ea30de5fb0231df8c1bdcdf3b6c23bdc5066131
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
-  Flipper-Folly: f7a3caafbd74bda4827954fd7a6e000e36355489
+  Flipper-Folly: 755929a4f851b2fb2c347d533a23f191b008554c
   Flipper-Glog: 1dfd6abf1e922806c52ceb8701a3599a79a200a6
   Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
   Flipper-RSocket: 127954abe8b162fcaf68d2134d34dc2bd7076154
   FlipperKit: 8a20b5c5fcf9436cac58551dc049867247f64b00
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7
-  GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
+  GoogleUtilities: 284cddc7fffc14ae1907efb6f78ab95c1fccaedc
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   IamportReactNative: 2491e97d9010373cc237ac0e02b13bc51282b0dc
-  JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   kakao-login: 8d60f757a69784b797395cc2e284a18c85852d7a
   KakaoOpenSDK: 7a7b728491fc199bf2186fec5bbf2c70ba14f474
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
@@ -778,7 +795,7 @@ SPEC CHECKSUMS:
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: 4c85a3e5de574ee8c2c0985b4bebbdd240f49304
+  react-native-webview: d749ba1348c17c7225391e84ac4a0c1c90c2c8ee
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
   React-RCTAnimation: 3f96f21a497ae7dabf4d2f150ee43f906aaf516f
@@ -793,12 +810,12 @@ SPEC CHECKSUMS:
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
   RNAppleAuthentication: e95bcfbd044013667f35c5ca20ae17d39500c009
   RNCClipboard: 41d8d918092ae8e676f18adada19104fa3e68495
-  RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDeviceInfo: 9538a884f862fe4aa0d7cead9f34e292d41ba8f6
-  RNFBApp: 8b1b4308daa657b8ea87dbed517e31215f5f1456
-  RNFBAuth: b86ae9875cf59cc895fb0ca7f554390dfed1a44a
-  RNFBMessaging: 851ec0d1a9cb22e80dcf5f5ea57775fe1f78e629
-  RNFBRemoteConfig: 56a32dd0d78e9850f92ccba31b3c0f7a394cef6b
+  RNFBApp: 996860ad6832996faba79ef3f6ec2d3ea5870dd9
+  RNFBAuth: 3726f7f9bc9e9efb80cd1f5b2e65c4b04dc53760
+  RNFBMessaging: 8d84ceadc705ca6b6047c37376d2e2aaabcb8e3d
+  RNFBRemoteConfig: 3035dd5d7b2a903f822505f04a5cd01752d5bc37
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNImageCropPicker: 08ba3a2e2f4f8833d606f01906c371e382c4dea9
   RNRate: 15b861025a7821730761fce7f44561ce7e0b2de0
@@ -806,11 +823,10 @@ SPEC CHECKSUMS:
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
-  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: 8c8436d4171c87504c648ae23b1d81242bdf3bbf
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: dd94ab55abd64a7ba3dce4af9c9ba680e1f16d42
+PODFILE CHECKSUM: e15a1052531ba1e7a1bed3a8e5b6a034d34c2fbb
 
 COCOAPODS: 1.10.1
