@@ -3,7 +3,6 @@
     <string name="facebook_app_id">852942252107346</string>
     <string name="fb_login_protocol_scheme">fb852942252107346</string>
     <string name="kakao_app_key">24325d448d7d7d1ebbac3bd1da04b79a</string>
-    <!-- <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
-    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string> -->
-    <string moduleConfig="true" name="CodePushDeploymentKey">03TUuBXcgckaKCd4KbUocxk8ZkLQodfsxqXV_</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
 </resources>
