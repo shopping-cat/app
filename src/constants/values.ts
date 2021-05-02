@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import DeviceInfo from 'react-native-device-info';
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
@@ -6,6 +7,29 @@ export const APPLE_APP_ID = '1564198692'
 export const ANDROID_PACKAGE_NAME = 'com.shoppingcat.userapp'
 export const KAKAO_CHANNEL_USER = 'http://pf.kakao.com/_ILHqs/chat'
 export const KAKAO_CHANNEL_SELLERS = 'http://pf.kakao.com/_YcPRs/chat'
+
+const IS_TEST_PRODUCTION_MODE = true
+
+const getServerIp = () => {
+    if (!__DEV__) return 'https://api.shoppingcat.kr/graphql/app'
+    if (IS_TEST_PRODUCTION_MODE) return 'https://api.shoppingcat.kr/graphql/app'
+    if (IS_ANDROID) {
+        if (DeviceInfo.isEmulatorSync()) return 'http://10.0.2.2:8080/graphql/app'
+        else return 'http://192.168.35.105:8080/graphql/app'
+    }
+    if (IS_IOS) {
+        if (DeviceInfo.isEmulatorSync()) return 'http://localhost:8080/graphql/app'
+        else return 'http://192.168.35.105:8080/graphql/app'
+    }
+
+}
+
+
+
+
+export const GRAPHQL_SERVER_URL = getServerIp()
+
+export const IAMPORT_CODE = 'imp91585626'
 
 export const ITEM_CATEGORYS = ['']
 export const MAX_REVIEW_IMAGE_NUMBER = 9

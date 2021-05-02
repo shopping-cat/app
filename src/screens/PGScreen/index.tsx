@@ -3,11 +3,11 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import IMP, { CallbackRsp } from 'iamport-react-native';
 import ScreenLayout from '../../components/Layouts/ScreenLayout';
 import DefaultHeader from '../../components/Headers/DefaultHeader';
-import { IAMPORT_CODE } from '../../../env';
 import { Route, StackActions, useNavigation, useRoute } from '@react-navigation/native';
 import { OrderCalculateCouponVar } from '../../graphql/order';
 import { useCreatePayment } from '../../graphql/payment';
 import LoadingView from '../../components/View/LoadingView';
+import { IAMPORT_CODE } from '../../constants/values';
 
 export interface PGScreenProps {
     cartItemIds: number[]

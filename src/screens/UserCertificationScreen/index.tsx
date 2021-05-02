@@ -1,10 +1,10 @@
 import IMP, { CallbackRsp } from 'iamport-react-native'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { IAMPORT_CODE } from '../../../env'
 import LoadingView from '../../components/View/LoadingView'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
+import { IAMPORT_CODE } from '../../constants/values'
 
 const UserCertificationScreen = () => {
 
