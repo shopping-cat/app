@@ -43,6 +43,7 @@
     "dayjs": "^1.10.4",
     "graphql": "^15.3.0",
     "iamport-react-native": "^1.6.2",
+    "query-string": "^7.0.0",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-daum-postcode": "^1.0.9",
