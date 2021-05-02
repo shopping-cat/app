@@ -177,13 +177,6 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    def currentFile = new File(outputFileName)
-                    def filename = currentFile.getName()
-                    outputFileName = "../../../../../Application/Application/build/outputs/apk/${filename}"
-                }
-            }
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
