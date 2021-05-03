@@ -46,6 +46,7 @@
     "query-string": "^7.0.0",
     "react": "17.0.1",
     "react-native": "0.64.0",
+    "react-native-code-push": "^7.0.1",
     "react-native-daum-postcode": "^1.0.9",
     "react-native-device-info": "^7.4.0",
     "react-native-fbsdk": "^2.0.0",
