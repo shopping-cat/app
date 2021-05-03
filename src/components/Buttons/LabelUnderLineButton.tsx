@@ -8,9 +8,10 @@ interface LabelUnderLineButtonProps {
     label: string
     disableArrowRight?: boolean
     onPress: () => void
+    onLongPress?: () => void
 }
 
-const LabelUnderLineButton: React.FC<LabelUnderLineButtonProps> = ({ onPress, disableArrowRight, label }) => {
+const LabelUnderLineButton: React.FC<LabelUnderLineButtonProps> = ({ onLongPress, onPress, disableArrowRight, label }) => {
 
     const [width, setWidth] = useState(0)
 
@@ -20,6 +21,7 @@ const LabelUnderLineButton: React.FC<LabelUnderLineButtonProps> = ({ onPress, di
 
     return (
         <Pressable
+            onLongPress={onLongPress}
             onPress={onPress}
             style={styles.container}
         >

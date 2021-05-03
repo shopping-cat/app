@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, Image, Modal, StyleSheet, View } from 'react-native'
 import BaseButton from '../../components/Buttons/BaseButton'
 import useAuth from '../../hooks/useAuth'
 import BaseText from '../../components/Text/BaseText'
@@ -9,12 +9,15 @@ import appleAuth from '@invertase/react-native-apple-authentication'
 import TouchableScale from '../../components/Buttons/TouchableScale'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import LoadingView from '../../components/View/LoadingView'
 
 
 const LoginScreen = () => {
 
     const { bottom } = useSafeAreaInsets()
-    const { kakaoLogin, facebookLogin, appleLogin } = useAuth()
+    const { kakaoLogin, facebookLogin, appleLogin, loginLoading } = useAuth()
+
+    console.log(loginLoading)
 
     return (
         <ScreenLayout>
@@ -59,6 +62,16 @@ const LoginScreen = () => {
                     />
                 </TouchableScale>}
             </View>
+            <Modal
+                visible={loginLoading}
+                transparent
+                statusBarTranslucent
+                animationType='fade'
+            >
+                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1 }} >
+                    <LoadingView />
+                </View>
+            </Modal>
         </ScreenLayout>
     )
 }

@@ -3,18 +3,19 @@ import KakaoLogins, { KAKAO_AUTH_TYPES } from '@react-native-seoul/kakao-login';
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import auth from '@react-native-firebase/auth';
-import { useApolloClient } from "@apollo/client";
+import { makeVar, useApolloClient, useReactiveVar } from "@apollo/client";
 import { KakaoTokenToFirebaseTokenData, KakaoTokenToFirebaseTokenDataVars, KAKAO_TOKEN_TO_FIREBASE_TOKEN } from '../graphql/user'
 import messaging from '@react-native-firebase/messaging'
 import useToast from "./useToast";
 
 
+const loginLoadingVar = makeVar<boolean>(false)
 
 const useAuth = () => {
 
     const client = useApolloClient()
 
-    const [loginLoading, setLoginLoading] = useState(false)
+    const loginLoading = useReactiveVar(loginLoadingVar)
     const [logoutLoading, setLogoutLoading] = useState(false)
     const { show } = useToast()
 
@@ -34,10 +35,9 @@ const useAuth = () => {
         } catch (error) {
             console.log(error)
             show(error.message)
-        } finally {
             setLoginLoading(false)
         }
-    }, [loginLoading, show])
+    }, [loginLoading])
 
     const facebookLogin = useCallback(async () => {
         try {
@@ -55,7 +55,6 @@ const useAuth = () => {
         } catch (error) {
             console.log(error)
             show(error.message)
-        } finally {
             setLoginLoading(false)
         }
     }, [loginLoading])
@@ -78,7 +77,6 @@ const useAuth = () => {
         } catch (error) {
             console.log(error)
             show(error.message)
-        } finally {
             setLoginLoading(false)
         }
     }, [loginLoading])
@@ -99,12 +97,18 @@ const useAuth = () => {
         }
     }, [logoutLoading])
 
+    const setLoginLoading = useCallback((v: boolean) => {
+        loginLoadingVar(v)
+    }, [])
+
 
     return {
         kakaoLogin,
         facebookLogin,
         appleLogin,
-        logout
+        logout,
+        loginLoading,
+        setLoginLoading
     }
 }
 

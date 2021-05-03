@@ -63,6 +63,7 @@ import DeliveryDetailScreen from './DeliveryDetailScreen';
 import EventDetailScreen from './EventDetailScreen';
 import useToast from '../hooks/useToast';
 import ConfirmBottomSheet from '../components/BottomSheets/ConfirmBottomSheet';
+import useAuth from '../hooks/useAuth';
 
 
 
@@ -127,6 +128,7 @@ const Navigation = () => {
     const client = useApolloClient()
     const [updateFcmToken] = useUpdateFcmToken()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const { setLoginLoading } = useAuth()
 
     // 로그인 상태 변경
     const onAuthStateChanged = async (user: any) => {
@@ -150,6 +152,8 @@ const Navigation = () => {
         } catch (error) {
             // console.error(error)
             setTimeout(() => { SplashScreen.hide() }, 500)
+        } finally {
+            setLoginLoading(false)
         }
     }
 

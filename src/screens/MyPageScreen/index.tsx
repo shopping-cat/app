@@ -15,6 +15,7 @@ import RightArrowIcon from '../../components/Svgs/RightArrowIcon'
 import ThinLine from '../../components/View/ThinLine'
 import { COLOR2, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
+import CodePush from 'react-native-code-push'
 
 
 
@@ -132,6 +133,7 @@ const MyPageScreen = () => {
                     <LabelUnderLineButton
                         label={`현재 버전${__DEV__ ? ' DEV' : ''} ${currentVersion} (${currentVersion === newVersion ? '최신' : '업데이트 필요'})`}
                         onPress={onVersion}
+                        // onLongPress={() => console.log()}
                         disableArrowRight
                     />
                 </View>
