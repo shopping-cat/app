@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ActivityIndicator, Image, Modal, StyleSheet, View } from 'react-native'
 import BaseButton from '../../components/Buttons/BaseButton'
 import useAuth from '../../hooks/useAuth'
@@ -10,18 +10,28 @@ import TouchableScale from '../../components/Buttons/TouchableScale'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import LoadingView from '../../components/View/LoadingView'
+import StatusBarHeightView from '../../components/View/StatusBarHeightView'
+import useLoadingModal from '../../hooks/useLoadingModal'
 
 
 const LoginScreen = () => {
 
     const { bottom } = useSafeAreaInsets()
     const { kakaoLogin, facebookLogin, appleLogin, loginLoading } = useAuth()
+    const { open, close } = useLoadingModal()
 
-    console.log(loginLoading)
+    useEffect(() => {
+        if (loginLoading) open()
+        else close()
+    }, [loginLoading])
+
+    useEffect(() => {
+        return close
+    }, [])
 
     return (
-        <ScreenLayout>
-
+        <ScreenLayout disableStatusbarHeight >
+            <StatusBarHeightView />
             <Image
                 style={styles.logo}
                 source={require('../../assets/logo_background_white.png')}
@@ -62,16 +72,7 @@ const LoginScreen = () => {
                     />
                 </TouchableScale>}
             </View>
-            <Modal
-                visible={loginLoading}
-                transparent
-                statusBarTranslucent
-                animationType='fade'
-            >
-                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1 }} >
-                    <LoadingView />
-                </View>
-            </Modal>
+
         </ScreenLayout>
     )
 }

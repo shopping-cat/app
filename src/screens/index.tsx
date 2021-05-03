@@ -64,6 +64,7 @@ import EventDetailScreen from './EventDetailScreen';
 import useToast from '../hooks/useToast';
 import ConfirmBottomSheet from '../components/BottomSheets/ConfirmBottomSheet';
 import useAuth from '../hooks/useAuth';
+import LoadingModal from '../components/Modal/LoadingModal';
 
 
 
@@ -250,6 +251,7 @@ const NavigationWrapper = () => {
             <GlobalSelectBottomSheet />
             <ConfirmBottomSheet />
             <Toast />
+            <LoadingModal />
         </>
     )
 }

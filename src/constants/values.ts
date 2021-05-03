@@ -5,6 +5,11 @@ export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
 export const APPLE_APP_ID = '1564198692'
 export const ANDROID_PACKAGE_NAME = 'com.shoppingcat.userapp'
+
+export const APPSTORE_URL = 'https://apps.apple.com/app/id1564198692'
+export const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.shoppingcat.userapp'
+export const CURRENT_STORE_URL = IS_ANDROID ? PLAYSTORE_URL : APPSTORE_URL
+
 export const KAKAO_CHANNEL_USER = 'http://pf.kakao.com/_ILHqs/chat'
 export const KAKAO_CHANNEL_SELLERS = 'http://pf.kakao.com/_YcPRs/chat'
 

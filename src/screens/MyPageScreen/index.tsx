@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useCallback } from 'react'
-import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Image, Linking, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DeviceInfo from 'react-native-device-info';
@@ -16,6 +16,8 @@ import ThinLine from '../../components/View/ThinLine'
 import { COLOR2, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 import CodePush from 'react-native-code-push'
+import useToast from '../../hooks/useToast'
+import { CURRENT_STORE_URL } from '../../constants/values'
 
 
 
@@ -23,6 +25,7 @@ const MyPageScreen = () => {
 
     const { navigate } = useNavigation()
     const { data } = useIUser()
+    const { show } = useToast()
     const currentVersion = DeviceInfo.getVersion()
     const newVersion = remoteConfig().getString('app_version')
 
@@ -47,7 +50,13 @@ const MyPageScreen = () => {
     }, [])
 
     const onVersion = useCallback(() => {
-        // 업데이트
+        if (currentVersion === newVersion) return
+        Linking.openURL(CURRENT_STORE_URL)
+    }, [currentVersion, newVersion])
+
+    const onCodepushVersion = useCallback(async () => {
+        const data = await CodePush.getUpdateMetadata()
+        show(data?.label || '오류')
     }, [])
 
 
@@ -133,7 +142,7 @@ const MyPageScreen = () => {
                     <LabelUnderLineButton
                         label={`현재 버전${__DEV__ ? ' DEV' : ''} ${currentVersion} (${currentVersion === newVersion ? '최신' : '업데이트 필요'})`}
                         onPress={onVersion}
-                        // onLongPress={() => console.log()}
+                        onLongPress={onCodepushVersion}
                         disableArrowRight
                     />
                 </View>
