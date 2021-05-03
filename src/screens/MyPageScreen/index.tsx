@@ -17,7 +17,8 @@ import { COLOR2, LIGHT_GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useIUser } from '../../graphql/user'
 import CodePush from 'react-native-code-push'
 import useToast from '../../hooks/useToast'
-import { CURRENT_STORE_URL } from '../../constants/values'
+import { CURRENT_STORE_URL, IS_IOS } from '../../constants/values'
+import { useCheckVersion } from '../../graphql/appVersion'
 
 
 
@@ -26,8 +27,10 @@ const MyPageScreen = () => {
     const { navigate } = useNavigation()
     const { data } = useIUser()
     const { show } = useToast()
+
     const currentVersion = DeviceInfo.getVersion()
-    const newVersion = remoteConfig().getString('app_version')
+    const { data: versionData } = useCheckVersion({ variables: { version: currentVersion, os: IS_IOS ? 'ios' : 'aos' } })
+
 
     const onUserInfo = useCallback(() => {
         navigate('UserInfo')
@@ -50,9 +53,10 @@ const MyPageScreen = () => {
     }, [])
 
     const onVersion = useCallback(() => {
-        if (currentVersion === newVersion) return
-        Linking.openURL(CURRENT_STORE_URL)
-    }, [currentVersion, newVersion])
+        if (versionData?.checkVersion === '업데이트 가능' || versionData?.checkVersion === '업데이트 필요') {
+            Linking.openURL(CURRENT_STORE_URL)
+        }
+    }, [versionData])
 
     const onCodepushVersion = useCallback(async () => {
         const data = await CodePush.getUpdateMetadata()
@@ -140,7 +144,7 @@ const MyPageScreen = () => {
                         onPress={() => navigate('OpenSourceLicense')}
                     />
                     <LabelUnderLineButton
-                        label={`현재 버전${__DEV__ ? ' DEV' : ''} ${currentVersion} (${currentVersion === newVersion ? '최신' : '업데이트 필요'})`}
+                        label={`현재 버전${__DEV__ ? ' DEV MODE' : ''} ${currentVersion} (${versionData?.checkVersion || ''})`}
                         onPress={onVersion}
                         onLongPress={onCodepushVersion}
                         disableArrowRight

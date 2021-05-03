@@ -15,15 +15,20 @@ import Navigation from './src/screens';
 // __DEV__ && enableFlipperApolloDevtools(client)
 
 
-// remote config init
-remoteConfig()
-  .setDefaults({
-    app_version: 'loading',
-  })
-  .then(() => remoteConfig().fetchAndActivate())
+
 
 
 const App = () => {
+
+
+  useEffect(() => {
+    // remote config init
+    remoteConfig()
+      .setDefaults({
+        app_version: `{"version":"0.0.0","require":false}`,
+      })
+      .then(() => remoteConfig().fetchAndActivate())
+  }, [])
 
   return (
     <>
@@ -40,8 +45,8 @@ const App = () => {
 }
 
 // export default App
-export default codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME, installMode: codePush.InstallMode.ON_NEXT_RESTART })(App)
-// export default __DEV__ ? App : codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME, installMode: codePush.InstallMode.IMMEDIATE })(App)
+// export default codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME, installMode: codePush.InstallMode.ON_NEXT_RESTART })(App)
+export default __DEV__ ? App : codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME, installMode: codePush.InstallMode.IMMEDIATE })(App)
 
 const styles = StyleSheet.create({
   container: {
