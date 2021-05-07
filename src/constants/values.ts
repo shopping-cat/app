@@ -16,6 +16,7 @@ export const KAKAO_CHANNEL_SELLERS = 'http://pf.kakao.com/_YcPRs/chat'
 const IS_TEST_PRODUCTION_MODE = true
 
 const getServerIp = () => {
+    // return 'https://api-alpha.shoppingcat.kr/graphql/app'
     if (!__DEV__) return 'https://api.shoppingcat.kr/graphql/app'
     if (IS_TEST_PRODUCTION_MODE) return 'https://api.shoppingcat.kr/graphql/app'
     if (IS_ANDROID) {
@@ -28,11 +29,8 @@ const getServerIp = () => {
     }
 
 }
-
-
-
-
 export const GRAPHQL_SERVER_URL = getServerIp()
+// console.log(GRAPHQL_SERVER_URL)
 
 export const IAMPORT_CODE = 'imp91585626'
 

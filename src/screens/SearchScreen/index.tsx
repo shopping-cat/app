@@ -35,14 +35,14 @@ const SearchScreen = () => {
                     data={data?.iUser.recentSearchKeywords.map(({ keyword }) => keyword) || []}
                 />
             </View>
-            <View style={styles.popularKeywordsContainer} >
+            {/* <View style={styles.popularKeywordsContainer} >
                 <View style={styles.popularKeywordsHeader} >
                     <BaseText style={styles.popularKeywordHeaderText} >인기 검색어</BaseText>
                 </View>
                 <KeywordList
                     data={dummyPopularSearchKeywords.map((keyword) => keyword) || []}
                 />
-            </View>
+            </View> */}
         </ScreenLayout>
     )
 }

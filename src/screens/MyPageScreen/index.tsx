@@ -4,7 +4,6 @@ import { Image, Linking, Pressable, ScrollView, StyleSheet, View } from 'react-n
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import DeviceInfo from 'react-native-device-info';
-import remoteConfig from '@react-native-firebase/remote-config';
 import BaseText from '../../components/Text/BaseText'
 import LabelUnderLineButton from '../../components/Buttons/LabelUnderLineButton'
 import TouchableScale from '../../components/Buttons/TouchableScale'

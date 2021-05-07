@@ -21,15 +21,6 @@ import Navigation from './src/screens';
 const App = () => {
 
 
-  useEffect(() => {
-    // remote config init
-    remoteConfig()
-      .setDefaults({
-        app_version: `{"version":"0.0.0","require":false}`,
-      })
-      .then(() => remoteConfig().fetchAndActivate())
-  }, [])
-
   return (
     <>
       <ApolloProvider client={client}>
