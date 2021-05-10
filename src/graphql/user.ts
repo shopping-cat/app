@@ -86,6 +86,25 @@ interface IUserVars {
 }
 export const useIUser = createQueryHook<IUserData, IUserVars>(I_USER)
 
+export const LOGIN = gql`
+  query {
+    iUser {
+      id
+      name
+    }
+  }
+`
+export interface LoginData {
+  iUser: {
+    id: number
+    name?: string
+  }
+}
+interface LoginVars {
+
+}
+export const useLogin = createQueryHook<LoginData, LoginVars>(LOGIN)
+
 // MUTATION/UPDATE_REFUND_BANK_ACCOUNT
 export const UPDATE_REFUND_BANK_ACCOUNT = gql`
   mutation ($bankName:String!, $ownerName:String!, $accountNumber:String!) {

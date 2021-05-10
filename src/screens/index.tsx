@@ -8,7 +8,7 @@ import SplashScreen from 'react-native-splash-screen'
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { useApolloClient } from '@apollo/client';
 import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
-import { I_USER, IUserData, useUpdateFcmToken } from '../graphql/user';
+import { LOGIN, IUserData, useUpdateFcmToken, LoginData } from '../graphql/user';
 
 import HomeScreen from './HomeScreen'
 import CategoryScreen from './CategoryScreen';
@@ -137,8 +137,8 @@ const Navigation = () => {
             setIsLoggedIn(!!user)
             if (user) {
                 console.log('logged in')
-                const { data } = await client.query<IUserData>({ query: I_USER, fetchPolicy: 'network-only', })
-                setTimeout(() => { SplashScreen.hide() }, 500)
+                const { data } = await client.query<LoginData>({ query: LOGIN, fetchPolicy: 'network-only', })
+                setTimeout(() => { SplashScreen.hide() }, 200)
                 if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
                     navigationRef.current?.reset({ index: 0, routes: [{ name: 'ProfileRegist' }] })
                 }
@@ -147,12 +147,12 @@ const Navigation = () => {
                 }
             } else {
                 console.log('logged out')
-                setTimeout(() => { SplashScreen.hide() }, 500)
+                setTimeout(() => { SplashScreen.hide() }, 200)
                 navigationRef.current?.reset({ index: 0, routes: [{ name: 'Login' }] })
             }
         } catch (error) {
-            // console.error(error)
-            setTimeout(() => { SplashScreen.hide() }, 500)
+            console.error(error)
+            setTimeout(() => { SplashScreen.hide() }, 200)
         } finally {
             setLoginLoading(false)
         }

@@ -2,6 +2,7 @@ import React from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ReviewWriteCard, { ReviewWriteCardSkeleton } from '../../../components/Cards/ReviewWriteCard'
+import EmptyView from '../../../components/View/EmptyView'
 import { WIDTH } from '../../../constants/styles'
 import { CreateableItemReview } from '../../../graphql/itemReview'
 import makeIdArray from '../../../lib/makeIdArray'
@@ -15,6 +16,8 @@ interface WriteReviewTabProps {
 const WriteReviewTab: React.FC<WriteReviewTabProps> = ({ data, fetchMore, loading }) => {
 
     const { bottom } = useSafeAreaInsets()
+
+    if (data && data.length === 0) return <View style={styles.container} ><EmptyView /></View>
 
     return (
         <FlatList

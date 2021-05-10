@@ -17,6 +17,7 @@ import { useNotifications } from '../../graphql/notification'
 import LoadingView from '../../components/View/LoadingView'
 import { I_USER, useUpdateEventMessageAllow } from '../../graphql/user'
 import { useApolloClient } from '@apollo/client'
+import EmptyView from '../../components/View/EmptyView'
 
 
 const NotificationScreen = () => {
@@ -62,6 +63,7 @@ const NotificationScreen = () => {
                     </Pressable>
                 }
             />}
+            {data?.notifications.length === 0 && <EmptyView />}
         </ScreenLayout>
     )
 }

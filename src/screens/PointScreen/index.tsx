@@ -8,10 +8,12 @@ import { GRAY } from '../../constants/styles'
 import { usePointReceipts } from '../../graphql/pointReceipt'
 import makeIdArray from '../../lib/makeIdArray'
 import moneyFormat from '../../lib/moneyFormat'
+import EmptyView from '../../components/View/EmptyView'
 
 const PointScreen = () => {
 
     const { data, loading, fetchMore } = usePointReceipts({ fetchPolicy: 'network-only' })
+
 
     return (
         <ScreenLayout>
@@ -29,6 +31,7 @@ const PointScreen = () => {
                     {!loading && <BaseText style={styles.nowPoint} >현재 포인트 : {moneyFormat(data?.iUser.point || 0)}포인트</BaseText>}
                 </>}
             />
+            {data && data.pointReceipts.length === 0 && < EmptyView />}
         </ScreenLayout>
     )
 }

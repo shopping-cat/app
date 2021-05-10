@@ -2,6 +2,7 @@ import React from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import ReviewMyCard from '../../../components/Cards/ReviewMyCard'
+import EmptyView from '../../../components/View/EmptyView'
 import { WIDTH } from '../../../constants/styles'
 import { MyItemReview } from '../../../graphql/itemReview'
 
@@ -13,6 +14,8 @@ interface MyReviewTabProps {
 const MyReviewTab: React.FC<MyReviewTabProps> = ({ fetchMore, data }) => {
 
     const { bottom } = useSafeAreaInsets()
+
+    if (data && data.length === 0) return <View style={styles.container} ><EmptyView /></View>
 
     return (
         <FlatList
