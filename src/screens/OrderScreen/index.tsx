@@ -5,6 +5,7 @@ import DefaultHeader from '../../components/Headers/DefaultHeader'
 import OrderCard, { OrderCardSkeleton } from '../../components/Cards/OrderCard'
 import { usePayments } from '../../graphql/payment'
 import makeIdArray from '../../lib/makeIdArray'
+import EmptyView from '../../components/View/EmptyView'
 
 
 const OrderScreen = () => {
@@ -24,6 +25,7 @@ const OrderScreen = () => {
                 data={loading ? makeIdArray(6, true) : data?.payments as any}
                 renderItem={({ item }) => loading ? <OrderCardSkeleton /> : <OrderCard {...item} />}
             />
+            {data?.payments.length === 0 && <EmptyView />}
         </ScreenLayout>
     )
 }
