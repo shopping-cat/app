@@ -24,7 +24,7 @@ const PaymentDeliveryMemo: React.FC<PaymentDeliveryMemoProps> = ({ setMemo, onPr
 
     return (
         <View style={styles.container} >
-            <BaseText style={styles.title} >배송 매모</BaseText>
+            <BaseText style={styles.title} >배송 메모</BaseText>
             <TouchableOpacity
                 onPress={onPress}
                 style={styles.modifyBtn}

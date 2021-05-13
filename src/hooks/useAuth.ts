@@ -45,7 +45,7 @@ const useAuth = () => {
             setLoginLoading(true)
 
             const result = await LoginManager.logInWithPermissions(['public_profile', 'email'])
-            if (result.isCancelled) throw new Error('Facebook Login Cancelled')
+            if (result.isCancelled) throw new Error('Facebook Login Canceled')
 
             const token = await AccessToken.getCurrentAccessToken()
             if (!token) throw new Error('No Token')

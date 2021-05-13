@@ -33,7 +33,7 @@ const PaymentRefundAccount: React.FC<PaymentRefundAccountProps> = ({ data }) => 
                     <BaseText style={styles.info} >{data.user.refundBankAccount.ownerName} | {data.user.refundBankAccount.bankName} {data.user.refundBankAccount.accountNumber}</BaseText>
                 </View>
             }
-            {!data.user.refundBankAccount && <BaseText style={styles.emptyText} >배송지를 입력해주세요</BaseText>}
+            {!data.user.refundBankAccount && <BaseText style={styles.emptyText} >환불계좌를 입력해주세요</BaseText>}
 
         </View>
     )
