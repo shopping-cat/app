@@ -7,16 +7,24 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useWithdrawalUser } from '../../graphql/user'
 import useAuth from '../../hooks/useAuth'
+import useConfirm from '../../hooks/useConfirm'
 
 const DeleteAccountScreen = () => {
 
     const [deleteAccount, { loading }] = useWithdrawalUser()
+    const { show } = useConfirm()
     const { logout } = useAuth()
 
     const onDeleteAccount = useCallback(async () => {
         if (loading) return
-        await deleteAccount()
-        await logout()
+        show(
+            '정말 탈퇴하시겠습니까?',
+            '탈퇴전에 화면의 내용 꼭 숙지 바랍니다.',
+            async () => {
+                await deleteAccount()
+                await logout()
+            }
+        )
     }, [loading])
 
     return (

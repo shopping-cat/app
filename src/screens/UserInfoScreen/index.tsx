@@ -10,6 +10,7 @@ import { COLOR1, GRAY, VERY_LIGHT_GRAY, VERY_VERY_LIGHT_GRAY } from '../../const
 import { useIUser } from '../../graphql/user'
 import useAuth from '../../hooks/useAuth'
 import phoneFormat from '../../lib/phoneFormat'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
 
@@ -17,6 +18,7 @@ const UserInfoScreen = () => {
 
     const { navigate } = useNavigation()
     const { logout } = useAuth()
+    const { bottom } = useSafeAreaInsets()
     const { data } = useIUser()
 
     const certificatedInfo = `${data?.iUser.certificatedInfo?.name} | ${data?.iUser.certificatedInfo?.phone && phoneFormat(data?.iUser.certificatedInfo?.phone)}`
@@ -103,6 +105,7 @@ const UserInfoScreen = () => {
                         <RightArrowIcon fill={GRAY} />
                     </View>
                 </Pressable>
+                <View style={{ height: bottom }} />
             </ScrollView>
         </ScreenLayout>
     )
