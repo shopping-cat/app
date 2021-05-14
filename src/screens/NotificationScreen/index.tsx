@@ -18,12 +18,15 @@ import LoadingView from '../../components/View/LoadingView'
 import { I_USER, useUpdateEventMessageAllow } from '../../graphql/user'
 import { useApolloClient } from '@apollo/client'
 import EmptyView from '../../components/View/EmptyView'
+import useToast from '../../hooks/useToast'
+import dateFormat from '../../lib/dateFormat'
 
 
 const NotificationScreen = () => {
 
     const client = useApolloClient()
     const { data, loading, fetchMore } = useNotifications({ fetchPolicy: 'network-only', nextFetchPolicy: 'cache-only' })
+    const { show } = useToast()
     const [updateEventMessageAllow] = useUpdateEventMessageAllow()
 
     useEffect(() => {
@@ -37,7 +40,10 @@ const NotificationScreen = () => {
 
     const onMessageAllow = useCallback(async () => {
         if (!data) return
-        await updateEventMessageAllow({ variables: { allow: !data.iUser.eventMessageAllowDate } })
+        const { errors } = await updateEventMessageAllow({ variables: { allow: !data.iUser.eventMessageAllowDate } })
+        if (errors) return
+        if (!data.iUser.eventMessageAllowDate) show(`${dateFormat(new Date())}에 모바일 앱 이벤트/마케팅\n 푸시 알림 수신 동의 처리되었습니다.`, 5000)
+        else show(`${dateFormat(new Date())}에 모바일 앱 이벤트/마케팅\n 푸시 알림 수신 거부 처리되었습니다.`, 5000)
     }, [data])
 
     return (

@@ -9,11 +9,14 @@ import BaseText from '../Text/BaseText'
 const Toast = () => {
 
     const [animation] = useState(new Animated.Value(0))
-    const { message, show } = useToast()
+    const { message, show, duration } = useToast()
     const { bottom } = useSafeAreaInsets()
+
+    const [currentMessage, setMessage] = useState('')
 
     useEffect(() => {
         if (message === '') return
+        setMessage(message)
         Animated.spring(animation, {
             toValue: 1,
             useNativeDriver: true,
@@ -21,7 +24,7 @@ const Toast = () => {
         }).start(() =>
             Animated.timing(animation, {
                 toValue: 0,
-                delay: 2000,
+                delay: duration,
                 duration: 300,
                 useNativeDriver: true
             }).start(() => show(''))
@@ -48,7 +51,7 @@ const Toast = () => {
             ]}
             pointerEvents='none'
         >
-            <BaseText style={styles.text} >{message}</BaseText>
+            <BaseText style={styles.text} >{currentMessage}</BaseText>
         </Animated.View>
     )
 }

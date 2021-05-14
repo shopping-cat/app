@@ -14,11 +14,14 @@ import generateImageToRNFile from '../../lib/generateRNFile';
 import UnderLineText from '../../components/Text/UnderLineText';
 import CheckBoxToggle from '../../components/Toggle/CheckBoxToggle';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import useToast from '../../hooks/useToast';
+import dateFormat from '../../lib/dateFormat';
 
 
 const ProfileRegistScreen = () => {
 
     const { reset, navigate } = useNavigation()
+    const { show } = useToast()
 
     const [registUserProfile, { loading }] = useRegistUserProfile()
 
@@ -70,6 +73,8 @@ const ProfileRegistScreen = () => {
                 }
             })
             if (!!errors) throw new Error
+            if (eventMessageAllow) show(`${dateFormat(new Date())}에 모바일 앱 이벤트/마케팅\n 푸시 알림 수신 동의 처리되었습니다.`, 5000)
+            else show(`${dateFormat(new Date())}에 모바일 앱 이벤트/마케팅\n 푸시 알림 수신 거부 처리되었습니다.`, 5000)
             reset({
                 index: 0,
                 routes: [{ name: 'Tab' }]
