@@ -21,6 +21,7 @@ import PaymentMethod from './PaymentMethod'
 import PaymentPrice from './PaymentPrice'
 import PaymentRefundAccount from './PaymentRefundAccount'
 import PaymnetDepositWithoutBankbook from './PaymnetDepositWithoutBankbook'
+import useToast from '../../hooks/useToast'
 
 
 
@@ -34,6 +35,7 @@ const PaymentScreen = () => {
     const { navigate } = useNavigation()
 
     const scrollViewRef = useRef<ScrollView>(null)
+    const { show } = useToast()
 
     const [method, setMethod] = useState(PAY_METHODS[0])
     const [methodSheetVisible, setMethodSheetVisible] = useState(false)
@@ -71,7 +73,14 @@ const PaymentScreen = () => {
     }, [data?.orderCalculate.maxPointPrice])
 
     const onPayment = useCallback(() => {
-        if (loading || !active || !data) return
+        if (loading || !data) return
+        if (!active) {
+            if (!data.orderCalculate.user.certificatedInfo) show('본인확인을 해주세요')
+            else if (!data.orderCalculate.user.deliveryInfo) show('배송지를 입력해주세요')
+            else if (!data.orderCalculate.user.refundBankAccount) show('환불계좌를 입력해주세요')
+            return
+        }
+
         const pgParams: PGScreenProps = {
             method,
             coupons,
