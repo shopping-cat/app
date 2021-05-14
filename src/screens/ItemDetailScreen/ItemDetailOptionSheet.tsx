@@ -135,7 +135,7 @@ const ItemDetailOptionSheet: React.FC<ItemDetailOptionSheetProps> = ({ onClose, 
                         end={{ x: 0.5, y: 1 }}
                     />
 
-                    {data.option?.data && <FlatList
+                    {(data.option?.data && data.option.data.length > 0) && <FlatList
                         style={{ height: 64 * 5, paddingTop: 8 }}
                         data={data.option.data}
                         keyExtractor={({ optionGroupName }, index) => optionGroupName + index}

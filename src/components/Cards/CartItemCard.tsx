@@ -53,7 +53,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ onDelete, selected, onSelec
                     <Pressable onPress={onShop} >
                         <BaseText numberOfLines={1} >{data.item.name}</BaseText>
                     </Pressable>
-                    {data.stringOption && <BaseText numberOfLines={1} style={styles.option} >{data.stringOption}</BaseText>}
+                    {!!data.stringOption && <BaseText numberOfLines={1} style={styles.option} >{data.stringOption}</BaseText>}
                     <View style={styles.priceContainer} >
                         {data.optionedPrice !== data.optionedSaledPrice && <BaseText style={styles.price} >{moneyFormat(data.optionedPrice * data.num)}원</BaseText>}
                         <BaseText style={styles.salePrice} >{moneyFormat(data.optionedSaledPrice * data.num)}원</BaseText>
