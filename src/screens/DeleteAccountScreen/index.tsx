@@ -8,6 +8,7 @@ import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useWithdrawalUser } from '../../graphql/user'
 import useAuth from '../../hooks/useAuth'
 import useConfirm from '../../hooks/useConfirm'
+import StatusBarHeightView from '../../components/View/StatusBarHeightView'
 
 const DeleteAccountScreen = () => {
 
@@ -28,7 +29,8 @@ const DeleteAccountScreen = () => {
     }, [loading])
 
     return (
-        <ScreenLayout>
+        <ScreenLayout disableStatusbarHeight >
+            <StatusBarHeightView />
             <DefaultHeader title='회원탈퇴' disableBtns />
             <View style={styles.container} >
                 <BaseText style={styles.text} >회원탈퇴 시 계정과 관련된 정보는 복구가 불가하며 30일 이후 재가입 가능합니다.</BaseText>
