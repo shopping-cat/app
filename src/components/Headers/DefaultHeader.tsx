@@ -25,7 +25,7 @@ const DefaultHeader: React.FC<DefaultHeaderProps> = ({ title, underLine, disable
 
     return (
         <View style={styles.container} >
-            {canGoBack && !disableGoBack &&
+            {canGoBack() && !disableGoBack &&
                 <Pressable onPress={goBack} style={styles.btn} >
                     <BackArrowIcon fill={GRAY} />
                 </Pressable>

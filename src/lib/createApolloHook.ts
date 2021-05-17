@@ -1,4 +1,5 @@
 import { MutationHookOptions, useMutation, QueryHookOptions, useQuery, ApolloError } from "@apollo/client"
+import { useNavigation } from "@react-navigation/core"
 import { DocumentNode } from "graphql"
 import { toastMessageVar } from "../hooks/useToast"
 

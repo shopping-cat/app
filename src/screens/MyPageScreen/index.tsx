@@ -18,38 +18,20 @@ import CodePush from 'react-native-code-push'
 import useToast from '../../hooks/useToast'
 import { CURRENT_STORE_URL, IS_IOS } from '../../constants/values'
 import { useCheckVersion } from '../../graphql/appVersion'
+import useAuth from '../../hooks/useAuth'
 
 
 
 const MyPageScreen = () => {
 
     const { navigate } = useNavigation()
-    const { data } = useIUser()
+    const { isLoggedIn } = useAuth()
     const { show } = useToast()
-
+    const { data } = useIUser({ skip: !isLoggedIn })
     const currentVersion = DeviceInfo.getVersion()
     const { data: versionData } = useCheckVersion({ variables: { version: currentVersion, os: IS_IOS ? 'ios' : 'aos' } })
 
 
-    const onUserInfo = useCallback(() => {
-        navigate('UserInfo')
-    }, [])
-
-    const onNotification = useCallback(() => {
-        navigate('Notification')
-    }, [])
-
-    const onReview = useCallback(() => {
-        navigate('Review')
-    }, [])
-
-    const onCoupon = useCallback(() => {
-        navigate('Coupon')
-    }, [])
-
-    const onPoint = useCallback(() => {
-        navigate('Point')
-    }, [])
 
     const onVersion = useCallback(() => {
         if (versionData?.checkVersion === '업데이트 가능' || versionData?.checkVersion === '업데이트 필요') {
@@ -71,65 +53,78 @@ const MyPageScreen = () => {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.userContainer} >
-                    <Pressable
-                        onPress={onUserInfo}
-                        style={styles.userInfoContainer}
-                    >
-                        <Image
-                            style={styles.userImage}
-                            source={{ uri: data?.iUser.photo }}
-                        />
-                        <BaseText style={styles.userName} >{data?.iUser.name}</BaseText>
-                        <RightArrowIcon fill={LIGHT_GRAY} />
-                    </Pressable>
-                    <Pressable
-                        onPress={onNotification}
+                    {isLoggedIn ?
+                        <Pressable
+                            onPress={() => navigate('UserInfo')}
+                            style={styles.userInfoContainer}
+                        >
+                            <Image
+                                style={styles.userImage}
+                                source={{ uri: data?.iUser.photo }}
+                            />
+                            <BaseText style={styles.userName} >{data?.iUser.name}</BaseText>
+                            <RightArrowIcon fill={LIGHT_GRAY} />
+                        </Pressable>
+                        :
+                        <Pressable
+                            onPress={() => navigate('Login')}
+                            style={styles.userInfoContainer}
+                        >
+                            <View style={{ height: 48 }} />
+                            <BaseText style={styles.userName}>로그인을 해주세요</BaseText>
+                            <RightArrowIcon fill={LIGHT_GRAY} />
+                        </Pressable>
+                    }
+                    {isLoggedIn && <Pressable
+                        onPress={() => navigate('Notification')}
                         style={styles.notificationBtn}
                     >
                         <IonIcon name='notifications-outline' size={20} color={'#000'} />
                         {data && data.iUser.notificationNum > 0 && <View style={styles.notificationBadge} >
                             <BaseText style={styles.notificationBadgeText} >{data.iUser.notificationNum > 9 ? 9 : data.iUser.notificationNum}</BaseText>
                         </View>}
-                    </Pressable>
+                    </Pressable>}
                 </View>
-                <ThinLine />
-                <View style={styles.mainOptionsContainer} >
-                    <TouchableScale
-                        onPress={onReview}
-                        contianerStyle={styles.mainOptionBtnContainerStyle}
-                        style={styles.mainOptionBtn}
-                    >
-                        <Icon name='comment-processing-outline' color={'#000'} size={24} />
-                        <BaseText style={styles.mainOptionLabel} >리뷰</BaseText>
-                    </TouchableScale>
+                {isLoggedIn && <>
+                    <ThinLine />
+                    <View style={styles.mainOptionsContainer} >
+                        <TouchableScale
+                            onPress={() => navigate('Review')}
+                            contianerStyle={styles.mainOptionBtnContainerStyle}
+                            style={styles.mainOptionBtn}
+                        >
+                            <Icon name='comment-processing-outline' color={'#000'} size={24} />
+                            <BaseText style={styles.mainOptionLabel} >리뷰</BaseText>
+                        </TouchableScale>
 
-                    <TouchableScale
-                        onPress={onCoupon}
-                        contianerStyle={styles.mainOptionBtnContainerStyle}
-                        style={styles.mainOptionBtn}
-                    >
-                        <Icon name='ticket-percent-outline' color={'#000'} size={24} />
-                        <BaseText style={styles.mainOptionLabel} >쿠폰</BaseText>
-                    </TouchableScale>
-                    <TouchableScale
-                        onPress={onPoint}
-                        contianerStyle={styles.mainOptionBtnContainerStyle}
-                        style={styles.mainOptionBtn}
-                    >
-                        <Icon name='alpha-p-circle-outline' color={'#000'} size={24} />
-                        <BaseText style={styles.mainOptionLabel} >포인트</BaseText>
-                    </TouchableScale>
-                </View>
+                        <TouchableScale
+                            onPress={() => navigate('Coupon')}
+                            contianerStyle={styles.mainOptionBtnContainerStyle}
+                            style={styles.mainOptionBtn}
+                        >
+                            <Icon name='ticket-percent-outline' color={'#000'} size={24} />
+                            <BaseText style={styles.mainOptionLabel} >쿠폰</BaseText>
+                        </TouchableScale>
+                        <TouchableScale
+                            onPress={() => navigate('Point')}
+                            contianerStyle={styles.mainOptionBtnContainerStyle}
+                            style={styles.mainOptionBtn}
+                        >
+                            <Icon name='alpha-p-circle-outline' color={'#000'} size={24} />
+                            <BaseText style={styles.mainOptionLabel} >포인트</BaseText>
+                        </TouchableScale>
+                    </View>
+                </>}
                 <ThinLine />
                 <View style={styles.subOptionsContainer} >
-                    <LabelUnderLineButton
+                    {isLoggedIn && <LabelUnderLineButton
                         label='주문내역'
                         onPress={() => navigate('Order')}
-                    />
-                    <LabelUnderLineButton
+                    />}
+                    {isLoggedIn && <LabelUnderLineButton
                         label='문의/건의'
                         onPress={() => navigate('Inquery')}
-                    />
+                    />}
                     <LabelUnderLineButton
                         label='서비스 이용약관'
                         onPress={() => navigate('AgreeMent')}
@@ -139,7 +134,7 @@ const MyPageScreen = () => {
                         onPress={() => navigate('PrivacyPolicy')}
                     />
                     <LabelUnderLineButton
-                        label='오픈소스 러이선스'
+                        label='오픈소스 라이선스'
                         onPress={() => navigate('OpenSourceLicense')}
                     />
                     <LabelUnderLineButton

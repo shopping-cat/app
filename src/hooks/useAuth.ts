@@ -10,12 +10,15 @@ import useToast from "./useToast";
 
 
 const loginLoadingVar = makeVar<boolean>(false)
+const isLoggedinVar = makeVar<boolean>(false)
 
 const useAuth = () => {
 
     const client = useApolloClient()
 
     const loginLoading = useReactiveVar(loginLoadingVar)
+    const isLoggedIn = useReactiveVar(isLoggedinVar)
+
     const [logoutLoading, setLogoutLoading] = useState(false)
     const { show } = useToast()
 
@@ -101,12 +104,18 @@ const useAuth = () => {
         loginLoadingVar(v)
     }, [])
 
+    const setIsLoggedIn = useCallback((v: boolean) => {
+        isLoggedinVar(v)
+    }, [])
+
 
     return {
         kakaoLogin,
         facebookLogin,
         appleLogin,
         logout,
+        isLoggedIn,
+        setIsLoggedIn,
         loginLoading,
         setLoginLoading
     }

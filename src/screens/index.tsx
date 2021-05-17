@@ -128,37 +128,24 @@ const Navigation = () => {
     const navigationRef = useRef<NavigationContainerRef>(null)
     const client = useApolloClient()
     const [updateFcmToken] = useUpdateFcmToken()
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const { setLoginLoading } = useAuth()
+    const { setIsLoggedIn, isLoggedIn } = useAuth()
 
-    // 로그인 상태 변경
+    // // 로그인 상태 변경
     const onAuthStateChanged = async (user: any) => {
         try {
             setIsLoggedIn(!!user)
             if (user) {
-                console.log('logged in')
                 const { data } = await client.query<LoginData>({ query: LOGIN, fetchPolicy: 'network-only', })
-                setTimeout(() => { SplashScreen.hide() }, 200)
                 if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
                     navigationRef.current?.reset({ index: 0, routes: [{ name: 'ProfileRegist' }] })
                 }
-                else {
-                    navigationRef.current?.reset({ index: 0, routes: [{ name: 'Tab' }] })
-                }
-            } else {
-                console.log('logged out')
-                setTimeout(() => { SplashScreen.hide() }, 200)
-                navigationRef.current?.reset({ index: 0, routes: [{ name: 'Login' }] })
             }
         } catch (error) {
             console.error(error)
-            setTimeout(() => { SplashScreen.hide() }, 200)
-        } finally {
-            setLoginLoading(false)
         }
     }
 
-    // 로그인 리스너 등록
+    // // 로그인 리스너 등록
     useEffect(() => {
         const listner = auth().onAuthStateChanged(onAuthStateChanged)
         return listner
@@ -189,7 +176,7 @@ const Navigation = () => {
             theme={theme}
         >
             <Stack.Navigator
-                initialRouteName='Login'
+                initialRouteName='Tab'
                 headerMode='none'
                 screenOptions={{ cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS }}
             >

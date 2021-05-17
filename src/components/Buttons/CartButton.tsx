@@ -5,6 +5,8 @@ import { COLOR1, COLOR2 } from '../../constants/styles'
 import { useCartItems } from '../../graphql/cartItem'
 import BaseText from '../Text/BaseText'
 import CartIcon from '../Svgs/CartIcon'
+import useAuth from '../../hooks/useAuth'
+import LoginIcon from '../Svgs/LoginIcon'
 
 interface CartButtonProps {
     color?: string | Animated.AnimatedInterpolation
@@ -13,11 +15,12 @@ interface CartButtonProps {
 const CartButton: React.FC<CartButtonProps> = ({ color }) => {
 
     const { navigate } = useNavigation()
-
-    const { data } = useCartItems()
+    const { isLoggedIn } = useAuth()
+    const { data } = useCartItems({ skip: !isLoggedIn })
 
     const onCart = useCallback(() => {
-        navigate('Cart')
+        if (isLoggedIn) navigate('Cart')
+        else navigate('Login')
     }, [])
 
     return (
@@ -25,7 +28,10 @@ const CartButton: React.FC<CartButtonProps> = ({ color }) => {
             onPress={onCart}
             style={styles.container}
         >
-            <CartIcon fill={color || COLOR1} />
+            {isLoggedIn
+                ? <CartIcon fill={color || COLOR1} />
+                : <LoginIcon fill={color || COLOR1} />
+            }
             {(data && data.cartItems.length > 0) &&
                 <Animated.View style={styles.badge} >
                     <BaseText style={styles.badgeText} >{data.cartItems.length > 99 ? 99 : data.cartItems.length}</BaseText>
