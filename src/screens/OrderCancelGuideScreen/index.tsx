@@ -7,9 +7,9 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 const OrderCancelGuide = () => {
     return (
         <ScreenLayout>
-            <DefaultHeader title='주문취소/교환/반품 안내' disableBtns />
+            <DefaultHeader title='주문취소/교환/환불 안내' disableBtns />
             <WebView
-                source={{ uri: 'https://www.shopping-cat.kr/ordercancelguide' }}
+                source={{ uri: 'https://www.shoppingcat.kr/orderCancelInfo' }}
                 style={styles.webview}
             />
         </ScreenLayout>

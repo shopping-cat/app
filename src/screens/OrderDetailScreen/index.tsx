@@ -44,7 +44,7 @@ const OrderDetailScreen = () => {
         }
     }, [data, cancelPayment, cancelLoading])
 
-    const footerText = !data ? '' : (data.payment.state === '구매접수' || data.payment.state === '입금대기') ? '주문 취소' : data.payment.state === '정상처리' ? '교환/반품 안내' : data.payment.state === '취소처리' ? '주문 취소 완료' : '오류 처리 완료'
+    const footerText = !data ? '' : (data.payment.state === '구매접수' || data.payment.state === '입금대기') ? '주문 취소' : data.payment.state === '정상처리' ? '교환/환불 안내' : data.payment.state === '취소처리' ? '주문 취소 완료' : '오류 처리 완료'
 
     return (
         <ScreenLayout disableStatusbarHeight >

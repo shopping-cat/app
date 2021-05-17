@@ -139,7 +139,7 @@ const Navigation = () => {
 
     // 유저 정보 체크
     useEffect(() => {
-        SplashScreen.hide()
+        setTimeout(() => { SplashScreen.hide() }, 500)
         checkUserProfile()
     }, [])
 
