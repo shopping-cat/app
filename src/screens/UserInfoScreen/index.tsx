@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseText from '../../components/Text/BaseText'
@@ -11,6 +11,7 @@ import { useIUser } from '../../graphql/user'
 import useAuth from '../../hooks/useAuth'
 import phoneFormat from '../../lib/phoneFormat'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import useConfirm from '../../hooks/useConfirm'
 
 
 
@@ -18,12 +19,17 @@ const UserInfoScreen = () => {
 
     const { navigate } = useNavigation()
     const { logout } = useAuth()
+    const { show } = useConfirm()
     const { bottom } = useSafeAreaInsets()
     const { data } = useIUser()
 
     const certificatedInfo = `${data?.iUser.certificatedInfo?.name} | ${data?.iUser.certificatedInfo?.phone && phoneFormat(data?.iUser.certificatedInfo?.phone)}`
     const deliveryInfo = `${data?.iUser.deliveryInfo?.name} ${data?.iUser.deliveryInfo?.phone && phoneFormat(data?.iUser.deliveryInfo?.phone)}\n${data?.iUser.deliveryInfo?.address}\n${data?.iUser.deliveryInfo?.addressDetail}`
     const refundAccountInfo = `${data?.iUser.refundBankAccount?.ownerName} | ${data?.iUser.refundBankAccount?.bankName} ${data?.iUser.refundBankAccount?.accountNumber}`
+
+    const onLogout = useCallback(() => {
+        show('로그아웃', '정말 로그아웃 하시겠습니까?', logout)
+    }, [])
 
     return (
         <ScreenLayout>
@@ -84,7 +90,7 @@ const UserInfoScreen = () => {
                     </View>
                 </Pressable>
                 <Pressable
-                    onPress={logout}
+                    onPress={onLogout}
                     style={styles.underLineBtn}
                 >
                     <View style={styles.underLineBtnLeft} >

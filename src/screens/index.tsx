@@ -8,7 +8,7 @@ import SplashScreen from 'react-native-splash-screen'
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { useApolloClient } from '@apollo/client';
 import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
-import { LOGIN, IUserData, useUpdateFcmToken, LoginData } from '../graphql/user';
+import { LOGIN, IUserData, useUpdateFcmToken, LoginData, I_USER } from '../graphql/user';
 
 import HomeScreen from './HomeScreen'
 import CategoryScreen from './CategoryScreen';
@@ -125,30 +125,22 @@ const theme: Theme = {
 
 const Navigation = () => {
 
-    const navigationRef = useRef<NavigationContainerRef>(null)
     const client = useApolloClient()
+    const navigationRef = useRef<NavigationContainerRef>(null)
     const [updateFcmToken] = useUpdateFcmToken()
-    const { setIsLoggedIn, isLoggedIn } = useAuth()
 
-    // // 로그인 상태 변경
-    const onAuthStateChanged = async (user: any) => {
-        try {
-            setIsLoggedIn(!!user)
-            if (user) {
-                const { data } = await client.query<LoginData>({ query: LOGIN, fetchPolicy: 'network-only', })
-                if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
-                    navigationRef.current?.reset({ index: 0, routes: [{ name: 'ProfileRegist' }] })
-                }
-            }
-        } catch (error) {
-            console.error(error)
+    const checkUserProfile = async () => {
+        if (!auth().currentUser) return
+        const { data } = await client.query<LoginData>({ query: I_USER, fetchPolicy: 'network-only' })
+        if (!data.iUser.name) { // 이름정보가 없으면 기본정보입력화면으로 전환
+            navigationRef.current?.reset({ index: 0, routes: [{ name: 'ProfileRegist' }] })
         }
     }
 
-    // // 로그인 리스너 등록
+    // 유저 정보 체크
     useEffect(() => {
-        const listner = auth().onAuthStateChanged(onAuthStateChanged)
-        return listner
+        SplashScreen.hide()
+        checkUserProfile()
     }, [])
 
 
@@ -164,10 +156,10 @@ const Navigation = () => {
 
     // fcm token listner
     useEffect(() => {
-        if (!isLoggedIn) return
+        if (!auth().currentUser) return
         fcmInit()
         return messaging().onTokenRefresh(fcmRefresh)
-    }, [isLoggedIn])
+    }, [auth().currentUser])
 
 
     return (
