@@ -7,10 +7,12 @@ import useZzimFooter from '../../hooks/useZzimFooter'
 import ZzimScreenSelectModeFooter from '../../screens/ZzimScreen/ZzimScreenSelectModeFooter'
 import BaseText from '../Text/BaseText'
 import TouchableScale from '../Buttons/TouchableScale'
+import useAuth from '../../hooks/useAuth'
 
 const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({ state, navigation, descriptors }) => {
 
     const { bottom } = useSafeAreaInsets()
+    const { isLoggedIn } = useAuth()
     const { onCart, onDelete, onSelectAll, isSelectMode } = useZzimFooter()
 
     return (
@@ -31,9 +33,10 @@ const TabNavigationTabBar: React.FC<BottomTabBarProps<BottomTabBarOptions>> = ({
                         });
 
                         if (!isFocused && !event.defaultPrevented) {
-                            navigation.navigate(route.name);
+                            if (route.name === 'Zzim' && !isLoggedIn) navigation.navigate('Login')
+                            else navigation.navigate(route.name)
                         }
-                        navigation.navigate(route.name)
+
                     };
 
                     return (

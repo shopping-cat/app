@@ -7,13 +7,15 @@ import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import { GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
 import { useRecentSearchKeywords, useRemoveAllSearchKeywords } from '../../graphql/user'
 import useSearchKeyword from '../../hooks/useSearchKeyword'
+import useAuth from '../../hooks/useAuth'
 
 const dummyPopularSearchKeywords = ['츄르', '장난감', '사료', '레이저 장난감'] // TODO
 
 const SearchScreen = () => {
 
     const { onClear } = useSearchKeyword() // 검색어 
-    const { data } = useRecentSearchKeywords() // 최신 검색어
+    const { isLoggedIn } = useAuth()
+    const { data } = useRecentSearchKeywords({ skip: !isLoggedIn }) // 최신 검색어
     const [removeAllSearchKeywords] = useRemoveAllSearchKeywords()
 
     useEffect(() => {
