@@ -100,7 +100,7 @@ query ($offset:Int, $limit:Int){
 
 export interface Payment {
     id: string
-    createAt: Date
+    createdAt: Date
     name: string
     state: PaymentState
 }

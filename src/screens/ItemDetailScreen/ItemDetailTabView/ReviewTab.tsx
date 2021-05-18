@@ -36,7 +36,6 @@ const MoreReview: React.FC<{ reviewNum: number, itemId: ID, rate: number }> = ({
 
     const onMoreReview = useCallback(() => {
         const params: ItemReviewScreenProps = { itemId, averageRate: rate, reviewNum }
-        console.log(params)
         navigate('ItemReview', params)
     }, [reviewNum, itemId, rate])
 

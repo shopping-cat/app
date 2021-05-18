@@ -42,7 +42,12 @@ const OrderDetailItemCard: React.FC<PaymentDetailOrder> = ({ item, totalPrice, s
                     {state === '환불중' && <BorderyButton onPress={() => navigate('RefundDetail', { id })}>환불상세</BorderyButton>}
                     {state === '교환처리' && <BorderyButton onPress={() => navigate('ExchangeResult', { id })}>교환처리됨</BorderyButton>}
                     {state === '환불처리' && <BorderyButton onPress={() => navigate('RefundResult', { id })}>환불처리됨</BorderyButton>}
-                    {state === '구매확정' && itemReview && <BorderyButton onPress={() => navigate('ReviewModify', { id: itemReview.id })}>리뷰수정</BorderyButton>}
+                    {state === '구매확정' && <>
+                        {itemReview
+                            ? <BorderyButton onPress={() => navigate('ReviewModify', { id: itemReview.id })}>리뷰수정</BorderyButton>
+                            : <BorderyButton onPress={() => navigate('ReviewPost', { orderId: id })} >리뷰작성</BorderyButton>
+                        }
+                    </>}
                 </View>}
             </View>
         </View >

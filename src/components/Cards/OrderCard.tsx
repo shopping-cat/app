@@ -9,7 +9,7 @@ import BaseSkeletonPlaceHolder from '../Loading/BaseSkeletonPlaceHolder'
 import BaseText from '../Text/BaseText'
 import BorderyButton from '../Buttons/BorderyButton'
 
-const OrderCard: React.FC<Payment> = ({ id, createAt, name, state }) => {
+const OrderCard: React.FC<Payment> = ({ id, createdAt, name, state }) => {
 
     const { navigate } = useNavigation()
 
@@ -23,7 +23,7 @@ const OrderCard: React.FC<Payment> = ({ id, createAt, name, state }) => {
     return (
         <View style={styles.container} >
             <BaseText style={styles.id} >주문번호 {id}</BaseText>
-            <BaseText style={styles.date} >{dateFormat(createAt)}</BaseText>
+            <BaseText style={styles.date} >{dateFormat(createdAt)}</BaseText>
             <BaseText style={styles.name} >{name}</BaseText>
             <BorderyButton style={styles.btn} onPress={onPress}>상세정보</BorderyButton>
             <BaseText style={[styles.state, { color }]} >{state}</BaseText>

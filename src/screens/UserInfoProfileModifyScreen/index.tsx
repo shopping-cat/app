@@ -47,7 +47,6 @@ const UserInfoProfileModifyScreen = () => {
         if (loading) return
         try {
             const file = image ? generateImageToRNFile(image.path, 'userProfile') : null
-            console.log(file)
             await updateUserProfile({
                 variables: {
                     name,

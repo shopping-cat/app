@@ -11,9 +11,9 @@ const NotificationCard: React.FC<Notification> = ({ title, content, createdAt, i
     const { navigate } = useNavigation()
 
     const onPress = useCallback(() => {
-        if (type === 'review') navigate('Review')
-        if (type === 'payment') navigate('OrderDetail', params?.data)
-    }, [type])
+        if (type === 'none') return
+        navigate(type, params?.data)
+    }, [type, params])
 
     return (
         <Pressable
