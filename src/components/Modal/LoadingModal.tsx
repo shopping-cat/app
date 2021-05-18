@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Animated, StyleSheet, Text, View } from 'react-native'
+import { Animated, BackHandler, NativeEventSubscription, StyleSheet, Text, View } from 'react-native'
 import useLoadingModal from '../../hooks/useLoadingModal'
 import LoadingView from '../View/LoadingView'
 
@@ -15,7 +15,16 @@ const LoadingModal = () => {
             useNativeDriver: true,
             duration: 250
         }).start()
+
+
+        let backHandler: NativeEventSubscription
+        if (visible) backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+
+        return () => {
+            backHandler && backHandler.remove()
+        }
     }, [visible])
+
 
     if (!visible) return null
 

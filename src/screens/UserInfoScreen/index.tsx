@@ -12,6 +12,7 @@ import useAuth from '../../hooks/useAuth'
 import phoneFormat from '../../lib/phoneFormat'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import useConfirm from '../../hooks/useConfirm'
+import StatusBarHeightView from '../../components/View/StatusBarHeightView'
 
 
 
@@ -32,8 +33,10 @@ const UserInfoScreen = () => {
     }, [])
 
     return (
-        <ScreenLayout>
+        <ScreenLayout disableStatusbarHeight >
+            <StatusBarHeightView />
             <DefaultHeader disableBtns title='회원정보' />
+
             <ScrollView style={styles.container} >
                 <Pressable
                     onPress={() => navigate('UserInfoProfileModify')}
