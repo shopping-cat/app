@@ -13,7 +13,7 @@ export const CURRENT_STORE_URL = IS_ANDROID ? PLAYSTORE_URL : APPSTORE_URL
 export const KAKAO_CHANNEL_USER = 'http://pf.kakao.com/_ILHqs/chat'
 export const KAKAO_CHANNEL_SELLERS = 'http://pf.kakao.com/_YcPRs/chat'
 
-const IS_TEST_PRODUCTION_MODE = true
+const IS_TEST_PRODUCTION_MODE = false
 
 const getServerIp = () => {
     // return 'https://api-alpha.shoppingcat.kr/graphql/app'
@@ -34,6 +34,7 @@ export const GRAPHQL_SERVER_URL = getServerIp()
 
 export const IAMPORT_CODE = 'imp91585626'
 export const BIZ_NUM = '698-47-00632'
+export const SWEETTRACKER_API_KEY = 'pfegmR3GVZvCTshTJp6otw'
 
 export const ITEM_CATEGORYS = ['']
 export const MAX_REVIEW_IMAGE_NUMBER = 9

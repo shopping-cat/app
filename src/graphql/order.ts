@@ -180,6 +180,7 @@ query ($id:Int!) {
         expectationRefundMethod
         deliveryNumber
         deliveryCompany
+        deliveryCompanyCode
         itemReview {
             id
         }
@@ -212,6 +213,7 @@ interface OrderData {
         expectationRefundMethod: number
         deliveryNumber: string
         deliveryCompany: string
+        deliveryCompanyCode: string
         itemReview: {
             id: number
         } | null

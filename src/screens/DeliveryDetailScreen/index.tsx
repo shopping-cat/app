@@ -2,13 +2,14 @@ import { useRoute } from '@react-navigation/core'
 import { Route } from '@react-navigation/routers'
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import WebView from 'react-native-webview'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
-import BaseText from '../../components/Text/BaseText'
 import LoadingView from '../../components/View/LoadingView'
 import { COLOR1, GRAY, VERY_LIGHT_GRAY } from '../../constants/styles'
+import { SWEETTRACKER_API_KEY } from '../../constants/values'
 import { useOrder } from '../../graphql/order'
-import moneyFormat from '../../lib/moneyFormat'
+
 
 interface DeliveryDetailProps {
     id: number
@@ -19,42 +20,25 @@ const DeliveryDetail = () => {
     const { params } = useRoute<Route<'DelvieryDetail', DeliveryDetailProps>>()
     const { data } = useOrder({ variables: { id: params.id } })
 
+
     return (
         <ScreenLayout>
             <DefaultHeader title='배송조회' disableBtns />
             {!data && <LoadingView />}
-            {data && <ScrollView style={styles.container} >
-
-                <View style={styles.infoContainer} >
-                    <BaseText style={styles.title} >상품 정보</BaseText>
-                    <View style={styles.itemContainer} >
-                        <Image
-                            source={{ uri: data.order.item.mainImage }}
-                            style={styles.itemImage}
-                        />
-                        <View>
-                            <BaseText numberOfLines={1} >{data.order.item.name}</BaseText>
-                            <BaseText style={styles.itemOption} numberOfLines={1} >{data.order.stringOptionNum}</BaseText>
-                            <View style={styles.itemPriceContainer} >
-                                <BaseText style={styles.itemPrice}  >{moneyFormat(data.order.totalPrice)}원</BaseText>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-
-
-                <View style={styles.infoContainer} >
-                    <BaseText style={styles.title} >배송정보</BaseText>
-                    <View style={[styles.labelContainer]} >
-                        <BaseText style={styles.label} >택배사</BaseText>
-                        <BaseText  >{data.order.deliveryCompany}</BaseText>
-                    </View>
-                    <View style={[styles.labelContainer, { marginBottom: 0 }]} >
-                        <BaseText style={styles.label} >송장번호</BaseText>
-                        <BaseText selectable >{data.order.deliveryNumber}</BaseText>
-                    </View>
-                </View>
-            </ScrollView>}
+            {data && <WebView
+                source={{
+                    html: `
+                    <form action="http://info.sweettracker.co.kr/tracking/0" method="post">
+                        <input type="text" class="form-control" id="t_key" name="t_key" value="${SWEETTRACKER_API_KEY}">
+                        <input type="text" class="form-control" name="t_code" id="t_code" value="${data.order.deliveryCompanyCode}">
+                        <input type="text" class="form-control" name="t_invoice" id="t_invoice" value="${data.order.deliveryNumber}">
+                    </form>
+                    <script>
+                        document.querySelector("form").submit()
+                    </script>
+                    `
+                }}
+            />}
         </ScreenLayout>
     )
 }
