@@ -13,7 +13,7 @@ export const CURRENT_STORE_URL = IS_ANDROID ? PLAYSTORE_URL : APPSTORE_URL
 export const KAKAO_CHANNEL_USER = 'http://pf.kakao.com/_ILHqs/chat'
 export const KAKAO_CHANNEL_SELLERS = 'http://pf.kakao.com/_YcPRs/chat'
 
-const IS_TEST_PRODUCTION_MODE = false
+const IS_TEST_PRODUCTION_MODE = true
 
 const getServerIp = () => {
     // return 'https://api-alpha.shoppingcat.kr/graphql/app'
