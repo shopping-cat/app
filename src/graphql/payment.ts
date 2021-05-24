@@ -1,6 +1,6 @@
 import { gql, MutationHookOptions, QueryHookOptions } from "@apollo/client"
 import { OrderState, PaymentState } from "../constants/types"
-import { PAY_METHOD } from "../constants/values"
+import { EASY_PAYMENT_METHOD, PAY_METHOD } from "../constants/values"
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook"
 import { deleteCartItemsFromCache } from "./cartItem"
 import { OrderCalculateCouponVar } from "./order"
@@ -117,14 +117,15 @@ export const usePayments = createQueryHook<PaymentsData, PaymentsVars>(PAYMENTS)
 
 // MUTATION/CREATE_PAYMENT
 export const CREATE_PAYMENT = gql`
-mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amount:Int!, $method: String!, $deliveryMemo: String!){
-    createPayment(cartItemIds:$cartItemIds, coupons:$coupons, point:$point, amount:$amount, method:$method, deliveryMemo:$deliveryMemo) {
+mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amount:Int!, $method: String!, $deliveryMemo: String!, $easyPaymentMethod:String){
+    createPayment(cartItemIds:$cartItemIds, coupons:$coupons, point:$point, amount:$amount, method:$method, deliveryMemo:$deliveryMemo, easyPaymentMethod:$easyPaymentMethod) {
         id
         totalPrice
         name
         postCode
         address
         paymentMethod
+        easyPaymentMethod
         user {
             name
             userDetail {
@@ -148,6 +149,7 @@ interface CreatePaymentData {
         postCode: string
         address: string
         paymentMethod: PAY_METHOD
+        easyPaymentMethod: EASY_PAYMENT_METHOD | null
         user: {
             name: string
             userDetail: {
@@ -168,6 +170,7 @@ interface CreatePaymentVars {
     amount: number
     method: string
     deliveryMemo: string
+    easyPaymentMethod: string | null
 }
 export const useCreatePayment = createMutationHook<CreatePaymentData, CreatePaymentVars>(CREATE_PAYMENT)
 

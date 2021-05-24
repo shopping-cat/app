@@ -13,7 +13,7 @@ export const CURRENT_STORE_URL = IS_ANDROID ? PLAYSTORE_URL : APPSTORE_URL
 export const KAKAO_CHANNEL_USER = 'http://pf.kakao.com/_ILHqs/chat'
 export const KAKAO_CHANNEL_SELLERS = 'http://pf.kakao.com/_YcPRs/chat'
 
-const IS_TEST_PRODUCTION_MODE = true
+const IS_TEST_PRODUCTION_MODE = false
 
 const getServerIp = () => {
     // return 'https://api-alpha.shoppingcat.kr/graphql/app'
@@ -52,8 +52,10 @@ export const EXCHANGE_REASON = [ // 교환 사유
 
 export const CASH_RECEIPT_TYPES = ['개인소득공제', '법인지출증빙', '미신청']
 export type CASH_RECEIPT_TYPE = '개인소득공제' | '법인지출증빙' | '미신청'
-export const PAY_METHODS = ['카드결제', '가상계좌', '휴대폰결제']
-export type PAY_METHOD = '카드결제' | '가상계좌' | '휴대폰결제'
+export const PAY_METHODS: PAY_METHOD[] = ['카드결제', '간편결제']
+export type PAY_METHOD = '카드결제' | '가상계좌' | '휴대폰결제' | '간편결제'
+export const EASY_PAYMENT_METHODS: EASY_PAYMENT_METHOD[] = ['토스', '카카오페이']
+export type EASY_PAYMENT_METHOD = '토스' | '카카오페이'
 export const V_REFUND_BANKS = ['KB국민은행', 'SC제일은행', '경남은행', '광주은행', '기업은행', '농협', '대구은행', '부산은행', '산업은행', '새마을금고', '수협', '신한은행', '신협', '외환은행', '우리은행', '우체국', '전북은행', '카카오뱅크', '케이뱅크', '하나은행(서울은행)', '한국씨티은행(한미은행)']
 
 export const DELIVERY_MEMOS = [

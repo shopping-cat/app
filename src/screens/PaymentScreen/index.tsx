@@ -7,7 +7,7 @@ import ButtonFooter from '../../components/Layouts/ButtonFooter'
 import DefaultHeader from '../../components/Headers/DefaultHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import StatusBarHeightView from '../../components/View/StatusBarHeightView'
-import { V_REFUND_BANKS, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS, DELIVERY_MEMOS } from '../../constants/values'
+import { V_REFUND_BANKS, CASH_RECEIPT_TYPES, IS_IOS, PAY_METHODS, DELIVERY_MEMOS, PAY_METHOD, EASY_PAYMENT_METHOD } from '../../constants/values'
 import { useOrderCalculate } from '../../graphql/order'
 import useCouponPoint from '../../hooks/useCouponPoint'
 import useInput from '../../hooks/useInput'
@@ -22,6 +22,7 @@ import PaymentPrice from './PaymentPrice'
 import PaymentRefundAccount from './PaymentRefundAccount'
 import PaymnetDepositWithoutBankbook from './PaymnetDepositWithoutBankbook'
 import useToast from '../../hooks/useToast'
+import PaymentEasyPayment from './PaymentEasyPayment'
 
 
 
@@ -37,7 +38,7 @@ const PaymentScreen = () => {
     const scrollViewRef = useRef<ScrollView>(null)
     const { show } = useToast()
 
-    const [method, setMethod] = useState(PAY_METHODS[0])
+    const [method, setMethod] = useState<PAY_METHOD>(PAY_METHODS[0])
     const [methodSheetVisible, setMethodSheetVisible] = useState(false)
     // 가상계좌
     const [bankSheetVisible, setBankSheetVisible] = useState(false)
@@ -45,6 +46,8 @@ const PaymentScreen = () => {
     const [cashReceiptName, onChangeCashReceiptName] = useInput('')
     const [cashReceiptType, setCashReceiptType] = useState(CASH_RECEIPT_TYPES[0])
     const [cashReceiptNumber, onChangeCashReceiptNumber] = useInput('', true)
+    // 간편결제
+    const [easyPaymentMethod, setEasyPaymentMethod] = useState<null | EASY_PAYMENT_METHOD>(null)
     // 배송매모
     const [deliveryMemo, setDeliveryMemo] = useState(DELIVERY_MEMOS[0])
     const [deliveryMemoVisible, setDeliveryMemoVisible] = useState(false)
@@ -61,7 +64,7 @@ const PaymentScreen = () => {
         nextFetchPolicy: 'cache-and-network'
     })
 
-    const active = data?.orderCalculate.user.certificatedInfo && data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '가상계좌' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true)
+    const active = data?.orderCalculate.user.certificatedInfo && data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '가상계좌' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true) && (method === '간편결제' ? !!easyPaymentMethod : true)
 
     useEffect(() => {
         init()
@@ -78,6 +81,7 @@ const PaymentScreen = () => {
             if (!data.orderCalculate.user.certificatedInfo) show('본인확인을 해주세요')
             else if (!data.orderCalculate.user.deliveryInfo) show('배송지를 입력해주세요')
             else if (!data.orderCalculate.user.refundBankAccount) show('환불계좌를 입력해주세요')
+            else if (method === '간편결제' && !easyPaymentMethod) show('간편결제를 골라주세요')
             return
         }
 
@@ -91,18 +95,20 @@ const PaymentScreen = () => {
             cashReceiptType,
             cashReceiptNumber,
             amount: data.orderCalculate.totalPaymentPrice,
-            deliveryMemo
+            deliveryMemo,
+            easyPaymentMethod
         }
         navigate('PG', pgParams)
-    }, [loading, method, bank, coupons, point, params, active, cashReceiptName, cashReceiptType, cashReceiptNumber, data, deliveryMemo])
+    }, [loading, method, bank, coupons, point, params, active, cashReceiptName, cashReceiptType, cashReceiptNumber, data, deliveryMemo, easyPaymentMethod])
 
     const onMethod = useCallback(() => {
         setMethodSheetVisible(true)
     }, [])
 
     const onChangeMethod = useCallback((i: number) => {
-        setMethod(PAY_METHODS[i])
-        if (i === 1) {
+        const currentMethod = PAY_METHODS[i]
+        setMethod(currentMethod)
+        if (currentMethod === '가상계좌' || currentMethod === '간편결제') {
             setTimeout(() => {
                 scrollViewRef.current?.scrollToEnd({ animated: true })
             }, 100)
@@ -156,6 +162,10 @@ const PaymentScreen = () => {
                         onChangeCashReceiptName={onChangeCashReceiptName}
                         onChangeReceiptNumber={onChangeCashReceiptNumber}
                         setCashReceiptType={setCashReceiptType}
+                    />}
+                    {method === '간편결제' && <PaymentEasyPayment
+                        easyPaymentMethod={easyPaymentMethod}
+                        setEasyPaymentMethod={setEasyPaymentMethod}
                     />}
                 </ScrollView>}
             </KeyboardAvoidingView>
