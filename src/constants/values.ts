@@ -34,7 +34,6 @@ export const GRAPHQL_SERVER_URL = getServerIp()
 
 export const IAMPORT_CODE = 'imp91585626'
 export const BIZ_NUM = '698-47-00632'
-export const SWEETTRACKER_API_KEY = 'pfegmR3GVZvCTshTJp6otw'
 
 export const ITEM_CATEGORYS = ['']
 export const MAX_REVIEW_IMAGE_NUMBER = 9
