@@ -117,15 +117,14 @@ export const usePayments = createQueryHook<PaymentsData, PaymentsVars>(PAYMENTS)
 
 // MUTATION/CREATE_PAYMENT
 export const CREATE_PAYMENT = gql`
-mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amount:Int!, $method: String!, $deliveryMemo: String!, $easyPaymentMethod:String){
-    createPayment(cartItemIds:$cartItemIds, coupons:$coupons, point:$point, amount:$amount, method:$method, deliveryMemo:$deliveryMemo, easyPaymentMethod:$easyPaymentMethod) {
+mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amount:Int!, $method: String!, $deliveryMemo: String!){
+    createPayment(cartItemIds:$cartItemIds, coupons:$coupons, point:$point, amount:$amount, method:$method, deliveryMemo:$deliveryMemo) {
         id
         totalPrice
         name
         postCode
         address
         paymentMethod
-        easyPaymentMethod
         user {
             name
             userDetail {
@@ -133,7 +132,6 @@ mutation ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!, $amoun
             }
             certificatedInfo {
                 id
-                name
                 phone
             }
         } 
@@ -149,7 +147,6 @@ interface CreatePaymentData {
         postCode: string
         address: string
         paymentMethod: PAY_METHOD
-        easyPaymentMethod: EASY_PAYMENT_METHOD | null
         user: {
             name: string
             userDetail: {
@@ -157,7 +154,6 @@ interface CreatePaymentData {
             }
             certificatedInfo: {
                 id: number
-                name: string
                 phone: string
             }
         }
@@ -170,7 +166,6 @@ interface CreatePaymentVars {
     amount: number
     method: string
     deliveryMemo: string
-    easyPaymentMethod: string | null
 }
 export const useCreatePayment = createMutationHook<CreatePaymentData, CreatePaymentVars>(CREATE_PAYMENT)
 

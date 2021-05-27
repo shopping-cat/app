@@ -17,6 +17,10 @@ const EASY_PAYMENT_LIST: { name: EASY_PAYMENT_METHOD, image: any }[] = [
     {
         name: '카카오페이',
         image: require('../../assets/kakao_pay.png')
+    },
+    {
+        name: '페이코',
+        image: require('../../assets/payco.png')
     }
 ]
 
@@ -41,7 +45,6 @@ const PaymentEasyPayment: React.FC<PaymentEasyPaymentProps> = ({ easyPaymentMeth
                     />
                 </Pressable>
             )}
-            <View style={{ width: 56 + 16 + 16 }} />
         </View>
     )
 }
@@ -54,13 +57,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 16,
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center'
     },
     item: {
         height: 56,
         alignItems: 'center',
         justifyContent: 'center',
+        flex: 1,
         flexDirection: 'row'
     },
     image: {

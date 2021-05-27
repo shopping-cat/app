@@ -36,8 +36,7 @@ const PGScreen = () => {
             cartItemIds: params.cartItemIds,
             coupons: params.coupons,
             point: params.point,
-            method: params.method,
-            easyPaymentMethod: params.easyPaymentMethod,
+            method: params.method === '간편결제' ? (params.easyPaymentMethod || params.method) : params.method,
             deliveryMemo: params.deliveryMemo
         },
         onError: () => { goBack() }
@@ -68,20 +67,18 @@ const PGScreen = () => {
                 loading={<LoadingView />}
                 callback={onCallback}
                 data={{
-                    pg: data.createPayment.paymentMethod === '간편결제' ? 'html5_inicis' : 'danal_tpay',
+                    pg: 'html5_inicis',
                     app_scheme: 'shoppingcat',
-                    pay_method: paymentMethodGenerator(data.createPayment.paymentMethod, data.createPayment.easyPaymentMethod),
+                    pay_method: paymentMethodGenerator(data.createPayment.paymentMethod),
                     merchant_uid: data.createPayment.id,
                     name: data.createPayment.name,
                     amount: data.createPayment.totalPrice,
                     buyer_tel: data.createPayment.user.certificatedInfo.phone,
-                    buyer_name: data.createPayment.user.certificatedInfo.name,
                     buyer_email: data.createPayment.user.userDetail.email || undefined,
                     buyer_postcode: data.createPayment.postCode,
                     buyer_addr: data.createPayment.address,
                     digital: false,
                     biz_num: BIZ_NUM
-                    // vbank_due: '202103112350' // 가상계좌 만료기간 서버에서 처리하자
                 }}
             />}
         </ScreenLayout>

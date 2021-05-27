@@ -31,7 +31,6 @@ export const I_USER = gql`
       }
       certificatedInfo {
         id
-        name
         phone
       }
       refundBankAccount {
@@ -59,7 +58,6 @@ export interface IUserData {
     notificationNum: number
     certificatedInfo?: {
       id: number
-      name: string
       phone: string
     }
     userDetail: {

@@ -64,7 +64,7 @@ const PaymentScreen = () => {
         nextFetchPolicy: 'cache-and-network'
     })
 
-    const active = data?.orderCalculate.user.certificatedInfo && data?.orderCalculate.user.deliveryInfo && data.orderCalculate.user.refundBankAccount && (method === '가상계좌' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true) && (method === '간편결제' ? !!easyPaymentMethod : true)
+    const active = data?.orderCalculate.user.certificatedInfo && data?.orderCalculate.user.deliveryInfo && (method === '가상계좌' ? bank && cashReceiptName && (cashReceiptType !== '미신청' ? cashReceiptNumber : true) : true) && (method === '간편결제' ? !!easyPaymentMethod : true)
 
     useEffect(() => {
         init()
@@ -78,9 +78,9 @@ const PaymentScreen = () => {
     const onPayment = useCallback(() => {
         if (loading || !data) return
         if (!active) {
-            if (!data.orderCalculate.user.certificatedInfo) show('본인확인을 해주세요')
-            else if (!data.orderCalculate.user.deliveryInfo) show('배송지를 입력해주세요')
-            else if (!data.orderCalculate.user.refundBankAccount) show('환불계좌를 입력해주세요')
+            if (!data.orderCalculate.user.certificatedInfo) show('본인인증을 해주세요')
+            if (!data.orderCalculate.user.deliveryInfo) show('배송지를 입력해주세요')
+            // else if (!data.orderCalculate.user.refundBankAccount) show('환불계좌를 입력해주세요')
             else if (method === '간편결제' && !easyPaymentMethod) show('간편결제를 골라주세요')
             return
         }
@@ -145,7 +145,7 @@ const PaymentScreen = () => {
                     <PaymentItemInfo data={data.orderCalculate} />
                     <PaymentCertification data={data.orderCalculate} />
                     <PaymentAddressInfo data={data.orderCalculate} />
-                    <PaymentRefundAccount data={data.orderCalculate} />
+                    {/* <PaymentRefundAccount data={data.orderCalculate} /> */}
                     <PaymentDeliveryMemo
                         memo={deliveryMemo}
                         setMemo={t => setDeliveryMemo(t)}

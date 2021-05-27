@@ -24,7 +24,7 @@ const UserInfoScreen = () => {
     const { bottom } = useSafeAreaInsets()
     const { data } = useIUser()
 
-    const certificatedInfo = `${data?.iUser.certificatedInfo?.name} | ${data?.iUser.certificatedInfo?.phone && phoneFormat(data?.iUser.certificatedInfo?.phone)}`
+    const certificatedInfo = `${data?.iUser.certificatedInfo?.phone && phoneFormat(data?.iUser.certificatedInfo?.phone)}`
     const deliveryInfo = `${data?.iUser.deliveryInfo?.name} ${data?.iUser.deliveryInfo?.phone && phoneFormat(data?.iUser.deliveryInfo?.phone)}\n${data?.iUser.deliveryInfo?.address}\n${data?.iUser.deliveryInfo?.addressDetail}`
     const refundAccountInfo = `${data?.iUser.refundBankAccount?.ownerName} | ${data?.iUser.refundBankAccount?.bankName} ${data?.iUser.refundBankAccount?.accountNumber}`
 

@@ -25,7 +25,6 @@ query ($cartItemIds:[Int]!, $coupons:[OrderCouponArg!]!, $point: Int!){
             }
             certificatedInfo {
                 id
-                name
                 phone
             }
         }
@@ -131,7 +130,6 @@ export interface OrderCalculate {
         } | null
         certificatedInfo: {
             id: number
-            name: string
             phone: string
         } | null
     }
