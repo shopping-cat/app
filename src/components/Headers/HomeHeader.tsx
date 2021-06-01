@@ -7,6 +7,7 @@ import { COLOR1, GRAY, LIGHT_COLOR1 } from '../../constants/styles'
 import BaseButton from '../Buttons/BaseButton'
 import BaseText from '../Text/BaseText'
 import CartButton from '../Buttons/CartButton'
+import { IS_CAT } from '../../constants/values'
 
 const HomeHeader = () => {
 
@@ -18,7 +19,7 @@ const HomeHeader = () => {
 
     return (
         <View style={styles.container} >
-            <BaseText style={styles.title} >쇼핑냥이</BaseText>
+            <BaseText style={styles.title} >{IS_CAT ? '쇼핑냥이' : '쇼핑댕이'}</BaseText>
             <Pressable
                 onPress={onSearch}
                 style={styles.inputContainer}

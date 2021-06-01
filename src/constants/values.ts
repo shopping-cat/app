@@ -3,6 +3,12 @@ import DeviceInfo from 'react-native-device-info';
 
 export const IS_ANDROID = Platform.OS === 'android'
 export const IS_IOS = Platform.OS === 'ios'
+
+export const IS_CAT = DeviceInfo.getApplicationName() === '쇼핑냥이'
+export const IS_DOG = DeviceInfo.getApplicationName() === '쇼핑댕이'
+// export const IS_CAT = false
+// export const IS_DOG = true
+
 export const APPLE_APP_ID = '1564198692'
 export const ANDROID_PACKAGE_NAME = 'com.shoppingcat.userapp'
 

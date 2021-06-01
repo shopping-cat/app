@@ -77,8 +77,7 @@ const PGScreen = () => {
                     buyer_email: data.createPayment.user.userDetail.email || undefined,
                     buyer_postcode: data.createPayment.postCode,
                     buyer_addr: data.createPayment.address,
-                    digital: false,
-                    biz_num: BIZ_NUM
+                    digital: false
                 }}
             />}
         </ScreenLayout>

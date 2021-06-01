@@ -1,9 +1,9 @@
-import { ApolloClient, createHttpLink } from '@apollo/client'
+import { ApolloClient } from '@apollo/client'
 import auth from '@react-native-firebase/auth'
 import { setContext } from '@apollo/client/link/context';
 import cache from './cache'
 import { createUploadLink } from 'apollo-upload-client';
-import { GRAPHQL_SERVER_URL } from '../../constants/values';
+import { GRAPHQL_SERVER_URL, IS_CAT } from '../../constants/values';
 
 
 const httpLink = createUploadLink({
@@ -18,7 +18,8 @@ const authLink = setContext(async (_, { headers }) => {
     return {
         headers: {
             ...headers,
-            authorization: token ? `Bearer ${token}` : ''
+            authorization: token ? `Bearer ${token}` : '',
+            type: IS_CAT ? 'cat' : 'dog'
         }
     }
 });
