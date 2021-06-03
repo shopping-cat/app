@@ -39,7 +39,7 @@ export const GRAPHQL_SERVER_URL = getServerIp()
 // console.log(GRAPHQL_SERVER_URL)
 
 export const IAMPORT_CODE = 'imp91585626'
-export const BIZ_NUM = '698-47-00632'
+export const BIZ_NUM = '286-86-01500'
 
 export const ITEM_CATEGORYS = ['']
 export const MAX_REVIEW_IMAGE_NUMBER = 9
