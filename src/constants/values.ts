@@ -10,10 +10,10 @@ export const IS_DOG = DeviceInfo.getApplicationName() === '쇼핑댕이'
 // export const IS_DOG = true
 
 export const APPLE_APP_ID = '1564198692'
-export const ANDROID_PACKAGE_NAME = 'com.shoppingcat.userapp'
+export const ANDROID_PACKAGE_NAME = IS_CAT ? 'com.shoppingcat.userapp' : 'com.shoppingdog.userapp'
 
 export const APPSTORE_URL = 'https://apps.apple.com/app/id1564198692'
-export const PLAYSTORE_URL = 'https://play.google.com/store/apps/details?id=com.shoppingcat.userapp'
+export const PLAYSTORE_URL = IS_CAT ? 'https://play.google.com/store/apps/details?id=com.shoppingcat.userapp' : 'https://play.google.com/store/apps/details?id=com.shoppingdog.userapp'
 export const CURRENT_STORE_URL = IS_ANDROID ? PLAYSTORE_URL : APPSTORE_URL
 
 export const KAKAO_CHANNEL_USER = 'http://pf.kakao.com/_ILHqs/chat'
