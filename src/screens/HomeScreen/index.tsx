@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, StyleSheet, Animated, View, FlatList, Linking } from 'react-native'
-import CategorySelector from '../../components/Layouts/CategorySelector'
 import HomeHeader from '../../components/Headers/HomeHeader'
 import ScreenLayout from '../../components/Layouts/ScreenLayout'
 import UpFab from '../../components/Buttons/UpFab'
@@ -14,6 +13,8 @@ import { useNavigation } from '@react-navigation/core'
 import useToast from '../../hooks/useToast'
 import { I_USER, useUpdateFcmToken } from '../../graphql/user'
 import { useApolloClient } from '@apollo/client'
+import useAuth from '../../hooks/useAuth'
+import auth from '@react-native-firebase/auth';
 
 const HomeScreen = () => {
 
@@ -28,6 +29,8 @@ const HomeScreen = () => {
     const [scrollX] = useState(new Animated.Value(0))
     const { show } = useToast()
     const client = useApolloClient()
+    const [updateFcmToken] = useUpdateFcmToken()
+    const { loginLoading } = useAuth()
 
     const onTabSelectorPress = useCallback((index: number) => { // 셀렉터 버튼 클릭시
         scrollViewRef.current?.scrollTo({ animated: true, x: WIDTH * index })
@@ -89,6 +92,24 @@ const HomeScreen = () => {
             navigate('Notification')
         })
     }, [])
+
+
+    const fcmInit = async () => {
+        await messaging().requestPermission()
+        const token = await messaging().getToken()
+        await updateFcmToken({ variables: { token } })
+    }
+
+    const fcmRefresh = async (token: string) => {
+        await updateFcmToken({ variables: { token } })
+    }
+
+    // fcm token listner
+    useEffect(() => {
+        if (!auth().currentUser) return
+        fcmInit()
+        return messaging().onTokenRefresh(fcmRefresh)
+    }, [loginLoading])
 
 
     return (

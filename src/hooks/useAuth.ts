@@ -17,11 +17,11 @@ const useAuth = () => {
     const client = useApolloClient()
 
     const loginLoading = useReactiveVar(loginLoadingVar)
-    const isLoggedIn = !!auth().currentUser
+    const isLoggedIn = !!auth().currentUser // TODO value 가 Reactive 하지 않음 useEffect의 두번째 이낮로 작용하지 않음
 
     const [logoutLoading, setLogoutLoading] = useState(false)
     const { show } = useToast()
-    const { reset } = useNavigation()
+    const { reset } = useNavigation ? useNavigation() : { reset: () => { } }
 
     const kakaoLogin = useCallback(async () => {
         try {

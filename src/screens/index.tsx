@@ -5,11 +5,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SplashScreen from 'react-native-splash-screen'
-import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { useApolloClient } from '@apollo/client';
 import TabNavigationTabBar from '../components/Tab/TabNavigationTabBar';
-import { LOGIN, IUserData, useUpdateFcmToken, LoginData, I_USER } from '../graphql/user';
+import { LoginData, I_USER } from '../graphql/user';
 
+
+// GLOBAL UI
+import ConfirmBottomSheet from '../components/BottomSheets/ConfirmBottomSheet';
+import LoadingModal from '../components/Modal/LoadingModal';
+import Toast from '../components/Toast/Toast';
+import GlobalSelectBottomSheet from '../components/BottomSheets/GlobalSelectBottomSheet';
+import CategoryScreenSortSheet from './CategoryScreen/CategoryScreenSortSheet';
+
+
+// SCREENS
 import HomeScreen from './HomeScreen'
 import CategoryScreen from './CategoryScreen';
 import ZzimScreen from './ZzimScreen';
@@ -30,7 +39,6 @@ import RefundAccountScreen from './RefundAccountScreen';
 import PointSelectScreen from './PointSelectScreen';
 import CouponSelectScreen from './CouponSelectScreen';
 import PaymentResultScreen from './PaymentResultScreen';
-import CategoryScreenSortSheet from './CategoryScreen/CategoryScreenSortSheet';
 import InqueryScreen from './InqueryScreen';
 import UserInfoScreen from './UserInfoScreen';
 import UserInfoProfileModifyScreen from './UserInfoProfileModifyScreen';
@@ -39,7 +47,6 @@ import PointScreen from './PointScreen';
 import CouponScreen from './CouponScreen';
 import ReviewScreen from './ReviewScreen';
 import ReviewPostScreen from './ReviewPostScreen';
-import GlobalSelectBottomSheet from '../components/BottomSheets/GlobalSelectBottomSheet';
 import ReviewModifyScreen from './ReviewModifyScreen';
 import PrivacyPolicyScreen from './PrivacyPolicyScreen';
 import AgreeMentScreen from './AgreeMentScreen';
@@ -55,16 +62,12 @@ import ExchangeScreen from './ExchangeScreen';
 import ExchangeDetailScreen from './ExchangeDetailScreen';
 import ExchangeResultScreen from './ExchangeResultScreen';
 import PGScreen from './PGScreen'
-import Toast from '../components/Toast/Toast';
 import ProfileRegistScreen from './ProfileRegistScreen';
 import UserCertificationScreen from './UserCertificationScreen';
 import OrderShopCancelDetailScreen from './OrderShopCancelDetailScreen';
 import DeliveryDetailScreen from './DeliveryDetailScreen';
 import EventDetailScreen from './EventDetailScreen';
-import useToast from '../hooks/useToast';
-import ConfirmBottomSheet from '../components/BottomSheets/ConfirmBottomSheet';
-import useAuth from '../hooks/useAuth';
-import LoadingModal from '../components/Modal/LoadingModal';
+
 
 
 
@@ -127,7 +130,7 @@ const Navigation = () => {
 
     const client = useApolloClient()
     const navigationRef = useRef<NavigationContainerRef>(null)
-    const [updateFcmToken] = useUpdateFcmToken()
+
 
     const checkUserProfile = async () => {
         if (!auth().currentUser) return
@@ -143,23 +146,6 @@ const Navigation = () => {
         checkUserProfile()
     }, [])
 
-
-    const fcmInit = async () => {
-        await messaging().requestPermission()
-        const token = await messaging().getToken()
-        await updateFcmToken({ variables: { token } })
-    }
-
-    const fcmRefresh = async (token: string) => {
-        await updateFcmToken({ variables: { token } })
-    }
-
-    // fcm token listner
-    useEffect(() => {
-        if (!auth().currentUser) return
-        fcmInit()
-        return messaging().onTokenRefresh(fcmRefresh)
-    }, [auth().currentUser])
 
 
     return (
